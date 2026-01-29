@@ -1,65 +1,174 @@
-import Image from "next/image";
+import Link from "next/link";
+import { COMPANY, SERVICES } from "@/lib/constants";
+import CTASection from "@/components/CTASection";
 
-export default function Home() {
+export default function Homepage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900" />
+        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
+        
+        {/* Animated Gradient Orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600 rounded-full blur-[200px] opacity-20" />
+
+        <div className="relative max-w-7xl mx-auto text-center z-10">
+          <span className="inline-block px-4 py-2 rounded-full bg-white/10 text-purple-300 text-sm font-medium mb-6 backdrop-blur-sm border border-white/10">
+            ✨ {COMPANY.tagline}
+          </span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+            We Create
+            <br />
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+              Visual Magic
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
+            Professional photography, cinematic videography, and expert editing services that transform your moments into timeless memories.
           </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/services"
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-105 transition-all"
+            >
+              Explore Services
+            </Link>
+            <Link
+              href="/portfolio"
+              className="px-8 py-4 bg-white/10 text-white rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-white/20 transition-all border border-white/20"
+            >
+              View Our Work
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <svg className="w-6 h-6 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium mb-4">
+              Our Services
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              What We Offer
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Comprehensive creative services to bring your vision to life
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {Object.values(SERVICES).map((service, index) => (
+              <Link
+                key={service.href}
+                href={service.href}
+                className="group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative">
+                  <span className="text-5xl mb-6 block">
+                    {index === 0 ? "📸" : index === 1 ? "🎬" : "✨"}
+                  </span>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.name}</h3>
+                  <p className="text-gray-600 mb-6">{service.description}</p>
+                  <span className="inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                    Learn more
+                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-purple-600 to-pink-600">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: "10+", label: "Years Experience" },
+              { value: "5000+", label: "Projects Completed" },
+              { value: "500+", label: "Happy Clients" },
+              { value: "50+", label: "Team Members" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-white/80">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium mb-4">
+                Why Choose Us
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                We Bring Your Vision to Life
+              </h2>
+              <p className="text-xl text-gray-600 mb-8">
+                With years of experience and a passion for creativity, we deliver exceptional results that exceed expectations.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { icon: "🎯", title: "Expert Team", desc: "Skilled professionals with years of industry experience" },
+                  { icon: "⚡", title: "Fast Delivery", desc: "Quick turnaround without compromising quality" },
+                  { icon: "💎", title: "Premium Quality", desc: "4K/8K support with professional-grade output" },
+                  { icon: "🤝", title: "Dedicated Support", desc: "Personalized attention throughout your project" },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start space-x-4">
+                    <span className="text-3xl">{item.icon}</span>
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900">{item.title}</h4>
+                      <p className="text-gray-600">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-square rounded-3xl bg-gradient-to-br from-purple-200 via-pink-100 to-purple-200 flex items-center justify-center">
+                <span className="text-[150px]">🎥</span>
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center text-white text-4xl shadow-2xl">
+                📸
+              </div>
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-xl">
+                ✨
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CTASection
+        title="Ready to Create Something Amazing?"
+        description="Let's discuss your project and bring your vision to life"
+        primaryButton={{ text: "Get a Free Quote", href: "/contact" }}
+        secondaryButton={{ text: "Call Us Now", href: `tel:${COMPANY.mobile}` }}
+        variant="dark"
+      />
+    </main>
   );
 }
