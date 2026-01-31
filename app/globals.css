@@ -1,20 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;
+  --foreground: #fafafa;
+
+  /* Brand Colors */
+  --brand-deep-maroon: #280905;
+  --brand-dark-red: #740a03;
+  --brand-vibrant-red: #c3110c;
+  --brand-orange-red: #e6501b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-playwrite);
+  --font-display: var(--font-playwrite);
+
+  /* Brand Color Utilities */
+  --color-brand-deep: #280905;
+  --color-brand-dark: #740a03;
+  --color-brand-primary: #c3110c;
+  --color-brand-accent: #e6501b;
+}
+
+html {
+ font-size: 12px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-playwrite), system-ui, sans-serif;
+ 
+}
+
+/* Display/Heading Font - Apply to all headings globally */
+.font-display,
+h1,
+h2,
+h3 {
+  font-family: var(--font-playwrite), serif;
+}
+
+h1 {
+  font-style: italic;
+}
+
+h2 {
+  font-style: italic;
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--font-playwrite), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+p {
+  font-family: var(--font-playwrite), system-ui, sans-serif;
+  font-weight: 100;
+}
+
+button {
+  font-family: var(--font-playwrite), system-ui, sans-serif;
+  font-weight: 600;
 }
 
 /* Custom Animations */
@@ -41,7 +92,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
   50% {
@@ -80,6 +132,6 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: rgb(147, 51, 234);
-  color: white;
+  background-color: #c3110c;
+  color: #fafafa;
 }

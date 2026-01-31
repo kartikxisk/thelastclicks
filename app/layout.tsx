@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Playwrite_NZ } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import { COMPANY } from "@/lib/constants";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const playwrite = Playwrite_NZ({
+  variable: "--font-playwrite",
+  weight: ["100", "200", "300", "400"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${playwrite.variable} antialiased`}>
         <Navbar />
         {children}
         <Footer />

@@ -1,44 +1,48 @@
 import Link from "next/link";
 import { COMPANY, SERVICES } from "@/lib/constants";
 import CTASection from "@/components/CTASection";
+import CreativeProcess from "@/components/CreativeProcess";
+import TrustedBrands from "@/components/TrustedBrands";
+import Testimonials from "@/components/Testimonials";
+import FAQSection from "@/components/FAQSection";
 
 export default function Homepage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-zinc-950">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900" />
-        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#280905] via-zinc-950 to-[#740A03]" />
+        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10" />
         
         {/* Animated Gradient Orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600 rounded-full blur-[200px] opacity-20" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#C3110C] rounded-full blur-[128px] opacity-20 animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#E6501B] rounded-full blur-[128px] opacity-20 animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#740A03] rounded-full blur-[200px] opacity-15" />
 
         <div className="relative max-w-7xl mx-auto text-center z-10">
-          <span className="inline-block px-4 py-2 rounded-full bg-white/10 text-purple-300 text-sm font-medium mb-6 backdrop-blur-sm border border-white/10">
+          <span className="inline-block px-4 py-2 rounded-full bg-zinc-50/10 text-[#E6501B] text-sm font-medium mb-6 backdrop-blur-sm border border-[#C3110C]/30">
             ✨ {COMPANY.tagline}
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display text-zinc-50 mb-6 leading-tight">
             We Create
             <br />
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#C3110C] via-[#E6501B] to-[#C3110C] bg-clip-text text-transparent">
               Visual Magic
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10">
+          <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-10">
             Professional photography, cinematic videography, and expert editing services that transform your moments into timeless memories.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/services"
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-purple-500/30 hover:scale-105 transition-all"
+              className="px-8 py-4 bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-[#C3110C]/30 hover:scale-105 transition-all"
             >
               Explore Services
             </Link>
             <Link
               href="/portfolio"
-              className="px-8 py-4 bg-white/10 text-white rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-white/20 transition-all border border-white/20"
+              className="px-8 py-4 bg-zinc-50/10 text-zinc-50 rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-zinc-50/20 transition-all border border-[#C3110C]/30"
             >
               View Our Work
             </Link>
@@ -47,23 +51,23 @@ export default function Homepage() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-6 h-6 text-zinc-50/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-24 px-4 bg-gray-50">
+      <section className="py-24 px-4 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
               Our Services
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-display italic text-zinc-50 mb-4">
               What We Offer
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
               Comprehensive creative services to bring your vision to life
             </p>
           </div>
@@ -73,16 +77,16 @@ export default function Homepage() {
               <Link
                 key={service.href}
                 href={service.href}
-                className="group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden"
+                className="group relative bg-gradient-to-br from-[#280905] to-zinc-950 rounded-3xl p-8 shadow-sm hover:shadow-2xl hover:shadow-[#C3110C]/20 transition-all duration-500 border border-[#740A03]/30 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C3110C]/10 to-[#E6501B]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative">
                   <span className="text-5xl mb-6 block">
                     {index === 0 ? "📸" : index === 1 ? "🎬" : "✨"}
                   </span>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.name}</h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  <span className="inline-flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                  <h3 className="text-2xl font-bold text-zinc-50 mb-3">{service.name}</h3>
+                  <p className="text-zinc-400 mb-6">{service.description}</p>
+                  <span className="inline-flex items-center text-[#E6501B] font-medium group-hover:text-[#C3110C]">
                     Learn more
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -96,7 +100,7 @@ export default function Homepage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-purple-600 to-pink-600">
+      <section className="py-20 px-4 bg-gradient-to-r from-[#740A03] via-[#C3110C] to-[#E6501B]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -106,28 +110,34 @@ export default function Homepage() {
               { value: "50+", label: "Team Members" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-zinc-50 mb-2">
                   {stat.value}
                 </div>
-                <div className="text-white/80">{stat.label}</div>
+                <div className="text-zinc-50/80">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Creative Process Section */}
+      <CreativeProcess />
+
+      {/* Trusted Brands Section */}
+      <TrustedBrands />
+
       {/* Why Choose Us */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium mb-4">
+              <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
                 Why Choose Us
               </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <h2 className="text-4xl md:text-5xl font-display italic text-zinc-50 mb-6">
                 We Bring Your Vision to Life
               </h2>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-zinc-400 mb-8">
                 With years of experience and a passion for creativity, we deliver exceptional results that exceed expectations.
               </p>
               <div className="space-y-6">
@@ -140,27 +150,33 @@ export default function Homepage() {
                   <div key={item.title} className="flex items-start space-x-4">
                     <span className="text-3xl">{item.icon}</span>
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900">{item.title}</h4>
-                      <p className="text-gray-600">{item.desc}</p>
+                      <h4 className="text-lg font-semibold text-zinc-50">{item.title}</h4>
+                      <p className="text-zinc-400">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-purple-200 via-pink-100 to-purple-200 flex items-center justify-center">
+              <div className="aspect-square rounded-3xl bg-gradient-to-br from-[#280905] via-[#740A03] to-[#280905] flex items-center justify-center border border-[#740A03]/30">
                 <span className="text-[150px]">🎥</span>
               </div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center text-white text-4xl shadow-2xl">
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-[#C3110C] to-[#E6501B] rounded-2xl flex items-center justify-center text-zinc-50 text-4xl shadow-2xl shadow-[#C3110C]/30">
                 📸
               </div>
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-xl">
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-zinc-950 rounded-2xl flex items-center justify-center text-3xl shadow-xl border border-[#740A03]/30">
                 ✨
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
+      {/* FAQ Section */}
+      <FAQSection />
 
       <CTASection
         title="Ready to Create Something Amazing?"

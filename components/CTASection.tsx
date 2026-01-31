@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-type CTAVariant = "dark" | "gradient" | "purple" | "amber" | "blue" | "light";
+type CTAVariant = "dark" | "gradient" | "brand" | "amber" | "blue" | "light";
 
 interface CTAButton {
   readonly text: string;
@@ -18,46 +18,46 @@ interface CTASectionProps {
 
 const variantStyles: Record<CTAVariant, { bg: string; text: string; subtext: string; primaryBtn: string; secondaryBtn: string }> = {
   dark: {
-    bg: "bg-gray-900",
-    text: "text-white",
-    subtext: "text-gray-400",
-    primaryBtn: "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-purple-500/30",
-    secondaryBtn: "bg-white/10 text-white border border-white/20 hover:bg-white/20",
+    bg: "bg-zinc-950",
+    text: "text-zinc-50",
+    subtext: "text-zinc-400",
+    primaryBtn: "bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 hover:shadow-[#C3110C]/30",
+    secondaryBtn: "bg-zinc-50/10 text-zinc-50 border border-[#C3110C]/30 hover:bg-zinc-50/20",
   },
   gradient: {
-    bg: "bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900",
-    text: "text-white",
-    subtext: "text-gray-300",
-    primaryBtn: "bg-white text-purple-600",
-    secondaryBtn: "bg-white/10 text-white hover:bg-white/20",
+    bg: "bg-gradient-to-br from-[#280905] via-zinc-950 to-[#740A03]",
+    text: "text-zinc-50",
+    subtext: "text-zinc-400",
+    primaryBtn: "bg-zinc-50 text-[#C3110C]",
+    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
   },
-  purple: {
-    bg: "bg-gradient-to-r from-purple-600 to-pink-600",
-    text: "text-white",
-    subtext: "text-white/90",
-    primaryBtn: "bg-white text-purple-600",
-    secondaryBtn: "bg-white/10 text-white hover:bg-white/20",
+  brand: {
+    bg: "bg-gradient-to-r from-[#740A03] via-[#C3110C] to-[#E6501B]",
+    text: "text-zinc-50",
+    subtext: "text-zinc-50/90",
+    primaryBtn: "bg-zinc-50 text-[#C3110C]",
+    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
   },
   amber: {
-    bg: "bg-gradient-to-br from-amber-900 via-gray-900 to-orange-900",
-    text: "text-white",
-    subtext: "text-gray-300",
-    primaryBtn: "bg-white text-amber-600",
-    secondaryBtn: "bg-white/10 text-white hover:bg-white/20",
+    bg: "bg-gradient-to-br from-[#280905] via-zinc-950 to-[#E6501B]",
+    text: "text-zinc-50",
+    subtext: "text-zinc-400",
+    primaryBtn: "bg-zinc-50 text-[#E6501B]",
+    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
   },
   blue: {
-    bg: "bg-gradient-to-br from-blue-900 via-gray-900 to-indigo-900",
-    text: "text-white",
-    subtext: "text-gray-300",
-    primaryBtn: "bg-white text-blue-600",
-    secondaryBtn: "bg-white/10 text-white hover:bg-white/20",
+    bg: "bg-gradient-to-br from-[#280905] via-zinc-950 to-[#740A03]",
+    text: "text-zinc-50",
+    subtext: "text-zinc-400",
+    primaryBtn: "bg-zinc-50 text-[#740A03]",
+    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
   },
   light: {
-    bg: "bg-white",
-    text: "text-gray-900",
-    subtext: "text-gray-600",
-    primaryBtn: "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-purple-500/30",
-    secondaryBtn: "bg-gray-100 text-gray-700 hover:bg-gray-200",
+    bg: "bg-zinc-950",
+    text: "text-zinc-50",
+    subtext: "text-zinc-400",
+    primaryBtn: "bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 hover:shadow-[#C3110C]/30",
+    secondaryBtn: "bg-[#280905] text-zinc-50 border border-[#740A03]/30 hover:bg-[#740A03]/30",
   },
 };
 
