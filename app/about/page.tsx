@@ -71,7 +71,7 @@ export default function AboutPage() {
         <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <HiSparkles className="w-4 h-4" />
             Our Story
@@ -91,7 +91,7 @@ export default function AboutPage() {
 
       {/* Stats Section */}
       <section className="py-16 px-4 bg-zinc-950 border-b border-brand-dark/30">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
@@ -107,7 +107,7 @@ export default function AboutPage() {
 
       {/* Our Story */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-6">
@@ -139,7 +139,7 @@ export default function AboutPage() {
 
       {/* Our Values */}
       <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Our Values
@@ -168,7 +168,7 @@ export default function AboutPage() {
 
       {/* Team Section */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Meet Our Team

@@ -50,7 +50,7 @@ export default function PortfolioPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-brand-dark/20 rounded-full" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-brand-dark/10 rounded-full" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <HiSparkles className="w-4 h-4" />
             Our Creative Work
@@ -96,7 +96,7 @@ export default function PortfolioPage() {
 
       {/* Category Filter */}
       <section className="py-6 px-4 bg-zinc-950 border-b border-brand-dark/30 sticky top-16 z-40 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="flex flex-wrap gap-3 justify-center">
             {categories.map((category) => (
               <button
@@ -117,7 +117,7 @@ export default function PortfolioPage() {
 
       {/* Portfolio Grid */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           {/* Photography Grid */}
           {activeTab === "photography" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -262,7 +262,7 @@ export default function PortfolioPage() {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-primary rounded-full blur-[150px] opacity-10" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-accent rounded-full blur-[150px] opacity-10" />
         
-        <div className="max-w-7xl mx-auto relative">
+        <div className="container relative">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Numbers That Speak

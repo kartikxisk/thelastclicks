@@ -28,6 +28,30 @@ html {
   font-size: 12px;
 }
 
+/* Container - optimized for MacBook Pro 16" (1728px viewport) */
+.container {
+  width: 100%;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

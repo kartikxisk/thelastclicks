@@ -24,7 +24,7 @@ export default function ServicesPage() {
         <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <BiTargetLock className="w-4 h-4" />
             Professional Services
@@ -44,7 +44,7 @@ export default function ServicesPage() {
 
       {/* Services Grid */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <div

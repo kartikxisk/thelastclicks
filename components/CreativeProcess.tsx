@@ -78,7 +78,7 @@ export default function CreativeProcess() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-brand-primary rounded-full blur-[200px] opacity-10" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-accent rounded-full blur-[200px] opacity-10" />
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="container relative">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">

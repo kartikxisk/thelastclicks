@@ -27,7 +27,7 @@ export default function EditorsListPage() {
         <div className="absolute top-40 left-20 w-64 h-64 bg-brand-primary rounded-full blur-[100px] opacity-20" />
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-brand-accent rounded-full blur-[100px] opacity-20" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <Link
             href="/services/editing"
             className="inline-flex items-center text-brand-accent hover:text-brand-primary transition-colors mb-6"
@@ -51,7 +51,7 @@ export default function EditorsListPage() {
 
       {/* Stats Section */}
       <section className="py-12 px-4 bg-zinc-950 border-b border-brand-dark/30">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { value: "6+", label: "Expert Editors" },
@@ -72,7 +72,7 @@ export default function EditorsListPage() {
 
       {/* Editors Grid */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {EDITORS.map((editor) => (
               <div
@@ -151,7 +151,7 @@ export default function EditorsListPage() {
 
       {/* Expertise Areas */}
       <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Areas of Expertise

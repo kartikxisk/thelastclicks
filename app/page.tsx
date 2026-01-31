@@ -25,7 +25,7 @@ export default function Homepage() {
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-20 animate-pulse" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-dark rounded-full blur-[200px] opacity-15" />
 
-        <div className="relative max-w-7xl mx-auto text-center z-10">
+        <div className="container relative text-center z-10">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <Icon name="HiSparkles" className="w-4 h-4" />
             {COMPANY.tagline}
@@ -66,7 +66,7 @@ export default function Homepage() {
 
       {/* Services Section */}
       <section className="py-24 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
               Our Services
@@ -108,7 +108,7 @@ export default function Homepage() {
 
       {/* Stats Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-brand-dark via-brand-primary to-brand-accent">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { value: "10+", label: "Years Experience" },

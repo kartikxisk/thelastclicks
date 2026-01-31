@@ -42,7 +42,7 @@ export default function ContactPage() {
         <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <BiMessageDetail className="w-4 h-4" />
             Get in Touch
@@ -62,7 +62,7 @@ export default function ContactPage() {
 
       {/* Contact Section */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div>

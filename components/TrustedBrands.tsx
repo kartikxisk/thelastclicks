@@ -49,7 +49,7 @@ export default function TrustedBrands() {
       {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-transparent to-zinc-950 z-10 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="container relative">
         {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">

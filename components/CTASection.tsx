@@ -1,11 +1,9 @@
 import Link from "next/link";
-
-type CTAVariant = "dark" | "gradient" | "brand" | "amber" | "blue" | "light" | "purple";
+import { HiArrowRight } from "react-icons/hi";
 
 interface CTAButton {
   readonly text: string;
   readonly href: string;
-  readonly variant?: "primary" | "secondary";
 }
 
 interface CTASectionProps {
@@ -13,93 +11,42 @@ interface CTASectionProps {
   readonly description: string;
   readonly primaryButton: CTAButton;
   readonly secondaryButton?: CTAButton;
-  readonly variant?: CTAVariant;
 }
-
-const variantStyles: Record<CTAVariant, { bg: string; text: string; subtext: string; primaryBtn: string; secondaryBtn: string }> = {
-  dark: {
-    bg: "bg-zinc-950",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 hover:shadow-brand-primary/30",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 border border-brand-primary/30 hover:bg-zinc-50/20",
-  },
-  gradient: {
-    bg: "bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-zinc-50 text-brand-primary",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
-  },
-  brand: {
-    bg: "bg-gradient-to-r from-brand-dark via-brand-primary to-brand-accent",
-    text: "text-zinc-50",
-    subtext: "text-zinc-50/90",
-    primaryBtn: "bg-zinc-50 text-brand-primary",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
-  },
-  amber: {
-    bg: "bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-accent",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-zinc-50 text-brand-accent",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
-  },
-  blue: {
-    bg: "bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-zinc-50 text-brand-dark",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 hover:bg-zinc-50/20",
-  },
-  light: {
-    bg: "bg-zinc-950",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 hover:shadow-brand-primary/30",
-    secondaryBtn: "bg-brand-deep text-zinc-50 border border-brand-dark/30 hover:bg-brand-dark/30",
-  },
-  purple: {
-    bg: "bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark",
-    text: "text-zinc-50",
-    subtext: "text-zinc-400",
-    primaryBtn: "bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 hover:shadow-brand-primary/30",
-    secondaryBtn: "bg-zinc-50/10 text-zinc-50 border border-brand-primary/30 hover:bg-zinc-50/20",
-  },
-};
 
 export default function CTASection({
   title,
   description,
   primaryButton,
   secondaryButton,
-  variant = "gradient",
 }: CTASectionProps) {
-  const styles = variantStyles[variant];
-
   return (
-    <section className={`py-20 px-4 ${styles.bg}`}>
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className={`text-3xl md:text-4xl font-bold ${styles.text} mb-6`}>
+    <section className="relative py-24 px-4 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-primary rounded-full blur-[150px] opacity-15" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-accent rounded-full blur-[150px] opacity-15" />
+      
+      <div className="container relative text-center">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-50 mb-6 font-display italic">
           {title}
         </h2>
-        <p className={`text-xl ${styles.subtext} mb-8`}>
+        <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto">
           {description}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href={primaryButton.href}
-            className={`inline-flex items-center justify-center px-8 py-4 rounded-full font-semibold hover:shadow-2xl hover:scale-105 transition-all ${styles.primaryBtn}`}
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full font-semibold bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 hover:shadow-2xl hover:shadow-brand-primary/30 hover:scale-105 transition-all"
           >
             {primaryButton.text}
-            <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            <HiArrowRight className="w-5 h-5 ml-2" />
           </Link>
           {secondaryButton && (
             <Link
               href={secondaryButton.href}
-              className={`inline-flex items-center justify-center px-8 py-4 rounded-full font-semibold backdrop-blur-sm transition-all ${styles.secondaryBtn}`}
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full font-semibold bg-zinc-950/50 text-zinc-50 border border-brand-dark/50 backdrop-blur-sm hover:bg-brand-dark/30 hover:border-brand-primary/30 transition-all"
             >
               {secondaryButton.text}
             </Link>

@@ -29,7 +29,7 @@ export default function VideographyServicePage() {
         <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="container relative text-center">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
             <FiVideo className="w-4 h-4" />
             Cinematic Videography
@@ -63,7 +63,7 @@ export default function VideographyServicePage() {
 
       {/* Categories Section */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Videography Services
@@ -107,7 +107,7 @@ export default function VideographyServicePage() {
 
       {/* Process Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Our Process
@@ -145,7 +145,7 @@ export default function VideographyServicePage() {
 
       {/* Equipment Section */}
       <section className="py-20 px-4 bg-zinc-950">
-        <div className="max-w-7xl mx-auto">
+        <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Professional Equipment
