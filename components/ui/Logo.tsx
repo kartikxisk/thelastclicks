@@ -8,22 +8,22 @@ interface LogoProps {
 }
 
 const sizeClasses = {
-  sm: { image: 32, text: "text-lg" },
-  md: { image: 40, text: "text-xl" },
-  lg: { image: 48, text: "text-2xl" },
+  sm: { width: 100 },
+  md: { width: 140 },
+  lg: { width: 180 },
 };
 
-export default function Logo({ className = "", size = "md" }: LogoProps) {
-  const { image: imageSize } = sizeClasses[size];
+export default function Logo({ className = "", size = "lg" }: LogoProps) {
+  const { width } = sizeClasses[size];
 
   return (
-    <Link href="/" className={`flex items-center space-x-2 ${className}`}>
+    <Link href="/" className={`flex items-center ${className}`}>
       <Image
         src={COMPANY.logo}
         alt={`${COMPANY.name} Logo`}
-        width={imageSize}
-        height={imageSize}
-        className="object-contain"
+        width={width}
+        height={Math.round(width * 9 / 16)}
+        className="object-contain aspect-video object-left"
         priority
       />
     </Link>

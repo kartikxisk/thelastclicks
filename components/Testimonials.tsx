@@ -91,11 +91,11 @@ export default function Testimonials() {
   return (
     <section className="relative py-24 px-4 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-[#280905]/50 to-zinc-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-brand-deep/50 to-zinc-950" />
       
       {/* Decorative Elements */}
-      <div className="absolute top-1/2 left-0 w-72 h-72 bg-[#C3110C] rounded-full blur-[200px] opacity-10 -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-72 h-72 bg-[#E6501B] rounded-full blur-[200px] opacity-10 -translate-y-1/2" />
+      <div className="absolute top-1/2 left-0 w-72 h-72 bg-brand-primary rounded-full blur-[200px] opacity-10 -translate-y-1/2" />
+      <div className="absolute top-1/2 right-0 w-72 h-72 bg-brand-accent rounded-full blur-[200px] opacity-10 -translate-y-1/2" />
 
       {/* Quote Icon Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5">
@@ -107,7 +107,7 @@ export default function Testimonials() {
       <div className="relative max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
+          <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
             Testimonials
           </span>
           <h2 className="text-4xl md:text-5xl font-display text-zinc-50 mb-4 italic">
@@ -121,14 +121,14 @@ export default function Testimonials() {
         {/* Testimonial Card */}
         <div className="relative">
           <div 
-            className={`bg-gradient-to-br from-[#280905] to-zinc-950 rounded-3xl p-8 md:p-12 border border-[#740A03]/30 transition-all duration-500 ${
+            className={`bg-gradient-to-br from-brand-deep to-zinc-950 rounded-3xl p-8 md:p-12 border border-brand-dark/30 transition-all duration-500 ${
               isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"
             }`}
           >
             {/* Stars */}
             <div className="flex gap-1 mb-6">
               {Array.from({ length: testimonials[currentIndex].rating }).map((_, i) => (
-                <svg key={`star-${testimonials[currentIndex].id}-${i}`} className="w-6 h-6 text-[#E6501B]" fill="currentColor" viewBox="0 0 20 20">
+                <svg key={`star-${testimonials[currentIndex].id}-${i}`} className="w-6 h-6 text-brand-accent" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
               ))}
@@ -141,7 +141,7 @@ export default function Testimonials() {
 
             {/* Author */}
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#C3110C] to-[#E6501B] flex items-center justify-center text-zinc-50 font-bold text-lg">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-primary to-brand-accent flex items-center justify-center text-zinc-50 font-bold text-lg">
                 {testimonials[currentIndex].name.charAt(0)}
               </div>
               <div>
@@ -158,7 +158,7 @@ export default function Testimonials() {
           {/* Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 w-12 h-12 rounded-full bg-[#280905] border border-[#740A03]/50 flex items-center justify-center text-zinc-50 hover:bg-[#740A03] hover:border-[#C3110C] transition-all duration-300 group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 w-12 h-12 rounded-full bg-brand-deep border border-brand-dark/50 flex items-center justify-center text-zinc-50 hover:bg-brand-dark hover:border-brand-primary transition-all duration-300 group"
             aria-label="Previous testimonial"
           >
             <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,7 +167,7 @@ export default function Testimonials() {
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 w-12 h-12 rounded-full bg-[#280905] border border-[#740A03]/50 flex items-center justify-center text-zinc-50 hover:bg-[#740A03] hover:border-[#C3110C] transition-all duration-300 group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 w-12 h-12 rounded-full bg-brand-deep border border-brand-dark/50 flex items-center justify-center text-zinc-50 hover:bg-brand-dark hover:border-brand-primary transition-all duration-300 group"
             aria-label="Next testimonial"
           >
             <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -184,8 +184,8 @@ export default function Testimonials() {
               onClick={() => handleDotClick(testimonials.indexOf(testimonial))}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 testimonials.indexOf(testimonial) === currentIndex 
-                  ? "bg-[#C3110C] w-8" 
-                  : "bg-[#740A03]/50 hover:bg-[#740A03]"
+                  ? "bg-brand-primary w-8" 
+                  : "bg-brand-dark/50 hover:bg-brand-dark"
               }`}
               aria-label={`Go to testimonial ${testimonials.indexOf(testimonial) + 1}`}
             />

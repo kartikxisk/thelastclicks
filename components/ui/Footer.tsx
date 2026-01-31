@@ -4,9 +4,9 @@ import Logo from "@/components/ui/Logo";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-b from-zinc-950 via-[#280905]/50 to-zinc-950 text-zinc-50 border-t border-[#740A03]/50">
+    <footer className="relative bg-gradient-to-b from-zinc-950 via-brand-deep/50 to-zinc-950 text-zinc-50 border-t border-brand-dark/50">
       {/* Decorative gradient */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C3110C]/50 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -17,7 +17,7 @@ export default function Footer() {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-[#280905] border border-[#740A03]/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#C3110C] hover:to-[#E6501B] hover:border-[#C3110C] transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-brand-deep border border-brand-dark/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-brand-primary hover:to-brand-accent hover:border-brand-primary transition-all duration-300"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -26,7 +26,7 @@ export default function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-[#280905] border border-[#740A03]/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#C3110C] hover:to-[#E6501B] hover:border-[#C3110C] transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-brand-deep border border-brand-dark/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-brand-primary hover:to-brand-accent hover:border-brand-primary transition-all duration-300"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@ export default function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-[#280905] border border-[#740A03]/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#C3110C] hover:to-[#E6501B] hover:border-[#C3110C] transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-brand-deep border border-brand-dark/50 flex items-center justify-center hover:bg-gradient-to-br hover:from-brand-primary hover:to-brand-accent hover:border-brand-primary transition-all duration-300"
                 aria-label="YouTube"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {Object.values(SERVICES).map((service) => (
                 <li key={service.href}>
-                  <Link href={service.href} className="text-zinc-400 hover:text-[#E6501B] transition-colors">
+                  <Link href={service.href} className="text-zinc-400 hover:text-brand-accent transition-colors">
                     {service.name}
                   </Link>
                 </li>
@@ -64,22 +64,22 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4 text-zinc-50">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/about" className="text-zinc-400 hover:text-[#E6501B] transition-colors">
+                <Link href="/about" className="text-zinc-400 hover:text-brand-accent transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio" className="text-zinc-400 hover:text-[#E6501B] transition-colors">
+                <Link href="/portfolio" className="text-zinc-400 hover:text-brand-accent transition-colors">
                   Portfolio
                 </Link>
               </li>
               <li>
-                <Link href="/services/editing/editors" className="text-zinc-400 hover:text-[#E6501B] transition-colors">
+                <Link href="/services/editing/editors" className="text-zinc-400 hover:text-brand-accent transition-colors">
                   Our Editors
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-zinc-400 hover:text-[#E6501B] transition-colors">
+                <Link href="/contact" className="text-zinc-400 hover:text-brand-accent transition-colors">
                   Contact
                 </Link>
               </li>
@@ -91,7 +91,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4 text-zinc-50">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-center space-x-3 text-zinc-400">
-                <svg className="w-5 h-5 text-[#E6501B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -99,12 +99,12 @@ export default function Footer() {
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <a href={`mailto:${COMPANY.email}`} className="hover:text-[#E6501B] transition-colors">
+                <a href={`mailto:${COMPANY.email}`} className="hover:text-brand-accent transition-colors">
                   {COMPANY.email}
                 </a>
               </li>
               <li className="flex items-center space-x-3 text-zinc-400">
-                <svg className="w-5 h-5 text-[#E6501B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -112,7 +112,7 @@ export default function Footer() {
                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                   />
                 </svg>
-                <a href={`tel:${COMPANY.mobile}`} className="hover:text-[#E6501B] transition-colors">
+                <a href={`tel:${COMPANY.mobile}`} className="hover:text-brand-accent transition-colors">
                   {COMPANY.mobile}
                 </a>
               </li>
@@ -121,15 +121,15 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#740A03]/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-brand-dark/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-zinc-500 text-sm">
             © {new Date().getFullYear()} {COMPANY.name}. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="/privacy" className="text-zinc-500 hover:text-[#E6501B] text-sm transition-colors">
+            <Link href="/privacy" className="text-zinc-500 hover:text-brand-accent text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-zinc-500 hover:text-[#E6501B] text-sm transition-colors">
+            <Link href="/terms" className="text-zinc-500 hover:text-brand-accent text-sm transition-colors">
               Terms of Service
             </Link>
           </div>

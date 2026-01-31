@@ -71,17 +71,17 @@ export default function CreativeProcess() {
   return (
     <section className="relative py-24 px-4 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-[#280905] to-zinc-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-brand-deep to-zinc-950" />
       <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-5" />
       
       {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[#C3110C] rounded-full blur-[200px] opacity-10" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#E6501B] rounded-full blur-[200px] opacity-10" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-brand-primary rounded-full blur-[200px] opacity-10" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-accent rounded-full blur-[200px] opacity-10" />
 
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
+          <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
             How We Work
           </span>
           <h2 className="text-4xl md:text-5xl font-display text-zinc-50 mb-4 italic">
@@ -103,7 +103,7 @@ export default function CreativeProcess() {
             >
               {/* Connector Line */}
               {index < processSteps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-[60%] w-full h-0.5 bg-gradient-to-r from-[#C3110C]/50 to-transparent" />
+                <div className="hidden lg:block absolute top-16 left-[60%] w-full h-0.5 bg-gradient-to-r from-brand-primary/50 to-transparent" />
               )}
               
               <div className="flex flex-col items-center text-center">
@@ -111,12 +111,12 @@ export default function CreativeProcess() {
                 <div 
                   className={`relative w-24 h-24 md:w-28 md:h-28 rounded-full flex items-center justify-center mb-4 transition-all duration-500 ${
                     hoveredIndex === index 
-                      ? "bg-gradient-to-br from-[#C3110C] to-[#E6501B] scale-110 shadow-2xl shadow-[#C3110C]/30" 
-                      : "bg-gradient-to-br from-[#280905] to-[#740A03] border-2 border-[#C3110C]/30"
+                      ? "bg-gradient-to-br from-brand-primary to-brand-accent scale-110 shadow-2xl shadow-brand-primary/30" 
+                      : "bg-gradient-to-br from-brand-deep to-brand-dark border-2 border-brand-primary/30"
                   }`}
                 >
                   <div className={`transition-colors duration-300 ${
-                    hoveredIndex === index ? "text-zinc-50" : "text-[#E6501B]"
+                    hoveredIndex === index ? "text-zinc-50" : "text-brand-accent"
                   }`}>
                     {step.icon}
                   </div>
@@ -124,8 +124,8 @@ export default function CreativeProcess() {
                   {/* Step Number */}
                   <span className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                     hoveredIndex === index 
-                      ? "bg-zinc-50 text-[#C3110C]" 
-                      : "bg-[#740A03] text-zinc-50"
+                      ? "bg-zinc-50 text-brand-primary" 
+                      : "bg-brand-dark text-zinc-50"
                   }`}>
                     {index + 1}
                   </span>
@@ -133,7 +133,7 @@ export default function CreativeProcess() {
 
                 {/* Title */}
                 <h3 className={`text-base font-semibold mb-2 transition-colors duration-300 ${
-                  hoveredIndex === index ? "text-[#E6501B]" : "text-zinc-50"
+                  hoveredIndex === index ? "text-brand-accent" : "text-zinc-50"
                 }`}>
                   {step.title}
                 </h3>

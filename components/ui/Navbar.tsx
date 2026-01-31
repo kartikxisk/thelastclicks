@@ -10,8 +10,8 @@ export default function Navbar() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#280905]/95 via-zinc-950/95 to-[#280905]/95 backdrop-blur-md border-b border-[#740A03]/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-brand-deep/95 via-zinc-950/95 to-brand-deep/95 backdrop-blur-md border-b border-brand-dark/50">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Logo size="md" />
@@ -23,7 +23,7 @@ export default function Navbar() {
               <button
                 onMouseEnter={() => setIsServicesOpen(true)}
                 onMouseLeave={() => setIsServicesOpen(false)}
-                className="flex items-center space-x-1 text-zinc-300 hover:text-[#E6501B] transition-colors font-medium"
+                className="flex items-center space-x-1 text-zinc-300 hover:text-brand-accent transition-colors font-medium"
               >
                 <span>Services</span>
                 <svg
@@ -41,13 +41,13 @@ export default function Navbar() {
                 <div
                   onMouseEnter={() => setIsServicesOpen(true)}
                   onMouseLeave={() => setIsServicesOpen(false)}
-                  className="absolute top-full left-0 mt-2 w-64 bg-gradient-to-b from-zinc-950 to-[#280905] rounded-xl shadow-2xl shadow-[#C3110C]/10 border border-[#740A03]/50 py-2 animate-fadeIn"
+                  className="absolute top-full left-0 mt-2 w-64 bg-gradient-to-b from-zinc-950 to-brand-deep rounded-xl shadow-2xl shadow-brand-primary/10 border border-brand-dark/50 py-2 animate-fadeIn"
                 >
                   {Object.values(SERVICES).map((service) => (
                     <Link
                       key={service.href}
                       href={service.href}
-                      className="flex items-center px-4 py-3 hover:bg-[#740A03]/30 transition-colors"
+                      className="flex items-center px-4 py-3 hover:bg-brand-dark/30 transition-colors"
                     >
                       <div>
                         <p className="font-medium text-zinc-50">{service.name}</p>
@@ -63,7 +63,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-zinc-300 hover:text-[#E6501B] transition-colors font-medium"
+                className="text-zinc-300 hover:text-brand-accent transition-colors font-medium"
               >
                 {link.name}
               </Link>
@@ -71,7 +71,7 @@ export default function Navbar() {
 
             <Link
               href="/contact"
-              className="bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-[#C3110C]/30 hover:scale-105 transition-all"
+              className="bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-brand-primary/30 hover:scale-105 transition-all"
             >
               Get Quote
             </Link>
@@ -80,7 +80,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-[#280905] transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-brand-deep transition-colors"
             aria-label="Toggle menu"
           >
             <svg className="w-6 h-6 text-zinc-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,25 +95,25 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-[#740A03]/30 animate-fadeIn">
+          <div className="md:hidden py-4 border-t border-brand-dark/30 animate-fadeIn">
             <div className="space-y-2">
               <p className="px-4 py-2 text-sm font-semibold text-zinc-400 uppercase">Services</p>
               {Object.values(SERVICES).map((service) => (
                 <Link
                   key={service.href}
                   href={service.href}
-                  className="block px-4 py-2 text-zinc-300 hover:bg-[#280905] hover:text-[#E6501B] transition-colors"
+                  className="block px-4 py-2 text-zinc-300 hover:bg-brand-deep hover:text-brand-accent transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {service.name}
                 </Link>
               ))}
-              <hr className="my-2 border-[#740A03]/30" />
+              <hr className="my-2 border-brand-dark/30" />
               {NAV_LINKS.filter((link) => link.name !== "Services").map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block px-4 py-2 text-zinc-300 hover:bg-[#280905] hover:text-[#E6501B] transition-colors"
+                  className="block px-4 py-2 text-zinc-300 hover:bg-brand-deep hover:text-brand-accent transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
@@ -122,7 +122,7 @@ export default function Navbar() {
               <div className="px-4 pt-2">
                 <Link
                   href="/contact"
-                  className="block text-center bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 px-6 py-3 rounded-full font-medium"
+                  className="block text-center bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 px-6 py-3 rounded-full font-medium"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get Quote

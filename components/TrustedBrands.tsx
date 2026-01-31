@@ -52,7 +52,7 @@ export default function TrustedBrands() {
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
+          <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
             Our Partners
           </span>
           <h2 className="text-4xl md:text-5xl font-display text-zinc-50 mb-4 italic">
@@ -75,8 +75,8 @@ export default function TrustedBrands() {
               key={`${brand.name}-${index}`}
               className="flex-shrink-0 group"
             >
-              <div className="w-48 h-24 rounded-2xl bg-gradient-to-br from-[#280905]/50 to-zinc-950 border border-[#740A03]/30 flex items-center justify-center transition-all duration-300 hover:border-[#C3110C]/50 hover:bg-[#280905]/30">
-                <span className="text-2xl font-bold text-zinc-500 group-hover:text-[#E6501B] transition-colors duration-300 tracking-wider">
+              <div className="w-48 h-24 rounded-2xl bg-gradient-to-br from-brand-deep/50 to-zinc-950 border border-brand-dark/30 flex items-center justify-center transition-all duration-300 hover:border-brand-primary/50 hover:bg-brand-deep/30">
+                <span className="text-2xl font-bold text-zinc-500 group-hover:text-brand-accent transition-colors duration-300 tracking-wider">
                   {brand.logo}
                 </span>
               </div>
@@ -85,7 +85,7 @@ export default function TrustedBrands() {
         </div>
 
         {/* Stats below brands */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-16 border-t border-[#740A03]/30">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-16 border-t border-brand-dark/30">
           {[
             { value: "100+", label: "Brand Partners" },
             { value: "500+", label: "Projects Delivered" },
@@ -93,7 +93,7 @@ export default function TrustedBrands() {
             { value: "98%", label: "Client Retention" },
           ].map((stat) => (
             <div key={stat.label} className="text-center group">
-              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#C3110C] to-[#E6501B] bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                 {stat.value}
               </div>
               <div className="text-zinc-400 group-hover:text-zinc-300 transition-colors">

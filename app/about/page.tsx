@@ -1,6 +1,11 @@
 import { Metadata } from "next";
 import { COMPANY } from "@/lib/constants";
 import CTASection from "@/components/CTASection";
+import { FiCamera, FiVideo, FiUser } from "react-icons/fi";
+import { BiTargetLock } from "react-icons/bi";
+import { BsLightbulb, BsLightning } from "react-icons/bs";
+import { MdOutlineHandshake } from "react-icons/md";
+import { HiSparkles } from "react-icons/hi";
 
 export const metadata: Metadata = {
   title: `About Us | ${COMPANY.name}`,
@@ -16,22 +21,22 @@ const stats = [
 
 const values = [
   {
-    icon: "🎯",
+    icon: BiTargetLock,
     title: "Excellence",
     description: "We strive for perfection in every frame we capture and every edit we make.",
   },
   {
-    icon: "💡",
+    icon: BsLightbulb,
     title: "Creativity",
     description: "Pushing boundaries to create unique and memorable visual experiences.",
   },
   {
-    icon: "🤝",
+    icon: MdOutlineHandshake,
     title: "Trust",
     description: "Building lasting relationships through transparency and reliability.",
   },
   {
-    icon: "⚡",
+    icon: BsLightning,
     title: "Innovation",
     description: "Embracing latest technology to deliver cutting-edge results.",
   },
@@ -60,39 +65,40 @@ export default function AboutPage() {
     <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-gray-900 to-pink-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
         
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-pink-500 rounded-full blur-[128px] opacity-30 animate-pulse" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
         <div className="relative max-w-7xl mx-auto text-center">
-          <span className="inline-block px-4 py-2 rounded-full bg-white/10 text-purple-300 text-sm font-medium mb-6 backdrop-blur-sm">
-            ✨ Our Story
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
+            <HiSparkles className="w-4 h-4" />
+            Our Story
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-zinc-50 mb-6 leading-tight">
             About
             <br />
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
               {COMPANY.name}
             </span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
             {COMPANY.tagline}. We are passionate about preserving your precious moments through stunning visual storytelling.
           </p>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-white border-b border-gray-100">
+      <section className="py-16 px-4 bg-zinc-950 border-b border-brand-dark/30">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
                   {stat.value}
                 </div>
-                <div className="text-gray-600 mt-2">{stat.label}</div>
+                <div className="text-zinc-400 mt-2">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -100,14 +106,14 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-6">
                 Our Journey
               </h2>
-              <div className="space-y-4 text-gray-600">
+              <div className="space-y-4 text-zinc-400">
                 <p>
                   Founded in 2015, {COMPANY.name} began as a small passion project by a group of photography enthusiasts who believed that every moment deserves to be captured beautifully.
                 </p>
@@ -120,11 +126,11 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-purple-200 via-pink-100 to-purple-200 flex items-center justify-center">
-                <span className="text-9xl">📸</span>
+              <div className="aspect-square rounded-3xl bg-gradient-to-br from-brand-deep via-brand-dark to-brand-deep flex items-center justify-center border border-brand-dark/30">
+                <FiCamera className="w-32 h-32 text-brand-accent/50" />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center text-white text-4xl shadow-2xl">
-                🎬
+              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-brand-primary to-brand-accent rounded-2xl flex items-center justify-center text-zinc-50 shadow-2xl shadow-brand-primary/30">
+                <FiVideo className="w-12 h-12" />
               </div>
             </div>
           </div>
@@ -132,13 +138,13 @@ export default function AboutPage() {
       </section>
 
       {/* Our Values */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Our Values
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-zinc-400 max-w-2xl mx-auto">
               The principles that guide us in delivering exceptional results
             </p>
           </div>
@@ -147,11 +153,13 @@ export default function AboutPage() {
             {values.map((value) => (
               <div
                 key={value.title}
-                className="text-center p-8 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100"
+                className="text-center p-8 bg-zinc-950/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-shadow border border-brand-dark/30"
               >
-                <span className="text-5xl mb-4 block">{value.icon}</span>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
+                <span className="text-brand-accent mb-4 flex justify-center">
+                  <value.icon className="w-12 h-12" />
+                </span>
+                <h3 className="text-xl font-semibold text-zinc-50 mb-2">{value.title}</h3>
+                <p className="text-zinc-400">{value.description}</p>
               </div>
             ))}
           </div>
@@ -159,13 +167,13 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
               Meet Our Team
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-zinc-400 max-w-2xl mx-auto">
               The creative minds behind your stunning visuals
             </p>
           </div>
@@ -174,17 +182,17 @@ export default function AboutPage() {
             {team.map((member) => (
               <div
                 key={member.name}
-                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-gray-100"
+                className="bg-gradient-to-br from-brand-deep to-zinc-950 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-shadow border border-brand-dark/30"
               >
-                <div className="aspect-[4/3] bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center text-5xl">
-                    👤
+                <div className="aspect-[4/3] bg-gradient-to-br from-brand-dark/30 via-brand-deep to-brand-primary/30 flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-brand-primary to-brand-accent flex items-center justify-center text-zinc-50">
+                    <FiUser className="w-12 h-12" />
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-purple-600 font-medium mb-3">{member.role}</p>
-                  <p className="text-gray-600 text-sm">{member.bio}</p>
+                  <h3 className="text-xl font-semibold text-zinc-50 mb-1">{member.name}</h3>
+                  <p className="text-brand-accent font-medium mb-3">{member.role}</p>
+                  <p className="text-zinc-400 text-sm">{member.bio}</p>
                 </div>
               </div>
             ))}

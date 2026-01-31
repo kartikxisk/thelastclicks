@@ -55,12 +55,12 @@ export default function FAQSection() {
       <div className="absolute inset-0 bg-zinc-950" />
       
       {/* Decorative gradient */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#280905] to-transparent rounded-full blur-[100px] opacity-50" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-brand-deep to-transparent rounded-full blur-[100px] opacity-50" />
 
       <div className="relative max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-[#C3110C]/20 text-[#E6501B] text-sm font-medium mb-4 border border-[#C3110C]/30">
+          <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
             Got Questions?
           </span>
           <h2 className="text-4xl md:text-5xl font-display text-zinc-50 mb-4 italic">
@@ -78,8 +78,8 @@ export default function FAQSection() {
               key={index}
               className={`rounded-2xl border transition-all duration-300 ${
                 openIndex === index
-                  ? "bg-gradient-to-br from-[#280905] to-[#280905]/50 border-[#C3110C]/50"
-                  : "bg-zinc-950/50 border-[#740A03]/30 hover:border-[#740A03]/50"
+                  ? "bg-gradient-to-br from-brand-deep to-brand-deep/50 border-brand-primary/50"
+                  : "bg-zinc-950/50 border-brand-dark/30 hover:border-brand-dark/50"
               }`}
             >
               <button
@@ -94,8 +94,8 @@ export default function FAQSection() {
                 </span>
                 <span className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                   openIndex === index
-                    ? "bg-[#C3110C] text-zinc-50 rotate-180"
-                    : "bg-[#280905] text-[#E6501B] border border-[#740A03]/50"
+                    ? "bg-brand-primary text-zinc-50 rotate-180"
+                    : "bg-brand-deep text-brand-accent border border-brand-dark/50"
                 }`}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -123,7 +123,7 @@ export default function FAQSection() {
           </p>
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C3110C] to-[#E6501B] text-zinc-50 rounded-full font-medium hover:shadow-lg hover:shadow-[#C3110C]/30 hover:scale-105 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 rounded-full font-medium hover:shadow-lg hover:shadow-brand-primary/30 hover:scale-105 transition-all duration-300"
           >
             Contact Us
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
