@@ -64,41 +64,42 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      <section className="relative overflow-hidden px-4 pt-32 pb-20">
+        <div className="from-brand-deep to-brand-dark absolute inset-0 bg-linear-to-br via-zinc-950" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
-        
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="container relative text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
-            <HiSparkles className="w-4 h-4" />
+        <div className="bg-brand-primary absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-30 blur-[128px]" />
+        <div className="bg-brand-accent absolute right-10 bottom-10 h-96 w-96 animate-pulse rounded-full opacity-30 blur-[128px]" />
+
+        <div className="relative container text-center">
+          <span className="text-brand-accent border-brand-primary/30 mb-6 inline-flex items-center gap-2 rounded-full border bg-zinc-50/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
+            <HiSparkles className="h-4 w-4" />
             Our Story
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-zinc-50 mb-6 leading-tight">
+          <h1 className="mb-6 text-4xl leading-tight font-bold text-zinc-50 md:text-6xl lg:text-7xl">
             About
             <br />
-            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
+            <span className="from-brand-primary via-brand-accent to-brand-primary bg-linear-to-r bg-clip-text text-transparent">
               {COMPANY.name}
             </span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            {COMPANY.tagline}. We are passionate about preserving your precious moments through stunning visual storytelling.
+          <p className="mx-auto max-w-2xl text-xl text-zinc-400">
+            {COMPANY.tagline}. We are passionate about preserving your precious moments through
+            stunning visual storytelling.
           </p>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-zinc-950 border-b border-brand-dark/30">
+      <section className="border-brand-dark/30 border-b bg-zinc-950 px-4 py-16">
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                <div className="from-brand-primary to-brand-accent bg-linear-to-r bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
                   {stat.value}
                 </div>
-                <div className="text-zinc-400 mt-2">{stat.label}</div>
+                <div className="mt-2 text-zinc-400">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -106,31 +107,35 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-6">
-                Our Journey
-              </h2>
+              <h2 className="mb-6 text-3xl font-bold text-zinc-50 md:text-4xl">Our Journey</h2>
               <div className="space-y-4 text-zinc-400">
                 <p>
-                  Founded in 2015, {COMPANY.name} began as a small passion project by a group of photography enthusiasts who believed that every moment deserves to be captured beautifully.
+                  Founded in 2015, {COMPANY.name} began as a small passion project by a group of
+                  photography enthusiasts who believed that every moment deserves to be captured
+                  beautifully.
                 </p>
                 <p>
-                  Over the years, we have grown into a full-service creative agency, offering photography, videography, and professional editing services. Our team has expanded to include some of the most talented artists in the industry.
+                  Over the years, we have grown into a full-service creative agency, offering
+                  photography, videography, and professional editing services. Our team has expanded
+                  to include some of the most talented artists in the industry.
                 </p>
                 <p>
-                  Today, we are proud to have served thousands of clients, from intimate personal events to large corporate projects. Our commitment to quality and creativity remains at the heart of everything we do.
+                  Today, we are proud to have served thousands of clients, from intimate personal
+                  events to large corporate projects. Our commitment to quality and creativity
+                  remains at the heart of everything we do.
                 </p>
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-brand-deep via-brand-dark to-brand-deep flex items-center justify-center border border-brand-dark/30">
-                <FiCamera className="w-32 h-32 text-brand-accent/50" />
+              <div className="from-brand-deep via-brand-dark to-brand-deep border-brand-dark/30 flex aspect-square items-center justify-center rounded-3xl border bg-linear-to-br">
+                <FiCamera className="text-brand-accent/50 h-32 w-32" />
               </div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-brand-primary to-brand-accent rounded-2xl flex items-center justify-center text-zinc-50 shadow-2xl shadow-brand-primary/30">
-                <FiVideo className="w-12 h-12" />
+              <div className="from-brand-primary to-brand-accent shadow-brand-primary/30 absolute -right-6 -bottom-6 flex h-32 w-32 items-center justify-center rounded-2xl bg-linear-to-br text-zinc-50 shadow-2xl">
+                <FiVideo className="h-12 w-12" />
               </div>
             </div>
           </div>
@@ -138,27 +143,25 @@ export default function AboutPage() {
       </section>
 
       {/* Our Values */}
-      <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
+      <section className="from-brand-deep to-brand-dark bg-linear-to-br via-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
-              Our Values
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">Our Values</h2>
+            <p className="mx-auto max-w-2xl text-zinc-400">
               The principles that guide us in delivering exceptional results
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {values.map((value) => (
               <div
                 key={value.title}
-                className="text-center p-8 bg-zinc-950/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-shadow border border-brand-dark/30"
+                className="hover:shadow-brand-primary/20 border-brand-dark/30 rounded-2xl border bg-zinc-950/50 p-8 text-center shadow-sm transition-shadow hover:shadow-xl"
               >
                 <span className="text-brand-accent mb-4 flex justify-center">
-                  <value.icon className="w-12 h-12" />
+                  <value.icon className="h-12 w-12" />
                 </span>
-                <h3 className="text-xl font-semibold text-zinc-50 mb-2">{value.title}</h3>
+                <h3 className="mb-2 text-xl font-semibold text-zinc-50">{value.title}</h3>
                 <p className="text-zinc-400">{value.description}</p>
               </div>
             ))}
@@ -167,32 +170,30 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
-              Meet Our Team
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">Meet Our Team</h2>
+            <p className="mx-auto max-w-2xl text-zinc-400">
               The creative minds behind your stunning visuals
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {team.map((member) => (
               <div
                 key={member.name}
-                className="bg-gradient-to-br from-brand-deep to-zinc-950 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-shadow border border-brand-dark/30"
+                className="from-brand-deep hover:shadow-brand-primary/20 border-brand-dark/30 overflow-hidden rounded-3xl border bg-linear-to-br to-zinc-950 shadow-sm transition-shadow hover:shadow-xl"
               >
-                <div className="aspect-[4/3] bg-gradient-to-br from-brand-dark/30 via-brand-deep to-brand-primary/30 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-brand-primary to-brand-accent flex items-center justify-center text-zinc-50">
-                    <FiUser className="w-12 h-12" />
+                <div className="from-brand-dark/30 via-brand-deep to-brand-primary/30 flex aspect-[4/3] items-center justify-center bg-linear-to-br">
+                  <div className="from-brand-primary to-brand-accent flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br text-zinc-50">
+                    <FiUser className="h-12 w-12" />
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-zinc-50 mb-1">{member.name}</h3>
-                  <p className="text-brand-accent font-medium mb-3">{member.role}</p>
-                  <p className="text-zinc-400 text-sm">{member.bio}</p>
+                  <h3 className="mb-1 text-xl font-semibold text-zinc-50">{member.name}</h3>
+                  <p className="text-brand-accent mb-3 font-medium">{member.role}</p>
+                  <p className="text-sm text-zinc-400">{member.bio}</p>
                 </div>
               </div>
             ))}
@@ -204,7 +205,6 @@ export default function AboutPage() {
         title="Let's Create Something Beautiful Together"
         description="Ready to capture your next memorable moment?"
         primaryButton={{ text: "Get in Touch", href: "/contact" }}
-        variant="gradient"
       />
     </main>
   );

@@ -16,40 +16,41 @@ export default function Homepage() {
   return (
     <main className="min-h-screen bg-zinc-950">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+        <div className="from-brand-deep to-brand-dark absolute inset-0 bg-linear-to-br via-zinc-950" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-10" />
-        
-        {/* Animated Gradient Orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-20 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-20 animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-dark rounded-full blur-[200px] opacity-15" />
 
-        <div className="container relative text-center z-10">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
-            <Icon name="HiSparkles" className="w-4 h-4" />
+        {/* Animated Gradient Orbs */}
+        <div className="bg-brand-primary absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-20 blur-[128px]" />
+        <div className="bg-brand-accent absolute right-10 bottom-10 h-96 w-96 animate-pulse rounded-full opacity-20 blur-[128px]" />
+        <div className="bg-brand-dark absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-15 blur-[200px]" />
+
+        <div className="relative z-10 container text-center">
+          <span className="text-brand-accent border-brand-primary/30 mb-6 inline-flex items-center gap-2 rounded-full border bg-zinc-50/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
+            <Icon name="HiSparkles" className="h-4 w-4" />
             {COMPANY.tagline}
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display text-zinc-50 mb-6 leading-tight">
+          <h1 className="font-display mb-6 text-5xl leading-tight text-zinc-50 md:text-7xl lg:text-8xl">
             We Create
             <br />
-            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
+            <span className="from-brand-primary via-brand-accent to-brand-primary bg-linear-to-r bg-clip-text text-transparent">
               Visual Magic
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-10">
-            Professional photography, cinematic videography, and expert editing services that transform your moments into timeless memories.
+          <p className="mx-auto mb-10 max-w-3xl text-xl text-zinc-400 md:text-2xl">
+            Professional photography, cinematic videography, and expert editing services that
+            transform your moments into timeless memories.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/services"
-              className="px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-brand-primary/30 hover:scale-105 transition-all"
+              className="from-brand-primary to-brand-accent hover:shadow-brand-primary/30 rounded-full bg-linear-to-r px-8 py-4 text-lg font-semibold text-zinc-50 transition-all hover:scale-105 hover:shadow-2xl"
             >
               Explore Services
             </Link>
             <Link
               href="/portfolio"
-              className="px-8 py-4 bg-zinc-50/10 text-zinc-50 rounded-full font-semibold text-lg backdrop-blur-sm hover:bg-zinc-50/20 transition-all border border-brand-primary/30"
+              className="border-brand-primary/30 rounded-full border bg-zinc-50/10 px-8 py-4 text-lg font-semibold text-zinc-50 backdrop-blur-sm transition-all hover:bg-zinc-50/20"
             >
               View Our Work
             </Link>
@@ -58,45 +59,71 @@ export default function Homepage() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-6 h-6 text-zinc-50/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          <svg
+            className="h-6 w-6 text-zinc-50/50"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
           </svg>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-24 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-24">
         <div className="container">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-4 border border-brand-primary/30">
+          <div className="mb-16 text-center">
+            <span className="bg-brand-primary/20 text-brand-accent border-brand-primary/30 mb-4 inline-block rounded-full border px-4 py-2 text-sm font-medium">
               Our Services
             </span>
-            <h2 className="text-4xl md:text-5xl font-display italic text-zinc-50 mb-4">
+            <h2 className="font-display mb-4 text-4xl text-zinc-50 italic md:text-5xl">
               What We Offer
             </h2>
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-xl text-zinc-400">
               Comprehensive creative services to bring your vision to life
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {Object.values(SERVICES).map((service, index) => (
               <Link
                 key={service.href}
                 href={service.href}
-                className="group relative bg-gradient-to-br from-brand-deep to-zinc-950 rounded-3xl p-8 shadow-sm hover:shadow-2xl hover:shadow-brand-primary/20 transition-all duration-500 border border-brand-dark/30 overflow-hidden"
+                className="group from-brand-deep hover:shadow-brand-primary/20 border-brand-dark/30 relative overflow-hidden rounded-3xl border bg-linear-to-br to-zinc-950 p-8 shadow-sm transition-all duration-500 hover:shadow-2xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-brand-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="from-brand-primary/10 to-brand-accent/10 absolute inset-0 bg-linear-to-br opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="relative">
-                  <span className="text-5xl mb-6 block text-brand-accent">
-                    {index === 0 ? <FiCamera className="w-12 h-12" /> : index === 1 ? <FiVideo className="w-12 h-12" /> : <FiEdit3 className="w-12 h-12" />}
+                  <span className="text-brand-accent mb-6 block text-5xl">
+                    {index === 0 ? (
+                      <FiCamera className="h-12 w-12" />
+                    ) : index === 1 ? (
+                      <FiVideo className="h-12 w-12" />
+                    ) : (
+                      <FiEdit3 className="h-12 w-12" />
+                    )}
                   </span>
-                  <h3 className="text-2xl font-bold text-zinc-50 mb-3">{service.name}</h3>
-                  <p className="text-zinc-400 mb-6">{service.description}</p>
-                  <span className="inline-flex items-center text-brand-accent font-medium group-hover:text-brand-primary">
+                  <h3 className="mb-3 text-2xl font-bold text-zinc-50">{service.name}</h3>
+                  <p className="mb-6 text-zinc-400">{service.description}</p>
+                  <span className="text-brand-accent group-hover:text-brand-primary inline-flex items-center font-medium">
                     Learn more
-                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </span>
                 </div>
@@ -107,9 +134,9 @@ export default function Homepage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-brand-dark via-brand-primary to-brand-accent">
+      <section className="from-brand-dark via-brand-primary to-brand-accent bg-linear-to-r px-4 py-20">
         <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {[
               { value: "10+", label: "Years Experience" },
               { value: "5000+", label: "Projects Completed" },
@@ -117,9 +144,7 @@ export default function Homepage() {
               { value: "50+", label: "Team Members" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-zinc-50 mb-2">
-                  {stat.value}
-                </div>
+                <div className="mb-2 text-4xl font-bold text-zinc-50 md:text-5xl">{stat.value}</div>
                 <div className="text-zinc-50/80">{stat.label}</div>
               </div>
             ))}
@@ -133,8 +158,6 @@ export default function Homepage() {
       {/* Trusted Brands Section */}
       <TrustedBrands />
 
-  
-
       {/* Testimonials Section */}
       <Testimonials />
 
@@ -146,7 +169,6 @@ export default function Homepage() {
         description="Let's discuss your project and bring your vision to life"
         primaryButton={{ text: "Get a Free Quote", href: "/contact" }}
         secondaryButton={{ text: "Call Us Now", href: `tel:${COMPANY.mobile}` }}
-        variant="dark"
       />
     </main>
   );

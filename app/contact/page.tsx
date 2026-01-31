@@ -35,53 +35,55 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      <section className="relative overflow-hidden px-4 pt-32 pb-20">
+        <div className="from-brand-deep to-brand-dark absolute inset-0 bg-linear-to-br via-zinc-950" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
-        
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="container relative text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/20 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
-            <BiMessageDetail className="w-4 h-4" />
+        <div className="bg-brand-primary absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-30 blur-[128px]" />
+        <div className="bg-brand-accent absolute right-10 bottom-10 h-96 w-96 animate-pulse rounded-full opacity-30 blur-[128px]" />
+
+        <div className="relative container text-center">
+          <span className="bg-brand-primary/20 text-brand-accent border-brand-primary/30 mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-sm">
+            <BiMessageDetail className="h-4 w-4" />
             Get in Touch
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-zinc-50 mb-6 leading-tight">
+          <h1 className="mb-6 text-4xl leading-tight font-bold text-zinc-50 md:text-6xl lg:text-7xl">
             Contact
             <br />
-            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
+            <span className="from-brand-primary via-brand-accent to-brand-primary bg-linear-to-r bg-clip-text text-transparent">
               Us
             </span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Have a project in mind? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
+          <p className="mx-auto max-w-2xl text-xl text-zinc-400">
+            Have a project in mind? We&apos;d love to hear from you. Send us a message and
+            we&apos;ll respond as soon as possible.
           </p>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid gap-12 lg:grid-cols-2">
             {/* Contact Info */}
             <div>
-              <h2 className="text-3xl font-bold text-zinc-50 mb-6">
+              <h2 className="mb-6 text-3xl font-bold text-zinc-50">
                 Let&apos;s Start a Conversation
               </h2>
-              <p className="text-zinc-400 mb-8">
-                Whether you&apos;re looking for photography, videography, or editing services, we&apos;re here to help bring your vision to life.
+              <p className="mb-8 text-zinc-400">
+                Whether you&apos;re looking for photography, videography, or editing services,
+                we&apos;re here to help bring your vision to life.
               </p>
 
-              <div className="space-y-6 mb-12">
+              <div className="mb-12 space-y-6">
                 {contactInfo.map((info) => (
                   <a
                     key={info.title}
                     href={info.link}
-                    className="flex items-center space-x-4 p-4 bg-brand-deep rounded-xl hover:bg-brand-dark/30 transition-all border border-brand-dark/30 group"
+                    className="bg-brand-deep hover:bg-brand-dark/30 border-brand-dark/30 group flex items-center space-x-4 rounded-xl border p-4 transition-all"
                   >
-                    <span className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-primary to-brand-accent flex items-center justify-center text-zinc-50 group-hover:scale-110 transition-transform">
-                      <info.icon className="w-5 h-5" />
+                    <span className="from-brand-primary to-brand-accent flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br text-zinc-50 transition-transform group-hover:scale-110">
+                      <info.icon className="h-5 w-5" />
                     </span>
                     <div>
                       <p className="text-sm text-zinc-500">{info.title}</p>
@@ -92,9 +94,9 @@ export default function ContactPage() {
               </div>
 
               {/* Business Hours */}
-              <div className="bg-brand-deep p-6 rounded-xl border border-brand-dark/30">
-                <div className="flex items-center gap-3 mb-4">
-                  <FiClock className="w-5 h-5 text-brand-accent" />
+              <div className="bg-brand-deep border-brand-dark/30 rounded-xl border p-6">
+                <div className="mb-4 flex items-center gap-3">
+                  <FiClock className="text-brand-accent h-5 w-5" />
                   <h3 className="text-lg font-semibold text-zinc-50">Business Hours</h3>
                 </div>
                 <div className="space-y-2 text-zinc-400">
@@ -115,8 +117,8 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-gradient-to-br from-brand-deep to-zinc-950 p-8 rounded-3xl shadow-xl border border-brand-dark/30">
-              <h3 className="text-2xl font-bold text-zinc-50 mb-6">Send us a Message</h3>
+            <div className="from-brand-deep border-brand-dark/30 rounded-3xl border bg-linear-to-br to-zinc-950 p-8 shadow-xl">
+              <h3 className="mb-6 text-2xl font-bold text-zinc-50">Send us a Message</h3>
               <ContactForm />
             </div>
           </div>
@@ -124,10 +126,10 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section (Placeholder) */}
-      <section className="h-96 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark flex items-center justify-center border-t border-brand-dark/30">
+      <section className="from-brand-deep to-brand-dark border-brand-dark/30 flex h-96 items-center justify-center border-t bg-linear-to-br via-zinc-950">
         <div className="text-center">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-primary to-brand-accent flex items-center justify-center mx-auto mb-4">
-            <HiOutlineLocationMarker className="w-10 h-10 text-zinc-50" />
+          <div className="from-brand-primary to-brand-accent mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br">
+            <HiOutlineLocationMarker className="h-10 w-10 text-zinc-50" />
           </div>
           <p className="text-zinc-400">Map integration coming soon</p>
         </div>

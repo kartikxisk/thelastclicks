@@ -8,7 +8,8 @@ import { HiSparkles } from "react-icons/hi";
 
 export const metadata: Metadata = {
   title: `Editing Services | ${COMPANY.name}`,
-  description: "Professional photo and video editing services. Transform your raw footage into stunning masterpieces with our expert editors.",
+  description:
+    "Professional photo and video editing services. Transform your raw footage into stunning masterpieces with our expert editors.",
 };
 
 export default function EditingServicePage() {
@@ -17,39 +18,40 @@ export default function EditingServicePage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      <section className="relative overflow-hidden px-4 pt-32 pb-20">
+        <div className="from-brand-deep to-brand-dark absolute inset-0 bg-linear-to-br via-zinc-950" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
-        
-        {/* Animated Gradient Orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse delay-1000" />
 
-        <div className="container relative text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
-            <HiSparkles className="w-4 h-4" />
+        {/* Animated Gradient Orbs */}
+        <div className="bg-brand-primary absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-30 blur-[128px]" />
+        <div className="bg-brand-accent absolute right-10 bottom-10 h-96 w-96 animate-pulse rounded-full opacity-30 blur-[128px] delay-1000" />
+
+        <div className="relative container text-center">
+          <span className="text-brand-accent border-brand-primary/30 mb-6 inline-flex items-center gap-2 rounded-full border bg-zinc-50/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
+            <HiSparkles className="h-4 w-4" />
             Professional Editing Services
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-zinc-50 mb-6 leading-tight">
+          <h1 className="mb-6 text-4xl leading-tight font-bold text-zinc-50 md:text-6xl lg:text-7xl">
             Transform Your Vision
             <br />
-            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
+            <span className="from-brand-primary via-brand-accent to-brand-primary bg-linear-to-r bg-clip-text text-transparent">
               Into Reality
             </span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
-            {editingService.description}. Our team of skilled editors brings your content to life with precision and creativity.
+          <p className="mx-auto mb-10 max-w-2xl text-xl text-zinc-400">
+            {editingService.description}. Our team of skilled editors brings your content to life
+            with precision and creativity.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/contact"
-              className="px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 rounded-full font-semibold hover:shadow-2xl hover:shadow-brand-primary/30 hover:scale-105 transition-all"
+              className="from-brand-primary to-brand-accent hover:shadow-brand-primary/30 rounded-full bg-linear-to-r px-8 py-4 font-semibold text-zinc-50 transition-all hover:scale-105 hover:shadow-2xl"
             >
               Start Your Project
             </Link>
             <Link
               href="/services/editing/editors"
-              className="px-8 py-4 bg-zinc-50/10 text-zinc-50 rounded-full font-semibold backdrop-blur-sm hover:bg-zinc-50/20 transition-all border border-brand-primary/30"
+              className="border-brand-primary/30 rounded-full border bg-zinc-50/10 px-8 py-4 font-semibold text-zinc-50 backdrop-blur-sm transition-all hover:bg-zinc-50/20"
             >
               Meet Our Editors
             </Link>
@@ -58,39 +60,49 @@ export default function EditingServicePage() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">
               Our Editing Services
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-zinc-400">
               From basic color correction to advanced VFX, we offer comprehensive editing solutions
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {editingService.categories.map((category) => (
               <div
                 key={category.slug}
-                className="group relative bg-gradient-to-br from-brand-deep to-zinc-950 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-all duration-300 border border-brand-dark/30"
+                className="group from-brand-deep hover:shadow-brand-primary/20 border-brand-dark/30 relative rounded-2xl border bg-linear-to-br to-zinc-950 p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-brand-accent/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="from-brand-primary/5 to-brand-accent/5 absolute inset-0 rounded-2xl bg-linear-to-br opacity-0 transition-opacity group-hover:opacity-100" />
                 <div className="relative">
                   <span className="text-brand-accent mb-4 block">
-                    <Icon name={category.icon} className="w-10 h-10" />
+                    <Icon name={category.icon} className="h-10 w-10" />
                   </span>
-                  <h3 className="text-xl font-semibold text-zinc-50 mb-2">{category.name}</h3>
-                  <p className="text-zinc-400 mb-4">
+                  <h3 className="mb-2 text-xl font-semibold text-zinc-50">{category.name}</h3>
+                  <p className="mb-4 text-zinc-400">
                     Professional {category.name.toLowerCase()} services tailored to your needs
                   </p>
                   <Link
                     href={`/services/editing/${category.slug}`}
-                    className="inline-flex items-center text-brand-accent font-medium hover:text-brand-primary transition-colors"
+                    className="text-brand-accent hover:text-brand-primary inline-flex items-center font-medium transition-colors"
                   >
                     Learn more
-                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </Link>
                 </div>
@@ -101,28 +113,26 @@ export default function EditingServicePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
+      <section className="from-brand-deep to-brand-dark bg-linear-to-br via-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
-              Why Choose Us?
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">Why Choose Us?</h2>
+            <p className="mx-auto max-w-2xl text-zinc-400">
               We deliver exceptional quality with features that set us apart
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {EDITING_FEATURES.map((feature) => (
               <div
                 key={feature.title}
-                className="text-center p-8 rounded-2xl bg-zinc-950/50 border border-brand-dark/30"
+                className="border-brand-dark/30 rounded-2xl border bg-zinc-950/50 p-8 text-center"
               >
                 <span className="text-brand-accent mb-4 block flex justify-center">
-                  <Icon name={feature.icon} className="w-12 h-12" />
+                  <Icon name={feature.icon} className="h-12 w-12" />
                 </span>
-                <h3 className="text-lg font-semibold text-zinc-50 mb-2">{feature.title}</h3>
-                <p className="text-zinc-400 text-sm">{feature.description}</p>
+                <h3 className="mb-2 text-lg font-semibold text-zinc-50">{feature.title}</h3>
+                <p className="text-sm text-zinc-400">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -130,18 +140,16 @@ export default function EditingServicePage() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
-              How It Works
-            </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">How It Works</h2>
+            <p className="mx-auto max-w-2xl text-zinc-400">
               Simple, streamlined process to get your project done
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {[
               { step: "01", title: "Upload", desc: "Share your raw files via our secure portal" },
               { step: "02", title: "Brief", desc: "Tell us your vision and requirements" },
@@ -149,11 +157,11 @@ export default function EditingServicePage() {
               { step: "04", title: "Deliver", desc: "Get polished content delivered to you" },
             ].map((item, index) => (
               <div key={item.step} className="relative">
-                <div className="text-6xl font-bold text-brand-primary/20 mb-4">{item.step}</div>
-                <h3 className="text-xl font-semibold text-zinc-50 mb-2">{item.title}</h3>
+                <div className="text-brand-primary/20 mb-4 text-6xl font-bold">{item.step}</div>
+                <h3 className="mb-2 text-xl font-semibold text-zinc-50">{item.title}</h3>
                 <p className="text-zinc-400">{item.desc}</p>
                 {index < 3 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-brand-primary/50 to-transparent -translate-x-8" />
+                  <div className="from-brand-primary/50 absolute top-8 left-full hidden h-0.5 w-full -translate-x-8 bg-linear-to-r to-transparent md:block" />
                 )}
               </div>
             ))}
@@ -162,42 +170,52 @@ export default function EditingServicePage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark">
+      <section className="from-brand-deep to-brand-dark bg-linear-to-br via-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">
               Transparent Pricing
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-zinc-400">
               Choose the plan that fits your project needs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3">
             {EDITING_PRICING.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative bg-zinc-950 rounded-2xl p-8 ${
+                className={`relative rounded-2xl bg-zinc-950 p-8 ${
                   plan.popular
-                    ? "ring-2 ring-brand-primary shadow-xl shadow-brand-primary/20 scale-105"
-                    : "border border-brand-dark/30"
+                    ? "ring-brand-primary shadow-brand-primary/20 scale-105 shadow-xl ring-2"
+                    : "border-brand-dark/30 border"
                 }`}
               >
                 {plan.popular && (
-                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 text-sm font-medium rounded-full">
+                  <span className="from-brand-primary to-brand-accent absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-linear-to-r px-4 py-1 text-sm font-medium text-zinc-50">
                     Most Popular
                   </span>
                 )}
-                <h3 className="text-xl font-semibold text-zinc-50 mb-2">{plan.name}</h3>
+                <h3 className="mb-2 text-xl font-semibold text-zinc-50">{plan.name}</h3>
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-zinc-50">{plan.price}</span>
                   <span className="text-zinc-500">/{plan.period}</span>
                 </div>
-                <ul className="space-y-3 mb-8">
+                <ul className="mb-8 space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center text-zinc-400">
-                      <svg className="w-5 h-5 text-brand-accent mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="text-brand-accent mr-3 h-5 w-5 flex-shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       {feature}
                     </li>
@@ -205,9 +223,9 @@ export default function EditingServicePage() {
                 </ul>
                 <Link
                   href="/contact"
-                  className={`block text-center py-3 rounded-full font-semibold transition-all ${
+                  className={`block rounded-full py-3 text-center font-semibold transition-all ${
                     plan.popular
-                      ? "bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 hover:shadow-lg hover:shadow-brand-primary/30"
+                      ? "from-brand-primary to-brand-accent hover:shadow-brand-primary/30 bg-linear-to-r text-zinc-50 hover:shadow-lg"
                       : "bg-zinc-800 text-zinc-50 hover:bg-zinc-700"
                   }`}
                 >
@@ -220,37 +238,37 @@ export default function EditingServicePage() {
       </section>
 
       {/* Team Preview */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-50 mb-4">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-zinc-50 md:text-4xl">
               Meet Our Expert Editors
             </h2>
-            <p className="text-zinc-400 max-w-2xl mx-auto">
+            <p className="mx-auto max-w-2xl text-zinc-400">
               Talented professionals dedicated to bringing your vision to life
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {EDITORS.slice(0, 3).map((editor) => (
               <div
                 key={editor.id}
-                className="group bg-gradient-to-br from-brand-deep to-zinc-950 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-brand-primary/20 transition-all border border-brand-dark/30"
+                className="group from-brand-deep hover:shadow-brand-primary/20 border-brand-dark/30 overflow-hidden rounded-2xl border bg-linear-to-br to-zinc-950 shadow-sm transition-all hover:shadow-xl"
               >
-                <div className="aspect-[4/3] bg-gradient-to-br from-brand-dark/30 to-brand-primary/30 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-brand-accent">
-                    <FiUser className="w-16 h-16" />
+                <div className="from-brand-dark/30 to-brand-primary/30 relative aspect-[4/3] overflow-hidden bg-linear-to-br">
+                  <div className="text-brand-accent absolute inset-0 flex items-center justify-center">
+                    <FiUser className="h-16 w-16" />
                   </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-zinc-50">{editor.name}</h3>
-                  <p className="text-brand-accent font-medium mb-2">{editor.role}</p>
-                  <p className="text-zinc-400 text-sm mb-4">{editor.bio}</p>
+                  <p className="text-brand-accent mb-2 font-medium">{editor.role}</p>
+                  <p className="mb-4 text-sm text-zinc-400">{editor.bio}</p>
                   <div className="flex flex-wrap gap-2">
                     {editor.specialization.slice(0, 2).map((spec) => (
                       <span
                         key={spec}
-                        className="px-3 py-1 bg-brand-primary/20 text-brand-accent rounded-full text-xs font-medium border border-brand-primary/30"
+                        className="bg-brand-primary/20 text-brand-accent border-brand-primary/30 rounded-full border px-3 py-1 text-xs font-medium"
                       >
                         {spec}
                       </span>
@@ -261,14 +279,19 @@ export default function EditingServicePage() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="mt-12 text-center">
             <Link
               href="/services/editing/editors"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 rounded-full font-semibold hover:shadow-lg hover:shadow-brand-primary/30 transition-colors"
+              className="from-brand-primary to-brand-accent hover:shadow-brand-primary/30 inline-flex items-center rounded-full bg-linear-to-r px-8 py-4 font-semibold text-zinc-50 transition-colors hover:shadow-lg"
             >
               View All Editors
-              <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              <svg className="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </Link>
           </div>
@@ -280,7 +303,6 @@ export default function EditingServicePage() {
         description="Let our expert editors bring your vision to life. Get started today with a free consultation."
         primaryButton={{ text: "Get Free Quote", href: "/contact" }}
         secondaryButton={{ text: `Call ${COMPANY.mobile}`, href: `tel:${COMPANY.mobile}` }}
-        variant="dark"
       />
     </main>
   );

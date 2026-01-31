@@ -28,11 +28,13 @@
 ## Design & Styling Guidelines
 
 ### Color Rules
+
 - **NEVER use pure black (`#000000`, `black`) or pure white (`#ffffff`, `white`)** in any component
 - **NEVER use hardcoded hex colors** (e.g., `#280905`, `#740A03`, `#C3110C`, `#E6501B`)
 - Always use Tailwind CSS utility classes with the configured brand colors
 
 ### Brand Color Palette (Use Tailwind Classes)
+
 ```
 Primary Colors (use these Tailwind classes):
 - Deep Maroon: bg-brand-deep, text-brand-deep, border-brand-deep
@@ -51,10 +53,11 @@ Neutral Colors:
 ```
 
 ### Color Usage Examples
+
 ```tsx
 // ✅ CORRECT - Use Tailwind brand classes
 <div className="bg-brand-deep text-brand-accent" />
-<div className="bg-gradient-to-r from-brand-primary to-brand-accent" />
+<div className="bg-linear-to-r from-brand-primary to-brand-accent" />
 <div className="border-brand-dark/30" />
 
 // ❌ WRONG - Never use hardcoded hex values
@@ -63,27 +66,32 @@ Neutral Colors:
 ```
 
 ### Typography
+
 - **Display/Heading Font**: Playwrite New Zealand Basic (`font-display` class)
 - **Body Font**: Inter (default)
 - Use `font-display` class for section headings and titles
 - Use italic styling on display headings for elegance
 
 ### Component Architecture
+
 - **Always create separate components** for reusable UI elements
 - Extract sections into their own component files in `/components`
 - Keep page files clean by importing components
 
 ### Background Style
+
 - Use **dark backgrounds** as the default theme
 - Prefer `gray-950` or brand dark colors over black
 - Use gradients with brand colors for visual interest
 
 ### Animation Libraries
+
 - Use **React Bits** for micro-interactions and utilities
 - Use **Aceternity UI** for advanced animations and effects
 - Implement smooth transitions and hover effects
 
 ### Media Considerations
+
 - This is a photography/videography site - design for visual content
 - Ensure components can accommodate photos and videos prominently
 - Use proper aspect ratios for media containers

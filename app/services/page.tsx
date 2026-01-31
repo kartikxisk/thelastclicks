@@ -8,7 +8,8 @@ import { BiTargetLock } from "react-icons/bi";
 
 export const metadata: Metadata = {
   title: `Our Services | ${COMPANY.name}`,
-  description: "Explore our professional photography, videography, and editing services. We capture and create stunning visual content for all occasions.",
+  description:
+    "Explore our professional photography, videography, and editing services. We capture and create stunning visual content for all occasions.",
 };
 
 export default function ServicesPage() {
@@ -17,69 +18,76 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-deep via-zinc-950 to-brand-dark" />
+      <section className="relative overflow-hidden px-4 pt-32 pb-20">
+        <div className="from-brand-deep to-brand-dark absolute inset-0 bg-linear-to-br via-zinc-950" />
         <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-20" />
-        
-        <div className="absolute top-20 left-10 w-72 h-72 bg-brand-primary rounded-full blur-[128px] opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-accent rounded-full blur-[128px] opacity-30 animate-pulse" />
 
-        <div className="container relative text-center">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50/10 text-brand-accent text-sm font-medium mb-6 backdrop-blur-sm border border-brand-primary/30">
-            <BiTargetLock className="w-4 h-4" />
+        <div className="bg-brand-primary absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-30 blur-[128px]" />
+        <div className="bg-brand-accent absolute right-10 bottom-10 h-96 w-96 animate-pulse rounded-full opacity-30 blur-[128px]" />
+
+        <div className="relative container text-center">
+          <span className="text-brand-accent border-brand-primary/30 mb-6 inline-flex items-center gap-2 rounded-full border bg-zinc-50/10 px-4 py-2 text-sm font-medium backdrop-blur-sm">
+            <BiTargetLock className="h-4 w-4" />
             Professional Services
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-zinc-50 mb-6 leading-tight">
+          <h1 className="mb-6 text-4xl leading-tight font-bold text-zinc-50 md:text-6xl lg:text-7xl">
             Our Creative
             <br />
-            <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent">
+            <span className="from-brand-primary via-brand-accent to-brand-primary bg-linear-to-r bg-clip-text text-transparent">
               Services
             </span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
-            From capturing your precious moments to transforming them into stunning visual stories, we offer comprehensive creative services.
+          <p className="mx-auto mb-10 max-w-2xl text-xl text-zinc-400">
+            From capturing your precious moments to transforming them into stunning visual stories,
+            we offer comprehensive creative services.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 px-4 bg-zinc-950">
+      <section className="bg-zinc-950 px-4 py-20">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {services.map((service, index) => (
               <div
                 key={service.href}
-                className="group relative bg-gradient-to-br from-brand-deep to-zinc-950 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-brand-primary/20 transition-all duration-500 border border-brand-dark/30"
+                className="group from-brand-deep hover:shadow-brand-primary/20 border-brand-dark/30 relative overflow-hidden rounded-3xl border bg-linear-to-br to-zinc-950 shadow-sm transition-all duration-500 hover:shadow-2xl"
               >
                 {/* Card Header */}
-                <div className="relative h-48 bg-gradient-to-br from-brand-dark to-brand-primary overflow-hidden">
+                <div className="from-brand-dark to-brand-primary relative h-48 overflow-hidden bg-linear-to-br">
                   <div className="absolute inset-0 bg-zinc-950/20" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-zinc-50/50 group-hover:scale-110 transition-transform duration-500">
-                      {index === 0 ? <FiCamera className="w-20 h-20" /> : index === 1 ? <FiVideo className="w-20 h-20" /> : <FiEdit3 className="w-20 h-20" />}
+                    <span className="text-zinc-50/50 transition-transform duration-500 group-hover:scale-110">
+                      {index === 0 ? (
+                        <FiCamera className="h-20 w-20" />
+                      ) : index === 1 ? (
+                        <FiVideo className="h-20 w-20" />
+                      ) : (
+                        <FiEdit3 className="h-20 w-20" />
+                      )}
                     </span>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-brand-deep to-transparent" />
+                  <div className="from-brand-deep absolute right-0 bottom-0 left-0 h-20 bg-linear-to-t to-transparent" />
                 </div>
 
                 {/* Card Content */}
-                <div className="p-8 -mt-8 relative">
-                  <h2 className="text-2xl font-bold text-zinc-50 mb-3">{service.name}</h2>
-                  <p className="text-zinc-400 mb-6">{service.description}</p>
+                <div className="relative -mt-8 p-8">
+                  <h2 className="mb-3 text-2xl font-bold text-zinc-50">{service.name}</h2>
+                  <p className="mb-6 text-zinc-400">{service.description}</p>
 
                   {/* Categories Preview */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="mb-6 flex flex-wrap gap-2">
                     {service.categories.slice(0, 3).map((category) => (
                       <span
                         key={category.slug}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-primary/20 text-brand-accent rounded-full text-sm font-medium border border-brand-primary/30"
+                        className="bg-brand-primary/20 text-brand-accent border-brand-primary/30 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium"
                       >
-                        <Icon name={category.icon} className="w-3.5 h-3.5" />
+                        <Icon name={category.icon} className="h-3.5 w-3.5" />
                         {category.name}
                       </span>
                     ))}
                     {service.categories.length > 3 && (
-                      <span className="px-3 py-1 bg-zinc-800 text-zinc-400 rounded-full text-sm">
+                      <span className="rounded-full bg-zinc-800 px-3 py-1 text-sm text-zinc-400">
                         +{service.categories.length - 3} more
                       </span>
                     )}
@@ -87,11 +95,21 @@ export default function ServicesPage() {
 
                   <Link
                     href={service.href}
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-brand-primary to-brand-accent text-zinc-50 rounded-full font-medium hover:shadow-lg hover:shadow-brand-primary/30 hover:scale-105 transition-all"
+                    className="from-brand-primary to-brand-accent hover:shadow-brand-primary/30 inline-flex items-center rounded-full bg-linear-to-r px-6 py-3 font-medium text-zinc-50 transition-all hover:scale-105 hover:shadow-lg"
                   >
                     Explore {service.name}
-                    <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg
+                      className="ml-2 h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </Link>
                 </div>
@@ -105,7 +123,6 @@ export default function ServicesPage() {
         title="Ready to Get Started?"
         description="Let's discuss your project and bring your vision to life"
         primaryButton={{ text: "Contact Us Today", href: "/contact" }}
-        variant="dark"
       />
     </main>
   );
