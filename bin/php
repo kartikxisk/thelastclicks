@@ -1,0 +1,7 @@
+#!/bin/sh
+# Project-pinned PHP 8.4 binary. Use via:
+#   ./bin/php artisan migrate
+#   ./bin/php vendor/bin/pest
+# Or prepend ./bin to PATH for this project:
+#   export PATH="$PWD/bin:$PATH"
+exec /usr/local/opt/php@8.4/bin/php "$@"

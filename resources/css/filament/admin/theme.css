@@ -1,0 +1,17 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+@layer base {
+    :root {
+        --background: 10 10 10;            /* #0a0a0a from design */
+        --foreground: 245 245 245;
+    }
+    html, body {
+        background: rgb(var(--background));
+        color: rgb(var(--foreground));
+        font-family: 'Outfit', system-ui, sans-serif;
+    }
+    h1, h2, h3 { font-family: 'Sora', system-ui, sans-serif; }
+    em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: normal; }
+}
