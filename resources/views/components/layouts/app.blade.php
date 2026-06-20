@@ -23,7 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    @vite(['resources/css/core.css','resources/css/pages.css','resources/js/core.js','resources/js/chrome.js'])
+    {{-- chrome.js MUST load before core.js: chrome injects the shared HTML (nav/preloader/quote/cursor), then core.js wires behaviour onto it. --}}
+    @vite(['resources/css/core.css','resources/css/pages.css','resources/js/chrome.js','resources/js/core.js'])
     {{ $head ?? '' }}
 </head>
 <body>
