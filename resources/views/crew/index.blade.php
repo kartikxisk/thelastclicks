@@ -39,8 +39,8 @@
                 <p class="section__lead reveal">We hire for craft, taste and care. If that's you — we'd love to hear from you.</p>
             </div>
             <div class="services__list">
-                <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-01</span><h3 class="svc__title">Senior <em>Editor</em></h3><p class="svc__desc">DaVinci Resolve / Premiere · 4+ yrs · brand &amp; long-form storytelling.</p><div class="svc__tags">Full-time · Bhopal</div><span class="svc__arr">→</span></a>
-                <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-02</span><h3 class="svc__title">Producer</h3><p class="svc__desc">Multi-day productions · client-facing · scaling crews.</p><div class="svc__tags">Full-time · Mumbai</div><span class="svc__arr">→</span></a>
+                <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-01</span><h3 class="svc__title">Senior <em>Editor</em></h3><p class="svc__desc">DaVinci Resolve / Premiere · 4+ yrs · brand &amp; long-form storytelling.</p><div class="svc__tags">Full-time · Noida</div><span class="svc__arr">→</span></a>
+                <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-02</span><h3 class="svc__title">Producer</h3><p class="svc__desc">Multi-day productions · client-facing · scaling crews.</p><div class="svc__tags">Full-time · Noida</div><span class="svc__arr">→</span></a>
                 <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-03</span><h3 class="svc__title">Cinematographer</h3><p class="svc__desc">Cinema cameras · brand and event experience.</p><div class="svc__tags">Roster · Pan-India</div><span class="svc__arr">→</span></a>
             </div>
         </div>

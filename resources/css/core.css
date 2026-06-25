@@ -26,7 +26,7 @@
   --ease-2: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-3: cubic-bezier(0.85, 0, 0.15, 1);
 
-  --maxw: 1480px;
+  --maxw: 1560px;
   --pad-x: clamp(20px, 4vw, 56px);
 }
 
@@ -225,6 +225,10 @@ img, video { max-width: 100%; display: block; }
 }
 
 /* ---------- Layout ---------- */
+/* Single source of horizontal alignment — every section, the nav, and the
+   footer share this so their left/right edges line up exactly.
+   `.container` is the canonical name; `.wrap` is kept as an alias. */
+.container,
 .wrap {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -282,16 +286,19 @@ img, video { max-width: 100%; display: block; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 18px var(--pad-x);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
+  padding: 18px 0;
   background: rgba(10,10,10,0.55);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid rgba(255,255,255,0.06);
   transition: padding 0.4s var(--ease), background 0.4s var(--ease);
+}
+/* Bar background spans full width; its contents ride the shared container. */
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
 }
 .nav.is-scrolled {
   padding-top: 12px; padding-bottom: 12px;
@@ -354,7 +361,7 @@ img, video { max-width: 100%; display: block; }
   background: var(--red);
 }
 
-.nav > nav { margin-left: auto; }
+.nav__inner > nav { margin-left: auto; }
 
 .nav__cta {
   display: inline-flex;
@@ -422,7 +429,8 @@ img, video { max-width: 100%; display: block; }
   .nav__burger { display: flex; }
 }
 @media (max-width: 540px) {
-  .nav { padding: 12px 16px; gap: 10px; }
+  .nav { padding: 12px 0; }
+  .nav__inner { gap: 10px; }
   .nav__brand span:last-child { display: none; }
   .nav__cta { display: none; }
 }
@@ -611,32 +619,85 @@ img, video { max-width: 100%; display: block; }
 .foot {
   background: var(--ink);
   border-top: 1px solid var(--line);
-  padding: 80px 0 40px;
+  padding: 88px 0 40px;
   position: relative;
+  overflow: hidden;
 }
+/* slate-mark hairline accent at the top-left of the footer */
+.foot::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 96px; height: 2px;
+  background: var(--red);
+}
+
+/* Availability status — a quiet sign-off marker, not a second CTA */
+.foot__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+.foot__pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 0 rgba(232,15,3,0.6);
+  animation: pulse 1.6s var(--ease) infinite;
+}
+
+/* Giant brand wordmark — hollow watermark that fills on hover */
 .foot__big {
+  display: block;
   font-family: var(--f-display);
-  font-weight: 600;
-  font-size: clamp(72px, 16vw, 240px);
-  letter-spacing: -0.05em;
+  font-weight: 700;
+  font-size: clamp(56px, 13vw, 188px);
+  letter-spacing: -0.055em;
   line-height: 0.85;
-  color: var(--paper);
   white-space: nowrap;
   overflow: hidden;
-  margin-bottom: 80px;
+  margin-bottom: 64px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--paper) 30%, transparent);
+  transition: color 0.55s var(--ease), -webkit-text-stroke-color 0.55s var(--ease);
+}
+.foot__big:hover {
+  color: color-mix(in srgb, var(--paper) 92%, transparent);
+  -webkit-text-stroke-color: transparent;
 }
 .foot__big em {
-  font-style: italic;
-  font-family: 'Instrument Serif', serif;
-  font-weight: 400;
+  font-style: normal;
+  font-family: var(--f-display);
+  font-weight: 700;
   color: var(--red);
+  -webkit-text-stroke: 0;
 }
+
 .foot__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
   gap: 40px;
-  padding-bottom: 60px;
+  padding-bottom: 56px;
   border-bottom: 1px solid var(--line);
+}
+.foot__intro p {
+  font-size: 15px;
+  color: var(--paper-dim);
+  line-height: 1.6;
+  max-width: 42ch;
+}
+.foot__avail {
+  margin-top: 18px;
+  color: var(--paper);
 }
 .foot__col h5 {
   font-family: var(--f-mono);
@@ -644,16 +705,36 @@ img, video { max-width: 100%; display: block; }
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
-.foot__col a, .foot__col p {
-  display: block;
-  font-size: 14.5px;
+.foot__col > a {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
   color: var(--paper-dim);
-  padding: 5px 0;
-  transition: color 0.3s var(--ease), transform 0.4s var(--ease);
+  padding: 6px 0;
+  transition: color 0.3s var(--ease);
 }
-.foot__col a:hover { color: var(--red); transform: translateX(4px); }
+/* a red marker slides in on hover instead of the generic text nudge */
+.foot__col > a::before {
+  content: '→';
+  font-family: var(--f-mono);
+  color: var(--red);
+  width: 0;
+  margin-right: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: width 0.3s var(--ease), opacity 0.3s var(--ease),
+              margin-right 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.foot__col > a:hover { color: var(--paper); }
+.foot__col > a:hover::before {
+  width: 1em;
+  margin-right: 9px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .foot__copy {
   display: flex;
   justify-content: space-between;
@@ -666,10 +747,13 @@ img, video { max-width: 100%; display: block; }
   text-transform: uppercase;
   color: var(--muted);
 }
+.foot__legal { display: flex; gap: 18px; flex-wrap: wrap; }
 .foot__copy a:hover { color: var(--red); }
 
 @media (max-width: 880px) {
   .foot__grid { grid-template-columns: 1fr 1fr; }
+  .foot__top { align-items: flex-start; flex-direction: column; gap: 28px; }
+  .foot__mail { align-items: flex-start; text-align: left; }
 }
 @media (max-width: 540px) {
   .foot__grid { grid-template-columns: 1fr; }

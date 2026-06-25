@@ -44,7 +44,7 @@
                     <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&q=88" alt="" decoding="async">
                     <div class="strip__body">
                         <h3>Atlas, in <em>motion.</em></h3>
-                        <span>Mumbai · 90s hero · 14 cuts</span>
+                        <span>Noida · 90s hero · 14 cuts</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="1">

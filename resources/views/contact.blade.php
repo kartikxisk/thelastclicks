@@ -3,13 +3,32 @@
     description="Bring us a brief — we reply within 4 working hours."
     :canonical="url('/contact')"
 >
+  <x-slot name="head">
+    <x-json-ld :data="[
+      '@type'       => 'LocalBusiness',
+      'name'        => 'The Last Clicks (TLC)',
+      'url'         => url('/'),
+      'telephone'   => \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842'),
+      'email'       => \App\Models\SiteSetting::get('contact_email', 'hello@thelastclicks.com'),
+      'address'     => [
+        '@type'           => 'PostalAddress',
+        'streetAddress'   => 'B-7, D-Block, Sector 26',
+        'addressLocality' => 'Noida',
+        'addressRegion'   => 'Uttar Pradesh',
+        'postalCode'      => '201301',
+        'addressCountry'  => 'IN',
+      ],
+      'openingHours' => 'Mo-Sa 10:00-19:00',
+    ]" />
+  </x-slot>
+
   <section class="page-header" data-screen-label="01 Header">
     <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Contact</span></div>
     <h1 data-split>Let's <em>talk</em><br>about your brief.</h1>
     <dl class="page-header__meta">
       <div><dt>Reply within</dt><dd>4 working hours</dd></div>
       <div><dt>Studio hours</dt><dd>Mon–Sat · 10–7 IST</dd></div>
-      <div><dt>HQ</dt><dd>Bhopal · India</dd></div>
+      <div><dt>HQ</dt><dd>Noida · India</dd></div>
       <div><dt>Bookings</dt><dd>Open · 2026</dd></div>
     </dl>
   </section>
@@ -33,7 +52,7 @@
         </div>
         <div class="contact-card">
           <h4>Studio</h4>
-          <p>TheLastClicks HQ<br>Bhopal · Madhya Pradesh<br>India · 462016</p>
+          <p>The Last Clicks (TLC)<br>B-7, D-Block, Sector 26<br>Noida · Uttar Pradesh<br>India · 201301</p>
         </div>
       </aside>
     </div>
@@ -104,7 +123,7 @@
           </svg>
           <div class="hours__clock-label">
             <div class="tz">UTC +05:30</div>
-            <div class="city">Bhopal · IN</div>
+            <div class="city">Noida · IN</div>
           </div>
         </div>
         <div>

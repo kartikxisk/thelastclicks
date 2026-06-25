@@ -1,4 +1,5 @@
 <header class="nav">
+  <div class="nav__inner container">
   <a class="nav__brand" href="{{ url('/') }}" data-cursor="HOME">
     <span class="nav__brand-mark">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -26,6 +27,7 @@
     <span>Get a Quote</span>
   </a>
   <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
 </header>
 <div class="menu">
   <ul class="menu__list">

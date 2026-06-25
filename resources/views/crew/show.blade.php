@@ -5,7 +5,7 @@
 >
     <x-slot name="head">
     <style>
-  .cw-hero { padding: 130px var(--pad-x) 0; display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: end; }
+  .cw-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: end; }
   .cw-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 24px; }
   .cw-hero__crumb a { color: var(--paper-dim); }
   .cw-hero__crumb a:hover { color: var(--red); }
@@ -22,11 +22,11 @@
   .cw-meta dt { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 10px; }
   .cw-meta dd { font-family: var(--f-display); font-weight: 500; font-size: clamp(20px, 2.4vw, 28px); letter-spacing: -0.025em; line-height: 1.05; }
   .cw-meta dd em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
-  .cw-body { padding: 100px var(--pad-x); display: grid; grid-template-columns: 260px 1fr; gap: 60px; max-width: 1280px; margin: 0 auto; }
+  .cw-body { padding: 100px var(--pad-x); display: grid; grid-template-columns: 260px 1fr; gap: 60px; max-width: var(--maxw); margin: 0 auto; }
   .cw-body h2 { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); padding-top: 6px; }
   .cw-body p { font-size: 18px; line-height: 1.6; color: var(--paper); text-wrap: pretty; }
   .cw-body p + p { margin-top: 18px; }
-  .cw-skills { padding: 0 var(--pad-x) 100px; max-width: 1280px; margin: 0 auto; }
+  .cw-skills { padding: 0 var(--pad-x) 100px; max-width: var(--maxw); margin: 0 auto; }
   .cw-skills__h { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 28px; }
   .cw-skills__grid { display: flex; flex-wrap: wrap; gap: 10px; }
   .cw-skills__chip { padding: 11px 18px; border: 1px solid var(--line); border-radius: 100px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper); transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft); }
@@ -40,9 +40,15 @@
   .cw-cred__title { font-family: var(--f-display); font-weight: 500; font-size: clamp(18px, 2.4vw, 24px); letter-spacing: -0.02em; line-height: 1.1; }
   .cw-cred__title em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
   .cw-cred__role { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-dim); }
-  .cw-next { padding: 80px var(--pad-x); border-top: 1px solid var(--line); display: grid; gap: 20px; text-align: center; }
+  .cw-next { padding: 80px var(--pad-x); border-top: 1px solid var(--line); }
+  .cw-next .wrap { display: grid; gap: 20px; text-align: center; }
   .cw-next a { font-family: var(--f-display); font-weight: 700; font-size: clamp(32px, 5.5vw, 72px); letter-spacing: -0.03em; }
   .cw-next a em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
+  .cw-socials { padding: 80px var(--pad-x); border-top: 1px solid var(--line); }
+  .cw-socials h3 { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
+  .cw-socials ul { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; }
+  .cw-socials a { font-family: var(--f-display); font-weight: 500; font-size: 18px; color: var(--paper); border-bottom: 1px solid var(--line); padding-bottom: 3px; transition: color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft); }
+  .cw-socials a:hover { color: var(--red); border-color: var(--red); }
   @media (max-width: 880px) {
     .cw-hero { grid-template-columns: 1fr; padding-top: 110px; gap: 28px; }
     .cw-meta { grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -111,7 +117,7 @@
 
     {{-- Section 4: cw-cred (selected credits) --}}
     <section class="cw-cred">
-        <div class="wrap" style="padding:0">
+        <div class="wrap">
             <div class="cw-cred__h">Selected credits</div>
             <div class="cw-cred__list">
                 @foreach ($member->credits ?? [] as [$year, $project, $role])
@@ -131,16 +137,18 @@
             ?? \App\Models\Crew::orderBy('order')->first();
     @endphp
     <section class="cw-next">
-        <span class="kicker">Next on the roster</span>
-        @if ($nextMember && $nextMember->id !== $member->id)
-            <a href="{{ url('/crew/'.$nextMember->slug) }}" data-cursor="VIEW">
-                <span>{{ $nextMember->name }}</span> <em>→</em>
-            </a>
-        @else
-            <a href="{{ url('/crew') }}" data-cursor="VIEW">
-                <span>Back to the roster</span> <em>→</em>
-            </a>
-        @endif
+        <div class="wrap">
+            <span class="kicker">Next on the roster</span>
+            @if ($nextMember && $nextMember->id !== $member->id)
+                <a href="{{ url('/crew/'.$nextMember->slug) }}" data-cursor="VIEW">
+                    <span>{{ $nextMember->name }}</span> <em>→</em>
+                </a>
+            @else
+                <a href="{{ url('/crew') }}" data-cursor="VIEW">
+                    <span>Back to the roster</span> <em>→</em>
+                </a>
+            @endif
+        </div>
     </section>
 
     {{-- Section 6: cta-strip --}}
@@ -157,12 +165,14 @@
     {{-- Social links from $member->social_json --}}
     @if (! empty($member->social_json))
         <section class="cw-socials">
-            <h3>Find me</h3>
-            <ul>
-                @foreach ($member->social_json as $platform => $url)
-                    <li><a href="{{ $url }}" rel="noopener" target="_blank">{{ ucfirst($platform) }}</a></li>
-                @endforeach
-            </ul>
+            <div class="wrap">
+                <h3>Find me</h3>
+                <ul>
+                    @foreach ($member->social_json as $platform => $url)
+                        <li><a href="{{ $url }}" rel="noopener" target="_blank">{{ ucfirst($platform) }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
         </section>
     @endif
 </x-layouts.app>

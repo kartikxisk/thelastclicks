@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="hero__center wrap" style="padding-left:0;padding-right:0">
+    <div class="hero__center">
       <h1 class="hero__title" data-split>
         @if ($title)
             {{ $title }}
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="hero__meta wrap" style="padding-left:0;padding-right:0">
+    <div class="hero__meta">
       <p class="reveal">{{ $subtitle ?? 'A photography &amp; production studio working at the intersection of cinema, brand, and craft — for teams that demand clarity, consistency, and creative excellence.' }}</p>
       <div class="reveal" data-delay="1">
         <div class="meta-stat"><span data-count="547" data-decimals="0">0</span>+</div>

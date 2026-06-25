@@ -10,7 +10,7 @@
      ============================================================ */
 
   /* --- Editorial hero --- */
-  .proc-hero { padding: 130px var(--pad-x) 0; position: relative; }
+  .proc-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; position: relative; }
   .proc-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 28px; }
   .proc-hero__crumb a { color: var(--paper-dim); }
   .proc-hero__crumb a:hover { color: var(--red); }
@@ -854,7 +854,7 @@
         </div>
         <div class="acc__item">
           <button class="acc__head"><h3>Do you travel for shoots?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">Yes — pan-India and select international destinations. Travel, stay and per-diems are billed at cost with no markup. We've shot everywhere from Mumbai studios to the Himalayan foothills.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">Yes — pan-India and select international destinations. Travel, stay and per-diems are billed at cost with no markup. We've shot everywhere from Noida studios to the Himalayan foothills.</div></div>
         </div>
       </div>
     </div>

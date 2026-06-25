@@ -11,7 +11,7 @@
             'author'        => ['@type' => 'Person','name' => $post->author?->name ?? 'TheLastClicks'],
         ]" />
 <style>
-  .art-hero { padding: 130px var(--pad-x) 0; }
+  .art-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; }
   .art-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 32px; }
   .art-hero__crumb a { color: var(--paper-dim); }
   .art-hero__crumb a:hover { color: var(--red); }

@@ -56,19 +56,19 @@ window.TLC = (function(){
   function footerHTML() {
     return `
     <footer class="foot">
-      <div class="wrap">
-        <div class="foot__big" data-parallax="0.04">Let's <em>create</em>.</div>
+      <div class="container">
+        <span class="foot__status"><span class="foot__pulse"></span>Available — booking 2026</span>
+        <a href="/" class="foot__big" data-parallax="0.04" data-cursor="HOME" aria-label="The Last Clicks — home">The Last <em>Clicks</em></a>
         <div class="foot__grid">
-          <div class="foot__col">
-            <h5>The Last Clicks</h5>
+          <div class="foot__col foot__intro">
             <p>Cinematic photography, videography &amp; production for brands, events and weddings — built to scale with your story.</p>
-            <p style="margin-top:18px">Available for bookings — Limited slots for 2026</p>
+            <p class="foot__avail">Available for bookings — Limited slots for 2026</p>
           </div>
           <div class="foot__col">
             <h5>Studio</h5>
             <a href="/about">About</a>
             <a href="/our-process">Our Process</a>
-            <a href="/talent">Talent</a>
+            <a href="/crew">Talent</a>
             <a href="/industries">Industries</a>
             <a href="/blog">Journal</a>
           </div>
@@ -83,20 +83,19 @@ window.TLC = (function(){
           <div class="foot__col">
             <h5>Contact</h5>
             <a href="tel:+918770155842">+91 87701 55842</a>
-            <a href="mailto:hello@thelastclicks.com">hello@thelastclicks.com</a>
             <a href="https://wa.me/918770155842" target="_blank" rel="noopener" data-noswap>WhatsApp</a>
-            <a href="/admin/login">Sign In</a>
+            <a href="/login">Sign In</a>
+            <a href="/signup">Create your page</a>
           </div>
         </div>
         <div class="foot__copy">
-          <span>© 2026 TheLastClicks · All rights reserved</span>
-          <span style="display:flex;gap:18px;flex-wrap:wrap">
+          <span>© 2026 TheLastClicks — All rights reserved</span>
+          <span class="foot__legal">
             <a href="/privacy-policy">Privacy</a>
             <a href="/cookie-policy">Cookies</a>
             <a href="/terms-of-service">Terms</a>
             <a href="/disclaimer">Disclaimer</a>
           </span>
-          <span>Made with care · Bhopal · Mumbai · Delhi</span>
         </div>
       </div>
     </footer>`;

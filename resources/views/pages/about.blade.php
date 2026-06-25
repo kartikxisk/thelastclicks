@@ -7,7 +7,7 @@
     <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>About</span></div>
     <h1 data-split>A studio of <em>cinema,</em><br>brand &amp; craft.</h1>
     <dl class="page-header__meta">
-      <div><dt>Founded</dt><dd>2018 · Bhopal · India</dd></div>
+      <div><dt>Founded</dt><dd>2018 · Noida · India</dd></div>
       <div><dt>Crew</dt><dd>60+ across cities</dd></div>
       <div><dt>Disciplines</dt><dd>Photo · Film · Post</dd></div>
       <div><dt>Reach</dt><dd>26 cities · 12 countries</dd></div>
@@ -55,7 +55,7 @@
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2018</div>
             <div class="timeline-x__title">Started with <em>one camera.</em></div>
-            <div class="timeline-x__desc">Founded in Bhopal as a 2-person wedding-film crew. First gig was a 100-guest engagement in our hometown — and we still know the family.</div>
+            <div class="timeline-x__desc">Founded in Noida as a 2-person wedding-film crew. First gig was a 100-guest engagement in our hometown — and we still know the family.</div>
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2020</div>
@@ -149,7 +149,7 @@
       <span class="cities__pin" style="left:67%;top:50%"><span class="label">Kolkata</span></span>
       <span class="cities__pin" style="left:35%;top:60%"><span class="label">Pune</span></span>
       <span class="cities__pin" style="left:28%;top:46%"><span class="label">Ahmedabad</span></span>
-      <span class="cities__pin" style="left:44%;top:47%"><span class="label">Bhopal</span></span>
+      <span class="cities__pin" style="left:41%;top:27%"><span class="label">Noida</span></span>
       <span class="cities__pin" style="left:33%;top:32%"><span class="label">Jaipur</span></span>
       <span class="cities__pin" style="left:48%;top:32%"><span class="label">Lucknow</span></span>
       <span class="cities__pin" style="left:33%;top:70%"><span class="label">Goa</span></span>
@@ -172,7 +172,7 @@
         <div><dt>Pan-India</dt><dd>26<em>·</em></dd></div>
         <div><dt>International</dt><dd>12<em>·</em></dd></div>
         <div><dt>Active retainer cities</dt><dd>08<em>·</em></dd></div>
-        <div><dt>Most-shot</dt><dd>Mumbai<em>·</em></dd></div>
+        <div><dt>Most-shot</dt><dd>Noida<em>·</em></dd></div>
       </dl>
     </div>
   </section>

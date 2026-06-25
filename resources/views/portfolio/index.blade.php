@@ -10,7 +10,7 @@
      ============================================================ */
 
   /* Hero */
-  .pf-hero { padding: 130px var(--pad-x) 0; }
+  .pf-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; }
   .pf-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 28px; }
   .pf-hero__crumb a { color: var(--paper-dim); }
   .pf-hero__crumb a:hover { color: var(--red); }
@@ -25,10 +25,7 @@
 
   /* Filter chips */
   .pf-filter {
-    padding: 24px var(--pad-x);
-    display: flex; flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
+    padding: 24px 0;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     background: var(--ink);
@@ -39,6 +36,14 @@
     -webkit-backdrop-filter: blur(14px);
     background: rgba(10,10,10,0.86);
     margin-top: 0;
+  }
+  .pf-filter__inner {
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding: 0 var(--pad-x);
+    display: flex; flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
   }
   .pf-filter__label {
     font-family: var(--f-mono); font-size: 10.5px;
@@ -150,6 +155,8 @@
 
   /* Year header */
   .pf-year {
+    max-width: var(--maxw);
+    margin-inline: auto;
     padding: 60px var(--pad-x) 24px;
     display: flex;
     align-items: baseline;
@@ -174,6 +181,8 @@
 
   /* Bento grid */
   .pf-bento {
+    max-width: var(--maxw);
+    margin-inline: auto;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: clamp(220px, 24vw, 340px);
@@ -406,7 +415,7 @@
   @media (max-width: 980px) {
     .pf-hero__row { grid-template-columns: 1fr; gap: 24px; padding-bottom: 32px; }
     .pf-hero__stats { grid-template-columns: 1fr 1fr; gap: 22px; }
-    .pf-filter { top: 60px; padding: 20px var(--pad-x); }
+    .pf-filter { top: 60px; padding: 20px 0; }
     .pf-feat { padding: 48px 0; }
     .pf-feat__card { grid-template-columns: 1fr; }
     .pf-feat__body { padding: 32px 24px; }
@@ -454,11 +463,13 @@
         $catLabels = $allTiles->mapWithKeys(fn ($i) => [($i->service?->slug ?? 'film') => ($i->service?->title ?? 'Brand films')]);
     @endphp
     <section class="pf-filter" data-screen-label="02 Filter">
-        <span class="pf-filter__label">Filter</span>
-        <button class="pf-chip is-on" data-cat="all">All<span class="count">{{ str_pad((string) $allTiles->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
-        @foreach ($catGroups as $cat => $items)
-            <button class="pf-chip" data-cat="{{ $cat }}">{{ $catLabels[$cat] }}<span class="count">{{ str_pad((string) $items->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
-        @endforeach
+        <div class="pf-filter__inner">
+            <span class="pf-filter__label">Filter</span>
+            <button class="pf-chip is-on" data-cat="all">All<span class="count">{{ str_pad((string) $allTiles->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
+            @foreach ($catGroups as $cat => $items)
+                <button class="pf-chip" data-cat="{{ $cat }}">{{ $catLabels[$cat] }}<span class="count">{{ str_pad((string) $items->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
+            @endforeach
+        </div>
     </section>
 
     {{-- 03 FEATURED CASE SPOTLIGHT --}}
