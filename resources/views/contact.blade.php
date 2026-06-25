@@ -72,39 +72,6 @@
     </div>
   </section>
 
-  <!-- CALENDAR -->
-  <section data-screen-label="04 Calendar">
-    <div class="wrap">
-      <div class="cal">
-        <div class="cal__head">
-          <div>
-            <span class="section__eyebrow" data-scramble>2026 calendar</span>
-            <h3 class="cal__title" data-split>Slots open for <em>second half.</em></h3>
-          </div>
-          <div class="cal__legend">
-            <span><i class="li-open"></i> Open</span>
-            <span><i class="li-busy"></i> Mostly booked</span>
-            <span><i class="li-soon"></i> Future</span>
-          </div>
-        </div>
-        <div class="cal__grid">
-          <div class="cal__month is-busy"><div class="cal__m-name">Jan</div><div class="cal__m-status">Booked</div></div>
-          <div class="cal__month is-busy"><div class="cal__m-name">Feb</div><div class="cal__m-status">Booked</div></div>
-          <div class="cal__month is-busy"><div class="cal__m-name">Mar</div><div class="cal__m-status">Booked</div></div>
-          <div class="cal__month is-busy"><div class="cal__m-name">Apr</div><div class="cal__m-status">Booked</div></div>
-          <div class="cal__month is-busy is-now"><div class="cal__m-name">May</div><div class="cal__m-status">Filming</div></div>
-          <div class="cal__month is-open"><div class="cal__m-name">Jun</div><div class="cal__m-status">2 slots</div></div>
-          <div class="cal__month is-open"><div class="cal__m-name">Jul</div><div class="cal__m-status">3 slots</div></div>
-          <div class="cal__month is-open"><div class="cal__m-name">Aug</div><div class="cal__m-status">4 slots</div></div>
-          <div class="cal__month is-open"><div class="cal__m-name">Sep</div><div class="cal__m-status">5 slots</div></div>
-          <div class="cal__month"><div class="cal__m-name">Oct</div><div class="cal__m-status">Planning</div></div>
-          <div class="cal__month"><div class="cal__m-name">Nov</div><div class="cal__m-status">Planning</div></div>
-          <div class="cal__month"><div class="cal__m-name">Dec</div><div class="cal__m-status">Planning</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- STUDIO HOURS -->
   <section class="hours" data-screen-label="05 Hours">
     <div class="wrap">
