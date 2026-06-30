@@ -33,7 +33,7 @@
     </dl>
   </section>
 
-  <section class="section">
+  <section class="section" style="padding-bottom:48px">
     <div class="wrap contact-grid">
       <x-quote-form />
 
@@ -59,7 +59,7 @@
   </section>
 
   <!-- AVAILABILITY -->
-  <section data-screen-label="03 Availability">
+  <section data-screen-label="03 Availability" style="padding:8px 0 clamp(64px,9vh,110px)">
     <div class="wrap">
       <div class="avail reveal">
         <div class="avail__pulse"><span class="avail__dot"></span>Booking now</div>
