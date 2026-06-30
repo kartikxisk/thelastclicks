@@ -485,7 +485,7 @@
     <div class="proc-hero__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Our Process</span></div>
     <div class="proc-hero__row">
       <h1 data-split>From <em>brief</em><br>to <em>final cut.</em></h1>
-      <p class="proc-hero__lead reveal">Eight years of running productions has earned us one belief: a clear process isn't bureaucracy — it's how we protect the craft. Here's exactly how we work, what you get at every step, and what we guarantee.</p>
+      <p class="proc-hero__lead reveal">Eight years of productions taught us one thing — a clear process is how we protect the craft. Here's how we work, what you get, what we guarantee.</p>
     </div>
     <dl class="proc-hero__stats">
       <div class="stat reveal"><dt>Phases</dt><dd>04<em>·</em></dd></div>
@@ -503,7 +503,7 @@
           <span class="section__eyebrow" data-scramble>The four phases</span>
           <h2 class="section__title" data-split>Phase by <em>phase.</em></h2>
         </div>
-        <p class="section__lead reveal">Each phase has a clear owner, deliverable, and review gate before we move on. No drift, no silent timelines.</p>
+        <p class="section__lead reveal">Every phase has an owner, a deliverable and a review gate — no drift, no silent timelines.</p>
       </div>
 
       <!-- PHASE 01 - BRIEF -->
@@ -511,7 +511,7 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>01</strong>Discovery &amp; Brief</span>
           <h3 class="phase__title">Understanding the <em>real</em> brief.</h3>
-          <p class="phase__lead">Before we touch a camera, we map your goals, audience, brand guardrails and success metrics. We push back on briefs that won't survive the rough cut.</p>
+          <p class="phase__lead">Before any camera, we map goals, audience, brand guardrails and success metrics — pushing back on briefs that won't survive the rough cut.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Day 0–2</span>
             <span class="phase__pill">2-hour kickoff</span>
@@ -524,9 +524,9 @@
             <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=85" alt="Discovery session" decoding="async">
           </div>
           <ul class="checklist">
-            <li><span class="check"></span><div><strong>Audience &amp; channel mapping</strong><span>Who watches this, where they meet it, and the single emotional beat that has to land.</span></div></li>
+            <li><span class="check"></span><div><strong>Audience &amp; channel mapping</strong><span>Who watches, where they meet it, and the one emotional beat that must land.</span></div></li>
             <li><span class="check"></span><div><strong>Brand guardrails inventory</strong><span>Tone, palette, type, motion principles, regulatory and compliance constraints.</span></div></li>
-            <li><span class="check"></span><div><strong>Success metrics lock</strong><span>What "this worked" looks like — qualitative and quantitative, agreed in writing.</span></div></li>
+            <li><span class="check"></span><div><strong>Success metrics lock</strong><span>What "this worked" means — qualitative and quantitative, agreed in writing.</span></div></li>
             <li><span class="check"></span><div><strong>Creative thesis</strong><span>A one-sentence point of view the entire production will serve.</span></div></li>
           </ul>
           <div class="output">
@@ -543,7 +543,7 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>02</strong>Pre-production</span>
           <h3 class="phase__title">Plan it like a <em>shoot day.</em></h3>
-          <p class="phase__lead">Treatment, shot list, mood, locations, casting, schedule, kit list. By the time we step on set, every minute is accounted for.</p>
+          <p class="phase__lead">Treatment, shot list, locations, casting, schedule, kit — every minute accounted for before we step on set.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Day 3–10</span>
             <span class="phase__pill">Treatment locked</span>
@@ -556,10 +556,10 @@
             <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1400&q=85" alt="Planning a shoot" decoding="async">
           </div>
           <ul class="checklist">
-            <li><span class="check"></span><div><strong>Treatment + mood board</strong><span>Director-written treatment visualised with shot grammar and references — the film in miniature.</span></div></li>
-            <li><span class="check"></span><div><strong>Shot list &amp; storyboard</strong><span>Every setup planned with the edit in mind. Coverage is a budget — we spend it on purpose.</span></div></li>
-            <li><span class="check"></span><div><strong>Casting, locations, permits</strong><span>Recces, talent confirmation, location agreements, drone &amp; commercial permits if needed.</span></div></li>
-            <li><span class="check"></span><div><strong>Crew, kit, schedule</strong><span>Director, DOP, gaffer, sound, AD, BTS photographer — all locked with a shoot-day call sheet.</span></div></li>
+            <li><span class="check"></span><div><strong>Treatment + mood board</strong><span>Director-written, visualised with shot grammar and references — the film in miniature.</span></div></li>
+            <li><span class="check"></span><div><strong>Shot list &amp; storyboard</strong><span>Every setup planned for the edit — coverage is a budget we spend on purpose.</span></div></li>
+            <li><span class="check"></span><div><strong>Casting, locations, permits</strong><span>Recces, talent, location agreements, drone &amp; commercial permits as needed.</span></div></li>
+            <li><span class="check"></span><div><strong>Crew, kit, schedule</strong><span>Director, DOP, gaffer, sound, AD, BTS — locked with a shoot-day call sheet.</span></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -575,7 +575,7 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>03</strong>Production</span>
           <h3 class="phase__title">On-ground <em>execution.</em></h3>
-          <p class="phase__lead">Full crew, cinema cameras, on-set monitoring. The director who wrote the treatment is the same one running the floor. Daily rushes, zero drift from the plan.</p>
+          <p class="phase__lead">Full crew, cinema cameras, on-set monitoring — the director who wrote the treatment runs the floor. Daily rushes, zero drift.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Shoot days</span>
             <span class="phase__pill">Director-led</span>
@@ -588,10 +588,10 @@
             <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1400&q=85" alt="On-set production" decoding="async">
           </div>
           <ul class="checklist">
-            <li><span class="check"></span><div><strong>Cinema-grade capture</strong><span>ARRI Alexa Mini, RED Komodo X or Sony FX6 — matched to the brief, never the other way around.</span></div></li>
-            <li><span class="check"></span><div><strong>On-set look development</strong><span>Reference LUTs from pre-pro are loaded on monitors so the director shoots for the final grade.</span></div></li>
-            <li><span class="check"></span><div><strong>Daily rushes &amp; selects</strong><span>Backed up across two drives plus cloud. Editor receives selects by evening of shoot day.</span></div></li>
-            <li><span class="check"></span><div><strong>Continuity &amp; supervision</strong><span>Script supervisor and producer in the room — no "we'll fix it later" decisions ever.</span></div></li>
+            <li><span class="check"></span><div><strong>Cinema-grade capture</strong><span>ARRI Alexa Mini, RED Komodo X or Sony FX6 — matched to the brief, never the reverse.</span></div></li>
+            <li><span class="check"></span><div><strong>On-set look development</strong><span>Pre-pro reference LUTs on monitors so the director shoots for the final grade.</span></div></li>
+            <li><span class="check"></span><div><strong>Daily rushes &amp; selects</strong><span>Backed up across two drives plus cloud. Selects to the editor by shoot-day evening.</span></div></li>
+            <li><span class="check"></span><div><strong>Continuity &amp; supervision</strong><span>Script supervisor and producer in the room — no "fix it later" decisions.</span></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -607,7 +607,7 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>04</strong>Post &amp; Delivery</span>
           <h3 class="phase__title">Finish like <em>you mean it.</em></h3>
-          <p class="phase__lead">In-house grade, sound, retouch and conform — never outsourced. Brand-guideline compliant masters, platform-tuned exports, organised cloud archive.</p>
+          <p class="phase__lead">In-house grade, sound, retouch and conform — never outsourced. Brand-compliant masters, platform-tuned exports, organised cloud archive.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Week 2–4</span>
             <span class="phase__pill">3 review cycles</span>
@@ -620,10 +620,10 @@
             <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1400&q=85" alt="Post production" loading="lazy" decoding="async">
           </div>
           <ul class="checklist">
-            <li><span class="check"></span><div><strong>Story-led edit</strong><span>Paper edit → rough cut → fine cut, with structured written feedback rounds — never email-chain chaos.</span></div></li>
-            <li><span class="check"></span><div><strong>ACES grade &amp; sound</strong><span>Primary + secondary grade in DaVinci, scene-balanced and brand-LUT-locked. Spot effects, ambience, music mix in-house.</span></div></li>
-            <li><span class="check"></span><div><strong>Platform-tuned masters</strong><span>Hero film + 9:16, 1:1, 16:9 cuts; clean frames for paid; subtitles + localisation passes on request.</span></div></li>
-            <li><span class="check"></span><div><strong>Cloud archive &amp; debrief</strong><span>Two-year searchable archive, raw footage on request, plus a written retrospective.</span></div></li>
+            <li><span class="check"></span><div><strong>Story-led edit</strong><span>Paper edit → rough cut → fine cut, with structured written feedback — never email-chain chaos.</span></div></li>
+            <li><span class="check"></span><div><strong>ACES grade &amp; sound</strong><span>Primary + secondary grade in DaVinci, scene-balanced and brand-LUT-locked. Effects, ambience, music mix in-house.</span></div></li>
+            <li><span class="check"></span><div><strong>Platform-tuned masters</strong><span>Hero film + 9:16, 1:1, 16:9 cuts, clean frames for paid, subtitles + localisation on request.</span></div></li>
+            <li><span class="check"></span><div><strong>Cloud archive &amp; debrief</strong><span>Two-year searchable archive, raw footage on request, written retrospective.</span></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -644,7 +644,7 @@
           <span class="section__eyebrow" data-scramble>A real schedule</span>
           <h2 class="section__title" data-split>Here's what <em>4 weeks</em> actually looks like.</h2>
         </div>
-        <p class="section__lead reveal">Sample timeline for a typical brand film with one shoot day. Every project gets its own — this is a reference, not a template.</p>
+        <p class="section__lead reveal">Sample timeline for a typical brand film, one shoot day. A reference, not a template — every project gets its own.</p>
       </div>
       <div class="ribbon__bar">
         <div class="ribbon__line"></div>
@@ -677,12 +677,12 @@
         </div>
       </div>
       <div class="ribbon__detail">
-        <div class="ribbon__cell reveal"><p>2-hour kickoff. Brief mapped, success metrics locked, creative thesis signed off.</p></div>
-        <div class="ribbon__cell reveal" data-delay="1"><p>Treatment deck delivered for review. Mood, palette, type, music direction — all visualised.</p></div>
-        <div class="ribbon__cell reveal" data-delay="2"><p>Call sheet, shot list, kit list locked. Crew confirmed and contracts signed.</p></div>
-        <div class="ribbon__cell reveal" data-delay="3"><p>Production day. Rushes backed up on-site. Selects to editor by 9 PM.</p></div>
-        <div class="ribbon__cell reveal" data-delay="4"><p>Fine cut delivered after two structured feedback rounds. Sound design and grade in parallel.</p></div>
-        <div class="ribbon__cell reveal" data-delay="5"><p>Masters delivered with platform cuts, subtitles, and a written project debrief.</p></div>
+        <div class="ribbon__cell reveal"><p>2-hour kickoff — brief mapped, metrics locked, thesis signed off.</p></div>
+        <div class="ribbon__cell reveal" data-delay="1"><p>Treatment deck for review. Mood, palette, type, music — all visualised.</p></div>
+        <div class="ribbon__cell reveal" data-delay="2"><p>Call sheet, shot list, kit locked. Crew confirmed, contracts signed.</p></div>
+        <div class="ribbon__cell reveal" data-delay="3"><p>Production day. Rushes backed up on-site, selects to editor by 9 PM.</p></div>
+        <div class="ribbon__cell reveal" data-delay="4"><p>Fine cut after two feedback rounds. Sound and grade in parallel.</p></div>
+        <div class="ribbon__cell reveal" data-delay="5"><p>Masters delivered with platform cuts, subtitles and a written debrief.</p></div>
       </div>
     </div>
   </section>
@@ -695,39 +695,39 @@
           <span class="section__eyebrow" data-scramble>Working principles</span>
           <h2 class="section__title" data-split>The six rules we <em>never bend.</em></h2>
         </div>
-        <p class="section__lead reveal">If a project asks us to break one of these, we either re-scope or walk away. The standard is the standard.</p>
+        <p class="section__lead reveal">Ask us to break one and we re-scope or walk. The standard is the standard.</p>
       </div>
 
       <div class="principles__grid">
         <div class="principle reveal">
           <div class="principle__icon">◐</div>
           <h3>Director on every shoot. <em>No exceptions.</em></h3>
-          <p>The director who wrote the treatment is the one running the floor. We don't hand off mid-project.</p>
+          <p>The director who wrote the treatment runs the floor. No hand-off mid-project.</p>
         </div>
         <div class="principle reveal" data-delay="1">
           <div class="principle__icon">▲</div>
           <h3>Grade is <em>never</em> outsourced.</h3>
-          <p>The hand that lit the film is the hand that grades it. Authorship survives all the way to delivery.</p>
+          <p>The hand that lit the film grades it. Authorship survives to delivery.</p>
         </div>
         <div class="principle reveal" data-delay="2">
           <div class="principle__icon">●</div>
           <h3>Three review cycles. <em>Written feedback.</em></h3>
-          <p>Structured rounds, never email chains. Beyond three we re-scope rather than spiral.</p>
+          <p>Structured rounds, never email chains. Past three, we re-scope — not spiral.</p>
         </div>
         <div class="principle reveal">
           <div class="principle__icon">★</div>
           <h3>Daily rushes during shoot.</h3>
-          <p>You see everything we shoot, every evening. No surprises in the rough cut a week later.</p>
+          <p>You see everything we shoot, every evening. No rough-cut surprises a week later.</p>
         </div>
         <div class="principle reveal" data-delay="1">
           <div class="principle__icon">◇</div>
           <h3>Brand guidelines are <em>law.</em></h3>
-          <p>Tone, palette, type, compliance. Premium-brand discipline applied to every project, every scale.</p>
+          <p>Tone, palette, type, compliance — premium-brand discipline at every scale.</p>
         </div>
         <div class="principle reveal" data-delay="2">
           <div class="principle__icon">◢</div>
           <h3>Two-year archive. <em>Always.</em></h3>
-          <p>Searchable cloud archive of every project. Re-cut, re-export, re-purpose — anytime, no re-fee.</p>
+          <p>Searchable cloud archive of every project. Re-cut, re-export, re-purpose — no re-fee.</p>
         </div>
       </div>
     </div>
@@ -749,7 +749,7 @@
           <div class="guarantee__num">04<em>h</em></div>
           <div>
             <div class="guarantee__h">Reply within 4 working hours.</div>
-            <p class="guarantee__p">From brief receipt to first response — every weekday, every time zone we operate in.</p>
+            <p class="guarantee__p">Brief to first response — every weekday, every time zone we work in.</p>
           </div>
           <div class="guarantee__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></div>
         </div>
@@ -757,7 +757,7 @@
           <div class="guarantee__num">48<em>h</em></div>
           <div>
             <div class="guarantee__h">Same-day reel for events.</div>
-            <p class="guarantee__p">Cut on-site. Delivered before guests leave or before the show ends — guaranteed.</p>
+            <p class="guarantee__p">Cut on-site, delivered before guests leave or the show ends — guaranteed.</p>
           </div>
           <div class="guarantee__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></div>
         </div>
@@ -765,7 +765,7 @@
           <div class="guarantee__num">02<em>yr</em></div>
           <div>
             <div class="guarantee__h">Cloud archive included.</div>
-            <p class="guarantee__p">Searchable archive of every asset for two years. Re-cuts, re-purposes — never a re-fee.</p>
+            <p class="guarantee__p">Searchable archive of every asset, two years. Re-cuts, re-purposes — no re-fee.</p>
           </div>
           <div class="guarantee__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></div>
         </div>
@@ -773,7 +773,7 @@
           <div class="guarantee__num">03<em>×</em></div>
           <div>
             <div class="guarantee__h">Review cycles, written.</div>
-            <p class="guarantee__p">Three structured rounds per project — written feedback templates included, never an email thread.</p>
+            <p class="guarantee__p">Three structured rounds per project — written feedback templates, never an email thread.</p>
           </div>
           <div class="guarantee__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></div>
         </div>
@@ -789,7 +789,7 @@
           <span class="section__eyebrow" data-scramble>Tools &amp; kit</span>
           <h2 class="section__title" data-split>Cinema-grade <em>by default.</em></h2>
         </div>
-        <p class="section__lead reveal">A shortlist of what's in our trucks. Extended on a per-brief basis when a project needs a specific look.</p>
+        <p class="section__lead reveal">A shortlist of what's in our trucks — extended per-brief when a project needs a specific look.</p>
       </div>
       <div class="kit__grid">
         <div class="kit__card reveal">
@@ -838,23 +838,23 @@
       <div class="acc" data-acc>
         <div class="acc__item is-open">
           <button class="acc__head"><h3>Can you compress the timeline if we need it faster?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">Yes — for time-sensitive briefs we can collapse weeks 2–3 by parallelising edit and grade, or by adding a second editor. We'll never compress at the cost of quality; we'll re-scope or hold the shoot date instead.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">Yes — we collapse weeks 2–3 by parallelising edit and grade or adding a second editor. Never at the cost of quality; we'll re-scope or hold the shoot date instead.</div></div>
         </div>
         <div class="acc__item">
           <button class="acc__head"><h3>What if we don't like the rough cut?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">First, we go back to the creative thesis from phase one — that's the brief we're protecting. If the thesis needs to change, that's a re-scope conversation, not a revision. If the cut drifts from a sound thesis, that's on us and we re-edit at no charge.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">We go back to the phase-one creative thesis — the brief we're protecting. Changing the thesis is a re-scope, not a revision; if the cut drifts from a sound thesis, that's on us and we re-edit at no charge.</div></div>
         </div>
         <div class="acc__item">
           <button class="acc__head"><h3>Do you work with our in-house team?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">Often. We integrate cleanly with brand marketing teams, agencies of record, and internal video teams. We provide treatments, shoot, and hand off; or we run end-to-end. Both are common.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">Often. We integrate cleanly with brand marketing teams, agencies of record and internal video teams — treatment-shoot-handoff or full end-to-end. Both are common.</div></div>
         </div>
         <div class="acc__item">
           <button class="acc__head"><h3>What about IP, licensing, and usage?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">Default usage is a 3-year worldwide license for the final delivered films and stills. Buyouts and extensions are easy to negotiate per project. Raw footage stays with us and is archived for two years.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">Default is a 3-year worldwide license on final films and stills. Buyouts and extensions negotiate easily per project. Raw footage stays with us, archived for two years.</div></div>
         </div>
         <div class="acc__item">
           <button class="acc__head"><h3>Do you travel for shoots?</h3><span class="acc__plus"></span></button>
-          <div class="acc__body"><div class="acc__body-inner">Yes — pan-India and select international destinations. Travel, stay and per-diems are billed at cost with no markup. We've shot everywhere from Noida studios to the Himalayan foothills.</div></div>
+          <div class="acc__body"><div class="acc__body-inner">Yes — pan-India and select international. Travel, stay and per-diems billed at cost, no markup. We've shot everywhere from Noida studios to the Himalayan foothills.</div></div>
         </div>
       </div>
     </div>
@@ -865,7 +865,7 @@
     <div class="wrap">
       <h2 class="cta-strip__title" data-split>Bring the brief.<br><em>We'll bring the cut.</em></h2>
       <div class="cta-strip__row reveal">
-        <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">We'll come back with a treatment, a timeline, and a number — within 4 working hours.</p>
+        <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">A treatment, a timeline and a number — back to you within 4 working hours.</p>
         <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
       </div>
     </div>

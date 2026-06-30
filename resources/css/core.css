@@ -37,7 +37,7 @@ html, body {
   color: var(--paper);
   font-family: var(--f-body);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -263,7 +263,7 @@ img, video { max-width: 100%; display: block; }
   font-weight: 600;
   font-size: clamp(44px, 7vw, 96px);
   letter-spacing: -0.035em;
-  line-height: 0.98;
+  line-height: 1.02;
   text-wrap: balance;
 }
 .section__title em {
@@ -274,10 +274,10 @@ img, video { max-width: 100%; display: block; }
 }
 
 .section__lead {
-  max-width: 64ch;
-  margin-top: 28px;
+  max-width: 52ch;
+  margin-top: 24px;
   font-size: clamp(16px, 1.2vw, 19px);
-  line-height: 1.55;
+  line-height: 1.7;
   color: var(--paper-dim);
 }
 
@@ -576,8 +576,8 @@ img, video { max-width: 100%; display: block; }
 /* ---------- Reveal animations ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transform: translateY(24px);
+  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
   will-change: transform, opacity;
 }
 .reveal.is-in { opacity: 1; transform: translateY(0); }
@@ -588,13 +588,15 @@ img, video { max-width: 100%; display: block; }
 .reveal[data-delay="5"] { transition-delay: 0.40s; }
 
 .split-line { display: block; overflow: hidden; }
-.split-word { display: inline-block; overflow: hidden; vertical-align: top; }
+.split-word { display: inline-block; overflow: visible; vertical-align: top; }
 .split-word > span {
   display: inline-block;
-  transform: translateY(110%);
-  transition: transform 1s var(--ease);
-  will-change: transform;
+  transform: translateY(40%);
+  opacity: 0;
+  transition: transform 0.7s var(--ease), opacity 0.7s var(--ease);
+  will-change: transform, opacity;
 }
+.split.is-in .split-word > span { opacity: 1; }
 .split.is-in .split-word > span { transform: translateY(0); }
 .split.is-in .split-word:nth-child(1) > span { transition-delay: 0.00s; }
 .split.is-in .split-word:nth-child(2) > span { transition-delay: 0.04s; }

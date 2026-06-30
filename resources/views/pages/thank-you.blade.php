@@ -57,22 +57,22 @@
       </div>
       <span class="ty__kicker">Brief received</span>
       <h1 data-split>Thanks — we're on <em>your brief.</em></h1>
-      <p>One of us will read every line and reply with next steps, a treatment direction, and a number — within 4 working hours. In the meantime, here's what happens next.</p>
+      <p>We'll read every line and reply with next steps, a direction, and a number — within 4 working hours. Here's what happens next.</p>
       <div class="ty__next">
         <div class="ty__step">
           <div class="ty__step-n">01</div>
           <h3>We read it carefully</h3>
-          <p>Director and producer review the brief together. No template responses.</p>
+          <p>Director and producer review it together. No templates.</p>
         </div>
         <div class="ty__step">
           <div class="ty__step-n">02</div>
           <h3>We respond within 4h</h3>
-          <p>You'll get a clear yes/no, a few clarifying questions, and a tentative scope.</p>
+          <p>A clear yes/no, a few questions, and a tentative scope.</p>
         </div>
         <div class="ty__step">
           <div class="ty__step-n">03</div>
           <h3>We meet, we treat</h3>
-          <p>A 30-min call to align, then a treatment within 5 working days.</p>
+          <p>A 30-min align call, then a treatment within 5 working days.</p>
         </div>
       </div>
       <div class="ty__cta">

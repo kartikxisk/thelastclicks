@@ -138,7 +138,7 @@
             <h2 class="cta-strip__title" data-split>Let's <em>create.</em></h2>
             <div class="cta-strip__row reveal">
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">
-                    Brief us on your project. We'll come back with a treatment, timeline, and budget within 4 working hours.
+                    Brief us — treatment, timeline, and budget back within 4 working hours.
                 </p>
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">
                     Start a brief <span class="arr"></span>

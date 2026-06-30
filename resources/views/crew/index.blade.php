@@ -18,7 +18,7 @@
         <div class="wrap">
             <div class="services__head">
                 <div><span class="section__eyebrow">The roster</span><h2 class="section__title" data-split>Specialists, <em>not generalists.</em></h2></div>
-                <p class="section__lead reveal">Each project is led by a director who's been on the brief since day one — and finished by craftspeople who care about the last 5%.</p>
+                <p class="section__lead reveal">Director-led from day one, finished by craftspeople who care about the last 5%.</p>
             </div>
             <div class="talent-grid">
                 @foreach ($members as $m)
@@ -36,7 +36,7 @@
         <div class="wrap">
             <div class="services__head">
                 <div><span class="section__eyebrow">Open positions</span><h2 class="section__title" data-split>Join the <em>roster.</em></h2></div>
-                <p class="section__lead reveal">We hire for craft, taste and care. If that's you — we'd love to hear from you.</p>
+                <p class="section__lead reveal">We hire for craft, taste and care.</p>
             </div>
             <div class="services__list">
                 <a class="svc reveal" href="{{ url('/contact') }}"><span class="svc__num">JOB-01</span><h3 class="svc__title">Senior <em>Editor</em></h3><p class="svc__desc">DaVinci Resolve / Premiere · 4+ yrs · brand &amp; long-form storytelling.</p><div class="svc__tags">Full-time · Noida</div><span class="svc__arr">→</span></a>
@@ -54,7 +54,7 @@
                 <span class="section__eyebrow" data-scramble>Behind the lens</span>
                 <h2>Roster <em>in motion.</em></h2>
             </div>
-            <p>Sixty-plus craftspeople, directors, editors and producers. This is who shows up.</p>
+            <p>Sixty-plus craftspeople, directors, editors and producers — this is who shows up.</p>
         </div>
         <div class="crew-roll__track">
             <a class="crew-roll__card" href="#"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85" alt="" loading="lazy" decoding="async"><div class="crew-roll__body"><h3>Aarav Khanna</h3><span>Founder · DOP</span></div></a>
@@ -80,7 +80,7 @@
     <section class="cta-strip">
         <div class="wrap">
             <h2 class="cta-strip__title" data-split>Pitch us <em>yourself.</em></h2>
-            <div class="cta-strip__row reveal"><p style="max-width:42ch;color:var(--paper-dim);font-size:17px">No open role that fits? Send a reel anyway. We hire by craft.</p>
+            <div class="cta-strip__row reveal"><p style="max-width:42ch;color:var(--paper-dim);font-size:17px">No role fits? Send a reel anyway — we hire by craft.</p>
             <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="APPLY">Send your reel <span class="arr"></span></a></div>
         </div>
     </section>

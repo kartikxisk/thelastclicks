@@ -76,14 +76,11 @@
       const t = e.target.closest(hoverSel);
       if (!t) return;
       cur.classList.add('is-hover');
-      const label = t.getAttribute('data-cursor');
-      if (label && lab) { lab.textContent = label; lab.classList.add('is-on'); }
     });
     document.body.addEventListener('mouseout', e => {
       const t = e.target.closest(hoverSel);
       if (!t) return;
       cur.classList.remove('is-hover');
-      if (lab) lab.classList.remove('is-on');
     });
   }
 
@@ -113,10 +110,8 @@
   }
 
   /* -------------------- Parallax (scroll-linked) -------------------- */
+  // Parallax disabled — scroll-linked drift added visual noise without payoff.
   const parallaxEls = [];
-  document.querySelectorAll('[data-parallax]').forEach(el => {
-    parallaxEls.push({ el, speed: parseFloat(el.dataset.parallax) || 0.15 });
-  });
   function updateParallax() {
     for (const p of parallaxEls) {
       const r = p.el.getBoundingClientRect();
@@ -474,8 +469,8 @@
     trailTick();
   }
 
-  /* -------------------- 3D mouse tilt -------------------- */
-  document.querySelectorAll('[data-tilt]').forEach((el) => {
+  /* -------------------- 3D mouse tilt (disabled — too busy) -------------------- */
+  document.querySelectorAll('[data-tilt-disabled]').forEach((el) => {
     let tx = 0, ty = 0, rx = 0, ry = 0;
     let raf = 0;
     function loop() {
@@ -514,15 +509,7 @@
       function step(now) {
         const t = Math.min(1, (now - start) / dur);
         const eased = 1 - Math.pow(1 - t, 3);
-        if (t < 0.7) {
-          // scramble: hold target's digit-length, random digits
-          let out = '';
-          for (let i = 0; i < digits; i++) out += SCRAMBLE_CHARS[Math.floor(Math.random() * 10)];
-          if (dec > 0) out += '.' + Math.floor(Math.random() * 10);
-          el.textContent = out;
-        } else {
-          el.textContent = (target * eased).toFixed(dec);
-        }
+        el.textContent = (target * eased).toFixed(dec);
         if (t < 1) requestAnimationFrame(step);
         else el.textContent = target.toFixed(dec);
       }
@@ -557,31 +544,12 @@
     }
     requestAnimationFrame(step);
   }
-  const txtSIO = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      textScramble(e.target, parseInt(e.target.dataset.scramble) || 1300);
-      txtSIO.unobserve(e.target);
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('[data-scramble]').forEach((el) => txtSIO.observe(el));
+  // Text decoder-scramble disabled — random char churn on every eyebrow was noisy.
+  // Elements keep their final text as authored.
+  void textScramble;
 
-  /* -------------------- Scroll-velocity skew (marquees) -------------------- */
-  let velLast = window.scrollY;
-  let velocity = 0;
-  function velTick() {
-    const cur = window.scrollY;
-    const delta = cur - velLast;
-    velLast = cur;
-    velocity += (delta - velocity) * 0.25;
-    velocity *= 0.85;
-    const skew = Math.max(-3, Math.min(3, velocity * 0.04));
-    document.querySelectorAll('.marquee').forEach((m) => {
-      m.style.setProperty('--skew', skew.toFixed(2) + 'deg');
-    });
-    requestAnimationFrame(velTick);
-  }
-  velTick();
+  /* -------------------- Scroll-velocity skew (disabled — marquee stays steady) -------------------- */
+  document.querySelectorAll('.marquee').forEach((m) => m.style.setProperty('--skew', '0deg'));
 
 
   /* -------------------- Spotlight cursor tracking -------------------- */
@@ -656,14 +624,11 @@
       odoIO.unobserve(el);
     });
   }, { threshold: 0.35 });
-  document.querySelectorAll('[data-count], [data-scramble-count]').forEach((el) => {
-    // Skip if already animated by counter system (we replace it)
-    if (el.dataset.odoSkip) return;
-    odoIO.observe(el);
-  });
+  // Odometer flipboard disabled — clashed with the plain count-up and read as clutter.
+  void odometerize; void odoIO;
 
-  /* -------------------- Marquee per-character wave (on hover) -------------------- */
-  document.querySelectorAll('.marquee__item').forEach((item) => {
+  /* -------------------- Marquee per-character wave (disabled) -------------------- */
+  document.querySelectorAll('.marquee__item--disabled').forEach((item) => {
     if (item.classList.contains('is-charified')) return;
     if (item.querySelector('.dot') || item.querySelector('em')) return;
     const text = item.textContent;

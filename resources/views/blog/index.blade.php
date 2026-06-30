@@ -94,7 +94,7 @@
                 <div>
                     <span class="section__eyebrow" data-scramble>The journal</span>
                     <h2 class="news__h" data-split>Stay close to the <em>set.</em></h2>
-                    <p class="news__p">One craft note a month — what we shot, how we cut it, and the questions still keeping us up. No spam, no growth-hacks.</p>
+                    <p class="news__p">One craft note a month — what we shot and how we cut it. No spam.</p>
                 </div>
                 <div>
                     {{-- Form posts to '#' placeholder — no backend wired yet --}}

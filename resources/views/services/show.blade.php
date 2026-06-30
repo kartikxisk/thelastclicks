@@ -81,7 +81,7 @@
                         <span class="section__eyebrow" data-scramble>Pillars</span>
                         <h2 class="section__title" data-split>Four things we <em>never bend.</em></h2>
                     </div>
-                    <p class="section__lead reveal">If a brief asks us to break one of these, we re-scope or walk. The standard is the standard.</p>
+                    <p class="section__lead reveal">Break one and we re-scope or walk. The standard is the standard.</p>
                 </div>
                 <div class="pp-pillars">
                     @foreach ($service->pillars as $p)
@@ -101,7 +101,7 @@
                         <span class="section__eyebrow" data-scramble>The flow</span>
                         <h2 class="section__title" data-split>From brief <em>to delivery.</em></h2>
                     </div>
-                    <p class="section__lead reveal">Each phase has an owner, a deliverable, and a review gate. No drift.</p>
+                    <p class="section__lead reveal">Every phase: an owner, a deliverable, a review gate. No drift.</p>
                 </div>
                 <div class="pp-phases">
                     @foreach ($service->phases as $ph)
@@ -140,7 +140,7 @@
                         <span class="section__eyebrow" data-scramble>Tools we trust</span>
                         <h2 class="section__title" data-split>Cinema-grade <em>by default.</em></h2>
                     </div>
-                    <p class="section__lead reveal">Our shortlist. Extended on a per-brief basis when a project needs a specific look.</p>
+                    <p class="section__lead reveal">Our shortlist — extended per-brief when a project needs a specific look.</p>
                 </div>
                 <div class="pp-kit__grid">
                     @foreach ($service->kit as $i => $k)
@@ -227,7 +227,7 @@
         <div class="wrap">
             <h2 class="cta-strip__title" data-split>{!! $cta['title'] ?? 'Start the <em>brief.</em>' !!}</h2>
             <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">{{ $cta['copy'] ?? "Brief us on the project. We'll come back with a treatment, timeline, and budget within 4 working hours." }}</p>
+                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">{{ $cta['copy'] ?? "Brief us — treatment, timeline, and budget back within 4 working hours." }}</p>
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-quote-prefill="{{ $cta['prefill'] ?? $service->title }}" data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
             </div>
         </div>

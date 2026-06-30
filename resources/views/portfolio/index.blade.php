@@ -446,7 +446,7 @@
         <div class="pf-hero__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Portfolio</span></div>
         <div class="pf-hero__row">
             <h1 data-split>Selected <em>work,</em><br>2024 — <em>2026.</em></h1>
-            <p class="pf-hero__lead reveal">Eight years and 547 productions in. Here's the small set we share publicly — case studies, brand films, weddings and editorial. Click any tile for the full breakdown.</p>
+            <p class="pf-hero__lead reveal">Eight years, 547 productions — a public few. Tap any tile for the full case.</p>
         </div>
         <dl class="pf-hero__stats">
             <div class="reveal"><dt>Projects shipped</dt><dd>547<em>+</em></dd></div>
@@ -554,7 +554,7 @@
                     <span class="section__eyebrow" data-scramble>Behind the work</span>
                     <h2 class="section__title" data-split>What it <em>actually took.</em></h2>
                 </div>
-                <p class="section__lead reveal">The portfolio is the tip. Here's the iceberg underneath.</p>
+                <p class="section__lead reveal">The portfolio is the tip — here's the iceberg.</p>
             </div>
             <div class="pf-numbers__grid">
                 <div class="pf-num reveal">
@@ -585,7 +585,7 @@
                     <span class="section__eyebrow" data-scramble>How we split our time</span>
                     <h2 class="section__title" data-split>The <em>mix</em> of work.</h2>
                 </div>
-                <p class="section__lead reveal">Roughly what we shoot, year over year — never picked, always emergent from briefs.</p>
+                <p class="section__lead reveal">What we shoot, year over year — emergent from briefs, never picked.</p>
             </div>
             <div class="pf-disc__grid">
                 @forelse ($services as $svc)
@@ -605,32 +605,32 @@
                     <div class="pf-disc__cell reveal" style="--p: 0.32">
                         <div class="pf-disc__h"><div class="pf-disc__t">Brand films</div><div class="pf-disc__c">32%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Treatment-led brand storytelling. Commercials, brand films, launches, anthems.</p>
+                        <p class="pf-disc__d">Treatment-led storytelling — commercials, launches, anthems.</p>
                     </div>
                     <div class="pf-disc__cell reveal" data-delay="1" style="--p: 0.24">
                         <div class="pf-disc__h"><div class="pf-disc__t">Weddings</div><div class="pf-disc__c">24%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Where we started. Still our most demanded discipline — destination + intimate.</p>
+                        <p class="pf-disc__d">Where we started, still most demanded — destination and intimate.</p>
                     </div>
                     <div class="pf-disc__cell reveal" data-delay="2" style="--p: 0.18">
                         <div class="pf-disc__h"><div class="pf-disc__t">Photography</div><div class="pf-disc__c">18%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Editorial, brand, lifestyle, lookbook. Stills as their own discipline — never an afterthought.</p>
+                        <p class="pf-disc__d">Editorial, brand, lifestyle, lookbook — stills as their own discipline.</p>
                     </div>
                     <div class="pf-disc__cell reveal" style="--p: 0.14">
                         <div class="pf-disc__h"><div class="pf-disc__t">Corporate</div><div class="pf-disc__c">14%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Conferences, keynotes, internal events — multi-cam coverage with same-day delivery.</p>
+                        <p class="pf-disc__d">Conferences and keynotes — multi-cam, same-day delivery.</p>
                     </div>
                     <div class="pf-disc__cell reveal" data-delay="1" style="--p: 0.08">
                         <div class="pf-disc__h"><div class="pf-disc__t">Automotive</div><div class="pf-disc__c">08%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Vehicle reveals, motion-control rigs, high-speed Phantom work for premium auto brands.</p>
+                        <p class="pf-disc__d">Vehicle reveals — motion-control rigs, high-speed Phantom work.</p>
                     </div>
                     <div class="pf-disc__cell reveal" data-delay="2" style="--p: 0.04">
                         <div class="pf-disc__h"><div class="pf-disc__t">Lifestyle &amp; F&amp;B</div><div class="pf-disc__c">04%</div></div>
                         <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Premium beverages, hospitality, lifestyle campaigns. Practical light, tabletop, set work.</p>
+                        <p class="pf-disc__d">Beverages, hospitality, lifestyle — practical light, tabletop, set work.</p>
                     </div>
                 @endforelse
             </div>
@@ -642,7 +642,7 @@
         <div class="wrap">
             <h2 class="cta-strip__title" data-split>Want your work<br><em>here next year?</em></h2>
             <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Bring the brief. We'll come back with a treatment, a timeline, and a number — within 4 working hours.</p>
+                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Bring the brief — treatment, timeline, and a number within 4 working hours.</p>
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">
                     Start a brief <span class="arr"></span>
                 </a>

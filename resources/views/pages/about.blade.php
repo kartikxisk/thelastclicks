@@ -19,9 +19,9 @@
       <div>
         <span class="section__eyebrow">Our story</span>
         <h2 data-split>Built on the <em>discipline</em> of premium brands.</h2>
-        <p class="reveal">We started as a wedding film crew that refused to compromise on craft. Eight years in, we're a studio trusted by Fortune 500 marketing teams, automotive houses, and the most demanding creative directors in the country.</p>
-        <p class="reveal" data-delay="1">Working with premium and regulated brands has shaped our discipline — lighting, framing, post — and that discipline now powers everything we do, from a single product still to a 12-city brand campaign.</p>
-        <p class="reveal" data-delay="2">We don't think of ourselves as a vendor. We're a long-term partner that scales with your story.</p>
+        <p class="reveal">A wedding film crew that wouldn't compromise — now, eight years on, a studio trusted by Fortune 500 teams, automotive houses, and the country's most demanding creative directors.</p>
+        <p class="reveal" data-delay="1">Premium and regulated brands sharpened our discipline — lighting, framing, post — and it powers everything, from a product still to a 12-city campaign.</p>
+        <p class="reveal" data-delay="2">Not a vendor — a long-term partner that scales with your story.</p>
       </div>
       <div class="about-img clip-reveal"><img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=1200&q=85" alt="Photographer at work" decoding="async"></div>
     </div>
@@ -49,33 +49,33 @@
         <div class="timeline-x__sticky reveal">
           <span class="label">The journey</span>
           <h3>Eight years, <em>one obsession.</em></h3>
-          <p>From a single camera and a borrowed lens to a 60-person studio shooting across 26 cities. Every milestone was earned by saying no to briefs that didn't fit the standard.</p>
+          <p>One borrowed lens to a 60-person studio across 26 cities — earned by saying no to briefs that didn't fit.</p>
         </div>
         <div class="timeline-x__rail">
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2018</div>
             <div class="timeline-x__title">Started with <em>one camera.</em></div>
-            <div class="timeline-x__desc">Founded in Noida as a 2-person wedding-film crew. First gig was a 100-guest engagement in our hometown — and we still know the family.</div>
+            <div class="timeline-x__desc">Founded in Noida as a 2-person wedding-film crew — first gig a 100-guest hometown engagement, and we still know the family.</div>
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2020</div>
             <div class="timeline-x__title">First brand film.</div>
-            <div class="timeline-x__desc">Lockdown forced us to pivot. Within 90 days, our first corporate brand film landed — a regional FMCG launch that's still in their library.</div>
+            <div class="timeline-x__desc">Lockdown forced a pivot — within 90 days, our first corporate brand film: a regional FMCG launch still in their library.</div>
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2022</div>
             <div class="timeline-x__title">In-house <em>post pipeline.</em></div>
-            <div class="timeline-x__desc">Stopped outsourcing grade. Built a full DaVinci pipeline with ACES color management. Quality control jumped overnight.</div>
+            <div class="timeline-x__desc">Stopped outsourcing grade — built a full DaVinci pipeline with ACES color management. Quality jumped overnight.</div>
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2024</div>
             <div class="timeline-x__title">Premium beverage partner.</div>
-            <div class="timeline-x__desc">First Fortune-500 partner. The discipline of working with regulated brands reshaped how we approach every brief.</div>
+            <div class="timeline-x__desc">First Fortune-500 partner — working with regulated brands reshaped how we approach every brief.</div>
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2026</div>
             <div class="timeline-x__title"><em>547+</em> productions in.</div>
-            <div class="timeline-x__desc">Crew of 60+ across cities. Calendar booked into 2026. Still the same standard, scaled.</div>
+            <div class="timeline-x__desc">Crew of 60+ across cities, booked into 2026 — same standard, scaled.</div>
           </div>
         </div>
       </div>
@@ -90,15 +90,15 @@
           <span class="section__eyebrow" data-scramble>Editorial filters</span>
           <h2 class="section__title" data-split>What we <em>don't do.</em></h2>
         </div>
-        <p class="section__lead reveal">Saying no clearly is part of the craft. Here's where we walk away.</p>
+        <p class="section__lead reveal">Saying no clearly is part of the craft — here's where we walk away.</p>
       </div>
       <div class="dont">
-        <div class="dont__item reveal"><div class="dont__x"></div><h3 class="dont__h">Spec work for pitches</h3><p class="dont__p">We don't trade samples for chance. Every film we make goes in our portfolio.</p></div>
+        <div class="dont__item reveal"><div class="dont__x"></div><h3 class="dont__h">Spec work for pitches</h3><p class="dont__p">No samples for chance — every film we make goes in our portfolio.</p></div>
         <div class="dont__item reveal" data-delay="1"><div class="dont__x"></div><h3 class="dont__h">Cheap "social packages"</h3><p class="dont__p">If craft has to drop to hit a price, we'd rather refer you to someone else.</p></div>
         <div class="dont__item reveal" data-delay="2"><div class="dont__x"></div><h3 class="dont__h">Outsourced grade</h3><p class="dont__p">The hand that lit the film grades it. Always in-house, never farmed.</p></div>
         <div class="dont__item reveal"><div class="dont__x"></div><h3 class="dont__h">Generic stock libraries</h3><p class="dont__p">Every frame is shot for your brief. No watermark-removed inserts.</p></div>
-        <div class="dont__item reveal" data-delay="1"><div class="dont__x"></div><h3 class="dont__h">Endless revisions without rationale</h3><p class="dont__p">Three rounds, written feedback, fast turnaround. Beyond that we re-scope.</p></div>
-        <div class="dont__item reveal" data-delay="2"><div class="dont__x"></div><h3 class="dont__h">Ghost crews</h3><p class="dont__p">No name swaps mid-project. The team you meet is the team that shoots.</p></div>
+        <div class="dont__item reveal" data-delay="1"><div class="dont__x"></div><h3 class="dont__h">Endless revisions without rationale</h3><p class="dont__p">Three rounds, written feedback, fast turnaround — beyond that we re-scope.</p></div>
+        <div class="dont__item reveal" data-delay="2"><div class="dont__x"></div><h3 class="dont__h">Ghost crews</h3><p class="dont__p">No mid-project name swaps — the team you meet is the team that shoots.</p></div>
       </div>
     </div>
   </section>
@@ -112,7 +112,7 @@
         </div>
         <div class="reveal">
           <span class="kicker" data-scramble>A note from the founder</span>
-          <div class="founder__quote" style="margin-top:18px" data-split>We didn't start TheLastClicks to be the biggest studio. We started it because almost no one in our space was treating photography and film as actual craft — and we couldn't watch any longer.</div>
+          <div class="founder__quote" style="margin-top:18px" data-split>We didn't start TheLastClicks to be the biggest studio — we started it because almost no one was treating photography and film as actual craft.</div>
           <div class="founder__who"><strong>Aarav Khanna</strong>Founder &amp; Director of Photography</div>
         </div>
       </div>
@@ -138,7 +138,7 @@
           <span class="section__eyebrow" data-scramble>Where we shoot</span>
           <h2 class="section__title" data-split>26 cities, <em>one team.</em></h2>
         </div>
-        <p class="section__lead reveal">A live trace of the cities our crews have worked in. Every red pulse is a shoot, a screening, a brand we've shipped for.</p>
+        <p class="section__lead reveal">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
       </div>
       <div class="cities__map reveal">
       <span class="cities__pin" style="left:38%;top:24%"><span class="label">Delhi</span></span>
@@ -181,7 +181,7 @@
     <div class="wrap">
       <h2 class="cta-strip__title" data-split>Bring us a <em>brief.</em></h2>
       <div class="cta-strip__row reveal" data-delay="2">
-        <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">From product launches to multi-day brand films — we'd love to hear what you're building.</p>
+        <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Product launches to multi-day brand films — tell us what you're building.</p>
         <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
       </div>
     </div>

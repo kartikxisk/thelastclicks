@@ -100,7 +100,7 @@
             @if ($member->bio)
                 {!! $member->bio !!}
             @else
-                <p>This crew member's story is coming soon.</p>
+                <p>Story coming soon.</p>
             @endif
         </div>
     </section>
@@ -156,7 +156,7 @@
         <div class="wrap">
             <h2 class="cta-strip__title" data-split>Work with <em>this team.</em></h2>
             <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Bring us the brief — we'll come back with the right shape and the right hands within 4 working hours.</p>
+                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Send the brief — right shape, right hands, within 4 working hours.</p>
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
             </div>
         </div>

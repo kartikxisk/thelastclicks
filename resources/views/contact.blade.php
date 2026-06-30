@@ -65,7 +65,7 @@
         <div class="avail__pulse"><span class="avail__dot"></span>Booking now</div>
         <div class="avail__text">
           <strong>Next available shoot window: Jun 4</strong>
-          We're filming through May. New briefs reviewed within 4 working hours.
+          Booked through May. New briefs reviewed within 4 working hours.
         </div>
         <a class="btn btn--red avail__cta" href="#quote" data-quote-trigger data-magnetic data-cursor="START">Get a quote <span class="arr"></span></a>
       </div>
