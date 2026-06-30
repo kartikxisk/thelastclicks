@@ -82,27 +82,6 @@
     </div>
   </section>
 
-  <!-- WE DON'T DO -->
-  <section class="section" data-screen-label="04 Anti-services">
-    <div class="wrap">
-      <div class="services__head">
-        <div>
-          <span class="section__eyebrow" data-scramble>Editorial filters</span>
-          <h2 class="section__title" data-split>What we <em>don't do.</em></h2>
-        </div>
-        <p class="section__lead reveal">Saying no clearly is part of the craft — here's where we walk away.</p>
-      </div>
-      <div class="dont">
-        <div class="dont__item reveal"><div class="dont__x"></div><h3 class="dont__h">Spec work for pitches</h3><p class="dont__p">No samples for chance — every film we make goes in our portfolio.</p></div>
-        <div class="dont__item reveal" data-delay="1"><div class="dont__x"></div><h3 class="dont__h">Cheap "social packages"</h3><p class="dont__p">If craft has to drop to hit a price, we'd rather refer you to someone else.</p></div>
-        <div class="dont__item reveal" data-delay="2"><div class="dont__x"></div><h3 class="dont__h">Outsourced grade</h3><p class="dont__p">The hand that lit the film grades it. Always in-house, never farmed.</p></div>
-        <div class="dont__item reveal"><div class="dont__x"></div><h3 class="dont__h">Generic stock libraries</h3><p class="dont__p">Every frame is shot for your brief. No watermark-removed inserts.</p></div>
-        <div class="dont__item reveal" data-delay="1"><div class="dont__x"></div><h3 class="dont__h">Endless revisions without rationale</h3><p class="dont__p">Three rounds, written feedback, fast turnaround — beyond that we re-scope.</p></div>
-        <div class="dont__item reveal" data-delay="2"><div class="dont__x"></div><h3 class="dont__h">Ghost crews</h3><p class="dont__p">No mid-project name swaps — the team you meet is the team that shoots.</p></div>
-      </div>
-    </div>
-  </section>
-
   <!-- FOUNDER NOTE -->
   <section class="section" data-screen-label="05 Founder">
     <div class="wrap">
