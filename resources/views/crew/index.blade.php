@@ -17,24 +17,6 @@
     <section class="section">
         <div class="wrap">
             <div class="services__head">
-                <div><span class="section__eyebrow">The roster</span><h2 class="section__title" data-split>Specialists, <em>not generalists.</em></h2></div>
-                <p class="section__lead reveal">Director-led from day one, finished by craftspeople who care about the last 5%.</p>
-            </div>
-            <div class="talent-grid">
-                @foreach ($members as $m)
-                    <a data-tilt="5" class="talent-card spotlight reveal" href="{{ url('/crew/'.$m->slug) }}"@if ($loop->index % 3) data-delay="{{ $loop->index % 3 }}"@endif>
-                        <div class="talent-card__img"><img src="{{ $m->getFirstMediaUrl('headshot') ?: $m->photo_url }}" alt="" loading="lazy" decoding="async"></div>
-                        <div class="talent-card__body"><h3>{{ $m->name }}</h3><div class="role">{{ $m->role }}</div>
-                            <div class="talent-card__skills">@foreach (array_slice($m->skills ?? [], 0, 3) as $skill)<span class="tag">{{ $skill }}</span>@endforeach</div></div>
-                    </a>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="section" style="border-top:1px solid var(--line)">
-        <div class="wrap">
-            <div class="services__head">
                 <div><span class="section__eyebrow">Open positions</span><h2 class="section__title" data-split>Join the <em>roster.</em></h2></div>
                 <p class="section__lead reveal">We hire for craft, taste and care.</p>
             </div>

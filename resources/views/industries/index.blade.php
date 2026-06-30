@@ -86,20 +86,7 @@
         </div>
     </div>
 
-    {{-- 5. ABOUT-GRID — Premium & regulated, 2-col text+image --}}
-    <section class="section">
-        <div class="wrap about-grid">
-            <div>
-                <span class="section__eyebrow">Premium &amp; regulated</span>
-                <h2 data-split>Discipline that <em>scales.</em></h2>
-                <p class="reveal">Premium and regulated brands demand precision — disciplined lighting, framing, and post that conform to every guideline.</p>
-                <p class="reveal" data-delay="1">Consistent quality across campaigns, events, and productions of any scale.</p>
-            </div>
-            <div class="about-img clip-reveal"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&q=85" alt="" loading="lazy" decoding="async"></div>
-        </div>
-    </section>
-
-    {{-- 6. VACC ACCORDION — Deep-dive verticals --}}
+    {{-- VACC ACCORDION — Deep-dive verticals --}}
     <section class="section" data-screen-label="04 Deep-dive">
         <div class="wrap">
             <div class="services__head">

@@ -120,6 +120,7 @@
         <p class="section__lead reveal">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
       </div>
       <div class="cities__map reveal">
+      <x-india-outline />
       <span class="cities__pin" style="left:38%;top:24%"><span class="label">Delhi</span></span>
       <span class="cities__pin" style="left:32%;top:56%"><span class="label">Mumbai</span></span>
       <span class="cities__pin" style="left:44%;top:78%"><span class="label">Bengaluru</span></span>
