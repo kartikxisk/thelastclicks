@@ -451,7 +451,7 @@
         <dl class="pf-hero__stats">
             <div class="reveal"><dt>Projects shipped</dt><dd>547<em>+</em></dd></div>
             <div class="reveal" data-delay="1"><dt>Featured here</dt><dd>{{ $itemsByYear->flatten()->count() + ($featured ? 1 : 0) }}<em>·</em></dd></div>
-            <div class="reveal" data-delay="2"><dt>Disciplines</dt><dd>06<em>·</em></dd></div>
+            <div class="reveal" data-delay="2"><dt>Disciplines</dt><dd>03<em>·</em></dd></div>
             <div class="reveal" data-delay="3"><dt>Window</dt><dd>2024–26</dd></div>
         </dl>
     </section>

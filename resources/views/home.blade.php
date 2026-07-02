@@ -205,26 +205,16 @@
                 </li>
                 <li class="belief spotlight reveal" data-delay="1">
                     <span class="belief__num">02</span>
-                    <h3 class="belief__title">Every frame <em>earns its place.</em></h3>
-                    <p class="belief__note">If a shot isn't doing a job — emotional, narrative, structural — it gets cut. Length is not craft.</p>
-                </li>
-                <li class="belief spotlight reveal" data-delay="2">
-                    <span class="belief__num">03</span>
                     <h3 class="belief__title">No one <em>outsources</em> our color.</h3>
                     <p class="belief__note">Grade is authorship. The same hand that lit it grades it. Always.</p>
                 </li>
-                <li class="belief spotlight reveal" data-delay="3">
-                    <span class="belief__num">04</span>
+                <li class="belief spotlight reveal" data-delay="2">
+                    <span class="belief__num">03</span>
                     <h3 class="belief__title">Story <em>before</em> spectacle.</h3>
                     <p class="belief__note">Drones, crash zooms and grade tricks are tools — never the brief. Pretty without purpose is noise.</p>
                 </li>
-                <li class="belief spotlight reveal" data-delay="4">
-                    <span class="belief__num">05</span>
-                    <h3 class="belief__title">We shoot for <em>the cut.</em></h3>
-                    <p class="belief__note">Every setup is planned with the edit in mind. Coverage is a budget — we spend it on purpose.</p>
-                </li>
-                <li class="belief spotlight reveal" data-delay="5">
-                    <span class="belief__num">06</span>
+                <li class="belief spotlight reveal" data-delay="3">
+                    <span class="belief__num">04</span>
                     <h3 class="belief__title">The brief is a <em>thesis,</em> not a checklist.</h3>
                     <p class="belief__note">We interrogate it, push back when needed, and protect the idea from death-by-revision.</p>
                 </li>
@@ -430,11 +420,10 @@
                 </div>
             </div>
             <ol class="why-list reveal" data-delay="1">
-                <li>Industry-focused approach, not generic services</li>
-                <li>Experience across professional and brand-led environments</li>
-                <li>End-to-end execution from shoot to final delivery</li>
-                <li>Consistent quality across photography and video</li>
-                <li>Trusted by brands, corporates, and event teams</li>
+                <li>Post-production in-house — the edit is our edge</li>
+                <li>One team from brief to final master</li>
+                <li>Same standard across photo and film</li>
+                <li>Trusted by brands, corporates and event teams</li>
             </ol>
         </div>
     </section>
