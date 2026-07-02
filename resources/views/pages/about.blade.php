@@ -31,7 +31,7 @@
     <div class="wrap">
       <div class="services__head">
         <div><span class="section__eyebrow">Principles</span><h2 class="section__title" data-split>How we <em>operate</em></h2></div>
-        <p class="section__lead reveal">Five non-negotiables that shape every brief we accept.</p>
+        <p class="section__lead reveal">Four non-negotiables that shape every brief we accept.</p>
       </div>
       <div class="proc">
         <div class="proc__step reveal"><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>Every frame answers a question the brand actually has.</p></div>

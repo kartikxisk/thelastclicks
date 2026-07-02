@@ -64,8 +64,8 @@
       <div class="avail reveal">
         <div class="avail__pulse"><span class="avail__dot"></span>Booking now</div>
         <div class="avail__text">
-          <strong>Next available shoot window: Jun 4</strong>
-          Booked through May. New briefs reviewed within 4 working hours.
+          <strong>Taking briefs for 2026 — limited slots</strong>
+          Every new brief reviewed within 4 working hours.
         </div>
         <a class="btn btn--red avail__cta" href="#quote" data-quote-trigger data-magnetic data-cursor="START">Get a quote <span class="arr"></span></a>
       </div>
@@ -113,6 +113,13 @@
   <section class="cta-strip" style="padding-top:40px">
     <div class="wrap">
       <h2 class="cta-strip__title" data-split>Or just <em>say hi.</em></h2>
+      <div class="cta-strip__row reveal">
+        <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">No brief yet? A DM works too.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn--red" href="{{ \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842') }}" target="_blank" rel="noopener" data-noswap data-magnetic data-cursor="DM">WhatsApp us <span class="arr"></span></a>
+          <a class="btn btn--ghost" href="mailto:{{ \App\Models\SiteSetting::get('contact_email', 'hello@thelastclicks.com') }}" data-cursor="EMAIL">Email instead <span class="arr"></span></a>
+        </div>
+      </div>
     </div>
   </section>
 </x-layouts.app>

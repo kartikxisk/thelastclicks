@@ -168,7 +168,7 @@
                     <span class="section__eyebrow" data-scramble>Selected Projects</span>
                     <h2 class="section__title" data-split>Selected <em>work</em></h2>
                 </div>
-                <p class="section__lead reveal">A curated showcase across events, brands, and productions. Hover to preview.</p>
+                <p class="section__lead reveal">A curated showcase across events, brands, and productions.</p>
             </div>
             <div class="portfolio__list">
                 @foreach ($portfolio as $item)

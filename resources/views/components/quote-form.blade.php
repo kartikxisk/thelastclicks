@@ -44,7 +44,7 @@
         <div class="field">
             <label>Budget</label>
             <select name="budget">
-                <option {{ old('budget') == '—' ? 'selected' : '' }}>—</option>
+                <option value="" {{ old('budget') === null || old('budget') === '' ? 'selected' : '' }}>Select a range</option>
                 <option {{ old('budget') == 'Under ₹5L' ? 'selected' : '' }}>Under ₹5L</option>
                 <option {{ old('budget') == '₹5L – ₹15L' ? 'selected' : '' }}>₹5L – ₹15L</option>
                 <option {{ old('budget') == '₹15L – ₹50L' ? 'selected' : '' }}>₹15L – ₹50L</option>
