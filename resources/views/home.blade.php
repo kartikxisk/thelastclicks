@@ -188,40 +188,6 @@
         </div>
     </section>
 
-    <!-- BELIEFS -->
-    <section class="section beliefs" data-screen-label="05 Beliefs">
-        <div class="wrap">
-            <div class="services__head">
-                <div>
-                    <span class="section__eyebrow">What we believe</span>
-                </div>
-                <p class="section__lead reveal">Non-negotiable. They show up in every frame.</p>
-            </div>
-            <ol class="beliefs__list">
-                <li class="belief spotlight reveal">
-                    <span class="belief__num">01</span>
-                    <h3 class="belief__title">We don't pitch in <em>PowerPoint.</em></h3>
-                    <p class="belief__note">A treatment is a film in miniature. If we can't show it, we don't deserve to make it.</p>
-                </li>
-                <li class="belief spotlight reveal" data-delay="1">
-                    <span class="belief__num">02</span>
-                    <h3 class="belief__title">No one <em>outsources</em> our color.</h3>
-                    <p class="belief__note">Grade is authorship. The same hand that lit it grades it. Always.</p>
-                </li>
-                <li class="belief spotlight reveal" data-delay="2">
-                    <span class="belief__num">03</span>
-                    <h3 class="belief__title">Story <em>before</em> spectacle.</h3>
-                    <p class="belief__note">Drones, crash zooms and grade tricks are tools — never the brief. Pretty without purpose is noise.</p>
-                </li>
-                <li class="belief spotlight reveal" data-delay="3">
-                    <span class="belief__num">04</span>
-                    <h3 class="belief__title">The brief is a <em>thesis,</em> not a checklist.</h3>
-                    <p class="belief__note">We interrogate it, push back when needed, and protect the idea from death-by-revision.</p>
-                </li>
-            </ol>
-        </div>
-    </section>
-
     <!-- PROCESS -->
     <section class="section sproc" data-screen-label="05 Process">
         <div class="wrap">
