@@ -91,7 +91,14 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    php artisan config:cache
    php artisan route:cache
    php artisan view:cache
+   php artisan responsecache:clear
    ```
+
+   `responsecache:clear` is NOT optional: `npm run build` replaces the hashed
+   filenames in `public/build`, and the response cache keeps serving HTML that
+   references the old names — every cached page 404s its CSS/JS until the
+   cache is flushed. Every deploy script (including the Forge auto-deploy
+   script) must end with it.
 
 6. Add the supervisor config for `queue:work` (see top of this file).
 7. Add the system cron entry (see top).
@@ -102,6 +109,15 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
 ## CI/CD
 
 GitHub Actions runs pest + pint + phpstan on every PR. Forge auto-deploys on push to `main` via Forge webhook (configure in Forge → Site → Auto deploy).
+
+The Forge deploy script must include, after `npm run build`:
+
+```bash
+php artisan responsecache:clear
+```
+
+Without it, stale cached pages reference wiped `public/build` asset hashes
+and the site loads unstyled (404 on CSS/JS) until the cache expires.
 
 ## Monitoring
 
