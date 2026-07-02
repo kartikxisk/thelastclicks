@@ -35,6 +35,7 @@
             <option {{ old('project_type') == 'Product launch' ? 'selected' : '' }}>Product launch</option>
             <option {{ old('project_type') == 'Wedding' ? 'selected' : '' }}>Wedding</option>
             <option {{ old('project_type') == 'Editorial / photography' ? 'selected' : '' }}>Editorial / photography</option>
+            <option {{ old('project_type') == 'Post-production only' ? 'selected' : '' }}>Post-production only</option>
             <option {{ old('project_type') == 'Other' ? 'selected' : '' }}>Other</option>
         </select>
         @error('project_type') <small class="err">{{ $message }}</small> @enderror

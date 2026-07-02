@@ -19,6 +19,11 @@ Route::middleware('cacheResponse')->group(function () {
     Route::get('/cookie-policy', [PageController::class, 'cookies'])->name('cookies');
     Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('disclaimer');
     Route::get('/thank-you', [PageController::class, 'thankYou'])->name('thank-you');
+    // Retired service pages — the studio now offers photography, videography and
+    // post-production only. Old URLs 301 to the closest remaining service.
+    Route::redirect('/services/weddings', '/services/videography', 301);
+    Route::redirect('/services/social-content', '/services/post-production', 301);
+    Route::redirect('/services/creative-direction', '/services/post-production', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
     Route::get('/industries/{slug}', [IndustryController::class, 'show'])->name('industry.show');

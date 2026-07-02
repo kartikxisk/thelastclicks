@@ -1965,30 +1965,66 @@
   font-weight: 400;
   color: var(--red);
 }
-.sproc__panel p {
-  font-size: 16px;
-  line-height: 1.55;
+/* Animated line glyph — strokes draw in when the panel activates; the motion
+   explains the phase so the copy doesn't have to. */
+.sproc__glyph {
+  width: 56px;
+  height: 56px;
   color: var(--paper-dim);
-  max-width: 46ch;
+  overflow: visible;
 }
-.sproc__panel ul {
+.sproc__glyph .g {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.9s var(--ease) var(--d, 0.2s);
+}
+.sproc__panel.is-on .sproc__glyph .g { stroke-dashoffset: 0; }
+.sproc__glyph .f {
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: opacity 0.4s var(--ease) 0.85s, transform 0.4s var(--ease) 0.85s;
+}
+.sproc__panel.is-on .sproc__glyph .f {
+  opacity: 1;
+  transform: scale(1);
+}
+.sproc__panel.is-on .sproc__glyph .pulse { animation: sproc-rec 1.8s ease-in-out 1.2s infinite; }
+@keyframes sproc-rec { 50% { opacity: 0.35; } }
+
+.sproc__keys {
   list-style: none;
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin-top: 4px;
 }
-.sproc__panel li {
+.sproc__keys li {
   font-size: 14px;
   color: var(--paper-dim);
   display: flex;
   align-items: center;
   gap: 12px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
 }
-.sproc__panel li::before {
+.sproc__keys li::before {
   content: '';
   width: 18px; height: 1px;
   background: var(--red);
   flex-shrink: 0;
+}
+.sproc__panel.is-on .sproc__keys li { opacity: 1; transform: none; }
+.sproc__panel.is-on .sproc__keys li:nth-child(1) { transition-delay: 0.35s; }
+.sproc__panel.is-on .sproc__keys li:nth-child(2) { transition-delay: 0.5s; }
+.sproc__panel.is-on .sproc__keys li:nth-child(3) { transition-delay: 0.65s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sproc__glyph .g { stroke-dashoffset: 0; transition: none; }
+  .sproc__glyph .f { opacity: 1; transform: none; transition: none; }
+  .sproc__panel.is-on .sproc__glyph .pulse { animation: none; }
+  .sproc__keys li { opacity: 1; transform: none; transition: none; }
 }
 
 .sproc__progress {
@@ -2096,6 +2132,10 @@
   .sproc__media { display: none; }
   .sproc__counter, .sproc__progress, .sproc__dots { display: none; }
   .sproc__panel h3 { font-size: clamp(28px, 7vw, 40px); }
+  /* No scroll-sync on mobile (media column hidden) — show glyphs and keys drawn. */
+  .sproc__glyph .g { stroke-dashoffset: 0; }
+  .sproc__glyph .f { opacity: 1; transform: none; }
+  .sproc__keys li { opacity: 1; transform: none; }
 }
 
 /* ---------- Cursor trail ---------- */

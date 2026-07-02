@@ -142,7 +142,7 @@
                     <span class="section__eyebrow" data-scramble>Our Services</span>
                     <h2 class="section__title" data-split>What <em>we do</em></h2>
                 </div>
-                <p class="section__lead reveal">End-to-end visual production, brief to final delivery.</p>
+                <p class="section__lead reveal">Photography and film, finished in-house. Post-production is where we win — post-only briefs welcome.</p>
             </div>
             <div class="services__list">
                 @foreach ($services as $service)
@@ -251,45 +251,62 @@
                         <article class="sproc__panel is-on" data-panel="0">
                             <span class="sproc__phase">Phase one · Brief</span>
                             <h3>Understanding the <em>brief.</em></h3>
-                            <p>We map your goals, audience and brand guardrails into a creative thesis and shared success metrics.</p>
-                            <ul>
-                                <li>Discovery call &amp; goal mapping</li>
-                                <li>Audience and channel analysis</li>
-                                <li>Creative thesis lock</li>
-                                <li>Deliverables &amp; KPIs</li>
+                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <circle class="g" cx="32" cy="32" r="18" pathLength="1"/>
+                                <path class="g" d="M32 6v8M32 50v8M6 32h8M50 32h8" pathLength="1" style="--d:.5s"/>
+                                <circle class="f" cx="32" cy="32" r="3.5" fill="var(--red)" stroke="none"/>
+                            </svg>
+                            <ul class="sproc__keys">
+                                <li>Discovery call</li>
+                                <li>Creative thesis</li>
+                                <li>KPIs locked</li>
                             </ul>
                         </article>
                         <article class="sproc__panel" data-panel="1">
                             <span class="sproc__phase">Phase two · Plan</span>
                             <h3>Pre-production <em>planning.</em></h3>
-                            <p>Treatment, shot list, casting and schedule lock in parallel — no surprises on shoot day.</p>
-                            <ul>
-                                <li>Treatment &amp; mood board</li>
-                                <li>Shot list &amp; storyboard</li>
-                                <li>Casting, locations, permits</li>
-                                <li>Crew &amp; kit confirmed</li>
+                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <rect class="g" x="6" y="20" width="14" height="24" pathLength="1"/>
+                                <rect class="g" x="25" y="20" width="14" height="24" pathLength="1" style="--d:.35s"/>
+                                <rect class="g" x="44" y="20" width="14" height="24" pathLength="1" style="--d:.55s"/>
+                                <path class="f" d="M30 28.5l5.5 3.5-5.5 3.5z" fill="var(--red)" stroke="none"/>
+                            </svg>
+                            <ul class="sproc__keys">
+                                <li>Treatment &amp; shot list</li>
+                                <li>Casting &amp; locations</li>
+                                <li>Crew &amp; kit locked</li>
                             </ul>
                         </article>
                         <article class="sproc__panel" data-panel="2">
                             <span class="sproc__phase">Phase three · Shoot</span>
                             <h3>On-ground <em>execution.</em></h3>
-                            <p>Full-crew capture, top-tier kit, daily rushes — zero drift from the plan.</p>
-                            <ul>
-                                <li>Cinema cameras + full crew</li>
-                                <li>On-set look development</li>
-                                <li>Daily rushes &amp; selects</li>
-                                <li>Director-led adaptive direction</li>
+                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <path class="g" d="M10 22V12a2 2 0 0 1 2-2h10" pathLength="1"/>
+                                <path class="g" d="M42 10h10a2 2 0 0 1 2 2v10" pathLength="1" style="--d:.2s"/>
+                                <path class="g" d="M54 42v10a2 2 0 0 1-2 2H42" pathLength="1" style="--d:.4s"/>
+                                <path class="g" d="M22 54H12a2 2 0 0 1-2-2V42" pathLength="1" style="--d:.6s"/>
+                                <circle class="f pulse" cx="32" cy="32" r="4" fill="var(--red)" stroke="none"/>
+                            </svg>
+                            <ul class="sproc__keys">
+                                <li>Full crew, cinema kit</li>
+                                <li>On-set look dev</li>
+                                <li>Daily rushes</li>
                             </ul>
                         </article>
                         <article class="sproc__panel" data-panel="3">
                             <span class="sproc__phase">Phase four · Finish</span>
                             <h3>Post-production &amp; <em>delivery.</em></h3>
-                            <p>In-house grade, sound and finish — brand-compliant masters, platform-tuned exports.</p>
-                            <ul>
-                                <li>Story-led edit cycles</li>
-                                <li>ACES grade &amp; sound design</li>
-                                <li>Platform-native masters</li>
-                                <li>Cloud archive &amp; debrief</li>
+                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                <path class="g" d="M12 27v10" pathLength="1"/>
+                                <path class="g" d="M22 20v24" pathLength="1" style="--d:.15s"/>
+                                <path class="g" d="M32 13v38" pathLength="1" style="--d:.3s" stroke="var(--red)"/>
+                                <path class="g" d="M42 22v20" pathLength="1" style="--d:.45s"/>
+                                <path class="g" d="M52 28v8" pathLength="1" style="--d:.6s"/>
+                            </svg>
+                            <ul class="sproc__keys">
+                                <li>Edit &amp; ACES grade</li>
+                                <li>Sound design</li>
+                                <li>Platform masters</li>
                             </ul>
                         </article>
                     </div>

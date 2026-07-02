@@ -31,7 +31,7 @@ class PortfoliosSeeder extends Seeder
                 ],
             ],
             [
-                'slug' => 'udaipur', 'service' => 'weddings',
+                'slug' => 'udaipur', 'service' => 'videography',
                 'title' => 'Udaipur · S & R', 'hero_html' => 'A wedding, <em>by the lake.</em>',
                 'client' => 'Sanya & Rohan', 'year' => '2026', 'location' => 'Udaipur',
                 'body' => '<p>Five days, four events, two cities. We followed Sanya & Rohan from their Mumbai roka through the lakefront sangeet at Taj Lake Palace. The treatment: timeless, golden, never staged.</p>',
@@ -108,7 +108,7 @@ class PortfoliosSeeder extends Seeder
                 ],
             ],
             [
-                'slug' => 'goa', 'service' => 'weddings',
+                'slug' => 'goa', 'service' => 'photography',
                 'title' => 'Goa · M & A', 'hero_html' => 'Seafoam and <em>sunlight.</em>',
                 'client' => 'Meera & Aarav', 'year' => '2024', 'location' => 'Goa',
                 'body' => '<p>A three-day beach wedding in South Goa. Quiet, tropical, sun-led.</p>',

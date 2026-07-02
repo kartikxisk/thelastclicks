@@ -86,6 +86,7 @@ class QuoteResource extends Resource
                             'Product launch' => 'Product launch',
                             'Wedding' => 'Wedding',
                             'Editorial / photography' => 'Editorial / photography',
+                            'Post-production only' => 'Post-production only',
                             'Other' => 'Other',
                         ]),
                         Select::make('budget')->options([

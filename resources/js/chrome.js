@@ -137,7 +137,7 @@ window.TLC = (function(){
                 <p>Pick the closest match — you can refine later.</p>
               </header>
               <div class="quote__chips" data-name="type">
-                ${['Wedding film','Brand commercial','Product shoot','Event coverage','Music video','Documentary','Real estate','Editorial','Something else'].map(t => `<button type="button" class="quote__chip" data-value="${t}"><span>${t}</span></button>`).join('')}
+                ${['Post-production only','Wedding film','Brand commercial','Product shoot','Event coverage','Music video','Documentary','Real estate','Editorial','Something else'].map(t => `<button type="button" class="quote__chip" data-value="${t}"><span>${t}</span></button>`).join('')}
               </div>
             </section>
             <!-- STEP 2: scope -->

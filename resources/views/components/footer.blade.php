@@ -11,7 +11,7 @@
 
     <div class="foot__grid">
       <div class="foot__col foot__intro">
-        <p>Cinematic photography, videography &amp; production for brands, events and weddings — built to scale with your story.</p>
+        <p>Cinematic photography &amp; videography, finished by the in-house post-production that sets us apart.</p>
         <p class="foot__avail">Available for bookings — Limited slots for 2026</p>
       </div>
       <div class="foot__col">
@@ -25,9 +25,9 @@
       <div class="foot__col">
         <h5>Work</h5>
         <a href="{{ url('/portfolio') }}">Portfolio</a>
-        <a href="{{ url('/portfolio') }}#weddings">Weddings</a>
-        <a href="{{ url('/portfolio') }}#brands">Brand films</a>
-        <a href="{{ url('/portfolio') }}#corporate">Corporate</a>
+        <a href="{{ url('/services/post-production') }}">Post Production</a>
+        <a href="{{ url('/services/videography') }}">Videography</a>
+        <a href="{{ url('/services/photography') }}">Photography</a>
         <a href="{{ url('/contact') }}">Start a project</a>
       </div>
       <div class="foot__col">

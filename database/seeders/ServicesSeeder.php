@@ -10,7 +10,10 @@ class ServicesSeeder extends Seeder
     public function run(): void
     {
         // "talent" is the crew/team page (/crew), not a service — removed here.
-        Service::where('slug', 'talent')->delete();
+        // Weddings, social content and creative direction are no longer offered as
+        // standalone services; the studio sells photography, videography and
+        // post-production (the USP) only.
+        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction'])->delete();
 
         $services = [
             'videography' => [
@@ -56,7 +59,7 @@ class ServicesSeeder extends Seeder
             'photography' => [
                 'hero_headline' => 'Photography,<br><em>brand-grade.</em>',
                 'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 01'],
+                    ['label' => 'Discipline', 'value' => 'Discipline · 03'],
                     ['label' => 'Format', 'value' => 'Stills + retouch'],
                     ['label' => 'Typical scope', 'value' => '1–5 day shoot'],
                     ['label' => 'Timeline', 'value' => '3–10 days'],
@@ -94,52 +97,10 @@ class ServicesSeeder extends Seeder
                 ],
                 'cta' => ['title' => 'Light the <em>frame.</em>', 'copy' => 'Brief us on the shoot. We\'ll come back with a treatment, timeline, and budget within 4 working hours.', 'prefill' => 'Product shoot'],
             ],
-            'weddings' => [
-                'hero_headline' => 'Cinematic,<br><em>never</em> staged.',
-                'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 05'],
-                    ['label' => 'Format', 'value' => 'Photo + film'],
-                    ['label' => 'Typical scope', 'value' => '1–5 day event'],
-                    ['label' => 'Timeline', 'value' => '2–4 weeks'],
-                ],
-                'proof' => ['count' => '124', 'label' => 'Weddings shot · 2024–26', 'sectors' => 'Destination · Intimate · Multi-event'],
-                'pillars' => [
-                    ['title' => 'Story before staging', 'desc' => 'Treatment-led, never posed. Real moments captured cinematically.'],
-                    ['title' => 'Same-day reel', 'desc' => 'Cut on-site. Delivered before guests leave — guaranteed.'],
-                    ['title' => 'Director on every shoot', 'desc' => 'A treatment, a shot list, and a director. Just like a brand film.'],
-                    ['title' => 'Two-year archive', 'desc' => 'Searchable cloud archive of selects. Re-cuts, re-purposes, never a re-fee.'],
-                ],
-                'phases' => [
-                    ['num' => '01', 'title' => 'Pre-event', 'desc' => 'Story call, location recce, family briefing, shot list aligned with planner.', 'time' => 'T-30 days'],
-                    ['num' => '02', 'title' => 'Coverage', 'desc' => 'Multi-day photo + film, 2–6 shooters depending on scale.', 'time' => 'Event days'],
-                    ['num' => '03', 'title' => 'Same-day', 'desc' => '3–5 min cinematic reel cut on-site and delivered before guests leave.', 'time' => 'Event night'],
-                    ['num' => '04', 'title' => 'Photo edit', 'desc' => '400–800 retouched stills with story-led sequencing.', 'time' => '+10 days'],
-                    ['num' => '05', 'title' => 'Film', 'desc' => '12–15 min cinematic cut with original sound design and grade.', 'time' => '+3 weeks'],
-                ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1519741497674-611481863552?w=2000&q=85',
-                    'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=85',
-                    'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1600&q=85',
-                ],
-                'kit' => [
-                    ['title' => 'Cameras', 'items' => ['Sony A1', 'Sony FX6', 'Sony A7R V', 'DJI Inspire 3 (drone)']],
-                    ['title' => 'Lenses', 'items' => ['Sigma 35mm Art', 'Sigma 85mm Art', '70mm macro', 'Cine zooms']],
-                    ['title' => 'Reel rig', 'items' => ['On-site edit station', 'Pro Tools mix', 'same-day color', 'portable IO']],
-                ],
-                'featured_slug' => 'udaipur',
-                'faqs' => [
-                    ['q' => 'Do you travel for destination weddings?', 'a' => 'Yes — pan-India and select international destinations. Travel and lodging are billed at cost with no markup.'],
-                    ['q' => 'How many hours are covered per day?', 'a' => 'Standard is 10 hours per event-day with breaks. Multi-event days can be extended on request.'],
-                    ['q' => 'When do we get the full film?', 'a' => 'Same-day reel before guests leave. Full edit lands in 2–4 weeks.'],
-                ],
-                'cta' => ['title' => 'Tell us your <em>story.</em>', 'copy' => 'Pencil us in or just say hi. We\'ll respond with availability and a tailored quote within 4 working hours.', 'prefill' => 'Wedding film'],
-            ],
             'post-production' => [
                 'hero_headline' => 'Post that <em>carries</em><br>the brand.',
                 'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 03'],
+                    ['label' => 'Discipline', 'value' => 'Discipline · 01'],
                     ['label' => 'Format', 'value' => 'Post-only or full'],
                     ['label' => 'Typical scope', 'value' => 'Per project'],
                     ['label' => 'Timeline', 'value' => '1–3 weeks'],
@@ -174,117 +135,28 @@ class ServicesSeeder extends Seeder
                     ['q' => 'What\'s your turnaround on a 60-second cut?', 'a' => 'Typically 5–7 working days from picture-lock to mastered delivery.'],
                     ['q' => 'Do you handle subtitle and localisation?', 'a' => 'Yes — multilingual subtitles and full localisation passes are an add-on.'],
                 ],
-                'cta' => ['title' => 'Finish like <em>you mean it.</em>', 'copy' => 'Send your footage or your brief. We\'ll review and quote a finish plan within 4 working hours.', 'prefill' => 'Something else'],
-            ],
-            'social-content' => [
-                'hero_headline' => 'Always-on,<br><em>never</em> thin.',
-                'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 06'],
-                    ['label' => 'Format', 'value' => 'Monthly + ad-hoc'],
-                    ['label' => 'Typical scope', 'value' => 'Per month / per shoot'],
-                    ['label' => 'Timeline', 'value' => '1–2 weeks'],
-                ],
-                'proof' => ['count' => '24', 'label' => 'Brands on retainer · 2026', 'sectors' => 'Social · LinkedIn · Internal'],
-                'pillars' => [
-                    ['title' => 'Same standard, scaled down', 'desc' => 'Same crew, kit and post pipeline as our brand films — sized for monthly cadence.'],
-                    ['title' => 'Multi-format capture', 'desc' => '9:16, 1:1, 16:9 — shot once, cut for every platform.'],
-                    ['title' => 'Cadence over scarcity', 'desc' => 'Monthly batch model: one shoot day → 8–12 platform cuts.'],
-                    ['title' => 'Asset library', 'desc' => 'Searchable cloud library so the brand can self-serve future cuts.'],
-                ],
-                'phases' => [
-                    ['num' => '01', 'title' => 'Plan', 'desc' => 'Content pillars, formats, schedule, channel mix — locked monthly.', 'time' => 'Day 1'],
-                    ['num' => '02', 'title' => 'Shoot', 'desc' => 'One batch shoot day per month. Multi-format capture from a single rig.', 'time' => 'Day 5'],
-                    ['num' => '03', 'title' => 'Cut', 'desc' => '9:16, 1:1, 16:9 cuts. Reels, shorts, LinkedIn-tuned versions.', 'time' => 'Day 7–10'],
-                    ['num' => '04', 'title' => 'Caption', 'desc' => 'Burned-in captions + platform-native styling. Subtitle-ready.', 'time' => 'Day 10'],
-                    ['num' => '05', 'title' => 'Review', 'desc' => 'Quarterly performance review. What worked, what to do next.', 'time' => 'Quarterly'],
-                ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=2000&q=85',
-                ],
-                'kit' => [
-                    ['title' => 'Capture', 'items' => ['Sony FX6', 'Sony A7R V', 'DJI Ronin 4D', 'vertical-native rigs']],
-                    ['title' => 'Post', 'items' => ['Adobe Premiere', 'DaVinci grade', 'platform-spec presets', 'caption tooling']],
-                    ['title' => 'Delivery', 'items' => ['Cloud asset library', 'monthly batches', 'analytics-ready files']],
-                ],
-                'featured_slug' => 'conf25',
-                'faqs' => [
-                    ['q' => 'Do you provide a content strategist?', 'a' => 'For growth and custom plans, yes — a producer co-owns the calendar with your team.'],
-                    ['q' => 'Can we mix platforms — Instagram, LinkedIn, YouTube Shorts?', 'a' => 'Yes — we shoot once, cut for every major platform spec.'],
-                    ['q' => 'Is paid-media-ready creative included?', 'a' => 'Per-platform paid cuts (clean frames, hook variants) are an add-on we recommend for performance briefs.'],
-                ],
-                'cta' => ['title' => 'Plan the <em>cadence.</em>', 'copy' => 'Share your channels and goals. We\'ll come back with a monthly plan and quote within 4 working hours.', 'prefill' => 'Event coverage'],
-            ],
-            'creative-direction' => [
-                'hero_headline' => 'The idea,<br><em>before</em> the camera.',
-                'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 04'],
-                    ['label' => 'Format', 'value' => 'Strategy + craft'],
-                    ['label' => 'Typical scope', 'value' => 'Per campaign'],
-                    ['label' => 'Timeline', 'value' => '2–8 weeks'],
-                ],
-                'proof' => ['count' => '38', 'label' => 'Campaigns directed · 2024–26', 'sectors' => 'Brand · Campaign · Long-form'],
-                'pillars' => [
-                    ['title' => 'Treatment as film', 'desc' => 'Our treatments are the closest thing to seeing the final cut before it exists.'],
-                    ['title' => 'Single thesis', 'desc' => 'Every campaign serves one creative thesis. Drift requires a decision, never a slip.'],
-                    ['title' => 'Visual systems', 'desc' => 'We don\'t deliver one-shot creative. We hand off a system the brand can reuse.'],
-                    ['title' => 'On-set authorship', 'desc' => 'Direction continues onto the floor. Same brain, brief to finish.'],
-                ],
-                'phases' => [
-                    ['num' => '01', 'title' => 'Discovery', 'desc' => 'Audience, channel, guardrails, success metrics — locked in a 2-hour kickoff.', 'time' => 'Day 1'],
-                    ['num' => '02', 'title' => 'Thesis', 'desc' => 'A one-sentence creative point of view the whole campaign serves.', 'time' => 'Day 2–3'],
-                    ['num' => '03', 'title' => 'Treatment', 'desc' => 'Visualised deck — palette, type, references, motion language.', 'time' => 'Day 4–10'],
-                    ['num' => '04', 'title' => 'System', 'desc' => 'Palette, type, photo direction, motion principles — documented to hand off.', 'time' => 'Week 3–4'],
-                    ['num' => '05', 'title' => 'Direction', 'desc' => 'On-set art direction protects the idea through execution.', 'time' => 'Shoot days'],
-                ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=85',
-                ],
-                'kit' => [
-                    ['title' => 'Concepts', 'items' => ['Treatment writing', 'mood-boarding', 'script-doctoring', 'reference grading']],
-                    ['title' => 'Systems', 'items' => ['Brand-aligned palette', 'type', 'motion principles', 'documentation']],
-                    ['title' => 'On-set', 'items' => ['Art direction', 'casting', 'production design', 'continuity protection']],
-                ],
-                'featured_slug' => 'beverage',
-                'faqs' => [
-                    ['q' => 'Do you provide direction only — without production?', 'a' => 'Yes. We often deliver treatments and visual systems that the brand executes with their own crew or another studio.'],
-                    ['q' => 'How do you keep the idea intact through revisions?', 'a' => 'By writing a clear creative thesis up front and treating every revision as a check against it. No drift without a decision.'],
-                    ['q' => 'Do you do brand identity work?', 'a' => 'Photographic and motion identity — yes. For logo systems we collaborate with brand-identity partners.'],
-                ],
-                'cta' => ['title' => 'Start with the <em>idea.</em>', 'copy' => 'Drop the strategic brief. We\'ll come back with a creative thesis and engagement scope within 4 working hours.', 'prefill' => 'Brand commercial'],
+                'cta' => ['title' => 'Finish like <em>you mean it.</em>', 'copy' => 'Send your footage or your brief. We\'ll review and quote a finish plan within 4 working hours.', 'prefill' => 'Post-production only'],
             ],
         ];
 
         $heroCopy = [
+            'post-production' => 'Our signature — edit, colour, sound, finishing. Post-only briefs welcome.',
             'videography' => 'Brand films, commercials, documentaries.',
             'photography' => 'Editorial, lifestyle, product, portrait.',
-            'weddings' => 'Cinematic wedding films and stills.',
-            'post-production' => 'Edit, colour, sound, finishing.',
-            'social-content' => 'Short-form, vertical, campaign-ready.',
-            'creative-direction' => 'Concept, treatment, art direction.',
         ];
         $titles = [
+            'post-production' => 'Post Production',
             'videography' => 'Videography',
             'photography' => 'Photography',
-            'weddings' => 'Weddings',
-            'post-production' => 'Post Production',
-            'social-content' => 'Social Content',
-            'creative-direction' => 'Creative Direction',
         ];
-        $order = array_keys($services);
+        // Post-production is the studio's USP — it leads everywhere services are listed.
+        $order = ['post-production', 'videography', 'photography'];
         // Discipline "mix of work" percentages — descending, sums to 100. Drives the
         // portfolio bars (.pf-disc__c label + --p fill), mirroring the design.
         $share = [
-            'videography' => 32,
-            'weddings' => 24,
-            'photography' => 18,
-            'post-production' => 12,
-            'social-content' => 8,
-            'creative-direction' => 6,
+            'post-production' => 40,
+            'videography' => 35,
+            'photography' => 25,
         ];
 
         foreach ($services as $slug => $data) {

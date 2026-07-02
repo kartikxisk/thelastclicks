@@ -147,8 +147,17 @@
     font-size: 15.5px;
     color: var(--paper);
     line-height: 1.5;
-    transition: padding-left 0.4s var(--ease-soft), color 0.4s var(--ease);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease),
+                padding-left 0.4s var(--ease-soft), color 0.4s var(--ease);
   }
+  /* Items cascade in once the list scrolls into view (.reveal → .is-in). */
+  .checklist.is-in li { opacity: 1; transform: none; }
+  .checklist.is-in li:nth-child(1) { transition-delay: 0.1s; }
+  .checklist.is-in li:nth-child(2) { transition-delay: 0.22s; }
+  .checklist.is-in li:nth-child(3) { transition-delay: 0.34s; }
+  .checklist.is-in li:nth-child(4) { transition-delay: 0.46s; }
   .checklist li:hover { padding-left: 8px; color: var(--red); }
   .checklist li .check {
     width: 20px; height: 20px;
@@ -169,8 +178,17 @@
   }
   .checklist li:hover .check { background: var(--red); transform: scale(1.1); }
   .checklist li:hover .check::after { border-color: #fff; }
-  .checklist li strong { font-family: var(--f-display); font-weight: 500; display: block; margin-bottom: 2px; }
-  .checklist li span { color: var(--paper-dim); font-size: 13.5px; line-height: 1.5; display: block; }
+  .checklist li strong { font-family: var(--f-display); font-weight: 500; display: block; }
+
+  /* Phase glyphs reuse the homepage sproc set; drawn in when revealed. */
+  .phase .sproc__glyph { width: 48px; height: 48px; }
+  .sproc__glyph.reveal.is-in .g { stroke-dashoffset: 0; }
+  .sproc__glyph.reveal.is-in .f { opacity: 1; transform: scale(1); }
+  .sproc__glyph.reveal.is-in .pulse { animation: sproc-rec 1.8s ease-in-out 1.2s infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .checklist li { opacity: 1; transform: none; transition: padding-left 0.4s var(--ease-soft), color 0.4s var(--ease); }
+  }
 
   /* Output card */
   .output {
@@ -485,7 +503,7 @@
     <div class="proc-hero__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Our Process</span></div>
     <div class="proc-hero__row">
       <h1 data-split>From <em>brief</em><br>to <em>final cut.</em></h1>
-      <p class="proc-hero__lead reveal">Eight years of productions taught us one thing — a clear process is how we protect the craft. Here's how we work, what you get, what we guarantee.</p>
+      <p class="proc-hero__lead reveal">A clear process is how we protect the craft. Four phases, written guarantees.</p>
     </div>
     <dl class="proc-hero__stats">
       <div class="stat reveal"><dt>Phases</dt><dd>04<em>·</em></dd></div>
@@ -511,7 +529,12 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>01</strong>Discovery &amp; Brief</span>
           <h3 class="phase__title">Understanding the <em>real</em> brief.</h3>
-          <p class="phase__lead">Before any camera, we map goals, audience, brand guardrails and success metrics — pushing back on briefs that won't survive the rough cut.</p>
+          <svg class="sproc__glyph reveal" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle class="g" cx="32" cy="32" r="18" pathLength="1"/>
+            <path class="g" d="M32 6v8M32 50v8M6 32h8M50 32h8" pathLength="1" style="--d:.5s"/>
+            <circle class="f" cx="32" cy="32" r="3.5" fill="var(--red)" stroke="none"/>
+          </svg>
+          <p class="phase__lead">Goals, audience, guardrails and metrics — locked before any camera moves.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Day 0–2</span>
             <span class="phase__pill">2-hour kickoff</span>
@@ -523,11 +546,11 @@
             <span class="phase__media-tag">Kickoff</span>
             <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=85" alt="Discovery session" decoding="async">
           </div>
-          <ul class="checklist">
-            <li><span class="check"></span><div><strong>Audience &amp; channel mapping</strong><span>Who watches, where they meet it, and the one emotional beat that must land.</span></div></li>
-            <li><span class="check"></span><div><strong>Brand guardrails inventory</strong><span>Tone, palette, type, motion principles, regulatory and compliance constraints.</span></div></li>
-            <li><span class="check"></span><div><strong>Success metrics lock</strong><span>What "this worked" means — qualitative and quantitative, agreed in writing.</span></div></li>
-            <li><span class="check"></span><div><strong>Creative thesis</strong><span>A one-sentence point of view the entire production will serve.</span></div></li>
+          <ul class="checklist reveal">
+            <li><span class="check"></span><div><strong>Audience &amp; channel mapping</strong></div></li>
+            <li><span class="check"></span><div><strong>Brand guardrails inventory</strong></div></li>
+            <li><span class="check"></span><div><strong>Success metrics, in writing</strong></div></li>
+            <li><span class="check"></span><div><strong>One-sentence creative thesis</strong></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -543,7 +566,13 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>02</strong>Pre-production</span>
           <h3 class="phase__title">Plan it like a <em>shoot day.</em></h3>
-          <p class="phase__lead">Treatment, shot list, locations, casting, schedule, kit — every minute accounted for before we step on set.</p>
+          <svg class="sproc__glyph reveal" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect class="g" x="6" y="20" width="14" height="24" pathLength="1"/>
+            <rect class="g" x="25" y="20" width="14" height="24" pathLength="1" style="--d:.35s"/>
+            <rect class="g" x="44" y="20" width="14" height="24" pathLength="1" style="--d:.55s"/>
+            <path class="f" d="M30 28.5l5.5 3.5-5.5 3.5z" fill="var(--red)" stroke="none"/>
+          </svg>
+          <p class="phase__lead">Every minute accounted for before we step on set.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Day 3–10</span>
             <span class="phase__pill">Treatment locked</span>
@@ -555,11 +584,11 @@
             <span class="phase__media-tag">Treatment</span>
             <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1400&q=85" alt="Planning a shoot" decoding="async">
           </div>
-          <ul class="checklist">
-            <li><span class="check"></span><div><strong>Treatment + mood board</strong><span>Director-written, visualised with shot grammar and references — the film in miniature.</span></div></li>
-            <li><span class="check"></span><div><strong>Shot list &amp; storyboard</strong><span>Every setup planned for the edit — coverage is a budget we spend on purpose.</span></div></li>
-            <li><span class="check"></span><div><strong>Casting, locations, permits</strong><span>Recces, talent, location agreements, drone &amp; commercial permits as needed.</span></div></li>
-            <li><span class="check"></span><div><strong>Crew, kit, schedule</strong><span>Director, DOP, gaffer, sound, AD, BTS — locked with a shoot-day call sheet.</span></div></li>
+          <ul class="checklist reveal">
+            <li><span class="check"></span><div><strong>Director-written treatment</strong></div></li>
+            <li><span class="check"></span><div><strong>Shot list &amp; storyboard</strong></div></li>
+            <li><span class="check"></span><div><strong>Casting, locations, permits</strong></div></li>
+            <li><span class="check"></span><div><strong>Crew, kit &amp; call sheet locked</strong></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -575,7 +604,14 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>03</strong>Production</span>
           <h3 class="phase__title">On-ground <em>execution.</em></h3>
-          <p class="phase__lead">Full crew, cinema cameras, on-set monitoring — the director who wrote the treatment runs the floor. Daily rushes, zero drift.</p>
+          <svg class="sproc__glyph reveal" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path class="g" d="M10 22V12a2 2 0 0 1 2-2h10" pathLength="1"/>
+            <path class="g" d="M42 10h10a2 2 0 0 1 2 2v10" pathLength="1" style="--d:.2s"/>
+            <path class="g" d="M54 42v10a2 2 0 0 1-2 2H42" pathLength="1" style="--d:.4s"/>
+            <path class="g" d="M22 54H12a2 2 0 0 1-2-2V42" pathLength="1" style="--d:.6s"/>
+            <circle class="f pulse" cx="32" cy="32" r="4" fill="var(--red)" stroke="none"/>
+          </svg>
+          <p class="phase__lead">The director who wrote the treatment runs the floor — daily rushes, zero drift.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Shoot days</span>
             <span class="phase__pill">Director-led</span>
@@ -587,11 +623,11 @@
             <span class="phase__media-tag">On set</span>
             <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1400&q=85" alt="On-set production" decoding="async">
           </div>
-          <ul class="checklist">
-            <li><span class="check"></span><div><strong>Cinema-grade capture</strong><span>ARRI Alexa Mini, RED Komodo X or Sony FX6 — matched to the brief, never the reverse.</span></div></li>
-            <li><span class="check"></span><div><strong>On-set look development</strong><span>Pre-pro reference LUTs on monitors so the director shoots for the final grade.</span></div></li>
-            <li><span class="check"></span><div><strong>Daily rushes &amp; selects</strong><span>Backed up across two drives plus cloud. Selects to the editor by shoot-day evening.</span></div></li>
-            <li><span class="check"></span><div><strong>Continuity &amp; supervision</strong><span>Script supervisor and producer in the room — no "fix it later" decisions.</span></div></li>
+          <ul class="checklist reveal">
+            <li><span class="check"></span><div><strong>Cinema-grade capture</strong></div></li>
+            <li><span class="check"></span><div><strong>On-set look development</strong></div></li>
+            <li><span class="check"></span><div><strong>Daily rushes &amp; selects</strong></div></li>
+            <li><span class="check"></span><div><strong>Continuity &amp; supervision</strong></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
@@ -607,7 +643,14 @@
         <div class="phase__sticky">
           <span class="phase__num"><strong>04</strong>Post &amp; Delivery</span>
           <h3 class="phase__title">Finish like <em>you mean it.</em></h3>
-          <p class="phase__lead">In-house grade, sound, retouch and conform — never outsourced. Brand-compliant masters, platform-tuned exports, organised cloud archive.</p>
+          <svg class="sproc__glyph reveal" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path class="g" d="M12 27v10" pathLength="1"/>
+            <path class="g" d="M22 20v24" pathLength="1" style="--d:.15s"/>
+            <path class="g" d="M32 13v38" pathLength="1" style="--d:.3s" stroke="var(--red)"/>
+            <path class="g" d="M42 22v20" pathLength="1" style="--d:.45s"/>
+            <path class="g" d="M52 28v8" pathLength="1" style="--d:.6s"/>
+          </svg>
+          <p class="phase__lead">Grade, sound and conform in-house — never outsourced. The USP in action.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Week 2–4</span>
             <span class="phase__pill">3 review cycles</span>
@@ -619,11 +662,11 @@
             <span class="phase__media-tag">Post</span>
             <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1400&q=85" alt="Post production" loading="lazy" decoding="async">
           </div>
-          <ul class="checklist">
-            <li><span class="check"></span><div><strong>Story-led edit</strong><span>Paper edit → rough cut → fine cut, with structured written feedback — never email-chain chaos.</span></div></li>
-            <li><span class="check"></span><div><strong>ACES grade &amp; sound</strong><span>Primary + secondary grade in DaVinci, scene-balanced and brand-LUT-locked. Effects, ambience, music mix in-house.</span></div></li>
-            <li><span class="check"></span><div><strong>Platform-tuned masters</strong><span>Hero film + 9:16, 1:1, 16:9 cuts, clean frames for paid, subtitles + localisation on request.</span></div></li>
-            <li><span class="check"></span><div><strong>Cloud archive &amp; debrief</strong><span>Two-year searchable archive, raw footage on request, written retrospective.</span></div></li>
+          <ul class="checklist reveal">
+            <li><span class="check"></span><div><strong>Story-led edit, 3 review cycles</strong></div></li>
+            <li><span class="check"></span><div><strong>ACES grade &amp; sound in-house</strong></div></li>
+            <li><span class="check"></span><div><strong>Platform-tuned masters</strong></div></li>
+            <li><span class="check"></span><div><strong>Cloud archive &amp; debrief</strong></div></li>
           </ul>
           <div class="output">
             <span class="output__h">You receive</span>
