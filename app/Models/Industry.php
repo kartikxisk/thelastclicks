@@ -33,4 +33,10 @@ class Industry extends Model implements HasMedia
     {
         return $this->hasMany(WorkCategory::class)->orderBy('order');
     }
+
+    /** @return HasMany<Testimonial, $this> */
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class)->orderBy('order');
+    }
 }
