@@ -6,6 +6,7 @@ use Database\Factories\WorkCategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -25,5 +26,11 @@ class WorkCategory extends Model
     public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
+    }
+
+    /** @return HasMany<Portfolio, $this> */
+    public function portfolios(): HasMany
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }
