@@ -10,7 +10,7 @@ it('industry index lists seeded industries', function () {
 });
 
 it('industry detail renders by slug', function () {
-    $this->get('/industries/fashion')->assertOk()->assertSee('Fashion');
+    $this->get('/industries/fashion-creators')->assertOk()->assertSee('Fashion');
 });
 
 it('industry detail 404 on unknown slug', function () {

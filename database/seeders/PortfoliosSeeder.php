@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Portfolio;
 use App\Models\Service;
 use App\Models\User;
+use App\Models\WorkCategory;
 use Illuminate\Database\Seeder;
 
 class PortfoliosSeeder extends Seeder
@@ -150,6 +151,31 @@ class PortfoliosSeeder extends Seeder
                 'gallery_urls' => $c['gallery_urls'],
                 'status' => 'published',
             ]);
+        }
+
+        $this->attachWorkCategories();
+    }
+
+    /** Place each seeded case under its real work category (and its industry). */
+    protected function attachWorkCategories(): void
+    {
+        $categoryBySlug = [
+            'atlas' => 'brands',
+            'udaipur' => 'wedding',
+            'aurelia' => 'brands',
+            'conf25' => 'corporate',
+            'beverage' => 'liquor-industry',
+            'reel' => 'motion-graphics',
+            'editorial' => 'fashion-show',
+            'goa' => 'wedding',
+            'tech-keynote' => 'corporate',
+        ];
+        foreach ($categoryBySlug as $portfolioSlug => $categorySlug) {
+            $cat = WorkCategory::where('slug', $categorySlug)->first();
+            if ($cat) {
+                Portfolio::where('slug', $portfolioSlug)
+                    ->update(['work_category_id' => $cat->id, 'industry_id' => $cat->industry_id]);
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             ServicesSeeder::class,
             IndustriesSeeder::class,
+            WorkCategoriesSeeder::class,
+            TestimonialsSeeder::class,
             CrewSeeder::class,
             PortfoliosSeeder::class,
             PostsSeeder::class,
