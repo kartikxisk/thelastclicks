@@ -36,3 +36,10 @@ it('seeds shield permissions for Quote resource', function () {
         expect(Permission::where('name', $p)->exists())->toBeTrue();
     }
 });
+
+it('seeds shield permissions for WorkCategory and Testimonial resources', function () {
+    $this->seed();
+    foreach (['view_any_work::category', 'update_work::category', 'view_any_testimonial', 'update_testimonial'] as $p) {
+        expect(Permission::where('name', $p)->exists())->toBeTrue();
+    }
+});

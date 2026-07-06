@@ -34,9 +34,12 @@ class PermissionsSeeder extends Seeder
         // Super-admin: everything
         $superAdmin->syncPermissions($all);
 
-        // Editor: CRUD on content resources (post, portfolio, service, industry, crew, category, tag)
-        $editor->syncPermissions(array_filter($all, fn ($p) => preg_match('/_(post|portfolio|service|industry|crew|category|tag)$/', $p) === 1
-            || preg_match('/_any_(post|portfolio|service|industry|crew|category|tag)$/', $p) === 1
+        // Editor: CRUD on content resources (post, portfolio, service, industry, crew,
+        // category, tag, work category, testimonial). Shield names WorkCategory perms
+        // with its "::" separator, e.g. update_work::category.
+        $editorResources = 'post|portfolio|service|industry|crew|category|tag|work::category|testimonial';
+        $editor->syncPermissions(array_filter($all, fn ($p) => preg_match('/_('.$editorResources.')$/', $p) === 1
+            || preg_match('/_any_('.$editorResources.')$/', $p) === 1
         ));
 
         // Sales: all perms on Quote + QuoteNote

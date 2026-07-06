@@ -28,7 +28,7 @@ it('Super-admin can create a portfolio with service+industry+year', function () 
             'client' => 'Acme Co',
             'year' => 2026,
             'service_id' => Service::where('slug', 'videography')->first()->id,
-            'industry_id' => Industry::where('slug', 'fashion')->first()->id,
+            'industry_id' => Industry::where('slug', 'fashion-creators')->first()->id,
             'status' => 'published',
             'body' => 'Project body',
         ])
