@@ -20,10 +20,10 @@ it('edited service hero_copy appears on its public page', function () {
 });
 
 it('edited industry summary appears on its detail page', function () {
-    $ind = Industry::where('slug', 'fashion')->first();
+    $ind = Industry::where('slug', 'fashion-creators')->first();
     $ind->update(['summary' => 'Edited industry summary XYZ789']);
 
-    $this->get('/industries/fashion')
+    $this->get('/industries/fashion-creators')
         ->assertOk()
         ->assertSeeText('Edited industry summary XYZ789');
 });

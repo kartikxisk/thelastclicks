@@ -119,6 +119,18 @@ php artisan responsecache:clear
 Without it, stale cached pages reference wiped `public/build` asset hashes
 and the site loads unstyled (404 on CSS/JS) until the cache expires.
 
+The work-categories release (2026-07) additionally requires, before
+`responsecache:clear`:
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+```
+
+Seeders are idempotent (`updateOrCreate` keyed by slug/name). This run
+retires the 6 placeholder industries, seeds the 7 real ones plus 22 work
+categories, and moves homepage testimonials into the database.
+
 ## Monitoring
 
 - **Errors:** Sentry (configured via `SENTRY_LARAVEL_DSN`).
