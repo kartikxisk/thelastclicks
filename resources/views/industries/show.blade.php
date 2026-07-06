@@ -19,6 +19,23 @@
         @endif
     </section>
 
+    {{-- WHAT WE SHOOT --}}
+    @if ($categories->isNotEmpty())
+        <section class="section" data-screen-label="What we shoot">
+            <div class="wrap">
+                <span class="section__eyebrow" data-scramble>What we shoot</span>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">
+                    @foreach ($categories as $cat)
+                        <a href="{{ url('/portfolio?category='.$cat->slug) }}"
+                           style="padding:9px 16px;border:1px solid var(--line);border-radius:100px;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--paper-dim)">
+                            {{ $cat->title }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     {{-- RICH BODY (populated via admin in later plan) --}}
     @if ($industry->body)
         <section class="industry-body section">
@@ -41,6 +58,25 @@
                 <div class="work-grid">
                     @foreach ($work as $item)
                         <x-card-portfolio :item="$item" />
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- CLIENT WORDS --}}
+    @if ($testimonials->isNotEmpty())
+        <section class="section" data-screen-label="Client words">
+            <div class="wrap">
+                <span class="section__eyebrow" data-scramble>Client words</span>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px;margin-top:32px">
+                    @foreach ($testimonials as $t)
+                        <blockquote style="border-left:2px solid var(--red);padding-left:20px">
+                            <p style="font-size:17px;line-height:1.6">"{{ $t->quote }}"</p>
+                            <footer style="margin-top:14px;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--paper-dim)">
+                                {{ $t->client_name }}{{ $t->role_company ? ' · '.$t->role_company : '' }}
+                            </footer>
+                        </blockquote>
                     @endforeach
                 </div>
             </div>
