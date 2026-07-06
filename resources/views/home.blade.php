@@ -323,47 +323,28 @@
     </section>
 
     <!-- TESTIMONIALS -->
+    @if ($testimonials->isNotEmpty())
     <section class="car" data-carousel data-screen-label="06 Testimonials">
         <div class="wrap" style="margin-bottom:32px">
             <span class="section__eyebrow" data-scramble>Client Stories</span>
             <h2 class="section__title" data-split>What our <em>clients say</em></h2>
         </div>
         <div class="car__viewport">
-            <div class="car__slide is-on">
-                <div class="car__quote">"The Last Clicks delivered exceptional coverage for our annual conference. Their professionalism and attention to detail made all the difference."</div>
-                <div class="who">
-                    <span class="av">PM</span>
-                    <span>Priya Mehta · Marketing Head, Fortune 500 FMCG</span>
+            @foreach ($testimonials as $t)
+                <div class="car__slide {{ $loop->first ? 'is-on' : '' }}">
+                    <div class="car__quote">"{{ $t->quote }}"</div>
+                    <div class="who">
+                        <span class="av">{{ collect(explode(' ', $t->client_name))->map(fn ($w) => mb_substr($w, 0, 1))->take(2)->implode('') }}</span>
+                        <span>{{ $t->client_name }}{{ $t->role_company ? ' · '.$t->role_company : '' }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="car__slide">
-                <div class="car__quote">"From pre-production to final delivery, their team was seamless. The brand films exceeded our expectations."</div>
-                <div class="who">
-                    <span class="av">AK</span>
-                    <span>Arjun Kapoor · Creative Director, Leading Ad Agency</span>
-                </div>
-            </div>
-            <div class="car__slide">
-                <div class="car__quote">"Incredible wedding coverage. Every moment was captured beautifully — cinematic, emotional, and authentic."</div>
-                <div class="who">
-                    <span class="av">SR</span>
-                    <span>Sneha &amp; Rohit · Destination Wedding, Udaipur</span>
-                </div>
-            </div>
-            <div class="car__slide">
-                <div class="car__quote">"Consistent quality every single time. They truly understand the luxury and automotive space."</div>
-                <div class="who">
-                    <span class="av">VS</span>
-                    <span>Vikram Singh · Brand Manager, Premium Automobile</span>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="car__nav wrap">
             <div class="car__dots">
-                <button class="car__dot is-on" data-cursor="01"></button>
-                <button class="car__dot" data-cursor="02"></button>
-                <button class="car__dot" data-cursor="03"></button>
-                <button class="car__dot" data-cursor="04"></button>
+                @foreach ($testimonials as $t)
+                    <button class="car__dot {{ $loop->first ? 'is-on' : '' }}" data-cursor="{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}"></button>
+                @endforeach
             </div>
             <div class="car__btns">
                 <button class="car__prev" data-cursor="PREV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18L9 12L15 6"/></svg></button>
@@ -371,6 +352,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <!-- WHY US -->
     <section class="section" data-screen-label="07 Why us">
