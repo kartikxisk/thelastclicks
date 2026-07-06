@@ -459,15 +459,15 @@
     {{-- 02 FILTER --}}
     @php
         $allTiles = collect($itemsByYear)->flatten(1);
-        $catGroups = $allTiles->groupBy(fn ($i) => $i->service?->slug ?? 'film');
-        $catLabels = $allTiles->mapWithKeys(fn ($i) => [($i->service?->slug ?? 'film') => ($i->service?->title ?? 'Brand films')]);
+        $indGroups = $allTiles->groupBy(fn ($i) => $i->industry?->slug ?? 'other');
+        $indLabels = $allTiles->mapWithKeys(fn ($i) => [($i->industry?->slug ?? 'other') => ($i->industry?->title ?? 'Other')]);
     @endphp
     <section class="pf-filter" data-screen-label="02 Filter">
         <div class="pf-filter__inner">
             <span class="pf-filter__label">Filter</span>
-            <button class="pf-chip is-on" data-cat="all">All<span class="count">{{ str_pad((string) $allTiles->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
-            @foreach ($catGroups as $cat => $items)
-                <button class="pf-chip" data-cat="{{ $cat }}">{{ $catLabels[$cat] }}<span class="count">{{ str_pad((string) $items->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
+            <button class="pf-chip is-on" data-ind="all">All<span class="count">{{ str_pad((string) $allTiles->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
+            @foreach ($indGroups as $ind => $items)
+                <button class="pf-chip" data-ind="{{ $ind }}">{{ $indLabels[$ind] }}<span class="count">{{ str_pad((string) $items->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
             @endforeach
         </div>
     </section>
@@ -524,9 +524,10 @@
                         $tileSize = $tileSizes[$loop->index % count($tileSizes)];
                     @endphp
                     <a class="pf-tile {{ $tileSize }}" href="{{ url('/portfolio/'.$portfolioItem->slug) }}"
-                       data-cat="{{ $portfolioItem->service?->slug ?? 'film' }}"
+                       data-ind="{{ $portfolioItem->industry?->slug ?? 'other' }}"
+                       data-cat="{{ $portfolioItem->workCategory?->slug ?? '' }}"
                        data-cursor="VIEW">
-                        <span class="pf-tile__tag">{{ $portfolioItem->service?->title ?? 'Film' }} · {{ $portfolioItem->year }}</span>
+                        <span class="pf-tile__tag">{{ $portfolioItem->workCategory?->title ?? $portfolioItem->service?->title ?? 'Film' }} · {{ $portfolioItem->year }}</span>
                         <span class="pf-tile__year">{{ str_pad($loop->index + 1, 3, '0', STR_PAD_LEFT) }}</span>
                         <span class="pf-tile__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
                         <img src="{{ $tileImg }}" alt="{{ $portfolioItem->title }}" loading="lazy" decoding="async">
@@ -654,23 +655,38 @@
     // Filter chips behavior — animated show/hide of tiles
     (function(){
       const chips = document.querySelectorAll('.pf-chip');
-      const tiles = document.querySelectorAll('.pf-tile[data-cat]');
+      const tiles = document.querySelectorAll('.pf-tile[data-ind]');
+
+      function showTile(t, match) {
+        t.style.transition = 'opacity 0.4s, transform 0.4s';
+        if (match) {
+          t.classList.remove('is-hidden');
+          requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'scale(1)'; });
+        } else {
+          t.style.opacity = '0'; t.style.transform = 'scale(0.97)';
+          setTimeout(() => t.classList.add('is-hidden'), 380);
+        }
+      }
+
+      function filterBy(attr, value) {
+        tiles.forEach(t => showTile(t, value === 'all' || t.dataset[attr] === value));
+      }
+
       chips.forEach(c => c.addEventListener('click', () => {
         chips.forEach(o => o.classList.remove('is-on'));
         c.classList.add('is-on');
-        const cat = c.dataset.cat;
-        tiles.forEach(t => {
-          const match = cat === 'all' || t.dataset.cat === cat;
-          t.style.transition = 'opacity 0.4s, transform 0.4s';
-          if (match) {
-            t.classList.remove('is-hidden');
-            requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'scale(1)'; });
-          } else {
-            t.style.opacity = '0'; t.style.transform = 'scale(0.97)';
-            setTimeout(() => t.classList.add('is-hidden'), 380);
-          }
-        });
+        filterBy('ind', c.dataset.ind);
       }));
+
+      // Deep link: /portfolio?category=wedding narrows to one work category
+      const wanted = new URLSearchParams(location.search).get('category');
+      if (wanted) {
+        const first = document.querySelector('.pf-tile[data-cat="' + CSS.escape(wanted) + '"]');
+        if (first) {
+          filterBy('cat', wanted);
+          chips.forEach(o => o.classList.toggle('is-on', o.dataset.ind === first.dataset.ind));
+        }
+      }
 
       // Animate discipline bars in via IntersectionObserver
       const bars = document.querySelectorAll('.pf-disc__cell');
