@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PortfolioResource\Pages;
 use App\Models\Portfolio;
-use App\Models\WorkCategory;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -13,7 +12,6 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -41,14 +39,7 @@ class PortfolioResource extends Resource
                 TextInput::make('client'),
                 TextInput::make('year')->numeric()->minValue(2000)->maxValue(2100),
                 Select::make('service_id')->relationship('service', 'title')->searchable()->preload(),
-                Select::make('industry_id')->relationship('industry', 'title')->searchable()->preload()->live(),
-                Select::make('work_category_id')
-                    ->label('Work category')
-                    ->options(fn (Get $get): array => WorkCategory::query()
-                        ->when($get('industry_id'), fn ($q, $id) => $q->where('industry_id', $id))
-                        ->orderBy('order')->pluck('title', 'id')->all())
-                    ->searchable()
-                    ->helperText('Pick an industry to narrow this list.'),
+                Select::make('industry_id')->relationship('industry', 'title')->searchable()->preload(),
             ]),
             Section::make('Status & Owner')->columns(2)->schema([
                 Select::make('status')->options([

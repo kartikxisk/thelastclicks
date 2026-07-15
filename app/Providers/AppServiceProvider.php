@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Crew;
 use App\Models\Industry;
 use App\Models\Portfolio;
 use App\Models\Post;
 use App\Models\Service;
 use App\Models\SiteSetting;
-use App\Observers\CrewObserver;
 use App\Observers\IndustryObserver;
 use App\Observers\PortfolioObserver;
 use App\Observers\PostObserver;
@@ -35,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Portfolio::observe(PortfolioObserver::class);
         Service::observe(ServiceObserver::class);
         Industry::observe(IndustryObserver::class);
-        Crew::observe(CrewObserver::class);
         SiteSetting::observe(SiteSettingObserver::class);
     }
 }

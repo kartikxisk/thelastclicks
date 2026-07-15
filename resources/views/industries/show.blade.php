@@ -19,23 +19,6 @@
         @endif
     </section>
 
-    {{-- WHAT WE SHOOT --}}
-    @if ($categories->isNotEmpty())
-        <section class="section" data-screen-label="What we shoot">
-            <div class="wrap">
-                <span class="section__eyebrow" data-scramble>What we shoot</span>
-                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">
-                    @foreach ($categories as $cat)
-                        <a href="{{ url('/portfolio?category='.$cat->slug) }}"
-                           style="padding:9px 16px;border:1px solid var(--line);border-radius:100px;font-family:var(--f-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--paper-dim)">
-                            {{ $cat->title }}
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
     {{-- RICH BODY (populated via admin in later plan) --}}
     @if ($industry->body)
         <section class="industry-body section">

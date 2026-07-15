@@ -18,7 +18,7 @@ class Portfolio extends Model implements HasMedia
     use HasFactory, HasSlug, InteractsWithMedia;
 
     protected $fillable = [
-        'owner_id', 'service_id', 'industry_id', 'work_category_id', 'title', 'slug', 'client',
+        'owner_id', 'service_id', 'industry_id', 'title', 'slug', 'client',
         'location', 'year', 'body', 'approach', 'credits', 'cover_url',
         'gallery_urls', 'hero_html', 'status',
     ];
@@ -57,12 +57,6 @@ class Portfolio extends Model implements HasMedia
     public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
-    }
-
-    /** @return BelongsTo<WorkCategory, $this> */
-    public function workCategory(): BelongsTo
-    {
-        return $this->belongsTo(WorkCategory::class);
     }
 
     public function registerMediaCollections(): void

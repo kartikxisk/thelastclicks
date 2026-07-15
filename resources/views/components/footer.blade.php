@@ -5,14 +5,11 @@
 @endphp
 <footer class="foot">
   <div class="container">
-    <span class="foot__status"><span class="foot__pulse"></span>Available — booking 2026</span>
-
     <a href="{{ url('/') }}" class="foot__big" data-parallax="0.04" data-cursor="HOME" aria-label="The Last Clicks — home">The Last <em>Clicks</em></a>
 
     <div class="foot__grid">
       <div class="foot__col foot__intro">
         <p>Cinematic photography &amp; videography, finished by the in-house post-production that sets us apart.</p>
-        <p class="foot__avail">Available for bookings — Limited slots for 2026</p>
       </div>
       <div class="foot__col">
         <h5>Studio</h5>

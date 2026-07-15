@@ -243,7 +243,6 @@
                     @php $coverUrl = $featured->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
                     <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$featured->slug) }}"
                        data-ind="{{ $featured->industry?->slug ?? 'other' }}"
-                       data-cat="{{ $featured->workCategory?->slug ?? '' }}"
                        data-cursor="VIEW">
                         <div class="pf-card__media">
                             <img src="{{ $coverUrl }}" alt="{{ $featured->title }}" decoding="async">
@@ -251,7 +250,7 @@
                         </div>
                         <div class="pf-card__body">
                             <h3>{{ $featured->title }}</h3>
-                            <span>{{ $featured->workCategory?->title ?? $featured->service?->title ?? 'Film' }}{{ $featured->client ? ' · '.$featured->client : '' }}{{ $featured->year ? ' · '.$featured->year : '' }}</span>
+                            <span>{{ $featured->service?->title ?? 'Film' }}{{ $featured->client ? ' · '.$featured->client : '' }}{{ $featured->year ? ' · '.$featured->year : '' }}</span>
                         </div>
                     </a>
                 @endif
@@ -264,14 +263,13 @@
                         @php $tileImg = $portfolioItem->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
                         <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$portfolioItem->slug) }}"
                            data-ind="{{ $portfolioItem->industry?->slug ?? 'other' }}"
-                           data-cat="{{ $portfolioItem->workCategory?->slug ?? '' }}"
                            data-cursor="VIEW">
                             <div class="pf-card__media">
                                 <img src="{{ $tileImg }}" alt="{{ $portfolioItem->title }}" loading="lazy" decoding="async">
                             </div>
                             <div class="pf-card__body">
                                 <h3>{{ $portfolioItem->title }}</h3>
-                                <span>{{ $portfolioItem->workCategory?->title ?? $portfolioItem->service?->title ?? 'Film' }}{{ $portfolioItem->client ? ' · '.$portfolioItem->client : '' }} · {{ $portfolioItem->year }}</span>
+                                <span>{{ $portfolioItem->service?->title ?? 'Film' }}{{ $portfolioItem->client ? ' · '.$portfolioItem->client : '' }} · {{ $portfolioItem->year }}</span>
                             </div>
                         </a>
                     @endforeach
@@ -350,16 +348,6 @@
         c.classList.add('is-on');
         filterBy('ind', c.dataset.ind);
       }));
-
-      // Deep link: /portfolio?category=wedding narrows to one work category
-      const wanted = new URLSearchParams(location.search).get('category');
-      if (wanted) {
-        const first = document.querySelector('.pf-tile[data-cat="' + CSS.escape(wanted) + '"]');
-        if (first) {
-          filterBy('cat', wanted);
-          chips.forEach(o => o.classList.toggle('is-on', o.dataset.ind === first.dataset.ind));
-        }
-      }
 
     })();
     </script>

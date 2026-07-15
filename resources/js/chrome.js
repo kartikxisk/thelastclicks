@@ -8,28 +8,17 @@ window.TLC = (function(){
   const NAV_LINKS = [
     { href: '/#services', label: 'Services' },
     { href: '/industries', label: 'Industries' },
-    { href: '/our-process', label: 'Our Process' },
     { href: '/portfolio', label: 'Portfolio' },
-    { href: '/talent', label: 'Talent' },
     { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
 
-  function logoSVG() {
-    return `<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="16" cy="16" r="6" fill="#e80f03"/>
-      <circle cx="22" cy="10" r="1.5" fill="currentColor"/>
-    </svg>`;
-  }
-
   function navHTML() {
     return `
     <header class="nav">
       <a class="nav__brand" href="/" data-cursor="HOME">
-        <span class="nav__brand-mark">${logoSVG()}</span>
-        <span>TheLastClicks</span>
+        <span class="nav__brand-word">TheLast<em>Clicks</em></span>
       </a>
       <nav>
         <ul class="nav__links">
@@ -57,18 +46,14 @@ window.TLC = (function(){
     return `
     <footer class="foot">
       <div class="container">
-        <span class="foot__status"><span class="foot__pulse"></span>Available — booking 2026</span>
         <a href="/" class="foot__big" data-parallax="0.04" data-cursor="HOME" aria-label="The Last Clicks — home">The Last <em>Clicks</em></a>
         <div class="foot__grid">
           <div class="foot__col foot__intro">
             <p>Cinematic photography, videography &amp; production for brands, events and weddings — built to scale with your story.</p>
-            <p class="foot__avail">Available for bookings — Limited slots for 2026</p>
           </div>
           <div class="foot__col">
             <h5>Studio</h5>
             <a href="/about">About</a>
-            <a href="/our-process">Our Process</a>
-            <a href="/crew">Talent</a>
             <a href="/industries">Industries</a>
             <a href="/blog">Journal</a>
           </div>

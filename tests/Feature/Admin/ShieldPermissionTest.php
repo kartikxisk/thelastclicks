@@ -37,9 +37,9 @@ it('seeds shield permissions for Quote resource', function () {
     }
 });
 
-it('seeds shield permissions for WorkCategory and Testimonial resources', function () {
+it('seeds shield permissions for the Testimonial resource', function () {
     $this->seed();
-    foreach (['view_any_work::category', 'update_work::category', 'view_any_testimonial', 'update_testimonial'] as $p) {
+    foreach (['view_any_testimonial', 'update_testimonial'] as $p) {
         expect(Permission::where('name', $p)->exists())->toBeTrue();
     }
 });

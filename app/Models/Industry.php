@@ -28,12 +28,6 @@ class Industry extends Model implements HasMedia
         $this->addMediaCollection('hero')->singleFile();
     }
 
-    /** @return HasMany<WorkCategory, $this> */
-    public function workCategories(): HasMany
-    {
-        return $this->hasMany(WorkCategory::class)->orderBy('order');
-    }
-
     /** @return HasMany<Testimonial, $this> */
     public function testimonials(): HasMany
     {

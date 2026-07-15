@@ -16,9 +16,7 @@
     </div>
 
     <div class="hero__top">
-      <div class="row">
-        <span class="tag"><span class="dot"></span>Available · 2026 slots</span>
-      </div>
+      <div class="row"></div>
       <div class="row" style="gap:20px">
         <button class="hero__audio" aria-label="Toggle audio">
           <span class="bars"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>

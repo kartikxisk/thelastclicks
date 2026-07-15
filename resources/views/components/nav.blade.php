@@ -1,14 +1,7 @@
 <header class="nav">
   <div class="nav__inner container">
   <a class="nav__brand" href="{{ url('/') }}" data-cursor="HOME">
-    <span class="nav__brand-mark">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="16" cy="16" r="6" fill="#e80f03"/>
-        <circle cx="22" cy="10" r="1.5" fill="currentColor"/>
-      </svg>
-    </span>
-    <span>TheLastClicks</span>
+    <span class="nav__brand-word">TheLast<em>Clicks</em></span>
   </a>
   <nav>
     <ul class="nav__links">

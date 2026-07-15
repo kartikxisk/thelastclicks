@@ -17,11 +17,6 @@ it('industry detail 404 on unknown slug', function () {
     $this->get('/industries/nope')->assertNotFound();
 });
 
-it('industry page lists its work categories', function () {
-    $this->get('/industries/weddings-celebrations')->assertOk()
-        ->assertSee('Wedding')->assertSee('Prewedding')->assertSee('Anniversary')->assertSee('Birthday');
-});
-
 it('industry page shows its own testimonials', function () {
     $this->get('/industries/weddings-celebrations')->assertOk()->assertSee('Sneha');
 });

@@ -29,7 +29,6 @@
       <div><dt>Reply within</dt><dd>4 working hours</dd></div>
       <div><dt>Studio hours</dt><dd>Mon–Sat · 10–7 IST</dd></div>
       <div><dt>HQ</dt><dd>Noida · India</dd></div>
-      <div><dt>Bookings</dt><dd>Open · 2026</dd></div>
     </dl>
   </section>
 
@@ -62,10 +61,8 @@
   <section data-screen-label="03 Availability" style="padding:8px 0 clamp(64px,9vh,110px)">
     <div class="wrap">
       <div class="avail reveal">
-        <div class="avail__pulse"><span class="avail__dot"></span>Booking now</div>
         <div class="avail__text">
-          <strong>Taking briefs for 2026 — limited slots</strong>
-          Every new brief reviewed within 4 working hours.
+          <strong>Every new brief reviewed within 4 working hours.</strong>
         </div>
         <a class="btn btn--red avail__cta" href="#quote" data-quote-trigger data-magnetic data-cursor="START">Get a quote <span class="arr"></span></a>
       </div>

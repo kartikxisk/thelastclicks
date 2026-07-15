@@ -26,10 +26,9 @@ it('portfolio detail 404 on draft', function () {
     $this->get('/portfolio/'.$p->slug)->assertNotFound();
 });
 
-it('portfolio tiles carry industry and category data attributes', function () {
+it('portfolio tiles carry industry data attributes', function () {
     $r = $this->get('/portfolio')->assertOk();
     $r->assertSee('data-ind="weddings-celebrations"', false);
-    $r->assertSee('data-cat="wedding"', false);
 });
 
 it('portfolio filter chips list industries', function () {
