@@ -15,12 +15,12 @@
   .pf-hero__crumb a { color: var(--paper-dim); }
   .pf-hero__crumb a:hover { color: var(--red); }
   .pf-hero__row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; align-items: end; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
-  .pf-hero h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(58px, 10vw, 180px); letter-spacing: -0.05em; line-height: 0.88; }
+  .pf-hero h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(38px, 5.5vw, 88px); letter-spacing: -0.04em; line-height: 0.95; }
   .pf-hero h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
   .pf-hero__lead { font-size: 18px; line-height: 1.55; color: var(--paper-dim); max-width: 38ch; }
   .pf-hero__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; padding: 36px 0 0; }
   .pf-hero__stats dt { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-bottom: 12px; }
-  .pf-hero__stats dd { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .pf-hero__stats dd { font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 2.6vw, 32px); letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
   .pf-hero__stats dd em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
 
   /* Filter chips */
@@ -65,8 +65,70 @@
   .pf-chip.is-on { background: var(--red); border-color: var(--red); color: #fff; }
   .pf-chip .count { margin-left: 6px; padding-left: 8px; border-left: 1px solid currentColor; opacity: 0.7; }
 
-  /* Work reel — layout/visuals come from the shared .reel component */
-  .pf-work { padding: 72px 0 0; }
+  /* Work grid — friendly cards, title under image */
+  .pf-work { padding: 56px 0 24px; }
+  .pf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 20px;
+  }
+  .pf-yearline {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 36px 0 12px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--f-mono);
+  }
+  .pf-yearline:first-child { padding-top: 0; }
+  .pf-yearline span { font-size: 12.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--paper); }
+  .pf-yearline em { font-style: normal; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-dim); }
+  .pf-card { display: block; }
+  .pf-card__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--ink-2);
+  }
+  .pf-card__media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+    transition: transform 0.8s var(--ease-soft), filter 0.5s var(--ease-soft);
+    filter: grayscale(0.1) brightness(0.92);
+  }
+  .pf-card:hover .pf-card__media img { transform: scale(1.06); filter: none; }
+  .pf-card__tag {
+    position: absolute;
+    top: 12px; left: 12px;
+    padding: 6px 11px;
+    background: var(--red); color: #fff;
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .pf-card__body { padding: 14px 2px 0; }
+  .pf-card__body h3 {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    transition: color 0.3s var(--ease-soft);
+  }
+  .pf-card:hover .pf-card__body h3 { color: var(--red); }
+  .pf-card__body span {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper-dim);
+  }
 
   /* Hidden via filter */
   .pf-tile.is-hidden { display: none; }
@@ -118,75 +180,21 @@
     color: var(--paper-dim);
   }
 
-  /* Disciplines breakdown */
-  .pf-disc {
-    padding: 100px 0;
-    border-top: 1px solid var(--line);
-  }
-  .pf-disc__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--line);
-  }
-  .pf-disc__cell {
-    padding: 36px 32px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    transition: background 0.4s var(--ease-soft);
-  }
-  .pf-disc__cell:nth-child(3n) { border-right: 0; }
-  .pf-disc__cell:hover { background: rgba(232,15,3,0.03); }
-  .pf-disc__h {
-    display: flex; justify-content: space-between; align-items: baseline;
-    gap: 16px; margin-bottom: 22px;
-  }
-  .pf-disc__t {
-    font-family: var(--f-display); font-weight: 500;
-    font-size: 22px; letter-spacing: -0.02em;
-  }
-  .pf-disc__c {
-    font-family: var(--f-mono); font-size: 11px;
-    letter-spacing: 0.18em; color: var(--paper-dim);
-    font-variant-numeric: tabular-nums;
-  }
-  .pf-disc__bar {
-    height: 4px;
-    background: var(--line);
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .pf-disc__bar-fill {
-    position: absolute;
-    inset: 0;
-    background: var(--red);
-    transform-origin: left;
-    transform: scaleX(0);
-    transition: transform 1.2s var(--ease-soft);
-  }
-  .pf-disc__cell.is-in .pf-disc__bar-fill { transform: scaleX(var(--p, 0.5)); }
-  .pf-disc__d {
-    font-size: 13.5px;
-    color: var(--paper-dim);
-    line-height: 1.55;
-  }
-
   /* Responsive */
   @media (max-width: 980px) {
     .pf-hero__row { grid-template-columns: 1fr; gap: 24px; padding-bottom: 32px; }
     .pf-hero__stats { grid-template-columns: 1fr 1fr; gap: 22px; }
     .pf-filter { top: 60px; padding: 20px 0; }
-    .pf-work { padding: 40px 0 0; }
+    .pf-work { padding: 36px 0 16px; }
+    .pf-grid { grid-template-columns: 1fr 1fr; gap: 22px 14px; }
     .pf-numbers__grid { grid-template-columns: 1fr 1fr; }
     .pf-num { border-right: 0; border-bottom: 1px solid var(--line); padding: 28px 20px; }
     .pf-num:nth-child(2n) { border-right: 0; }
     .pf-num:nth-child(odd) { border-right: 1px solid var(--line); }
-    .pf-disc__grid { grid-template-columns: 1fr; }
-    .pf-disc__cell { border-right: 0; padding: 28px 20px; }
   }
   @media (max-width: 540px) {
     .pf-hero__stats { grid-template-columns: 1fr 1fr; }
+    .pf-grid { grid-template-columns: 1fr; }
     .pf-numbers__grid { grid-template-columns: 1fr; }
     .pf-num { border-right: 0 !important; }
   }
@@ -227,45 +235,43 @@
         </div>
     </section>
 
-    {{-- 03 WORK REEL --}}
+    {{-- 03 WORK GRID --}}
     <section class="pf-work" data-screen-label="03 Work">
         <div class="wrap">
-            <div class="reel">
+            <div class="pf-grid">
                 @if ($featured)
-                    @php $coverUrl = $featured->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1800&q=85'; @endphp
-                    <a class="pf-tile reel__frame reel__frame--tagged reveal" href="{{ url('/portfolio/'.$featured->slug) }}"
+                    @php $coverUrl = $featured->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
+                    <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$featured->slug) }}"
                        data-ind="{{ $featured->industry?->slug ?? 'other' }}"
                        data-cat="{{ $featured->workCategory?->slug ?? '' }}"
                        data-cursor="VIEW">
-                        <img src="{{ $coverUrl }}" alt="{{ $featured->title }}" decoding="async">
-                        <span class="reel__tag">Editor's pick · {{ $featured->year }}</span>
-                        <span class="reel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
-                        <div class="reel__body">
-                            <h2 class="reel__title">{{ $featured->title }}</h2>
-                            <span class="reel__meta">{{ $featured->workCategory?->title ?? $featured->service?->title ?? 'Film' }}{{ $featured->client ? ' · '.$featured->client : '' }}{{ $featured->year ? ' · '.$featured->year : '' }}</span>
+                        <div class="pf-card__media">
+                            <img src="{{ $coverUrl }}" alt="{{ $featured->title }}" decoding="async">
+                            <span class="pf-card__tag">Editor's pick</span>
+                        </div>
+                        <div class="pf-card__body">
+                            <h3>{{ $featured->title }}</h3>
+                            <span>{{ $featured->workCategory?->title ?? $featured->service?->title ?? 'Film' }}{{ $featured->client ? ' · '.$featured->client : '' }}{{ $featured->year ? ' · '.$featured->year : '' }}</span>
                         </div>
                     </a>
                 @endif
                 @foreach ($itemsByYear as $year => $items)
-                    <div class="reel__year">
+                    <div class="pf-yearline">
                         <span>{{ $year }} archive</span>
                         <em>{{ $items->count() }} {{ Str::plural('production', $items->count()) }} · delivered</em>
                     </div>
                     @foreach ($items as $portfolioItem)
-                        @php
-                            $tileImg = $portfolioItem->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&q=85';
-                            $isHalf = $loop->index % 3 !== 0 && !($loop->last && $loop->index % 3 === 1);
-                        @endphp
-                        <a class="pf-tile reel__frame {{ $isHalf ? 'reel__frame--half' : '' }} reveal" href="{{ url('/portfolio/'.$portfolioItem->slug) }}"
+                        @php $tileImg = $portfolioItem->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
+                        <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$portfolioItem->slug) }}"
                            data-ind="{{ $portfolioItem->industry?->slug ?? 'other' }}"
                            data-cat="{{ $portfolioItem->workCategory?->slug ?? '' }}"
                            data-cursor="VIEW">
-                            <img src="{{ $tileImg }}" alt="{{ $portfolioItem->title }}" loading="lazy" decoding="async">
-                            <span class="reel__num">{{ str_pad($loop->index + 1, 3, '0', STR_PAD_LEFT) }}</span>
-                            <span class="reel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
-                            <div class="reel__body">
-                                <h3 class="reel__title">{{ $portfolioItem->title }}</h3>
-                                <span class="reel__meta">{{ $portfolioItem->workCategory?->title ?? $portfolioItem->service?->title ?? 'Film' }}{{ $portfolioItem->client ? ' · '.$portfolioItem->client : '' }} · {{ $portfolioItem->year }}</span>
+                            <div class="pf-card__media">
+                                <img src="{{ $tileImg }}" alt="{{ $portfolioItem->title }}" loading="lazy" decoding="async">
+                            </div>
+                            <div class="pf-card__body">
+                                <h3>{{ $portfolioItem->title }}</h3>
+                                <span>{{ $portfolioItem->workCategory?->title ?? $portfolioItem->service?->title ?? 'Film' }}{{ $portfolioItem->client ? ' · '.$portfolioItem->client : '' }} · {{ $portfolioItem->year }}</span>
                             </div>
                         </a>
                     @endforeach
@@ -301,66 +307,6 @@
                     <div class="pf-num__n"><span data-count="98.4" data-decimals="1">0</span><em>%</em></div>
                     <div class="pf-num__l">On-time delivery</div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- 08 DISCIPLINES BREAKDOWN --}}
-    <section class="pf-disc" data-screen-label="08 Disciplines">
-        <div class="wrap">
-            <div class="services__head">
-                <div>
-                    <span class="section__eyebrow" data-scramble>How we split our time</span>
-                    <h2 class="section__title" data-split>The <em>mix</em> of work.</h2>
-                </div>
-                <p class="section__lead reveal">What we shoot, year over year — emergent from briefs, never picked.</p>
-            </div>
-            <div class="pf-disc__grid">
-                @forelse ($services as $svc)
-                    @php $share = (int) ($svc->share ?? 0); @endphp
-                    <div class="pf-disc__cell reveal" data-delay="{{ $loop->index % 3 }}"@if ($share) style="--p: {{ rtrim(rtrim(number_format($share / 100, 2), '0'), '.') }}"@endif>
-                        <div class="pf-disc__h">
-                            <div class="pf-disc__t">{{ $svc->title }}</div>
-                            @if ($share)<div class="pf-disc__c">{{ sprintf('%02d', $share) }}%</div>@endif
-                        </div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        @if ($svc->hero_copy)
-                            <p class="pf-disc__d">{{ $svc->hero_copy }}</p>
-                        @endif
-                    </div>
-                @empty
-                    {{-- Fallback static disciplines if no services seeded --}}
-                    <div class="pf-disc__cell reveal" style="--p: 0.32">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Brand films</div><div class="pf-disc__c">32%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Treatment-led storytelling — commercials, launches, anthems.</p>
-                    </div>
-                    <div class="pf-disc__cell reveal" data-delay="1" style="--p: 0.24">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Weddings</div><div class="pf-disc__c">24%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Where we started, still most demanded — destination and intimate.</p>
-                    </div>
-                    <div class="pf-disc__cell reveal" data-delay="2" style="--p: 0.18">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Photography</div><div class="pf-disc__c">18%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Editorial, brand, lifestyle, lookbook — stills as their own discipline.</p>
-                    </div>
-                    <div class="pf-disc__cell reveal" style="--p: 0.14">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Corporate</div><div class="pf-disc__c">14%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Conferences and keynotes — multi-cam, same-day delivery.</p>
-                    </div>
-                    <div class="pf-disc__cell reveal" data-delay="1" style="--p: 0.08">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Automotive</div><div class="pf-disc__c">08%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Vehicle reveals — motion-control rigs, high-speed Phantom work.</p>
-                    </div>
-                    <div class="pf-disc__cell reveal" data-delay="2" style="--p: 0.04">
-                        <div class="pf-disc__h"><div class="pf-disc__t">Lifestyle &amp; F&amp;B</div><div class="pf-disc__c">04%</div></div>
-                        <div class="pf-disc__bar"><div class="pf-disc__bar-fill"></div></div>
-                        <p class="pf-disc__d">Beverages, hospitality, lifestyle — practical light, tabletop, set work.</p>
-                    </div>
-                @endforelse
             </div>
         </div>
     </section>
@@ -415,12 +361,6 @@
         }
       }
 
-      // Animate discipline bars in via IntersectionObserver
-      const bars = document.querySelectorAll('.pf-disc__cell');
-      const bIO = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); bIO.unobserve(e.target); } });
-      }, { threshold: 0.3 });
-      bars.forEach(b => bIO.observe(b));
     })();
     </script>
 

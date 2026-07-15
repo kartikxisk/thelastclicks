@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
-use App\Models\Service;
 use Illuminate\View\View;
 
 class PortfolioController extends Controller
@@ -23,7 +22,6 @@ class PortfolioController extends Controller
         return view('portfolio.index', [
             'featured' => $featured,
             'itemsByYear' => $itemsByYear,
-            'services' => Service::orderBy('order')->get(),
         ]);
     }
 
