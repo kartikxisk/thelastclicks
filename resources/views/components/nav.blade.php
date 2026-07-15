@@ -14,7 +14,6 @@
     <ul class="nav__links">
       <li><a href="{{ url('/#services') }}" data-cursor="VIEW"><span class="a">Services</span><span class="b">Services</span></a></li>
       <li><a href="{{ url('/industries') }}" data-cursor="VIEW"><span class="a">Industries</span><span class="b">Industries</span></a></li>
-      <li><a href="{{ url('/our-process') }}" data-cursor="VIEW"><span class="a">Our Process</span><span class="b">Our Process</span></a></li>
       <li><a href="{{ url('/portfolio') }}" data-cursor="VIEW"><span class="a">Portfolio</span><span class="b">Portfolio</span></a></li>
       <li><a href="{{ url('/blog') }}" data-cursor="VIEW"><span class="a">Blog</span><span class="b">Blog</span></a></li>
       <li><a href="{{ url('/about') }}" data-cursor="VIEW"><span class="a">About</span><span class="b">About</span></a></li>
@@ -32,7 +31,6 @@
   <ul class="menu__list">
     <li><a href="{{ url('/#services') }}"><span>Services</span></a></li>
     <li><a href="{{ url('/industries') }}"><span>Industries</span></a></li>
-    <li><a href="{{ url('/our-process') }}"><span>Our Process</span></a></li>
     <li><a href="{{ url('/portfolio') }}"><span>Portfolio</span></a></li>
     <li><a href="{{ url('/blog') }}"><span>Blog</span></a></li>
     <li><a href="{{ url('/about') }}"><span>About</span></a></li>

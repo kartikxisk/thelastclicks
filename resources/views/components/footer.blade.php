@@ -17,7 +17,6 @@
       <div class="foot__col">
         <h5>Studio</h5>
         <a href="{{ url('/about') }}">About</a>
-        <a href="{{ url('/our-process') }}">Our Process</a>
         <a href="{{ url('/industries') }}">Industries</a>
         <a href="{{ url('/blog') }}">Journal</a>
       </div>

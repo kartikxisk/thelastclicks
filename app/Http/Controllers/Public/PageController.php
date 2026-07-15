@@ -12,11 +12,6 @@ class PageController extends Controller
         return view('pages.about');
     }
 
-    public function process(): View
-    {
-        return view('pages.our-process');
-    }
-
     public function privacy(): View
     {
         return view('pages.privacy-policy');

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('cacheResponse')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/about', [PageController::class, 'about'])->name('about');
-    Route::get('/our-process', [PageController::class, 'process'])->name('our-process');
+    // Our-process page retired — permanent redirect preserves inbound links
+    Route::redirect('/our-process', '/about', 301);
     Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
     Route::get('/terms-of-service', [PageController::class, 'terms'])->name('terms');
     Route::get('/cookie-policy', [PageController::class, 'cookies'])->name('cookies');

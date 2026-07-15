@@ -21,7 +21,7 @@ class GenerateSitemap extends Command
         $sitemap = Sitemap::create();
 
         $statics = [
-            '/', '/about', '/our-process', '/portfolio', '/blog', '/industries',
+            '/', '/about', '/portfolio', '/blog', '/industries',
             '/contact', '/privacy-policy', '/terms-of-service', '/cookie-policy', '/disclaimer',
         ];
         foreach ($statics as $path) {
