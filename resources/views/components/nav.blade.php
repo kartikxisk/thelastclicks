@@ -16,7 +16,6 @@
       <li><a href="{{ url('/industries') }}" data-cursor="VIEW"><span class="a">Industries</span><span class="b">Industries</span></a></li>
       <li><a href="{{ url('/our-process') }}" data-cursor="VIEW"><span class="a">Our Process</span><span class="b">Our Process</span></a></li>
       <li><a href="{{ url('/portfolio') }}" data-cursor="VIEW"><span class="a">Portfolio</span><span class="b">Portfolio</span></a></li>
-      <li><a href="{{ url('/crew') }}" data-cursor="VIEW"><span class="a">Talent</span><span class="b">Talent</span></a></li>
       <li><a href="{{ url('/blog') }}" data-cursor="VIEW"><span class="a">Blog</span><span class="b">Blog</span></a></li>
       <li><a href="{{ url('/about') }}" data-cursor="VIEW"><span class="a">About</span><span class="b">About</span></a></li>
       <li><a href="{{ url('/contact') }}" data-cursor="VIEW"><span class="a">Contact</span><span class="b">Contact</span></a></li>
@@ -35,7 +34,6 @@
     <li><a href="{{ url('/industries') }}"><span>Industries</span></a></li>
     <li><a href="{{ url('/our-process') }}"><span>Our Process</span></a></li>
     <li><a href="{{ url('/portfolio') }}"><span>Portfolio</span></a></li>
-    <li><a href="{{ url('/crew') }}"><span>Talent</span></a></li>
     <li><a href="{{ url('/blog') }}"><span>Blog</span></a></li>
     <li><a href="{{ url('/about') }}"><span>About</span></a></li>
     <li><a href="{{ url('/contact') }}"><span>Contact</span></a></li>

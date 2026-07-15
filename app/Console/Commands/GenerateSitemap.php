@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Crew;
 use App\Models\Industry;
 use App\Models\Portfolio;
 use App\Models\Post;
@@ -22,7 +21,7 @@ class GenerateSitemap extends Command
         $sitemap = Sitemap::create();
 
         $statics = [
-            '/', '/about', '/our-process', '/portfolio', '/blog', '/crew', '/industries',
+            '/', '/about', '/our-process', '/portfolio', '/blog', '/industries',
             '/contact', '/privacy-policy', '/terms-of-service', '/cookie-policy', '/disclaimer',
         ];
         foreach ($statics as $path) {
@@ -41,10 +40,6 @@ class GenerateSitemap extends Command
         foreach (Post::published()->get() as $p) {
             $sitemap->add(Url::create(url('/blog/'.$p->slug))->setLastModificationDate($p->updated_at));
         }
-        foreach (Crew::all() as $c) {
-            $sitemap->add(Url::create(url('/crew/'.$c->slug))->setLastModificationDate($c->updated_at));
-        }
-
         $sitemap->writeToFile(public_path('sitemap.xml'));
         $this->info('sitemap.xml generated');
 

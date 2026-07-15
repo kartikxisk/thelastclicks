@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Public\BlogController;
 use App\Http\Controllers\Public\ContactController;
-use App\Http\Controllers\Public\CrewController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\IndustryController;
 use App\Http\Controllers\Public\PageController;
@@ -38,8 +37,9 @@ Route::middleware('cacheResponse')->group(function () {
     Route::get('/portfolio/{slug}', [PortfolioController::class, 'show'])->name('portfolio.show');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
-    Route::get('/crew', [CrewController::class, 'index'])->name('crew');
-    Route::get('/crew/{slug}', [CrewController::class, 'show'])->name('crew.show');
+    // Talent/crew pages retired — permanent redirects preserve inbound links
+    Route::redirect('/crew', '/about', 301);
+    Route::redirect('/crew/{slug}', '/about', 301);
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 });
 

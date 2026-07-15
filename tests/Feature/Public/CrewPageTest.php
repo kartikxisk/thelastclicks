@@ -1,21 +1,9 @@
 <?php
 
-use App\Models\Crew;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-uses(RefreshDatabase::class);
-beforeEach(fn () => $this->seed());
-
-it('crew index lists seeded members', function () {
-    $first = Crew::first();
-    $this->get('/crew')->assertOk()->assertSee($first->name);
+it('crew index permanently redirects to about', function () {
+    $this->get('/crew')->assertRedirect('/about')->assertStatus(301);
 });
 
-it('crew detail renders by slug', function () {
-    $first = Crew::first();
-    $this->get('/crew/'.$first->slug)->assertOk()->assertSee($first->name);
-});
-
-it('crew detail 404 on unknown slug', function () {
-    $this->get('/crew/nope')->assertNotFound();
+it('crew detail permanently redirects to about', function () {
+    $this->get('/crew/anyone')->assertRedirect('/about')->assertStatus(301);
 });
