@@ -107,7 +107,7 @@
                     <span class="section__eyebrow">Our Clients</span>
                     <h2 class="section__title" data-split>Who we <em>work with</em></h2>
                 </div>
-                <p class="section__lead reveal">Brands and teams who demand clarity, consistency, and craft — across corporate, lifestyle, automotive, and beverage.</p>
+                <p class="section__lead reveal">Brands choose us because we deliver trust, not just footage — from Fortune 500 companies and automotive houses to the nation's most demanding institutions, including the Indian Navy, Indian Army, and BSF.</p>
             </div>
             <div class="clients">
                 <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
@@ -170,13 +170,16 @@
                 </div>
                 <p class="section__lead reveal">A curated showcase across events, brands, and productions.</p>
             </div>
-            <div class="portfolio__list">
+            <div class="reel">
                 @foreach ($portfolio as $item)
-                    <a href="{{ url('/portfolio/'.$item->slug) }}" data-preview="{{ $item->getFirstMediaUrl('cover') ?: $item->cover_url }}" data-cursor="VIEW">
-                        <span class="portfolio__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                        <span class="portfolio__title">{{ $item->title }}</span>
-                        <span class="portfolio__cat">{{ $item->service?->title ?? 'Film' }}</span>
-                        <span class="portfolio__year">{{ $item->year }}</span>
+                    <a class="reel__frame {{ $loop->index % 3 === 0 ? '' : 'reel__frame--half' }} reveal" href="{{ url('/portfolio/'.$item->slug) }}" data-cursor="VIEW">
+                        <img src="{{ $item->getFirstMediaUrl('cover') ?: $item->cover_url }}" alt="{{ $item->title }}" loading="lazy" decoding="async">
+                        <span class="reel__num">{{ str_pad($loop->iteration, 3, '0', STR_PAD_LEFT) }}</span>
+                        <span class="reel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
+                        <div class="reel__body">
+                            <h3 class="reel__title">{{ $item->title }}</h3>
+                            <span class="reel__meta">{{ $item->service?->title ?? 'Film' }} · {{ $item->year }}</span>
+                        </div>
                     </a>
                 @endforeach
             </div>
@@ -196,7 +199,7 @@
                     <span class="section__eyebrow">Our Process</span>
                     <h2 class="section__title" data-split>How <em>we work</em></h2>
                 </div>
-                <p class="section__lead reveal">A clear process means fewer surprises — and visuals that do their job.</p>
+                <p class="section__lead reveal">We start by listening — then build the story, frame by frame, before a single camera rolls.</p>
             </div>
             <div class="sproc__stage" data-sproc>
                 <div class="sproc__sticky">
@@ -360,7 +363,7 @@
             <div>
                 <span class="section__eyebrow">Why The Last Clicks</span>
                 <h2 class="section__title" data-split>Built for <em>partnership.</em></h2>
-                <p class="section__lead reveal">Long-term partnerships built on reliability and craft — not one-off transactions.</p>
+                <p class="section__lead reveal">Not a vendor — a long-term partner that scales with your story.</p>
                 <div class="reveal" data-delay="2" style="margin-top:32px">
                     <a class="btn btn--red" href="{{ url('/about') }}" data-magnetic data-cursor="ABOUT US">
                         About the studio <span class="arr"></span>
@@ -371,7 +374,7 @@
                 <li>Post-production in-house — the edit is our edge</li>
                 <li>One team from brief to final master</li>
                 <li>Same standard across photo and film</li>
-                <li>Trusted by brands, corporates and event teams</li>
+                <li>Trusted by Fortune 500 brands, the Indian Navy, Indian Army &amp; BSF</li>
             </ol>
         </div>
     </section>
