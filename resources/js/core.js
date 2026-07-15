@@ -48,42 +48,6 @@
     sbFill.style.setProperty('--p', p + '%');
   }
 
-  /* -------------------- Custom Cursor -------------------- */
-  const cur = document.querySelector('.cursor');
-  const ring = document.querySelector('.cursor-ring');
-  const lab = document.querySelector('.cursor-label');
-  let mx = window.innerWidth/2, my = window.innerHeight/2;
-  let cx = mx, cy = my, rx = mx, ry = my;
-  if (cur && !isCoarse) {
-    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    function curTick() {
-      cx += (mx - cx) * 0.5;
-      cy += (my - cy) * 0.5;
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      cur.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%,-50%)`;
-      if (ring) ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%,-50%)`;
-      if (lab) lab.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, calc(-50% + 36px)) scale(${lab.classList.contains('is-on') ? 1 : 0.9})`;
-      requestAnimationFrame(curTick);
-    }
-    curTick();
-    document.addEventListener('mouseleave', () => { cur.style.opacity = 0; if (ring) ring.style.opacity = 0; });
-    document.addEventListener('mouseenter', () => { cur.style.opacity = 1; if (ring) ring.style.opacity = 1; });
-
-    // Hover targets
-    const hoverSel = 'a, button, [data-cursor], [data-magnetic], input, textarea, select, .hover-target';
-    document.body.addEventListener('mouseover', e => {
-      const t = e.target.closest(hoverSel);
-      if (!t) return;
-      cur.classList.add('is-hover');
-    });
-    document.body.addEventListener('mouseout', e => {
-      const t = e.target.closest(hoverSel);
-      if (!t) return;
-      cur.classList.remove('is-hover');
-    });
-  }
-
   /* -------------------- Magnetic elements -------------------- */
   const magnets = [];
   document.querySelectorAll('[data-magnetic]').forEach(el => {
@@ -435,39 +399,6 @@
     }));
   });
 
-
-  /* -------------------- Cursor trail (fading red dots) -------------------- */
-  if (!isCoarse && !reduce) {
-    const TRAIL_MAX = 14;
-    const trail = [];
-    for (let i = 0; i < TRAIL_MAX; i++) {
-      const d = document.createElement('div');
-      d.className = 'cursor-trail';
-      document.body.appendChild(d);
-      trail.push({ el: d, x: -100, y: -100, age: TRAIL_MAX });
-    }
-    let trailIdx = 0;
-    let trailFrame = 0;
-    window.addEventListener('mousemove', (e) => {
-      trailFrame++;
-      if (trailFrame % 3 !== 0) return;
-      const t = trail[trailIdx];
-      t.x = e.clientX; t.y = e.clientY; t.age = 0;
-      trailIdx = (trailIdx + 1) % TRAIL_MAX;
-    });
-    function trailTick() {
-      for (let i = 0; i < TRAIL_MAX; i++) {
-        const t = trail[i];
-        t.age += 0.08;
-        const a = Math.max(0, 1 - t.age);
-        const scale = 0.4 + a * 0.9;
-        t.el.style.transform = 'translate3d(' + t.x + 'px,' + t.y + 'px,0) translate(-50%,-50%) scale(' + scale + ')';
-        t.el.style.opacity = a * 0.45;
-      }
-      requestAnimationFrame(trailTick);
-    }
-    trailTick();
-  }
 
   /* -------------------- 3D mouse tilt (disabled — too busy) -------------------- */
   document.querySelectorAll('[data-tilt-disabled]').forEach((el) => {

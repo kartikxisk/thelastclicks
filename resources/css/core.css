@@ -45,13 +45,22 @@ html, body {
 
 html { scroll-behavior: auto; } /* we own scroll via Lenis-ish */
 
+:root {
+  /* Camera glyph cursor — white body, dark outline, red shutter dot */
+  --cursor-camera: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'%3E%3Cpath d='M9 3 7.5 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.5L15 3H9z' fill='%23fff' stroke='%23000' stroke-width='1.2'/%3E%3Ccircle cx='12' cy='12.5' r='4' fill='none' stroke='%23000' stroke-width='1.2'/%3E%3Ccircle cx='12' cy='12.5' r='1.6' fill='%23e80f03'/%3E%3C/svg%3E") 4 4;
+}
+
 body {
   overflow-x: hidden;
-  cursor: none;
+  cursor: var(--cursor-camera), auto;
+}
+
+a, button, [data-cursor], [data-magnetic], label, input, select, textarea, .hover-target {
+  cursor: var(--cursor-camera), pointer;
 }
 
 @media (hover: none) and (pointer: coarse) {
-  body { cursor: auto; }
+  body, a, button, [data-cursor], [data-magnetic], label, input, select, textarea { cursor: auto; }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -65,58 +74,6 @@ img, video { max-width: 100%; display: block; }
   position: relative;
 }
 .smooth-content { /* no transform, native scroll */ }
-
-/* ---------- Custom cursor ---------- */
-.cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--paper);
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transform: translate(-50%, -50%);
-  transition: width 0.35s var(--ease), height 0.35s var(--ease), background 0.25s var(--ease);
-}
-.cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  width: 36px; height: 36px;
-  border: 1px solid rgba(244,243,239,0.4);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), border-color 0.3s var(--ease), opacity 0.3s var(--ease);
-}
-.cursor.is-hover { width: 14px; height: 14px; background: var(--red); mix-blend-mode: normal; opacity: 1; }
-.cursor.is-hover + .cursor-ring { width: 56px; height: 56px; border-color: var(--red); opacity: 0.6; }
-.cursor-label {
-  position: fixed;
-  top: 0; left: 0;
-  padding: 6px 10px;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: var(--ink);
-  color: #fff;
-  border: 1px solid var(--red);
-  border-radius: 100px;
-  pointer-events: none;
-  z-index: 9997;
-  opacity: 0;
-  transform: translate(-50%, calc(-50% + 36px)) scale(0.9);
-  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
-  white-space: nowrap;
-  mix-blend-mode: normal;
-}
-.cursor-label.is-on { opacity: 1; transform: translate(-50%, calc(-50% + 36px)) scale(1); }
-
-@media (hover: none) and (pointer: coarse) {
-  .cursor, .cursor-ring, .cursor-label { display: none; }
-}
 
 /* ---------- Page transitions (red curtain) ---------- */
 .curtain {

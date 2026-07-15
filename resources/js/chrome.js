@@ -222,9 +222,6 @@ window.TLC = (function(){
         <div class="preloader__label">TheLastClicks · Loading the reel</div>
       </div>
     </div>
-    <div class="cursor"></div>
-    <div class="cursor-ring"></div>
-    <div class="cursor-label">View</div>
     <div class="scrollbar"><div class="scrollbar__fill"></div></div>
     <div class="cookies" role="dialog" aria-label="Cookie consent" aria-hidden="true">
       <div class="cookies__inner">
@@ -256,7 +253,7 @@ window.TLC = (function(){
     wrap.appendChild(content);
 
     // move all body children EXCEPT chrome into content
-    const chromeSel = '.curtain,.preloader,.cursor,.cursor-ring,.cursor-label,.scrollbar,.hover-preview,.quote';
+    const chromeSel = '.curtain,.preloader,.scrollbar,.hover-preview,.quote';
     const kids = Array.from(document.body.childNodes);
     document.body.appendChild(wrap);
     kids.forEach(k => {
