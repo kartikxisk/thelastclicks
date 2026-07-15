@@ -40,51 +40,51 @@
             <div class="strip__perf strip__perf--bot" aria-hidden="true"></div>
             <div class="strip__track" data-strip-track>
                 <article class="strip__card is-on" data-i="0">
-                    <span class="strip__tag">001 · Brand film · 2026</span>
-                    <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1600&q=88" alt="" decoding="async">
+                    <span class="strip__tag">001 · Defence · 2026</span>
+                    <img src="{{ asset('videos/posters/ins-navy-blackdog.jpg') }}" alt="" decoding="async">
                     <div class="strip__body">
-                        <h3>Atlas, in <em>motion.</em></h3>
-                        <span>Noida · 90s hero · 14 cuts</span>
+                        <h3>Indian <em>Navy.</em></h3>
+                        <span>Official event film</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="1">
-                    <span class="strip__tag">002 · Wedding · 2026</span>
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=88" alt="" decoding="async">
+                    <span class="strip__tag">002 · Corporate · 2026</span>
+                    <img src="{{ asset('videos/posters/salesforce-blr.jpg') }}" alt="" loading="lazy" decoding="async">
                     <div class="strip__body">
-                        <h3>Udaipur · <em>S &amp; R.</em></h3>
-                        <span>Lake palace · 4 events</span>
+                        <h3>Salesforce · <em>Bengaluru.</em></h3>
+                        <span>Multi-cam recap film</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="2">
-                    <span class="strip__tag">003 · Auto · 2025</span>
-                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=88" alt="" loading="lazy" decoding="async">
+                    <span class="strip__tag">003 · Campaign · 2026</span>
+                    <img src="{{ asset('videos/posters/rahul-dravid-teaser.jpg') }}" alt="" loading="lazy" decoding="async">
                     <div class="strip__body">
-                        <h3>Aurelia GT <em>reveal.</em></h3>
-                        <span>Phantom Flex · 1000fps</span>
+                        <h3>Rahul Dravid · <em>teaser.</em></h3>
+                        <span>Brand campaign film</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="3">
-                    <span class="strip__tag">004 · Lifestyle · 2026</span>
-                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=1600&q=88" alt="" loading="lazy" decoding="async">
+                    <span class="strip__tag">004 · Automotive · 2026</span>
+                    <img src="{{ asset('videos/posters/range-rover.jpg') }}" alt="" loading="lazy" decoding="async">
                     <div class="strip__body">
-                        <h3>Premium <em>beverage.</em></h3>
-                        <span>National launch · Goa</span>
+                        <h3>Range <em>Rover.</em></h3>
+                        <span>Platform-first reel</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="4">
-                    <span class="strip__tag">005 · Corporate · 2025</span>
-                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=88" alt="" loading="lazy" decoding="async">
+                    <span class="strip__tag">005 · Brands · 2026</span>
+                    <img src="{{ asset('videos/posters/black-label.jpg') }}" alt="" loading="lazy" decoding="async">
                     <div class="strip__body">
-                        <h3>Annual <em>Conference.</em></h3>
-                        <span>40 sessions · same-day</span>
+                        <h3>Black <em>Label.</em></h3>
+                        <span>Regulated-category reel</span>
                     </div>
                 </article>
                 <article class="strip__card" data-i="5">
-                    <span class="strip__tag">006 · Editorial · 2025</span>
-                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=88" alt="" loading="lazy" decoding="async">
+                    <span class="strip__tag">006 · Wedding · 2026</span>
+                    <img src="{{ asset('videos/posters/prewedding-pramod-pooja.jpg') }}" alt="" loading="lazy" decoding="async">
                     <div class="strip__body">
-                        <h3>Indé <em>Magazine.</em></h3>
-                        <span>8-page autumn spread</span>
+                        <h3>Pramod &amp; <em>Pooja.</em></h3>
+                        <span>Pre-wedding film</span>
                     </div>
                 </article>
             </div>

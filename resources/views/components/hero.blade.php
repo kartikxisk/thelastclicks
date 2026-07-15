@@ -2,16 +2,16 @@
 <section class="hero" data-screen-label="01 Hero">
     <div class="hero__bg">
       <div class="tile">
-        <video src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=85"></video>
+        <video src="{{ asset('videos/ins-navy-blackdog.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/ins-navy-blackdog.jpg') }}"></video>
       </div>
       <div class="tile">
         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=85" alt="" decoding="async">
       </div>
       <div class="tile">
-        <video src="https://videos.pexels.com/video-files/2103099/2103099-uhd_2560_1440_30fps.mp4" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&q=85"></video>
+        <video src="{{ asset('videos/salesforce-blr.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/salesforce-blr.jpg') }}"></video>
       </div>
       <div class="tile">
-        <video src="https://videos.pexels.com/video-files/2022395/2022395-hd_1920_1080_30fps.mp4" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&q=85"></video>
+        <video src="{{ asset('videos/rahul-dravid-teaser.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/rahul-dravid-teaser.jpg') }}"></video>
       </div>
     </div>
 

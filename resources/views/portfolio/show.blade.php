@@ -30,6 +30,8 @@
 .gallery .g { overflow: hidden; }
 .gallery .g img { width:100%; height:100%; object-fit: cover; transition: transform 1s var(--ease); }
 .gallery .g:hover img { transform: scale(1.04); }
+.gallery .g--video { background: #000; }
+.gallery .g--video video { display:block; width:100%; height:auto; max-height:82vh; object-fit:contain; margin-inline:auto; }
 .g--6 { grid-column: span 6; aspect-ratio: 3/2; }
 .g--12 { grid-column: span 12; aspect-ratio: 16/7; }
 .g--4 { grid-column: span 4; aspect-ratio: 3/4; }
@@ -93,9 +95,16 @@
     <section class="gallery">
         @php $spans = ['g--6', 'g--12', 'g--4', 'g--8']; @endphp
         @forelse ($item->gallery_urls ?? [] as $i => $src)
-            <div class="g {{ $spans[$i % count($spans)] }} reveal">
-                <img src="{{ $src }}" alt="" loading="lazy" decoding="async">
-            </div>
+            @if (str_ends_with($src, '.mp4'))
+                <div class="g g--12 g--video reveal">
+                    <video src="{{ $src }}" controls playsinline preload="metadata"
+                           poster="{{ str_replace(['/videos/', '.mp4'], ['/videos/posters/', '.jpg'], $src) }}"></video>
+                </div>
+            @else
+                <div class="g {{ $spans[$i % count($spans)] }} reveal">
+                    <img src="{{ $src }}" alt="" loading="lazy" decoding="async">
+                </div>
+            @endif
         @empty
             @if ($cover)
                 <div class="g g--12 reveal">
