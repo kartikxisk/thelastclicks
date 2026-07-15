@@ -12,7 +12,7 @@ class BlogController extends Controller
     {
         $featured = Post::published()->latest('published_at')->first();
         $posts = Post::published()
-            ->with('categories')
+            ->with(['categories', 'media'])
             ->when($featured, fn ($q) => $q->where('id', '!=', $featured->id))
             ->latest('published_at')
             ->paginate(12);

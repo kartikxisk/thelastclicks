@@ -12,7 +12,7 @@ class ServiceController extends Controller
     public function show(string $slug): View
     {
         $service = Service::where('slug', $slug)->firstOrFail();
-        $work = Portfolio::published()->where('service_id', $service->id)->latest()->take(6)->get();
+        $work = Portfolio::published()->with(['service', 'media'])->where('service_id', $service->id)->latest()->take(6)->get();
 
         return view('services.show', compact('service', 'work'));
     }

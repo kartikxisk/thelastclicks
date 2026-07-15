@@ -12,14 +12,14 @@ class IndustryController extends Controller
     public function index(): View
     {
         return view('industries.index', [
-            'industries' => Industry::orderBy('order')->get(),
+            'industries' => Industry::orderBy('order')->with('media')->get(),
         ]);
     }
 
     public function show(string $slug): View
     {
         $industry = Industry::where('slug', $slug)->firstOrFail();
-        $work = Portfolio::published()->where('industry_id', $industry->id)->latest()->take(12)->get();
+        $work = Portfolio::published()->with(['service', 'media'])->where('industry_id', $industry->id)->latest()->take(12)->get();
         $categories = $industry->workCategories;
         $testimonials = $industry->testimonials()->where('is_published', true)->get();
 

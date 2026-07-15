@@ -13,7 +13,7 @@ class PortfolioController extends Controller
     {
         $featured = Portfolio::published()->latest()->first();
         $itemsByYear = Portfolio::published()
-            ->with(['service', 'industry', 'workCategory'])
+            ->with(['service', 'industry', 'workCategory', 'media'])
             ->when($featured, fn ($q) => $q->where('id', '!=', $featured->id))
             ->orderBy('year', 'desc')
             ->latest()

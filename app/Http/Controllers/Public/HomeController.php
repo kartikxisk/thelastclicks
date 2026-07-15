@@ -13,8 +13,8 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('home', [
-            'services' => Service::orderBy('order')->get(),
-            'portfolio' => Portfolio::published()->latest()->take(6)->get(),
+            'services' => Service::orderBy('order')->with('media')->get(),
+            'portfolio' => Portfolio::published()->with(['service', 'media'])->latest()->take(6)->get(),
             'testimonials' => Testimonial::published()->orderBy('order')->get(),
         ]);
     }
