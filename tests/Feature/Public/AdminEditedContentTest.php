@@ -19,11 +19,11 @@ it('edited service hero_copy appears on its public page', function () {
         ->assertSeeText('Editor-set tagline ABC123');
 });
 
-it('edited industry summary appears on its detail page', function () {
+it('edited industry summary appears on the industries list', function () {
     $ind = Industry::where('slug', 'fashion-creators')->first();
     $ind->update(['summary' => 'Edited industry summary XYZ789']);
 
-    $this->get('/industries/fashion-creators')
+    $this->get('/industries')
         ->assertOk()
         ->assertSeeText('Edited industry summary XYZ789');
 });

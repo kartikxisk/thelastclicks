@@ -9,14 +9,6 @@ it('industry index lists seeded industries', function () {
     $this->get('/industries')->assertOk()->assertSee('Fashion');
 });
 
-it('industry detail renders by slug', function () {
-    $this->get('/industries/fashion-creators')->assertOk()->assertSee('Fashion');
-});
-
-it('industry detail 404 on unknown slug', function () {
-    $this->get('/industries/nope')->assertNotFound();
-});
-
-it('industry page shows its own testimonials', function () {
-    $this->get('/industries/weddings-celebrations')->assertOk()->assertSee('Sneha');
-});
+it('industry detail slugs permanently redirect to the list', function (string $slug) {
+    $this->get('/industries/'.$slug)->assertRedirect('/industries')->assertStatus(301);
+})->with(['weddings-celebrations', 'destination-weddings', 'anything-else']);

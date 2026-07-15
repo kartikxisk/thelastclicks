@@ -26,14 +26,8 @@ Route::middleware('cacheResponse')->group(function () {
     Route::redirect('/services/creative-direction', '/services/post-production', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
-    // Retired industry slugs — work is now grouped into 7 real industries.
-    Route::redirect('/industries/corporate-conferences', '/industries/corporate-events', 301);
-    Route::redirect('/industries/brand-launches', '/industries/brands-products', 301);
-    Route::redirect('/industries/automobile-showcases', '/industries/brands-products', 301);
-    Route::redirect('/industries/lifestyle-beverage', '/industries/brands-products', 301);
-    Route::redirect('/industries/destination-weddings', '/industries/weddings-celebrations', 301);
-    Route::redirect('/industries/commercial-productions', '/industries/motion-post-production', 301);
-    Route::get('/industries/{slug}', [IndustryController::class, 'show'])->name('industry.show');
+    // Industry detail pages retired — the list page is the destination now.
+    Route::redirect('/industries/{slug}', '/industries', 301);
     Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
     Route::get('/portfolio/{slug}', [PortfolioController::class, 'show'])->name('portfolio.show');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');

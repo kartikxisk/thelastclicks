@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Industry;
 use App\Models\Portfolio;
 use App\Models\Post;
 use App\Models\Service;
@@ -30,9 +29,6 @@ class GenerateSitemap extends Command
 
         foreach (Service::all() as $svc) {
             $sitemap->add(Url::create(url('/services/'.$svc->slug))->setLastModificationDate($svc->updated_at));
-        }
-        foreach (Industry::all() as $ind) {
-            $sitemap->add(Url::create(url('/industries/'.$ind->slug))->setLastModificationDate($ind->updated_at));
         }
         foreach (Portfolio::published()->get() as $p) {
             $sitemap->add(Url::create(url('/portfolio/'.$p->slug))->setLastModificationDate($p->updated_at));

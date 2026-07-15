@@ -58,13 +58,13 @@
                         $heroUrl = $industry->getFirstMediaUrl('hero') ?: $industry->image_url;
                         $fallback = 'https://images.unsplash.com/photo-1521334884684-d80222895322?w=1200&q=85';
                     @endphp
-                    <a class="ind reveal" href="{{ url('/industries/'.$industry->slug) }}" data-cursor="VIEW"@if ($loop->index % 2) data-delay="1"@endif>
+                    <div class="ind reveal"@if ($loop->index % 2) data-delay="1"@endif>
                         <img src="{{ $heroUrl ?: $fallback }}" alt="" decoding="async">
                         <div class="ind__body">
                             <h3>{{ $industry->title }}</h3>
                             <p>{{ $industry->summary }}</p>
                         </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
         </div>
