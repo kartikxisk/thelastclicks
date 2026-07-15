@@ -19,9 +19,10 @@
       <div>
         <span class="section__eyebrow">Our story</span>
         <h2 data-split>Built on the <em>discipline</em> of premium brands.</h2>
-        <p class="reveal">A wedding film crew that wouldn't compromise — now, eight years on, a studio trusted by Fortune 500 teams, automotive houses, and the country's most demanding creative directors.</p>
-        <p class="reveal" data-delay="1">Premium and regulated brands sharpened our discipline — lighting, framing, post — and it powers everything, from a product still to a 12-city campaign.</p>
-        <p class="reveal" data-delay="2">Not a vendor — a long-term partner that scales with your story.</p>
+        <p class="reveal">Brands choose us because we deliver trust, not just footage. Every shoot — wedding, commercial, or corporate — is run with the same discipline: show up prepared, protect the brief, deliver work that holds up under scrutiny.</p>
+        <p class="reveal" data-delay="1">That discipline is why our client list spans far beyond weddings and product launches — we've delivered for the nation's most demanding institutions, including the Indian Navy, Indian Army, and BSF, alongside Fortune 500 brands and automotive houses.</p>
+        <p class="reveal" data-delay="2">We don't chase &ldquo;good enough.&rdquo; Every project is a chance to be better than the last one — sharper frames, tighter edits, stronger stories.</p>
+        <p class="reveal" data-delay="3">Not a vendor — a long-term partner that scales with your story.</p>
       </div>
       <div class="about-img clip-reveal"><img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=1200&q=85" alt="Photographer at work" decoding="async"></div>
     </div>
@@ -31,10 +32,13 @@
     <div class="wrap">
       <div class="services__head">
         <div><span class="section__eyebrow">Principles</span><h2 class="section__title" data-split>How we <em>operate</em></h2></div>
-        <p class="section__lead reveal">Four non-negotiables that shape every brief we accept.</p>
+        <div class="section__lead reveal">
+          <p>We start by listening — understanding the brand, the brief, and the gap between what exists and what's possible. Then we build the story first, frame by frame, before a single camera rolls.</p>
+          <p style="margin-top:14px">Four non-negotiables that shape every brief we accept.</p>
+        </div>
       </div>
       <div class="proc">
-        <div class="proc__step reveal"><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>Every frame answers a question the brand actually has.</p></div>
+        <div class="proc__step reveal"><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>We listen first — understanding your brand and where craft can push it further — then build the story before we shoot a single frame.</p></div>
         <div class="proc__step reveal" data-delay="1"><div class="proc__num">02<span>CRAFT</span></div><h3>Brand-grade post</h3><p>In-house grading and finishing — never outsourced.</p></div>
         <div class="proc__step reveal" data-delay="2"><div class="proc__num">03<span>SCALE</span></div><h3>Crews that flex</h3><p>One operator or thirty — same standard, same lead.</p></div>
         <div class="proc__step reveal" data-delay="3"><div class="proc__num">04<span>TRUST</span></div><h3>Compliance by default</h3><p>Premium &amp; regulated brand guidelines understood deeply.</p></div>
@@ -77,22 +81,6 @@
             <div class="timeline-x__title"><em>547+</em> productions in.</div>
             <div class="timeline-x__desc">Crew of 60+ across cities, booked into 2026 — same standard, scaled.</div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOUNDER NOTE -->
-  <section class="section" data-screen-label="05 Founder">
-    <div class="wrap">
-      <div class="founder">
-        <div class="founder__media clip-reveal">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&q=85" alt="" decoding="async">
-        </div>
-        <div class="reveal">
-          <span class="kicker" data-scramble>A note from the founder</span>
-          <div class="founder__quote" style="margin-top:18px" data-split>We didn't start TheLastClicks to be the biggest studio — we started it because almost no one was treating photography and film as actual craft.</div>
-          <div class="founder__who"><strong>Aarav Khanna</strong>Founder &amp; Director of Photography</div>
         </div>
       </div>
     </div>

@@ -534,7 +534,7 @@
             <path class="g" d="M32 6v8M32 50v8M6 32h8M50 32h8" pathLength="1" style="--d:.5s"/>
             <circle class="f" cx="32" cy="32" r="3.5" fill="var(--red)" stroke="none"/>
           </svg>
-          <p class="phase__lead">Goals, audience, guardrails and metrics — locked before any camera moves.</p>
+          <p class="phase__lead">We start by listening — the brand, the brief, and the gap between what exists and what's possible — locked before any camera moves.</p>
           <div class="phase__meta">
             <span class="phase__pill"><span class="dot"></span>Day 0–2</span>
             <span class="phase__pill">2-hour kickoff</span>
