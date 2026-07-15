@@ -130,6 +130,10 @@
                     <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80" alt="" loading="lazy" decoding="async">
                     <span class="label">Weddings &amp; Celebrations</span>
                 </a>
+                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
+                    <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800&q=80" alt="" loading="lazy" decoding="async">
+                    <span class="label">Government &amp; Defence</span>
+                </a>
             </div>
         </div>
     </section>
@@ -156,147 +160,6 @@
                         <span class="svc__arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
                     </a>
                 @endforeach
-            </div>
-        </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section class="section portfolio" data-screen-label="04 Portfolio">
-        <div class="wrap">
-            <div class="services__head">
-                <div>
-                    <span class="section__eyebrow" data-scramble>Selected Projects</span>
-                    <h2 class="section__title" data-split>Selected <em>work</em></h2>
-                </div>
-                <p class="section__lead reveal">A curated showcase across events, brands, and productions.</p>
-            </div>
-            <div class="reel">
-                @foreach ($portfolio as $item)
-                    <a class="reel__frame {{ $loop->index % 3 === 0 ? '' : 'reel__frame--half' }} reveal" href="{{ url('/portfolio/'.$item->slug) }}" data-cursor="VIEW">
-                        <img src="{{ $item->getFirstMediaUrl('cover') ?: $item->cover_url }}" alt="{{ $item->title }}" loading="lazy" decoding="async">
-                        <span class="reel__num">{{ str_pad($loop->iteration, 3, '0', STR_PAD_LEFT) }}</span>
-                        <span class="reel__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
-                        <div class="reel__body">
-                            <h3 class="reel__title">{{ $item->title }}</h3>
-                            <span class="reel__meta">{{ $item->service?->title ?? 'Film' }} · {{ $item->year }}</span>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-            <div style="margin-top:48px;display:flex;justify-content:center">
-                <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-magnetic data-cursor="ALL WORK">
-                    View full portfolio <span class="arr"></span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section class="section sproc" data-screen-label="05 Process">
-        <div class="wrap">
-            <div class="services__head">
-                <div>
-                    <span class="section__eyebrow">Our Process</span>
-                    <h2 class="section__title" data-split>How <em>we work</em></h2>
-                </div>
-                <p class="section__lead reveal">We start by listening — then build the story, frame by frame, before a single camera rolls.</p>
-            </div>
-            <div class="sproc__stage" data-sproc>
-                <div class="sproc__sticky">
-                    <div class="sproc__counter">
-                        <span class="sproc__now">01</span><span class="sproc__total"> / 04</span>
-                    </div>
-                    <div class="sproc__panels">
-                        <article class="sproc__panel is-on" data-panel="0">
-                            <span class="sproc__phase">Phase one · Brief</span>
-                            <h3>Understanding the <em>brief.</em></h3>
-                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                <circle class="g" cx="32" cy="32" r="18" pathLength="1"/>
-                                <path class="g" d="M32 6v8M32 50v8M6 32h8M50 32h8" pathLength="1" style="--d:.5s"/>
-                                <circle class="f" cx="32" cy="32" r="3.5" fill="var(--red)" stroke="none"/>
-                            </svg>
-                            <ul class="sproc__keys">
-                                <li>Discovery call</li>
-                                <li>Creative thesis</li>
-                                <li>KPIs locked</li>
-                            </ul>
-                        </article>
-                        <article class="sproc__panel" data-panel="1">
-                            <span class="sproc__phase">Phase two · Plan</span>
-                            <h3>Pre-production <em>planning.</em></h3>
-                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                <rect class="g" x="6" y="20" width="14" height="24" pathLength="1"/>
-                                <rect class="g" x="25" y="20" width="14" height="24" pathLength="1" style="--d:.35s"/>
-                                <rect class="g" x="44" y="20" width="14" height="24" pathLength="1" style="--d:.55s"/>
-                                <path class="f" d="M30 28.5l5.5 3.5-5.5 3.5z" fill="var(--red)" stroke="none"/>
-                            </svg>
-                            <ul class="sproc__keys">
-                                <li>Treatment &amp; shot list</li>
-                                <li>Casting &amp; locations</li>
-                                <li>Crew &amp; kit locked</li>
-                            </ul>
-                        </article>
-                        <article class="sproc__panel" data-panel="2">
-                            <span class="sproc__phase">Phase three · Shoot</span>
-                            <h3>On-ground <em>execution.</em></h3>
-                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                <path class="g" d="M10 22V12a2 2 0 0 1 2-2h10" pathLength="1"/>
-                                <path class="g" d="M42 10h10a2 2 0 0 1 2 2v10" pathLength="1" style="--d:.2s"/>
-                                <path class="g" d="M54 42v10a2 2 0 0 1-2 2H42" pathLength="1" style="--d:.4s"/>
-                                <path class="g" d="M22 54H12a2 2 0 0 1-2-2V42" pathLength="1" style="--d:.6s"/>
-                                <circle class="f pulse" cx="32" cy="32" r="4" fill="var(--red)" stroke="none"/>
-                            </svg>
-                            <ul class="sproc__keys">
-                                <li>Full crew, cinema kit</li>
-                                <li>On-set look dev</li>
-                                <li>Daily rushes</li>
-                            </ul>
-                        </article>
-                        <article class="sproc__panel" data-panel="3">
-                            <span class="sproc__phase">Phase four · Finish</span>
-                            <h3>Post-production &amp; <em>delivery.</em></h3>
-                            <svg class="sproc__glyph" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                <path class="g" d="M12 27v10" pathLength="1"/>
-                                <path class="g" d="M22 20v24" pathLength="1" style="--d:.15s"/>
-                                <path class="g" d="M32 13v38" pathLength="1" style="--d:.3s" stroke="var(--red)"/>
-                                <path class="g" d="M42 22v20" pathLength="1" style="--d:.45s"/>
-                                <path class="g" d="M52 28v8" pathLength="1" style="--d:.6s"/>
-                            </svg>
-                            <ul class="sproc__keys">
-                                <li>Edit &amp; ACES grade</li>
-                                <li>Sound design</li>
-                                <li>Platform masters</li>
-                            </ul>
-                        </article>
-                    </div>
-                    <div class="sproc__progress" aria-hidden="true">
-                        <div class="sproc__progress-fill"></div>
-                    </div>
-                    <div class="sproc__dots">
-                        <button class="sproc__dot is-on" data-jump="0" aria-label="Go to phase 1"></button>
-                        <button class="sproc__dot" data-jump="1" aria-label="Go to phase 2"></button>
-                        <button class="sproc__dot" data-jump="2" aria-label="Go to phase 3"></button>
-                        <button class="sproc__dot" data-jump="3" aria-label="Go to phase 4"></button>
-                    </div>
-                </div>
-                <div class="sproc__media">
-                    <figure class="sproc__scene" data-scene="0">
-                        <span class="sproc__tag"><span class="dot"></span>01 · Brief</span>
-                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1600&q=85" alt="Discovery call" loading="lazy" decoding="async">
-                    </figure>
-                    <figure class="sproc__scene" data-scene="1">
-                        <span class="sproc__tag"><span class="dot"></span>02 · Plan</span>
-                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1600&q=85" alt="Planning a shoot" loading="lazy" decoding="async">
-                    </figure>
-                    <figure class="sproc__scene" data-scene="2">
-                        <span class="sproc__tag"><span class="dot"></span>03 · Shoot</span>
-                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=85" alt="On set" loading="lazy" decoding="async">
-                    </figure>
-                    <figure class="sproc__scene" data-scene="3">
-                        <span class="sproc__tag"><span class="dot"></span>04 · Finish</span>
-                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1600&q=85" alt="Post production" loading="lazy" decoding="async">
-                    </figure>
-                </div>
             </div>
         </div>
     </section>
