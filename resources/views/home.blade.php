@@ -57,7 +57,7 @@
                     ];
                 @endphp
                 @foreach ($stripCards as $i => $card)
-                    <a class="strip__card {{ $i === 0 ? 'is-on' : '' }}" data-i="{{ $i }}" href="{{ url('/portfolio/'.$card['slug']) }}" data-cursor="WATCH">
+                    <article class="strip__card {{ $i === 0 ? 'is-on' : '' }}" data-i="{{ $i }}">
                         <span class="strip__tag">{{ $card['tag'] }}</span>
                         <video data-strip-video src="{{ asset('videos/'.$card['video'].'.mp4') }}"
                                poster="{{ asset('videos/posters/'.$card['video'].'.jpg') }}"
@@ -69,12 +69,11 @@
                                 <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5"/>
                             </svg>
                         </button>
-                        <span class="strip__play">Watch full film</span>
                         <div class="strip__body">
                             <h3>{!! $card['title'] !!}</h3>
                             <span>{{ $card['meta'] }}</span>
                         </div>
-                    </a>
+                    </article>
                 @endforeach
             </div>
         </div>
@@ -154,25 +153,13 @@
     </section>
 
     <!-- STATS -->
-    <section class="section" style="padding-top:0">
+    <section class="section" data-screen-label="04 Stats">
         <div class="wrap">
             <div class="stats">
-                <div class="reveal">
-                    <div class="stat__num"><span data-scramble-count="64" data-decimals="0">0</span><em>+</em></div>
-                    <div class="stat__lab">Crew Members</div>
-                </div>
-                <div class="reveal" data-delay="1">
-                    <div class="stat__num"><span data-scramble-count="186" data-decimals="0">0</span><em>+</em></div>
-                    <div class="stat__lab">Events / Year</div>
-                </div>
-                <div class="reveal" data-delay="2">
-                    <div class="stat__num"><span data-scramble-count="26" data-decimals="0">0</span><em>+</em></div>
-                    <div class="stat__lab">Cities Covered</div>
-                </div>
-                <div class="reveal" data-delay="3">
-                    <div class="stat__num"><span data-scramble-count="42" data-decimals="0">0</span><em>h</em></div>
-                    <div class="stat__lab">Avg. Turnaround</div>
-                </div>
+                <div class="reveal"><div class="stat__num"><span data-count="547">0</span><em>+</em></div><div class="stat__lab">Productions delivered</div></div>
+                <div class="reveal" data-delay="1"><div class="stat__num"><span data-count="52">0</span><em>+</em></div><div class="stat__lab">Premium brand partners</div></div>
+                <div class="reveal" data-delay="2"><div class="stat__num"><span data-count="98.4" data-decimals="1">0</span><em>%</em></div><div class="stat__lab">Guideline compliance</div></div>
+                <div class="reveal" data-delay="3"><div class="stat__num"><span data-count="8">0</span><em>yr</em></div><div class="stat__lab">Years in production</div></div>
             </div>
         </div>
     </section>
@@ -286,15 +273,20 @@
     (function () {
       const videos = [...document.querySelectorAll('.strip__card video[data-strip-video]')];
 
+      const touch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
       document.querySelectorAll('.strip__card').forEach((card) => {
         const v = card.querySelector('video[data-strip-video]');
         if (!v) return;
-        const play = () => { v.play().catch(() => {}); };
-        const stop = () => { v.pause(); };
-        card.addEventListener('mouseenter', play);
-        card.addEventListener('mouseleave', stop);
-        card.addEventListener('focus', play);
-        card.addEventListener('blur', stop);
+        if (touch) {
+          // No hover on touch — tap toggles playback (mute button handles its own clicks).
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('[data-card-mute]')) return;
+            if (v.paused) v.play().catch(() => {}); else v.pause();
+          });
+        } else {
+          card.addEventListener('mouseenter', () => { v.play().catch(() => {}); });
+          card.addEventListener('mouseleave', () => { v.pause(); });
+        }
       });
 
       function setBtn(btn, muted, scope) {
