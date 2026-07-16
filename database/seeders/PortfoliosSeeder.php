@@ -100,6 +100,20 @@ class PortfoliosSeeder extends Seeder
         }
 
         $this->attachIndustries();
+        $this->removeLegacyPlaceholders();
+    }
+
+    /**
+     * Earlier seeder versions shipped fictional placeholder cases. Deleting
+     * by their exact slugs makes reseeding clean up old databases (dev and
+     * prod) without touching anything added through the admin panel.
+     */
+    protected function removeLegacyPlaceholders(): void
+    {
+        Portfolio::whereIn('slug', [
+            'atlas', 'udaipur', 'aurelia', 'conf25', 'beverage',
+            'reel', 'editorial', 'goa', 'tech-keynote',
+        ])->get()->each->delete();
     }
 
     /** Place each seeded case under its industry. */

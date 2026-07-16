@@ -147,18 +147,21 @@ mysqldump thelastclicks crew work_categories > ~/backup-crew-workcats-$(date +%F
 `responsecache:clear`). The migrations drop `crew` and `work_categories`;
 the seeders write the 9 real portfolio cases and 5 real blog posts.
 
-**AFTER deploying — one-off cleanup of old placeholder rows** (seeders
-only upsert; they never delete). Run once on the server:
+**Placeholder cleanup:** PortfoliosSeeder now deletes the old fictional
+case slugs itself on every run (targeted list — admin-added cases are
+untouched), so the normal `db:seed --force` handles portfolio cleanup.
+
+Old faker blog posts still need a one-off delete on the server (their
+slugs were random, so the seeder can't target them):
 
 ```bash
 php artisan tinker --execute="
-\App\Models\Portfolio::whereIn('slug', ['atlas','udaipur','aurelia','conf25','beverage','reel','editorial','goa','tech-keynote'])->delete();
-\App\Models\Post::whereNotIn('slug', \App\Models\Post::whereIn('slug', ['how-to-brief-a-video-production-team','wedding-photography-timeline-planning','what-post-production-actually-includes','photo-vs-video-corporate-event-coverage','preparing-your-team-for-a-corporate-shoot'])->pluck('slug'))->delete();
+\App\Models\Post::whereNotIn('slug', ['how-to-brief-a-video-production-team','wedding-photography-timeline-planning','what-post-production-actually-includes','photo-vs-video-corporate-event-coverage','preparing-your-team-for-a-corporate-shoot'])->delete();
 "
 ```
 
-Only those exact placeholder slugs are targeted — anything added through
-the admin panel is untouched.
+Skip that command if real posts have already been written in the admin —
+it deletes anything not in the seeded five.
 
 **Videos:** the 9 films live in `public/videos/` (19–45MB each, all under
 GitHub's 100MB hard limit) and deploy with the repo. Longer term, move
