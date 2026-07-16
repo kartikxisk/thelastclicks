@@ -62,6 +62,13 @@
                         <video data-strip-video src="{{ asset('videos/'.$card['video'].'.mp4') }}"
                                poster="{{ asset('videos/posters/'.$card['video'].'.jpg') }}"
                                muted loop playsinline preload="none"></video>
+                        <button class="strip__mute is-muted" data-card-mute aria-label="Unmute this film" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M11 5L6.5 9H3v6h3.5L11 19V5z"/>
+                                <path class="snd-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>
+                                <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5"/>
+                            </svg>
+                        </button>
                         <span class="strip__play">Watch full film</span>
                         <div class="strip__body">
                             <h3>{!! $card['title'] !!}</h3>
@@ -290,14 +297,32 @@
         card.addEventListener('blur', stop);
       });
 
+      function setBtn(btn, muted, scope) {
+        btn.classList.toggle('is-muted', muted);
+        btn.setAttribute('aria-pressed', muted ? 'false' : 'true');
+        btn.setAttribute('aria-label', (muted ? 'Unmute' : 'Mute') + (scope === 'all' ? ' reel' : ' this film'));
+      }
+
+      // Per-card mute buttons — toggle only that card, never follow the link.
+      document.querySelectorAll('[data-card-mute]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const v = btn.closest('.strip__card').querySelector('video[data-strip-video]');
+          v.muted = !v.muted;
+          setBtn(btn, v.muted, 'card');
+          if (!v.muted) v.play().catch(() => {});
+        });
+      });
+
+      // Header sound button — controls every card, syncs their buttons.
       const soundBtn = document.querySelector('[data-strip-sound]');
       if (soundBtn) {
         soundBtn.addEventListener('click', () => {
           const unmuting = soundBtn.classList.contains('is-muted');
           videos.forEach((v) => { v.muted = !unmuting; });
-          soundBtn.classList.toggle('is-muted', !unmuting);
-          soundBtn.setAttribute('aria-pressed', unmuting ? 'true' : 'false');
-          soundBtn.setAttribute('aria-label', unmuting ? 'Mute reel' : 'Unmute reel');
+          setBtn(soundBtn, !unmuting, 'all');
+          document.querySelectorAll('[data-card-mute]').forEach((b) => setBtn(b, !unmuting, 'card'));
         });
       }
     })();
