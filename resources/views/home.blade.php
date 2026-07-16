@@ -39,54 +39,29 @@
             <div class="strip__perf strip__perf--top" aria-hidden="true"></div>
             <div class="strip__perf strip__perf--bot" aria-hidden="true"></div>
             <div class="strip__track" data-strip-track>
-                <article class="strip__card is-on" data-i="0">
-                    <span class="strip__tag">001 · Defence · 2026</span>
-                    <img src="{{ asset('videos/posters/ins-navy-blackdog.jpg') }}" alt="" decoding="async">
-                    <div class="strip__body">
-                        <h3>Indian <em>Navy.</em></h3>
-                        <span>Official event film</span>
-                    </div>
-                </article>
-                <article class="strip__card" data-i="1">
-                    <span class="strip__tag">002 · Corporate · 2026</span>
-                    <img src="{{ asset('videos/posters/salesforce-blr.jpg') }}" alt="" loading="lazy" decoding="async">
-                    <div class="strip__body">
-                        <h3>Salesforce · <em>Bengaluru.</em></h3>
-                        <span>Multi-cam recap film</span>
-                    </div>
-                </article>
-                <article class="strip__card" data-i="2">
-                    <span class="strip__tag">003 · Campaign · 2026</span>
-                    <img src="{{ asset('videos/posters/rahul-dravid-teaser.jpg') }}" alt="" loading="lazy" decoding="async">
-                    <div class="strip__body">
-                        <h3>Rahul Dravid · <em>teaser.</em></h3>
-                        <span>Brand campaign film</span>
-                    </div>
-                </article>
-                <article class="strip__card" data-i="3">
-                    <span class="strip__tag">004 · Automotive · 2026</span>
-                    <img src="{{ asset('videos/posters/range-rover.jpg') }}" alt="" loading="lazy" decoding="async">
-                    <div class="strip__body">
-                        <h3>Range <em>Rover.</em></h3>
-                        <span>Platform-first reel</span>
-                    </div>
-                </article>
-                <article class="strip__card" data-i="4">
-                    <span class="strip__tag">005 · Brands · 2026</span>
-                    <img src="{{ asset('videos/posters/black-label.jpg') }}" alt="" loading="lazy" decoding="async">
-                    <div class="strip__body">
-                        <h3>Black <em>Label.</em></h3>
-                        <span>Regulated-category reel</span>
-                    </div>
-                </article>
-                <article class="strip__card" data-i="5">
-                    <span class="strip__tag">006 · Wedding · 2026</span>
-                    <img src="{{ asset('videos/posters/prewedding-pramod-pooja.jpg') }}" alt="" loading="lazy" decoding="async">
-                    <div class="strip__body">
-                        <h3>Pramod &amp; <em>Pooja.</em></h3>
-                        <span>Pre-wedding film</span>
-                    </div>
-                </article>
+                @php
+                    $stripCards = [
+                        ['slug' => 'ins-navy', 'video' => 'ins-navy-blackdog', 'tag' => '001 · Defence · 2026', 'title' => 'Indian <em>Navy.</em>', 'meta' => 'Official event film'],
+                        ['slug' => 'salesforce-blr', 'video' => 'salesforce-blr', 'tag' => '002 · Corporate · 2026', 'title' => 'Salesforce · <em>Bengaluru.</em>', 'meta' => 'Multi-cam recap film'],
+                        ['slug' => 'rahul-dravid-teaser', 'video' => 'rahul-dravid-teaser', 'tag' => '003 · Campaign · 2026', 'title' => 'Rahul Dravid · <em>teaser.</em>', 'meta' => 'Brand campaign film'],
+                        ['slug' => 'range-rover', 'video' => 'range-rover', 'tag' => '004 · Automotive · 2026', 'title' => 'Range <em>Rover.</em>', 'meta' => 'Platform-first reel'],
+                        ['slug' => 'black-label', 'video' => 'black-label', 'tag' => '005 · Brands · 2026', 'title' => 'Black <em>Label.</em>', 'meta' => 'Regulated-category reel'],
+                        ['slug' => 'pramod-pooja-prewedding', 'video' => 'prewedding-pramod-pooja', 'tag' => '006 · Wedding · 2026', 'title' => 'Pramod &amp; <em>Pooja.</em>', 'meta' => 'Pre-wedding film'],
+                    ];
+                @endphp
+                @foreach ($stripCards as $i => $card)
+                    <a class="strip__card {{ $i === 0 ? 'is-on' : '' }}" data-i="{{ $i }}" href="{{ url('/portfolio/'.$card['slug']) }}" data-cursor="WATCH">
+                        <span class="strip__tag">{{ $card['tag'] }}</span>
+                        <video data-strip-video src="{{ asset('videos/'.$card['video'].'.mp4') }}"
+                               poster="{{ asset('videos/posters/'.$card['video'].'.jpg') }}"
+                               muted loop playsinline preload="none"></video>
+                        <span class="strip__play">Watch full film</span>
+                        <div class="strip__body">
+                            <h3>{!! $card['title'] !!}</h3>
+                            <span>{{ $card['meta'] }}</span>
+                        </div>
+                    </a>
+                @endforeach
             </div>
         </div>
         <div class="strip__progress">
@@ -290,5 +265,21 @@
             </div>
         </div>
     </section>
+
+    <script>
+    // Film-strip cards: play the muted preview on hover/focus, pause on leave.
+    (function () {
+      document.querySelectorAll('.strip__card').forEach((card) => {
+        const v = card.querySelector('video[data-strip-video]');
+        if (!v) return;
+        const play = () => { v.play().catch(() => {}); };
+        const stop = () => { v.pause(); };
+        card.addEventListener('mouseenter', play);
+        card.addEventListener('mouseleave', stop);
+        card.addEventListener('focus', play);
+        card.addEventListener('blur', stop);
+      });
+    })();
+    </script>
 
 </x-layouts.app>

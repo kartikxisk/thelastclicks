@@ -205,14 +205,19 @@
     <section class="pf-hero" data-screen-label="01 Header">
         <div class="pf-hero__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Portfolio</span></div>
         <div class="pf-hero__row">
-            <h1 data-split>Selected <em>work,</em><br>2024 — <em>2026.</em></h1>
-            <p class="pf-hero__lead reveal">Eight years, 547 productions — a public few. Tap any tile for the full case.</p>
+            @php
+                $window = $stats['yearMax']
+                    ? ($stats['yearMin'] === $stats['yearMax'] ? (string) $stats['yearMax'] : $stats['yearMin'].' — '.$stats['yearMax'])
+                    : null;
+            @endphp
+            <h1 data-split>Selected <em>work{{ $window ? ',' : '.' }}</em>@if ($window)<br><em>{{ $window }}.</em>@endif</h1>
+            <p class="pf-hero__lead reveal">Real client work — every case opens with the full film. Tap any card.</p>
         </div>
         <dl class="pf-hero__stats">
-            <div class="reveal"><dt>Projects shipped</dt><dd>547<em>+</em></dd></div>
-            <div class="reveal" data-delay="1"><dt>Featured here</dt><dd>{{ $itemsByYear->flatten()->count() + ($featured ? 1 : 0) }}<em>·</em></dd></div>
-            <div class="reveal" data-delay="2"><dt>Disciplines</dt><dd>03<em>·</em></dd></div>
-            <div class="reveal" data-delay="3"><dt>Window</dt><dd>2024–26</dd></div>
+            <div class="reveal"><dt>Films featured</dt><dd>{{ str_pad((string) $stats['films'], 2, '0', STR_PAD_LEFT) }}<em>·</em></dd></div>
+            <div class="reveal" data-delay="1"><dt>Client brands</dt><dd>{{ str_pad((string) $stats['clients'], 2, '0', STR_PAD_LEFT) }}<em>·</em></dd></div>
+            <div class="reveal" data-delay="2"><dt>Industries</dt><dd>{{ str_pad((string) $stats['industries'], 2, '0', STR_PAD_LEFT) }}<em>·</em></dd></div>
+            <div class="reveal" data-delay="3"><dt>Newest work</dt><dd>{{ $stats['yearMax'] ?? '—' }}</dd></div>
         </dl>
     </section>
 
@@ -240,7 +245,7 @@
         <div class="wrap">
             <div class="pf-grid">
                 @if ($featured)
-                    @php $coverUrl = $featured->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
+                    @php $coverUrl = $featured->getFirstMediaUrl('cover') ?: ($featured->cover_url ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'); @endphp
                     <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$featured->slug) }}"
                        data-ind="{{ $featured->industry?->slug ?? 'other' }}"
                        data-cursor="VIEW">
@@ -260,7 +265,7 @@
                         <em>{{ $items->count() }} {{ Str::plural('production', $items->count()) }} · delivered</em>
                     </div>
                     @foreach ($items as $portfolioItem)
-                        @php $tileImg = $portfolioItem->getFirstMediaUrl('cover') ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'; @endphp
+                        @php $tileImg = $portfolioItem->getFirstMediaUrl('cover') ?: ($portfolioItem->cover_url ?: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=85'); @endphp
                         <a class="pf-tile pf-card reveal" href="{{ url('/portfolio/'.$portfolioItem->slug) }}"
                            data-ind="{{ $portfolioItem->industry?->slug ?? 'other' }}"
                            data-cursor="VIEW">
@@ -284,26 +289,26 @@
             <div class="services__head">
                 <div>
                     <span class="section__eyebrow" data-scramble>Behind the work</span>
-                    <h2 class="section__title" data-split>What it <em>actually took.</em></h2>
+                    <h2 class="section__title" data-split>The work, <em>in numbers.</em></h2>
                 </div>
-                <p class="section__lead reveal">The portfolio is the tip — here's the iceberg.</p>
+                <p class="section__lead reveal">Every figure below comes from the cases on this page — nothing padded.</p>
             </div>
             <div class="pf-numbers__grid">
                 <div class="pf-num reveal">
-                    <div class="pf-num__n"><span data-count="547" data-decimals="0">0</span><em>+</em></div>
-                    <div class="pf-num__l">Productions shipped</div>
+                    <div class="pf-num__n"><span data-count="{{ $stats['films'] }}" data-decimals="0">0</span><em>·</em></div>
+                    <div class="pf-num__l">Films on this page</div>
                 </div>
                 <div class="pf-num reveal" data-delay="1">
-                    <div class="pf-num__n"><span data-count="186" data-decimals="0">0</span><em>+</em></div>
-                    <div class="pf-num__l">Events per year</div>
+                    <div class="pf-num__n"><span data-count="{{ $stats['clients'] }}" data-decimals="0">0</span><em>·</em></div>
+                    <div class="pf-num__l">Client brands featured</div>
                 </div>
                 <div class="pf-num reveal" data-delay="2">
-                    <div class="pf-num__n"><span data-count="26" data-decimals="0">0</span><em>·</em></div>
-                    <div class="pf-num__l">Cities covered</div>
+                    <div class="pf-num__n"><span data-count="{{ $stats['industries'] }}" data-decimals="0">0</span><em>·</em></div>
+                    <div class="pf-num__l">Industries covered</div>
                 </div>
                 <div class="pf-num reveal" data-delay="3">
-                    <div class="pf-num__n"><span data-count="98.4" data-decimals="1">0</span><em>%</em></div>
-                    <div class="pf-num__l">On-time delivery</div>
+                    <div class="pf-num__n">{{ $stats['yearMax'] ?? '—' }}</div>
+                    <div class="pf-num__l">Newest delivery</div>
                 </div>
             </div>
         </div>
