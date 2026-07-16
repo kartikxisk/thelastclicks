@@ -4038,6 +4038,10 @@
   border-top: 4.5px solid transparent;
   border-bottom: 4.5px solid transparent;
 }
+[data-strip-sound] .snd-off { display: none; }
+[data-strip-sound].is-muted .snd-off { display: block; }
+[data-strip-sound].is-muted .snd-on { display: none; }
+[data-strip-sound]:not(.is-muted) { border-color: var(--red); color: var(--red); }
 .strip__card.is-on {
   transform: scale(1);
   filter: grayscale(0) brightness(0.95);

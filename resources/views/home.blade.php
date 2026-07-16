@@ -30,6 +30,13 @@
             <div class="strip__ctrl">
                 <span class="strip__time" data-strip-time>00:00 / 00:36</span>
                 <div class="strip__btns">
+                    <button class="strip__btn is-muted" data-strip-sound aria-label="Unmute reel" aria-pressed="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M11 5L6.5 9H3v6h3.5L11 19V5z"/>
+                            <path class="snd-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>
+                            <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5"/>
+                        </svg>
+                    </button>
                     <button class="strip__btn" data-strip-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18L9 12L15 6"/></svg></button>
                     <button class="strip__btn" data-strip-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6L15 12L9 18"/></svg></button>
                 </div>
@@ -267,8 +274,11 @@
     </section>
 
     <script>
-    // Film-strip cards: play the muted preview on hover/focus, pause on leave.
+    // Film-strip cards: play the preview on hover/focus, pause on leave.
+    // Sound button toggles muted state for every preview in the strip.
     (function () {
+      const videos = [...document.querySelectorAll('.strip__card video[data-strip-video]')];
+
       document.querySelectorAll('.strip__card').forEach((card) => {
         const v = card.querySelector('video[data-strip-video]');
         if (!v) return;
@@ -279,6 +289,17 @@
         card.addEventListener('focus', play);
         card.addEventListener('blur', stop);
       });
+
+      const soundBtn = document.querySelector('[data-strip-sound]');
+      if (soundBtn) {
+        soundBtn.addEventListener('click', () => {
+          const unmuting = soundBtn.classList.contains('is-muted');
+          videos.forEach((v) => { v.muted = !unmuting; });
+          soundBtn.classList.toggle('is-muted', !unmuting);
+          soundBtn.setAttribute('aria-pressed', unmuting ? 'true' : 'false');
+          soundBtn.setAttribute('aria-label', unmuting ? 'Mute reel' : 'Unmute reel');
+        });
+      }
     })();
     </script>
 

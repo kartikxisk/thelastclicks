@@ -19,17 +19,14 @@ class PortfolioController extends Controller
             ->get()
             ->groupBy('year');
 
-        $all = Portfolio::published()->get();
+        $years = Portfolio::published()->pluck('year')->filter();
 
         return view('portfolio.index', [
             'featured' => $featured,
             'itemsByYear' => $itemsByYear,
             'stats' => [
-                'films' => $all->count(),
-                'clients' => $all->pluck('client')->filter()->unique()->count(),
-                'industries' => $all->pluck('industry_id')->filter()->unique()->count(),
-                'yearMin' => $all->min('year'),
-                'yearMax' => $all->max('year'),
+                'yearMin' => $years->min(),
+                'yearMax' => $years->max(),
             ],
         ]);
     }

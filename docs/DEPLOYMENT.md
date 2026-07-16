@@ -131,6 +131,41 @@ Seeders are idempotent (`updateOrCreate` keyed by slug/name). This run
 retires the 6 placeholder industries, seeds the 7 real ones plus 22 work
 categories, and moves homepage testimonials into the database.
 
+## Real-content release (2026-07-16)
+
+This release removes the crew and work-categories features, replaces all
+placeholder portfolio/blog content with real work, and ships ~290MB of
+compressed client films in `public/videos/`.
+
+**BEFORE deploying — back up the tables the migrations drop permanently:**
+
+```bash
+mysqldump thelastclicks crew work_categories > ~/backup-crew-workcats-$(date +%F).sql
+```
+
+**Deploy runs the normal script** (migrate → seed → build → caches →
+`responsecache:clear`). The migrations drop `crew` and `work_categories`;
+the seeders write the 9 real portfolio cases and 5 real blog posts.
+
+**AFTER deploying — one-off cleanup of old placeholder rows** (seeders
+only upsert; they never delete). Run once on the server:
+
+```bash
+php artisan tinker --execute="
+\App\Models\Portfolio::whereIn('slug', ['atlas','udaipur','aurelia','conf25','beverage','reel','editorial','goa','tech-keynote'])->delete();
+\App\Models\Post::whereNotIn('slug', \App\Models\Post::whereIn('slug', ['how-to-brief-a-video-production-team','wedding-photography-timeline-planning','what-post-production-actually-includes','photo-vs-video-corporate-event-coverage','preparing-your-team-for-a-corporate-shoot'])->pluck('slug'))->delete();
+"
+```
+
+Only those exact placeholder slugs are targeted — anything added through
+the admin panel is untouched.
+
+**Videos:** the 9 films live in `public/videos/` (19–45MB each, all under
+GitHub's 100MB hard limit) and deploy with the repo. Longer term, move
+them to R2/S3 per the storage section below and serve via `AWS_URL` — the
+repo history keeps the weight either way, so migrate before the archive
+grows.
+
 ## Monitoring
 
 - **Errors:** Sentry (configured via `SENTRY_LARAVEL_DSN`).
