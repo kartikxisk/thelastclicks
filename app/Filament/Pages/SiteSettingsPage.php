@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Portfolio;
 use App\Models\SiteSetting;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -37,6 +38,8 @@ class SiteSettingsPage extends Page implements HasForms
             'socials_youtube' => SiteSetting::get('socials')['youtube'] ?? null,
             'seo_default_title' => SiteSetting::get('seo_default_title'),
             'seo_default_description' => SiteSetting::get('seo_default_description'),
+            'home_strip' => SiteSetting::get('home_strip', []),
+            'hero_videos' => SiteSetting::get('hero_videos', []),
         ]);
     }
 
@@ -61,6 +64,37 @@ class SiteSettingsPage extends Page implements HasForms
                             Forms\Components\TextInput::make('seo_default_title'),
                             Forms\Components\Textarea::make('seo_default_description')->rows(3),
                         ]),
+                    Forms\Components\Tabs\Tab::make('Homepage')
+                        ->schema([
+                            Forms\Components\Repeater::make('home_strip')
+                                ->label('Film strip')
+                                ->schema([
+                                    Forms\Components\Select::make('portfolio_slug')
+                                        ->label('Portfolio')
+                                        ->options(fn () => Portfolio::published()->orderBy('title')->pluck('title', 'slug')->all())
+                                        ->searchable()
+                                        ->required(),
+                                    Forms\Components\TextInput::make('tag')->required(),
+                                    Forms\Components\TextInput::make('title')
+                                        ->helperText('HTML allowed, e.g. Indian <em>Navy.</em>')
+                                        ->required(),
+                                    Forms\Components\TextInput::make('meta')->required(),
+                                ])
+                                ->columns(2)
+                                ->reorderable()
+                                ->defaultItems(0),
+                            Forms\Components\Repeater::make('hero_videos')
+                                ->label('Hero background films (in order)')
+                                ->simple(
+                                    Forms\Components\Select::make('portfolio_slug')
+                                        ->label('Portfolio')
+                                        ->options(fn () => Portfolio::published()->orderBy('title')->pluck('title', 'slug')->all())
+                                        ->searchable()
+                                        ->required(),
+                                )
+                                ->reorderable()
+                                ->defaultItems(0),
+                        ]),
                 ]),
             ])
             ->statePath('data');
@@ -80,6 +114,8 @@ class SiteSettingsPage extends Page implements HasForms
         ]);
         SiteSetting::set('seo_default_title', $data['seo_default_title'] ?? '');
         SiteSetting::set('seo_default_description', $data['seo_default_description'] ?? '');
+        SiteSetting::set('home_strip', array_values($data['home_strip'] ?? []));
+        SiteSetting::set('hero_videos', array_values($data['hero_videos'] ?? []));
 
         Notification::make()
             ->title('Settings saved')

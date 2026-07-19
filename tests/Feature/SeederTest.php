@@ -25,3 +25,23 @@ it('seeds roles, admin user, services, industries, sample content', function () 
         ->and(Post::published()->count())->toBeGreaterThanOrEqual(3)
         ->and(SiteSetting::get('contact_email'))->toBe('hello@thelastclicks.com');
 });
+
+it('seeds homepage strip and hero video settings', function () {
+    $this->seed();
+
+    $strip = SiteSetting::get('home_strip');
+    expect($strip)->toHaveCount(6)
+        ->and($strip[0]['portfolio_slug'])->toBe('ins-navy')
+        ->and($strip[0])->toHaveKeys(['portfolio_slug', 'tag', 'title', 'meta']);
+
+    expect(SiteSetting::get('hero_videos'))
+        ->toBe(['ins-navy', 'salesforce-blr', 'rahul-dravid-teaser']);
+});
+
+it('portfolio seeder no longer writes legacy /videos paths', function () {
+    $this->seed();
+
+    $p = Portfolio::where('slug', 'ins-navy')->firstOrFail();
+    expect($p->cover_url)->toBeNull()
+        ->and($p->gallery_urls)->toBeNull();
+});

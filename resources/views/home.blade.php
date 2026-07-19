@@ -15,11 +15,12 @@
     </x-slot>
 
     {{-- Hero --}}
-    <x-hero />
+    <x-hero :videos="$heroVideos" />
 
     {{-- Marquee --}}
     <x-marquee />
 
+    @if ($stripCards)
     <!-- FILM STRIP CAROUSEL -->
     <section class="strip" data-screen-label="02 Reel">
         <div class="strip__head">
@@ -46,21 +47,11 @@
             <div class="strip__perf strip__perf--top" aria-hidden="true"></div>
             <div class="strip__perf strip__perf--bot" aria-hidden="true"></div>
             <div class="strip__track" data-strip-track>
-                @php
-                    $stripCards = [
-                        ['slug' => 'ins-navy', 'video' => 'ins-navy-blackdog', 'tag' => '001 · Defence · 2026', 'title' => 'Indian <em>Navy.</em>', 'meta' => 'Official event film'],
-                        ['slug' => 'salesforce-blr', 'video' => 'salesforce-blr', 'tag' => '002 · Corporate · 2026', 'title' => 'Salesforce · <em>Bengaluru.</em>', 'meta' => 'Multi-cam recap film'],
-                        ['slug' => 'rahul-dravid-teaser', 'video' => 'rahul-dravid-teaser', 'tag' => '003 · Campaign · 2026', 'title' => 'Rahul Dravid · <em>teaser.</em>', 'meta' => 'Brand campaign film'],
-                        ['slug' => 'range-rover', 'video' => 'range-rover', 'tag' => '004 · Automotive · 2026', 'title' => 'Range <em>Rover.</em>', 'meta' => 'Platform-first reel'],
-                        ['slug' => 'black-label', 'video' => 'black-label', 'tag' => '005 · Brands · 2026', 'title' => 'Black <em>Label.</em>', 'meta' => 'Regulated-category reel'],
-                        ['slug' => 'pramod-pooja-prewedding', 'video' => 'prewedding-pramod-pooja', 'tag' => '006 · Wedding · 2026', 'title' => 'Pramod &amp; <em>Pooja.</em>', 'meta' => 'Pre-wedding film'],
-                    ];
-                @endphp
                 @foreach ($stripCards as $i => $card)
                     <article class="strip__card {{ $i === 0 ? 'is-on' : '' }}" data-i="{{ $i }}">
                         <span class="strip__tag">{{ $card['tag'] }}</span>
-                        <video data-strip-video src="{{ asset('videos/'.$card['video'].'.mp4') }}"
-                               poster="{{ asset('videos/posters/'.$card['video'].'.jpg') }}"
+                        <video data-strip-video src="{{ $card['video_url'] }}"
+                               @if ($card['poster_url']) poster="{{ $card['poster_url'] }}" @endif
                                muted loop playsinline preload="none"></video>
                         <button class="strip__mute is-muted" data-card-mute aria-label="Unmute this film" aria-pressed="false">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -86,6 +77,7 @@
             <button class="strip__dot" data-strip-jump="5"></button>
         </div>
     </section>
+    @endif
 
     <!-- CLIENTS -->
     <section class="section" data-screen-label="02 Clients">
@@ -267,6 +259,7 @@
         </div>
     </section>
 
+    @if ($stripCards)
     <script>
     // Film-strip cards: play the preview on hover/focus, pause on leave.
     // Sound button toggles muted state for every preview in the strip.
@@ -319,5 +312,6 @@
       }
     })();
     </script>
+    @endif
 
 </x-layouts.app>

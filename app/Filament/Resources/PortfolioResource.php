@@ -56,7 +56,8 @@ class PortfolioResource extends Resource
                 ->columnSpanFull(),
             SpatieMediaLibraryFileUpload::make('gallery')
                 ->collection('gallery')
-                ->image()
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'video/mp4'])
+                ->maxSize(153600) // 150 MB — largest current film is ~65 MB
                 ->multiple()
                 ->reorderable()
                 ->columnSpanFull(),

@@ -93,25 +93,43 @@
 
     {{-- GALLERY --}}
     <section class="gallery">
-        @php $spans = ['g--6', 'g--12', 'g--4', 'g--8']; @endphp
-        @forelse ($item->gallery_urls ?? [] as $i => $src)
-            @if (str_ends_with($src, '.mp4'))
-                <div class="g g--12 g--video reveal">
-                    <video src="{{ $src }}" controls playsinline preload="metadata"
-                           poster="{{ str_replace(['/videos/', '.mp4'], ['/videos/posters/', '.jpg'], $src) }}"></video>
-                </div>
-            @else
-                <div class="g {{ $spans[$i % count($spans)] }} reveal">
-                    <img src="{{ $src }}" alt="" loading="lazy" decoding="async">
-                </div>
-            @endif
-        @empty
-            @if ($cover)
-                <div class="g g--12 reveal">
-                    <img src="{{ $cover }}" alt="{{ $item->title }}" loading="lazy" decoding="async">
-                </div>
-            @endif
-        @endforelse
+        @php
+            $spans = ['g--6', 'g--12', 'g--4', 'g--8'];
+            $galleryMedia = $item->getMedia('gallery');
+        @endphp
+        @if ($galleryMedia->isNotEmpty())
+            @foreach ($galleryMedia as $i => $media)
+                @if (str_starts_with((string) $media->mime_type, 'video/'))
+                    <div class="g g--12 g--video reveal">
+                        <video src="{{ $media->getUrl() }}" controls playsinline preload="metadata"
+                               @if ($cover) poster="{{ $cover }}" @endif></video>
+                    </div>
+                @else
+                    <div class="g {{ $spans[$i % count($spans)] }} reveal">
+                        <img src="{{ $media->getUrl() }}" alt="" loading="lazy" decoding="async">
+                    </div>
+                @endif
+            @endforeach
+        @else
+            @forelse ($item->gallery_urls ?? [] as $i => $src)
+                @if (str_ends_with($src, '.mp4'))
+                    <div class="g g--12 g--video reveal">
+                        <video src="{{ $src }}" controls playsinline preload="metadata"
+                               poster="{{ str_replace(['/videos/', '.mp4'], ['/videos/posters/', '.jpg'], $src) }}"></video>
+                    </div>
+                @else
+                    <div class="g {{ $spans[$i % count($spans)] }} reveal">
+                        <img src="{{ $src }}" alt="" loading="lazy" decoding="async">
+                    </div>
+                @endif
+            @empty
+                @if ($cover)
+                    <div class="g g--12 reveal">
+                        <img src="{{ $cover }}" alt="{{ $item->title }}" loading="lazy" decoding="async">
+                    </div>
+                @endif
+            @endforelse
+        @endif
     </section>
 
     {{-- APPROACH --}}

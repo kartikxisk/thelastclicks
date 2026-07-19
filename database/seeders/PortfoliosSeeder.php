@@ -93,8 +93,6 @@ class PortfoliosSeeder extends Seeder
                 'body' => $c['body'],
                 'approach' => null,
                 'credits' => ['Production' => 'TheLastClicks'],
-                'cover_url' => '/videos/posters/'.$c['video'].'.jpg',
-                'gallery_urls' => ['/videos/'.$c['video'].'.mp4'],
                 'status' => 'published',
             ]);
         }

@@ -1,18 +1,19 @@
-@props(['title' => null, 'subtitle' => null])
+@props(['title' => null, 'subtitle' => null, 'videos' => []])
 <section class="hero" data-screen-label="01 Hero">
     <div class="hero__bg">
+      @foreach (array_slice($videos, 0, 1) as $v)
       <div class="tile">
-        <video src="{{ asset('videos/ins-navy-blackdog.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/ins-navy-blackdog.jpg') }}"></video>
+        <video src="{{ $v['video_url'] }}" autoplay muted loop playsinline preload="metadata" @if ($v['poster_url']) poster="{{ $v['poster_url'] }}" @endif></video>
       </div>
+      @endforeach
       <div class="tile">
         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=85" alt="" decoding="async">
       </div>
+      @foreach (array_slice($videos, 1) as $v)
       <div class="tile">
-        <video src="{{ asset('videos/salesforce-blr.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/salesforce-blr.jpg') }}"></video>
+        <video src="{{ $v['video_url'] }}" autoplay muted loop playsinline preload="metadata" @if ($v['poster_url']) poster="{{ $v['poster_url'] }}" @endif></video>
       </div>
-      <div class="tile">
-        <video src="{{ asset('videos/rahul-dravid-teaser.mp4') }}" autoplay muted loop playsinline preload="metadata" poster="{{ asset('videos/posters/rahul-dravid-teaser.jpg') }}"></video>
-      </div>
+      @endforeach
     </div>
 
     <div class="hero__top">

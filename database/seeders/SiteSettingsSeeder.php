@@ -18,5 +18,16 @@ class SiteSettingsSeeder extends Seeder
         ]);
         SiteSetting::set('seo_default_title', 'TheLastClicks — Cinematic photography & film production');
         SiteSetting::set('seo_default_description', 'Cinematic photography, brand films and post-production for premium teams.');
+
+        SiteSetting::set('home_strip', [
+            ['portfolio_slug' => 'ins-navy', 'tag' => '001 · Defence · 2026', 'title' => 'Indian <em>Navy.</em>', 'meta' => 'Official event film'],
+            ['portfolio_slug' => 'salesforce-blr', 'tag' => '002 · Corporate · 2026', 'title' => 'Salesforce · <em>Bengaluru.</em>', 'meta' => 'Multi-cam recap film'],
+            ['portfolio_slug' => 'rahul-dravid-teaser', 'tag' => '003 · Campaign · 2026', 'title' => 'Rahul Dravid · <em>teaser.</em>', 'meta' => 'Brand campaign film'],
+            ['portfolio_slug' => 'range-rover', 'tag' => '004 · Automotive · 2026', 'title' => 'Range <em>Rover.</em>', 'meta' => 'Platform-first reel'],
+            ['portfolio_slug' => 'black-label', 'tag' => '005 · Brands · 2026', 'title' => 'Black <em>Label.</em>', 'meta' => 'Regulated-category reel'],
+            ['portfolio_slug' => 'pramod-pooja-prewedding', 'tag' => '006 · Wedding · 2026', 'title' => 'Pramod &amp; <em>Pooja.</em>', 'meta' => 'Pre-wedding film'],
+        ]);
+
+        SiteSetting::set('hero_videos', ['ins-navy', 'salesforce-blr', 'rahul-dravid-teaser']);
     }
 }
