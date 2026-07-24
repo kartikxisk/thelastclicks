@@ -868,7 +868,7 @@ img, video { max-width: 100%; display: block; }
   margin-top: 18px;
   color: var(--paper);
 }
-.foot__col h5 {
+.foot__col .foot__h {
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.2em;

@@ -3,6 +3,24 @@
     description="Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month."
     :canonical="url('/blog')"
 >
+    <x-slot name="head">
+        <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Journal', 'item' => url('/blog')],
+        ]]" />
+        <x-json-ld :data="[
+            '@type' => 'Blog',
+            'name' => 'The TheLastClicks Journal',
+            'url' => url('/blog'),
+            'publisher' => ['@type' => 'Organization', 'name' => 'TheLastClicks', 'url' => url('/')],
+            'blogPost' => $posts->take(10)->values()->map(fn ($post) => array_filter([
+                '@type' => 'BlogPosting',
+                'headline' => $post->title,
+                'url' => url('/blog/'.$post->slug),
+                'datePublished' => optional($post->published_at)->toIso8601String(),
+            ]))->all(),
+        ]" />
+    </x-slot>
 
     {{-- 01 Page Header --}}
     <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1800&q=80')">

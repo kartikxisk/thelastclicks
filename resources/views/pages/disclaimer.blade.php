@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="Disclaimer — TheLastClicks"
-    description="General disclaimer for this website."
+    title="Disclaimer — Site & Portfolio Notice | TheLastClicks"
+    description="General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on the TheLastClicks website."
     :canonical="url('/disclaimer')"
 >
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">

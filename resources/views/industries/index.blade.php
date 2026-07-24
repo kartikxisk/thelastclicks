@@ -3,6 +3,28 @@
     description="Fashion, hospitality, beauty, weddings, automotive, corporate and nightlife — the sectors TheLastClicks produces photography and film for across India."
     :canonical="url('/industries')"
 >
+    <x-slot name="head">
+        <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Industries', 'item' => url('/industries')],
+        ]]" />
+        @if ($industries->isNotEmpty())
+            <x-json-ld :data="[
+                '@type' => 'CollectionPage',
+                'name' => 'Industries we produce for',
+                'url' => url('/industries'),
+                'mainEntity' => [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $industries->values()->map(fn ($industry, $i) => [
+                        '@type' => 'ListItem',
+                        'position' => $i + 1,
+                        'name' => $industry->title,
+                        'url' => url('/industries/'.$industry->slug),
+                    ])->all(),
+                ],
+            ]" />
+        @endif
+    </x-slot>
 
     {{-- 1. PAGE HEADER --}}
     <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1800&q=80')">

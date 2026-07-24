@@ -3,6 +3,24 @@
     description="A photography and film production studio at the intersection of cinema, brand and craft. Five years, 547 productions and 26 cities across India and counting."
     :canonical="url('/about')"
 >
+  <x-slot name="head">
+    <x-json-ld :data="[
+        '@type' => 'AboutPage',
+        'name' => 'About TheLastClicks',
+        'url' => url('/about'),
+        'mainEntity' => [
+            '@type' => 'Organization',
+            'name' => 'TheLastClicks',
+            'url' => url('/'),
+            'description' => 'A photography and film production studio working across brand, corporate, automotive and wedding film in India.',
+        ],
+    ]" />
+    <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
+        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+        ['@type' => 'ListItem', 'position' => 2, 'name' => 'About', 'item' => url('/about')],
+    ]]" />
+  </x-slot>
+
   <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1800&q=80')">
     <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>About</span></div>
     <h1 data-split>A studio of <em>cinema,</em><br>brand &amp; craft.</h1>

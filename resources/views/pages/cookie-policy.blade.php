@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="Cookie Policy — TheLastClicks"
-    description="Cookies and similar technologies we use."
+    title="Cookie Policy — Cookies We Use | TheLastClicks"
+    description="The cookies and similar technologies TheLastClicks uses on this website, what each one does, and how to block or delete them in your browser."
     :canonical="url('/cookie-policy')"
 >
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">

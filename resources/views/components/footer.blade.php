@@ -48,20 +48,20 @@
 
       <nav class="foot__nav" aria-label="Footer">
         <div class="foot__col">
-          <h5><span class="foot__idx">01</span> Studio</h5>
+          <h3 class="foot__h"><span class="foot__idx">01</span> Studio</h3>
           <a href="{{ url('/about') }}">About</a>
           <a href="{{ url('/industries') }}">Industries</a>
           <a href="{{ url('/our-works') }}">Our Work</a>
           <a href="{{ url('/blog') }}">Journal</a>
         </div>
         <div class="foot__col">
-          <h5><span class="foot__idx">02</span> Work</h5>
+          <h3 class="foot__h"><span class="foot__idx">02</span> Work</h3>
           <a href="{{ url('/services/post-production') }}">Post Production</a>
           <a href="{{ url('/services/videography') }}">Videography</a>
           <a href="{{ url('/services/photography') }}">Photography</a>
         </div>
         <div class="foot__col">
-          <h5><span class="foot__idx">03</span> Contact</h5>
+          <h3 class="foot__h"><span class="foot__idx">03</span> Contact</h3>
           <a href="tel:{{ preg_replace('/[^+\d]/', '', $contactPhone) }}">{{ $contactPhone }}</a>
           <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" data-noswap>WhatsApp</a>
           <a href="{{ url('/contact') }}">Start a project</a>

@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="Privacy Policy — TheLastClicks"
-    description="How we collect, use and protect your data."
+    title="Privacy Policy — How We Handle Your Data | TheLastClicks"
+    description="How TheLastClicks collects, uses, stores and protects personal data submitted through our website, enquiry forms and production work across India."
     :canonical="url('/privacy-policy')"
 >
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">

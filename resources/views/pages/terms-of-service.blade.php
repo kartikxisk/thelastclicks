@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="Terms — TheLastClicks"
-    description="Terms governing our services and website."
+    title="Terms of Service — Booking & Usage Terms | TheLastClicks"
+    description="The terms governing TheLastClicks photography and film production services, this website, bookings, deliverables, licensing and image usage rights."
     :canonical="url('/terms-of-service')"
 >
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">

@@ -3,6 +3,29 @@
     description="Selected films and photography from TheLastClicks — brand campaigns, corporate productions, automotive shoots, launches and weddings across 20+ Indian cities."
     :canonical="url('/our-works')"
 >
+    <x-slot name="head">
+        <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Our Work', 'item' => url('/our-works')],
+        ]]" />
+        @if ($works->isNotEmpty())
+            <x-json-ld :data="[
+                '@type' => 'CollectionPage',
+                'name' => 'Selected work',
+                'url' => url('/our-works'),
+                'mainEntity' => [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $works->values()->map(fn ($work, $i) => array_filter([
+                        '@type' => 'ListItem',
+                        'position' => $i + 1,
+                        'name' => $work->title,
+                        'image' => $work->coverUrl(),
+                    ]))->all(),
+                ],
+            ]" />
+        @endif
+    </x-slot>
+
     {{-- HEADER --}}
     <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1800&q=80')">
         <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Our Work</span></div>
