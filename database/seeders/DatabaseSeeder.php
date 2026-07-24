@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             TestimonialsSeeder::class,
             PostsSeeder::class,
             SiteSettingsSeeder::class,
+            SeoPagesSeeder::class,
         ]);
     }
 }
