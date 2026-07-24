@@ -31,8 +31,11 @@
     @if ($seo?->meta_keywords) <meta name="keywords" content="{{ $seo->meta_keywords }}"> @endif
     @if ($seoRobots) <meta name="robots" content="{{ $seoRobots }}"> @endif
     <link rel="canonical" href="{{ $seoCanonical ?: url()->current() }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    {{-- Admin-managed (Site Settings → Branding); falls back to the bundled favicon.
+         No type attribute: an uploaded icon may be PNG, SVG or ICO. --}}
+    @php $favicon = \App\Models\SiteSetting::faviconUrl(); @endphp
+    <link rel="icon" href="{{ $favicon }}">
+    <link rel="apple-touch-icon" href="{{ $favicon }}">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- chrome.js reads this to render the preloader / quote-modal marks. Absent = render no logo. --}}

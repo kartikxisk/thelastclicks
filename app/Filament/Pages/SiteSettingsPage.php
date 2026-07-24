@@ -47,6 +47,7 @@ class SiteSettingsPage extends Page implements HasForms
             'seo_default_description' => SiteSetting::get('seo_default_description'),
             'seo_default_og_image' => SiteSetting::get('seo_default_og_image'),
             'brand_logo' => SiteSetting::get('brand_logo'),
+            'favicon' => SiteSetting::get('favicon'),
             'lead_sla_hours' => SiteSetting::get('lead_sla_hours', Quote::DEFAULT_SLA_HOURS),
         ]);
     }
@@ -95,7 +96,29 @@ class SiteSettingsPage extends Page implements HasForms
                                 ->label('Brand logo')
                                 ->image()
                                 ->directory('branding')
+                                // ACLs are disabled on the bucket; public-read is rejected.
+                                // CloudFront serves the object, so private is correct here.
+                                ->visibility('private')
+                                // The uploader otherwise XHRs the existing file to read its
+                                // size. CloudFront sends no access-control-* headers, so the
+                                // browser blocks it and FilePond hangs on "Waiting for size".
+                                ->fetchFileInformation(false)
                                 ->helperText('Shown in the header, preloader and quote modal. Transparent PNG or SVG works best. Leave empty and no logo is shown anywhere.'),
+
+                            Forms\Components\Placeholder::make('current_favicon')
+                                ->label('Current favicon')
+                                ->content(fn (): string => SiteSetting::faviconUrl()),
+                            Forms\Components\Toggle::make('remove_favicon')
+                                ->label('Reset the favicon to the bundled default')
+                                ->helperText('Leave off to keep the existing favicon. Uploading a new file replaces it.')
+                                ->default(false),
+                            Forms\Components\FileUpload::make('favicon')
+                                ->label('Favicon')
+                                ->image()
+                                ->directory('branding')
+                                ->visibility('private')
+                                ->fetchFileInformation(false)
+                                ->helperText('Square PNG (512×512), SVG or ICO. Also used as the Apple touch icon. Falls back to the bundled favicon when empty.'),
                         ]),
                     Forms\Components\Tabs\Tab::make('SEO')
                         ->schema([
@@ -133,27 +156,40 @@ class SiteSettingsPage extends Page implements HasForms
         SiteSetting::set('seo_default_og_image', $data['seo_default_og_image'] ?? '');
         SiteSetting::set('lead_sla_hours', max(1, (int) ($data['lead_sla_hours'] ?? Quote::DEFAULT_SLA_HOURS)));
 
-        // FileUpload hands back a string path for single uploads, but can surface an
-        // array mid-edit — normalise so the stored setting is always a plain path.
-        $brandLogo = $data['brand_logo'] ?? '';
-        if (is_array($brandLogo)) {
-            $brandLogo = (string) (reset($brandLogo) ?: '');
-        }
-
-        // An empty upload field is ambiguous: it means "removed" *and* "failed to
-        // hydrate" — which is what happens whenever the media disk is unreachable.
-        // Writing it back blindly silently destroys the stored logo, so removal has
-        // to be asked for explicitly.
-        if ($data['remove_brand_logo'] ?? false) {
-            SiteSetting::set('brand_logo', '');
-        } elseif ($brandLogo !== '') {
-            SiteSetting::set('brand_logo', $brandLogo);
-        }
+        $this->storeUpload('brand_logo', $data['brand_logo'] ?? '', (bool) ($data['remove_brand_logo'] ?? false));
+        $this->storeUpload('favicon', $data['favicon'] ?? '', (bool) ($data['remove_favicon'] ?? false));
 
         Notification::make()
             ->title('Settings saved')
             ->success()
             ->send();
+    }
+
+    /**
+     * Persist an upload-backed setting.
+     *
+     * An empty upload field is ambiguous: it means "removed" *and* "failed to
+     * hydrate" — the latter is what happens whenever the media disk is
+     * unreachable. Writing it back blindly would silently destroy the stored
+     * file, so removal has to be asked for explicitly via the toggle.
+     */
+    protected function storeUpload(string $key, mixed $value, bool $remove): void
+    {
+        if ($remove) {
+            SiteSetting::set($key, '');
+
+            return;
+        }
+
+        // FileUpload hands back a string path for single uploads, but can surface
+        // an array mid-edit — normalise so the stored setting is always a path.
+        if (is_array($value)) {
+            $value = reset($value) ?: '';
+        }
+
+        if ((string) $value !== '') {
+            SiteSetting::set($key, (string) $value);
+        }
     }
 
     public static function canAccess(): bool

@@ -39,7 +39,7 @@
     @if ($works->isNotEmpty())
         <section class="section" data-screen-label="02 Work">
             <x-container>
-                <x-media-grid :items="$works" />
+                <x-media-grid :items="$works" layout="bento" />
             </x-container>
         </section>
     @endif

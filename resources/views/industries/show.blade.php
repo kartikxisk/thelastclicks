@@ -53,7 +53,7 @@
                         <h2 class="section__title" data-split>The <em>output.</em></h2>
                     </div>
                 </div>
-                <div class="work-grid work-grid--fixed" data-work-grid>
+                <div class="work-grid work-grid--bento" data-work-grid>
                     @foreach ($tiles as $i => $t)
                         <button
                             type="button"

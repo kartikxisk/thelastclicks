@@ -1601,7 +1601,7 @@ main > section:has(.clients) {
   pointer-events: none;
 }
 .quote__brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 700; }
-.quote__brand img { height: 26px; width: auto; filter: brightness(0) invert(1); }
+.quote__brand img { height: 44px; width: auto; filter: brightness(0) invert(1); }
 .quote__brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
 .quote__head { display: grid; gap: 14px; align-content: start; }
 .quote__eyebrow {
@@ -4702,6 +4702,58 @@ main > section.strip {
 .work-grid--fixed .work-tile img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: auto; }
 @media (max-width: 980px) { .work-grid--fixed { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .work-grid--fixed { grid-template-columns: 1fr; } }
+
+/* ---------- Bento (Our Work + industry galleries) ----------
+   Square base cell on a 4-up grid, with a repeating pattern of larger tiles.
+   Row height is driven by the column width, so a 2x2 tile stays square and the
+   rows always line up. `dense` back-fills the gaps a big tile leaves behind. */
+.work-grid--bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: dense;
+  gap: 14px;
+  columns: auto; /* cancel the masonry column layout */
+}
+.work-grid--bento .work-tile {
+  margin: 0;
+  aspect-ratio: 1 / 1;
+}
+.work-grid--bento .work-tile img,
+.work-grid--bento .work-tile video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: auto;
+}
+/* Hero tile: 2x2, every 7th so the rhythm never looks like a fixed block. */
+.work-grid--bento .work-tile:nth-child(7n + 1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+/* Landscape tile — aspect must be overridden or it would claim two rows. */
+.work-grid--bento .work-tile:nth-child(7n + 4) {
+  grid-column: span 2;
+  aspect-ratio: 2 / 1;
+}
+/* Portrait tile, for the vertical crops. */
+.work-grid--bento .work-tile:nth-child(7n + 6) {
+  grid-row: span 2;
+  aspect-ratio: 1 / 2;
+}
+/* Larger tiles get room for a bigger title. */
+.work-grid--bento .work-tile:nth-child(7n + 1) .work-tile__title { font-size: 24px; }
+
+@media (max-width: 980px) {
+  .work-grid--bento { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+}
+@media (max-width: 700px) {
+  .work-grid--bento { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  /* At two columns a portrait tile alongside a 2x2 leaves holes — keep only
+     the hero tile oversized so the grid stays flush. */
+  .work-grid--bento .work-tile:nth-child(7n + 4) { grid-column: span 2; aspect-ratio: 2 / 1; }
+  .work-grid--bento .work-tile:nth-child(7n + 6) { grid-row: span 1; aspect-ratio: 1 / 1; }
+  .work-grid--bento .work-tile:nth-child(7n + 1) .work-tile__title { font-size: 19px; }
+}
 .work-tile__scrim {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.78), transparent 62%);
@@ -4725,7 +4777,10 @@ main > section.strip {
 }
 
 .wlb {
-  position: fixed; inset: 0; z-index: 200;
+  /* Must sit above every other layer: nav 100, cookies 10400, quote 10500,
+     curtain 10000, preloader 11000, skip-link 12000. An open media viewer is
+     the topmost thing on the page. */
+  position: fixed; inset: 0; z-index: 13000;
   display: grid; grid-template-columns: 64px 1fr 64px; align-items: center;
   background: rgba(0,0,0,0.92);
 }

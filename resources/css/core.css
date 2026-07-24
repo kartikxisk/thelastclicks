@@ -149,7 +149,7 @@ img, video { max-width: 100%; display: block; }
   gap: 24px;
 }
 .preloader__logo {
-  height: clamp(52px, 8vw, 88px);
+  height: clamp(84px, 12vw, 150px);
   width: auto;
   display: block;
   margin: 0 auto;
@@ -295,7 +295,9 @@ img, video { max-width: 100%; display: block; }
   color: var(--paper);
 }
 .nav__brand-img {
-  height: 40px;
+  /* Sized for a squarish emblem. A wide wordmark reads large at 40px; a round
+     mark does not, because its width collapses to roughly its height. */
+  height: 56px;
   width: auto;
   display: block;
 }
@@ -506,7 +508,7 @@ img, video { max-width: 100%; display: block; }
   .nav { padding: 12px 0; }
   .nav__inner { gap: 10px; }
   .nav__brand-word { font-size: 16px; }
-  .nav__brand-img { height: 32px; }
+  .nav__brand-img { height: 44px; }
   .nav__cta { display: none; }
 }
 
@@ -518,7 +520,8 @@ img, video { max-width: 100%; display: block; }
   z-index: 99;
   transform: translateY(-100%);
   transition: transform 0.7s var(--ease-3);
-  padding: 80px 20px 32px;
+  /* Must clear the fixed nav: 56px logo + 18px padding top/bottom = 92px. */
+  padding: 110px 20px 32px;
   display: none;
   grid-template-rows: 1fr auto;
   overflow-y: auto;
@@ -854,7 +857,7 @@ img, video { max-width: 100%; display: block; }
   margin-bottom: 22px;
 }
 .foot__logo {
-  height: 42px;
+  height: 64px;
   width: auto;
   display: block;
 }

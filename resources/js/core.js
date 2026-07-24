@@ -223,6 +223,26 @@ import { initWorkLightbox } from './work-lightbox';
   /* -------------------- Work lightbox -------------------- */
   initWorkLightbox();
 
+  /* -------------------- YouTube poster fallback -------------------- */
+  // maxresdefault is the only 16:9 poster (hqdefault is 4:3 with black bars
+  // baked in, which show the moment a bento tile crops to square). Not every
+  // video has one, and YouTube is inconsistent about how it says so: sometimes
+  // a 404, sometimes a 120x90 grey placeholder at HTTP 200. Handle both — the
+  // 404 fires `error`, the placeholder only fires `load`, so we need each.
+  function fixYouTubePoster(img) {
+    if (img.tagName !== 'IMG' || !img.src.includes('maxresdefault')) return;
+    if (img.naturalWidth > 120) return;
+    // The replace only matches maxresdefault, so this cannot loop.
+    img.src = img.src.replace('maxresdefault', 'hqdefault');
+  }
+  // Capture phase: neither `load` nor `error` bubbles.
+  document.addEventListener('load', (e) => fixYouTubePoster(e.target), true);
+  document.addEventListener('error', (e) => fixYouTubePoster(e.target), true);
+  // Anything already decoded from cache before this listener attached.
+  document.querySelectorAll('img[src*="maxresdefault"]').forEach((img) => {
+    if (img.complete) fixYouTubePoster(img);
+  });
+
   /* -------------------- Page transitions (red curtain) -------------------- */
   const curtain = document.querySelector('.curtain');
   function curtainOut(href) {

@@ -27,7 +27,10 @@ it('extracts youtube ids from every common url form', function (string $url) {
 
     expect($m->youtubeId())->toBe('dQw4w9WgXcQ')
         ->and($m->embedUrl())->toBe('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ')
-        ->and($m->thumbnailUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
+        ->and($m->thumbnailUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg');
+
+    // Not every video has a maxres frame, so the 4:3 poster stays available.
+    expect($m->thumbnailFallbackUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
 })->with([
     'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     'https://www.youtube.com/watch?list=xyz&v=dQw4w9WgXcQ',
@@ -69,7 +72,7 @@ it('falls back through cover, first image, then youtube thumbnail', function () 
     expect($work->coverUrl())->toBeNull();
 
     $yt = $work->mediaItems()->create(['type' => 'youtube', 'order' => 2, 'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ']);
-    expect($work->fresh()->coverUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
+    expect($work->fresh()->coverUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg');
 
     $img = $work->mediaItems()->create(['type' => 'image', 'order' => 1]);
     $img->addMedia(UploadedFile::fake()->image('first.jpg'))->toMediaCollection('file');

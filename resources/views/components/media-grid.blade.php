@@ -1,6 +1,15 @@
 @props(['items', 'meta' => null, 'metaClass' => 'work-tile__meta', 'lightboxLabel' => 'Media', 'layout' => 'masonry', 'link' => null])
 
-<div class="work-grid {{ $layout === 'grid' ? 'work-grid--fixed' : '' }}" data-work-grid>
+@php
+    // masonry (default) · grid = equal 16:9 cards · bento = mixed-size feed
+    $layoutClass = match ($layout) {
+        'grid' => 'work-grid--fixed',
+        'bento' => 'work-grid--bento',
+        default => '',
+    };
+@endphp
+
+<div class="work-grid {{ $layoutClass }}" data-work-grid>
     @foreach ($items as $item)
         @php
             $cover = $item->coverUrl();

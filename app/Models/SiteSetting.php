@@ -50,4 +50,17 @@ class SiteSetting extends Model
 
         return is_string($path) ? MediaUrl::onUploadDisk($path) : null;
     }
+
+    /**
+     * Favicon URL, also used as the Apple touch icon.
+     *
+     * Unlike the brand logo this always resolves: an absent favicon just gets the
+     * browser's blank default, so the bundled file is a better floor than nothing.
+     */
+    public static function faviconUrl(): string
+    {
+        $path = static::get('favicon');
+
+        return (is_string($path) ? MediaUrl::onUploadDisk($path) : null) ?: asset('favicon.png');
+    }
 }

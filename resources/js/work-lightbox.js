@@ -48,6 +48,10 @@ export function initWorkLightbox() {
     items = payload;
     index = start >= 0 && start < payload.length ? start : 0;
     lastFocused = document.activeElement;
+    // Portal to <body>, same as the quote modal. The lightbox is rendered inside a
+    // <section>, so any ancestor creating a stacking context (transform, will-change,
+    // isolation, opacity) would trap it however high its z-index is.
+    if (box.parentElement !== document.body) document.body.appendChild(box);
     box.hidden = false;
     document.body.style.overflow = 'hidden';
     render();

@@ -162,7 +162,7 @@
                 </div>
                 <a class="btn btn--ghost" href="{{ url('/our-works') }}" data-cursor="VIEW">View all work <span class="arr"></span></a>
             </div>
-            <x-media-grid :items="$featuredWorks" />
+            <x-media-grid :items="$featuredWorks" layout="bento" />
         </x-container>
     </section>
     @endif

@@ -49,7 +49,21 @@ class MediaItem extends Model implements HasMedia
         return $id ? "https://www.youtube-nocookie.com/embed/{$id}" : null;
     }
 
+    /**
+     * 16:9 poster at 1280x720. `hqdefault` would be simpler but it is a 4:3
+     * canvas with black bars baked in, which show up the moment a tile crops to
+     * square or portrait. Not every video has a maxres frame, so callers should
+     * pair this with thumbnailFallbackUrl().
+     */
     public function thumbnailUrl(): ?string
+    {
+        $id = $this->youtubeId();
+
+        return $id ? "https://img.youtube.com/vi/{$id}/maxresdefault.jpg" : null;
+    }
+
+    /** Always-present 4:3 poster, for when maxresdefault 404s. */
+    public function thumbnailFallbackUrl(): ?string
     {
         $id = $this->youtubeId();
 

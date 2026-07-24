@@ -59,14 +59,16 @@ class ClientsSeeder extends Seeder
     {
         $order = 0;
 
-        foreach (self::CLIENTS as $file => [$name, $url]) {
+        // Keys still name the intended logo file, but nothing reads them now that
+        // artwork is uploaded rather than seeded.
+        foreach (self::CLIENTS as [$name, $url]) {
             Client::updateOrCreate(
                 ['name' => $name],
                 [
                     'url' => $url,
-                    // Points at the bundled file so the strip is DB-driven from
-                    // the first seed. An uploaded logo overrides it later.
-                    'logo_path' => 'clients/'.$file.'.png',
+                    // No seeded artwork — logos are uploaded through the admin.
+                    // Until then the marquee falls back to styled wordmarks.
+                    'logo_path' => null,
                     'order' => $order++,
                     'is_active' => true,
                 ],

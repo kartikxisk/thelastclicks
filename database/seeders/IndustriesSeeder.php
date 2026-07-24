@@ -25,7 +25,8 @@ class IndustriesSeeder extends Seeder
             Industry::updateOrCreate(['slug' => $row['slug']], [
                 'title' => $row['title'],
                 'summary' => $row['summary'],
-                'image_url' => $row['image'],
+                // Hero image is uploaded through the admin — nothing is seeded.
+                'image_url' => null,
                 'body' => $row['body'],
                 'order' => $i,
             ]);
@@ -43,7 +44,7 @@ class IndustriesSeeder extends Seeder
      * nothing about whether we understand their shoot — so the body describes the
      * work, the constraint that actually makes that vertical hard, and what ships.
      *
-     * @return list<array{slug: string, title: string, summary: string, image: string, body: string}>
+     * @return list<array{slug: string, title: string, summary: string, body: string}>
      */
     protected function rows(): array
     {
@@ -52,7 +53,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'corporate-enterprise',
                 'title' => 'Corporate & Enterprise',
                 'summary' => 'Conferences, leadership films, town halls and internal comms — multi-camera coverage run to a fixed agenda, cut to survive brand and legal review.',
-                'image' => 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Corporate work has one defining constraint: the agenda does not stop for the crew. A keynote happens once, the CEO has eleven minutes between sessions, and nobody is doing a second take. Everything we bring to an enterprise shoot is built around getting it right the first time.</p>
                 <h3>What we shoot</h3>
@@ -80,7 +80,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'brands-agencies',
                 'title' => 'Brands & Agencies',
                 'summary' => 'Campaign films, product and ecommerce content produced to agency spec — storyboard-accurate, brand-guideline compliant, delivered in every cut you need.',
-                'image' => 'https://images.unsplash.com/photo-1556155092-490a1ba16284?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Agency work is a different job from client-direct work. The thinking is usually done, the storyboard is approved, and what is needed is a production partner who executes the frame that was sold — not one who quietly reinterprets it on the day.</p>
                 <h3>What we shoot</h3>
@@ -107,7 +106,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'automobile-luxury',
                 'title' => 'Automobile & Luxury',
                 'summary' => 'Automotive films, launches and luxury product work — controlled light on difficult surfaces, controlled motion, and colour that survives the grade.',
-                'image' => 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Cars and luxury goods are hard to photograph for the same reason: the surface is the product. Paint, chrome, glass and polished metal do not have a colour of their own — they show you the room. Most of the craft in this vertical is controlling what those surfaces are allowed to reflect.</p>
                 <h3>What we shoot</h3>
@@ -134,7 +132,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'lifestyle-beverage',
                 'title' => 'Lifestyle & Beverage',
                 'summary' => 'Food, drink and lifestyle production — including regulated categories, where the compliance brief matters as much as the light.',
-                'image' => 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Food and drink is a timing discipline. A pour holds its shape for a fraction of a second, condensation runs within a minute of leaving the fridge, and a garnish wilts under a key light. The shot is usually decided before anything is poured — the shoot itself is executing a plan quickly enough that the product still looks alive.</p>
                 <h3>What we shoot</h3>
@@ -160,7 +157,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'weddings-celebrations',
                 'title' => 'Weddings & Celebrations',
                 'summary' => 'Weddings, preweddings, anniversaries and birthdays — multi-day, multi-venue coverage built around moments that will not happen twice.',
-                'image' => 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Weddings are the only work we do where a technical failure cannot be fixed by reshooting. That single fact drives how we crew, how we back up, and why we are boring about planning.</p>
                 <h3>What we cover</h3>
@@ -187,7 +183,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'fashion-creators',
                 'title' => 'Fashion & Creators',
                 'summary' => 'Runway, lookbook and designer portfolio work, plus creator and ambassador content — shot fast, cut faster, styled to the garment.',
-                'image' => 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Fashion splits into two very different jobs. A runway show is live coverage with no retakes and a same-night deadline. A lookbook is a controlled build where every fold and hem is deliberate. We staff and schedule them differently.</p>
                 <h3>What we shoot</h3>
@@ -214,7 +209,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'nightlife-entertainment',
                 'title' => 'Nightlife & Entertainment',
                 'summary' => 'Club nights, concerts, festivals and artist content — coverage built for darkness, crowds and stage lighting nobody controls but the LD.',
-                'image' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Live entertainment is the hardest lighting environment we work in, and the one where you have the least control. The lighting designer is running the room, the fixtures are moving, the colour temperature changes every eight bars, and the subject is a crowd that will not hold still. The answer is not more light — adding our own would destroy the atmosphere people came for. The answer is faster glass and a camera that holds up when it is pushed.</p>
                 <h3>What we shoot</h3>
@@ -240,7 +234,6 @@ class IndustriesSeeder extends Seeder
                 'slug' => 'spaces-interiors',
                 'title' => 'Spaces & Interiors',
                 'summary' => 'Hotels, restaurants, retail and residences — architectural discipline, honest natural light, and scheduling built around the hour the space looks best.',
-                'image' => 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85',
                 'body' => <<<'HTML'
                 <p>Interiors reward patience more than equipment. A room has perhaps two good hours in a day, and the difference between a space that looks expensive and one that looks like a listing photo is almost entirely light discipline and straight verticals.</p>
                 <h3>What we shoot</h3>

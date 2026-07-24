@@ -100,6 +100,11 @@ class SeoPageResource extends Resource
                         ->image()
                         ->disk(config('media-library.disk_name', 'public'))
                         ->directory('seo')
+                        // ACLs are disabled on the S3 bucket; public-read is rejected.
+                        ->visibility('private')
+                        // CloudFront sends no access-control-* headers, so the browser
+                        // blocks the file-info XHR and the uploader hangs. Skip it.
+                        ->fetchFileInformation(false)
                         ->columnSpanFull(),
                 ]),
 

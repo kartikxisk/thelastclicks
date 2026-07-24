@@ -23,8 +23,8 @@
         @if ($title)
             {{ $title }}
         @else
-            Not a vendor.<br>
-            <span class="stroke">A</span> <em>partner.</em>
+            Capturing <em>moments,</em><br>
+            <span class="stroke">creating</span> memories.
         @endif
       </h1>
       <div class="reveal" data-delay="3" style="display:flex;gap:16px;flex-wrap:wrap">

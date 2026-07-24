@@ -38,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->defaultThemeMode(ThemeMode::Dark)
             ->brandName('TheLastClicks')
             ->brandLogo(SiteSetting::brandLogoUrl())
+            ->favicon(SiteSetting::faviconUrl())
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
                 fn (): string => '<link rel="preconnect" href="https://fonts.googleapis.com">

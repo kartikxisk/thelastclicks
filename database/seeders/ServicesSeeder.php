@@ -42,11 +42,8 @@ class ServicesSeeder extends Seeder
                     ['num' => '04', 'title' => 'Edit', 'desc' => 'Paper edit → rough cut → fine cut, three structured feedback rounds.', 'time' => '+10 days'],
                     ['num' => '05', 'title' => 'Finish', 'desc' => 'ACES grade, sound design, masters in every platform spec.', 'time' => '+5 days'],
                 ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=2000&q=85',
-                    'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=85',
-                ],
+                // Galleries are uploaded through the admin — nothing is seeded.
+                'gallery_urls' => [],
                 'kit' => [
                     ['title' => 'Cinema bodies', 'items' => ['ARRI Alexa Mini', 'RED Komodo X', 'Sony FX6', 'Phantom Flex 4K']],
                     ['title' => 'Lenses', 'items' => ['Cooke S4 Mini', 'Zeiss Supreme', 'Sigma Cine Primes', 'Atlas Orion']],
@@ -82,12 +79,8 @@ class ServicesSeeder extends Seeder
                     ['num' => '04', 'title' => 'Retouch', 'desc' => 'Brand-grade color + skin + product retouch. Two structured review cycles.', 'time' => '+5 days'],
                     ['num' => '05', 'title' => 'Deliver', 'desc' => 'Print masters, web masters, social cuts. Archive activated. Project closed.', 'time' => '+1 day'],
                 ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&q=85',
-                    'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200&q=85',
-                    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=85',
-                    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1600&q=85',
-                ],
+                // Galleries are uploaded through the admin — nothing is seeded.
+                'gallery_urls' => [],
                 'kit' => [
                     ['title' => 'Camera bodies', 'items' => ['Hasselblad H6D-100c', 'Sony A7R V', 'Sony A1', 'Capture One']],
                     ['title' => 'Lenses', 'items' => ['Sigma Art primes', 'Sony GM', 'Tilt-shift 50mm', 'Macro 90mm']],
@@ -123,11 +116,8 @@ class ServicesSeeder extends Seeder
                     ['num' => '04', 'title' => 'Sound', 'desc' => 'Spot effects, ambience, mix. Original score on request.', 'time' => 'Day 5–9'],
                     ['num' => '05', 'title' => 'Master', 'desc' => 'Per-platform exports, IMF if required, archive activated.', 'time' => 'Day 10+'],
                 ],
-                'gallery_urls' => [
-                    'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1600&q=85',
-                    'https://images.unsplash.com/photo-1604871000636-074fa5117945?w=2000&q=85',
-                ],
+                // Galleries are uploaded through the admin — nothing is seeded.
+                'gallery_urls' => [],
                 'kit' => [
                     ['title' => 'Grade', 'items' => ['DaVinci Resolve Studio', 'ACES', 'brand LUT library', 'calibrated reference monitors']],
                     ['title' => 'Edit & sound', 'items' => ['Avid Media Composer', 'Adobe Premiere', 'Pro Tools', 'Sound Devices']],
@@ -167,7 +157,8 @@ class ServicesSeeder extends Seeder
             Service::updateOrCreate(['slug' => $slug], array_merge($data, [
                 'title' => $titles[$slug],
                 'hero_copy' => $heroCopy[$slug],
-                'hero_url' => $data['gallery_urls'][0] ?? null,
+                // Hero image comes from the admin upload (media collection 'hero').
+                'hero_url' => null,
                 'body' => '',
                 'order' => array_search($slug, $order, true),
                 'share' => $share[$slug] ?? null,

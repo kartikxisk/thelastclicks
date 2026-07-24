@@ -50,7 +50,7 @@ it('derives an industry cover from the media array when no still is set', functi
 
     // First a YouTube thumbnail…
     $industry->mediaItems()->create(['type' => 'youtube', 'order' => 2, 'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ']);
-    expect($industry->fresh()->coverUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg');
+    expect($industry->fresh()->coverUrl())->toBe('https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg');
 
     // …then an image row wins over the YouTube thumbnail.
     $img = $industry->mediaItems()->create(['type' => 'image', 'order' => 1]);
