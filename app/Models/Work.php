@@ -25,7 +25,13 @@ class Work extends Model implements HasMedia
 
     public function getSlugOptions(): SlugOptions
     {
-        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            // Respect a slug that was set deliberately (seeder or admin form).
+            // Without this, a generated slug overwrites it, seeders keyed on slug
+            // never match their own rows, and every run creates duplicates.
+            ->skipGenerateWhen(fn () => filled($this->slug));
     }
 
     public function registerMediaCollections(): void

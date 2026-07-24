@@ -1,6 +1,8 @@
+{{-- Long editorial headlines truncate in the SERP, so a post may carry a short
+     seo_title; the full title still runs as the on-page H1. --}}
 <x-layouts.app
-    :title="$post->title.' — Journal — TheLastClicks'"
-    :description="$post->excerpt"
+    :title="$post->seo_title ?: $post->title.' — Journal — TheLastClicks'"
+    :description="$post->seo_description ?: $post->excerpt"
     :canonical="url('/blog/'.$post->slug)"
     :ogImage="$post->getFirstMediaUrl('cover') ?: null"
 >

@@ -33,6 +33,13 @@ Route::middleware('cacheResponse')->group(function () {
     Route::redirect('/portfolio', '/', 301);
     Route::redirect('/portfolio/{slug}', '/', 301);
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+    // Earlier posts were published under auto-generated slugs built from the full
+    // headline. Those URLs are consolidated onto the short canonical slugs.
+    Route::redirect('/blog/how-to-brief-a-video-production-team-so-the-film-you-get-is-the-film-you-imagined', '/blog/how-to-brief-a-video-production-team', 301);
+    Route::redirect('/blog/planning-your-wedding-photography-timeline-a-working-template', '/blog/wedding-photography-timeline-planning', 301);
+    Route::redirect('/blog/what-post-production-actually-includes-and-why-it-is-half-the-film', '/blog/what-post-production-actually-includes', 301);
+    Route::redirect('/blog/photo-video-or-both-choosing-coverage-for-your-corporate-event', '/blog/photo-vs-video-corporate-event-coverage', 301);
+    Route::redirect('/blog/how-to-prepare-your-team-for-a-corporate-shoot', '/blog/preparing-your-team-for-a-corporate-shoot', 301);
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
     // Talent/crew pages retired — permanent redirects preserve inbound links
     Route::redirect('/crew', '/about', 301);
