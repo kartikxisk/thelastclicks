@@ -6,6 +6,7 @@ use App\Models\Industry;
 use App\Models\Post;
 use App\Models\SeoPage;
 use App\Models\Service;
+use App\Support\AppUrl;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -20,10 +21,9 @@ class GenerateSitemap extends Command
     {
         // Every <loc> is built from APP_URL. Generating against a local URL would bake
         // localhost links into a file crawlers read, so refuse unless explicitly forced.
-        $base = (string) config('app.url');
-        $isLocalUrl = str_contains($base, 'localhost') || str_contains($base, '127.0.0.1') || str_contains($base, '.test');
+        $base = AppUrl::current();
 
-        if (! $this->option('force') && $isLocalUrl) {
+        if (! $this->option('force') && AppUrl::isLocal($base)) {
             $this->error("Refusing to generate — APP_URL is {$base}.");
             $this->line('Run this on production, or pass --force if you really want local URLs.');
 
