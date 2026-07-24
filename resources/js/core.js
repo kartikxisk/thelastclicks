@@ -4,6 +4,8 @@
    60fps via rAF + transform/opacity only
    ============================================================ */
 
+import { initWorkLightbox } from './work-lightbox';
+
 (() => {
   const root = document.documentElement;
   const isCoarse = matchMedia('(hover: none) and (pointer: coarse)').matches;
@@ -181,9 +183,19 @@
 
   /* -------------------- Nav scroll + active link -------------------- */
   const nav = document.querySelector('.nav');
+  // Transparent header while sitting over the hero OR a full-media page header;
+  // solid once scrolled past it.
+  const heroEl = document.querySelector('.hero');
+  const pageHeaderEl = document.querySelector('.page-header--media');
+  if (nav && (heroEl || pageHeaderEl)) nav.classList.add('over-hero');
   function navScroll() {
     if (!nav) return;
-    if (scrollY > 30) nav.classList.add('is-scrolled');
+    // Over a pinned hero, use 0.75 viewport; over a page-header use its real height.
+    let threshold = 30;
+    if (nav.classList.contains('over-hero')) {
+      threshold = heroEl ? window.innerHeight * 0.75 : Math.max(pageHeaderEl.offsetHeight - 80, 120);
+    }
+    if (scrollY > threshold) nav.classList.add('is-scrolled');
     else nav.classList.remove('is-scrolled');
   }
   setInterval(navScroll, 100);
@@ -192,17 +204,24 @@
   const burger = document.querySelector('.nav__burger');
   const menu = document.querySelector('.menu');
   if (burger && menu) {
+    burger.setAttribute('aria-expanded', 'false');
     burger.addEventListener('click', () => {
       menu.classList.toggle('is-open');
       burger.classList.toggle('is-open');
-      document.body.style.overflow = menu.classList.contains('is-open') ? 'hidden' : '';
+      const open = menu.classList.contains('is-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
     });
     menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
       menu.classList.remove('is-open');
       burger.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }));
   }
+
+  /* -------------------- Work lightbox -------------------- */
+  initWorkLightbox();
 
   /* -------------------- Page transitions (red curtain) -------------------- */
   const curtain = document.querySelector('.curtain');
@@ -246,7 +265,6 @@
 
   /* -------------------- Preloader -------------------- */
   const pre = document.querySelector('.preloader');
-  const preCount = document.querySelector('.preloader__counter');
   const preBar = document.querySelector('.preloader__bar');
   if (pre) {
     // Hard failsafe: regardless of rAF/timing, kill the preloader after 1.8s.
@@ -256,13 +274,11 @@
         setTimeout(() => pre.remove(), 1000);
       }
     }, 1800);
-    if (preCount && preBar) {
+    if (preBar) {
       const dur = 1100;
       const start = performance.now();
       function step(now) {
         const t = Math.min(1, (now - start) / dur);
-        const p = Math.floor(t * 100);
-        preCount.textContent = String(p).padStart(2,'0');
         preBar.style.setProperty('--p', t);
         if (t < 1) requestAnimationFrame(step);
         else {
@@ -331,6 +347,8 @@
 
   /* -------------------- Testimonials carousel -------------------- */
   document.querySelectorAll('[data-carousel]').forEach(car => {
+    const viewport = car.querySelector('.car__viewport');
+    const track = car.querySelector('.car__track');
     const slides = car.querySelectorAll('.car__slide');
     const prev = car.querySelector('.car__prev');
     const next = car.querySelector('.car__next');
@@ -340,11 +358,21 @@
       i = (n + slides.length) % slides.length;
       slides.forEach((s, idx) => s.classList.toggle('is-on', idx === i));
       dots.forEach((d, idx) => d.classList.toggle('is-on', idx === i));
+      // Slide the track so the active card sits centred in the viewport,
+      // clamped so we never scroll past the first/last card.
+      if (track && viewport) {
+        const card = slides[i];
+        const raw = card.offsetLeft - (viewport.clientWidth - card.offsetWidth) / 2;
+        const maxOffset = track.scrollWidth - viewport.clientWidth;
+        const offset = Math.max(0, Math.min(raw, maxOffset));
+        track.style.transform = `translateX(${-offset}px)`;
+      }
     }
     prev && prev.addEventListener('click', () => show(i - 1));
     next && next.addEventListener('click', () => show(i + 1));
     dots.forEach((d, idx) => d.addEventListener('click', () => show(idx)));
     show(0);
+    window.addEventListener('resize', () => show(i));
     // auto
     setInterval(() => show(i + 1), 7000);
   });
@@ -359,6 +387,20 @@
       btn.classList.toggle('is-on', !v.muted);
     });
   });
+
+  /* -------------------- Back to top -------------------- */
+  document.querySelectorAll('[data-scroll-top]').forEach(btn => {
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  });
+
+  /* -------------------- Local time (IST) -------------------- */
+  const clockEls = document.querySelectorAll('[data-clock]');
+  if (clockEls.length) {
+    const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata' });
+    const tick = () => { const t = fmt.format(new Date()) + ' IST'; clockEls.forEach(el => { el.textContent = t; }); };
+    tick();
+    setInterval(tick, 10000);
+  }
 
 
   /* -------------------- Sticky Process scroll-sync -------------------- */
@@ -615,6 +657,69 @@
     }, { passive: true });
   }
 
+  /* -------------------- Hero video autoplay nudge -------------------- */
+  // Some browsers defer muted autoplay until interaction/scroll; force-play on load.
+  document.querySelectorAll('.hero__bg video').forEach(v => {
+    v.muted = true;
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  });
+
+  /* -------------------- Hero content reveal (scroll-locked) -------------------- */
+  // Scroll is held at the top until the overlay text has animated in; the first
+  // scroll intent triggers the reveal, and scrolling is released once it's done.
+  const heroCenter = document.querySelector('.hero__center');
+  if (heroCenter) {
+    if (reduce) {
+      heroCenter.style.setProperty('--hero-reveal', '1');
+    } else {
+      let played = false;
+      const lock = () => {
+        root.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        window.scrollTo(0, 0);
+      };
+      const unlock = () => {
+        root.style.overflow = '';
+        document.body.style.overflow = '';
+      };
+      const removeIntent = () => {
+        window.removeEventListener('wheel', onWheel);
+        window.removeEventListener('keydown', onKey);
+        window.removeEventListener('touchmove', onTouch);
+      };
+      function playReveal() {
+        if (played) return;
+        played = true;
+        removeIntent();
+        // rAF tween of --hero-reveal 0 → 1 with an easeOutCubic curve.
+        const dur = 1100;
+        const start = performance.now();
+        const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+        function step(now) {
+          const t = Math.min(1, (now - start) / dur);
+          heroCenter.style.setProperty('--hero-reveal', easeOutCubic(t).toFixed(4));
+          if (t < 1) requestAnimationFrame(step);
+          else unlock();
+        }
+        requestAnimationFrame(step);
+      }
+      const onWheel = (e) => { if (e.deltaY > 0) playReveal(); };
+      const onKey = (e) => {
+        if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) playReveal();
+      };
+      const onTouch = () => playReveal();
+
+      lock();
+      window.addEventListener('wheel', onWheel, { passive: true });
+      window.addEventListener('keydown', onKey);
+      window.addEventListener('touchmove', onTouch, { passive: true });
+      // Fallback — reveal (and release scroll) if no scroll intent arrives, so
+      // the page can never get stuck locked.
+      setTimeout(playReveal, 4000);
+    }
+  }
+
   /* -------------------- Subtle 3D tilt on hero video tiles -------------------- */
   const heroTiles = document.querySelectorAll('.hero__bg .tile');
   if (heroTiles.length && !isCoarse && !reduce) {
@@ -702,16 +807,5 @@
     });
   });
 
-
-  /* -------------------- Hero audio toggle -------------------- */
-  const heroAudioBtn = document.querySelector('.hero__audio');
-  if (heroAudioBtn) {
-    const videos = document.querySelectorAll('.hero__bg video');
-    heroAudioBtn.addEventListener('click', () => {
-      const muted = !heroAudioBtn.classList.contains('is-on');
-      heroAudioBtn.classList.toggle('is-on');
-      videos.forEach(v => { v.muted = !muted; if (muted) v.play().catch(() => {}); });
-    });
-  }
 
 })();

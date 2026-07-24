@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\RelationManagers\MediaItemsRelationManager;
 use App\Filament\Resources\IndustryResource\Pages;
 use App\Models\Industry;
 use Filament\Forms\Components\RichEditor;
@@ -20,9 +21,11 @@ class IndustryResource extends Resource
 {
     protected static ?string $model = Industry::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
-    protected static ?string $navigationGroup = 'Site';
+    protected static ?string $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 30;
 
     public static function form(Form $form): Form
     {
@@ -60,7 +63,7 @@ class IndustryResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [MediaItemsRelationManager::class];
     }
 
     public static function getPages(): array

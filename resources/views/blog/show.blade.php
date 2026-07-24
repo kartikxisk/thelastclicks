@@ -2,14 +2,25 @@
     :title="$post->title.' — Journal — TheLastClicks'"
     :description="$post->excerpt"
     :canonical="url('/blog/'.$post->slug)"
+    :ogImage="$post->getFirstMediaUrl('cover') ?: null"
 >
     <x-slot name="head">
         <x-json-ld :data="[
-            '@type'         => 'Article',
-            'headline'      => $post->title,
-            'datePublished' => optional($post->published_at)->toIso8601String(),
-            'author'        => ['@type' => 'Person','name' => $post->author?->name ?? 'TheLastClicks'],
+            '@type'            => 'Article',
+            'headline'         => $post->title,
+            'description'      => $post->excerpt,
+            'image'            => $post->getFirstMediaUrl('cover') ?: null,
+            'datePublished'    => optional($post->published_at)->toIso8601String(),
+            'dateModified'     => optional($post->updated_at)->toIso8601String(),
+            'author'           => ['@type' => 'Person', 'name' => $post->author?->name ?? 'TheLastClicks'],
+            'publisher'        => ['@type' => 'Organization', 'name' => 'TheLastClicks', 'logo' => ['@type' => 'ImageObject', 'url' => \App\Models\SiteSetting::brandLogoUrl() ?: asset('apple-touch-icon.png')]],
+            'mainEntityOfPage' => url('/blog/'.$post->slug),
         ]" />
+        <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Journal', 'item' => url('/blog')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => url('/blog/'.$post->slug)],
+        ]]" />
 <style>
   .art-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; }
   .art-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 32px; }
@@ -40,7 +51,7 @@
   .art-author__avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 22px; flex-shrink: 0; }
   .art-author__name { font-family: var(--f-display); font-weight: 500; font-size: 18px; }
   .art-author__role { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-top: 4px; }
-  .art-next { padding: 80px var(--pad-x); border-top: 1px solid var(--line); display: grid; gap: 24px; text-align: center; }
+  .art-next { max-width: var(--maxw); margin-inline: auto; padding: 80px var(--pad-x); border-top: 1px solid var(--line); display: grid; gap: 24px; text-align: center; }
   .art-next-label { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); }
   .art-next a { font-family: var(--f-display); font-weight: 700; font-size: clamp(32px, 5vw, 64px); letter-spacing: -0.03em; }
   .art-next a em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
@@ -89,7 +100,7 @@
     <section class="art-share">
         <span class="art-share__label">Share this piece</span>
         <div class="art-share__btns">
-            <button class="art-share__btn" onclick="navigator.clipboard?.writeText(location.href); this.textContent='Copied ✓'">Copy link</button>
+            <button type="button" class="art-share__btn" onclick="navigator.clipboard?.writeText(location.href); this.textContent='Copied ✓'">Copy link</button>
             <a class="art-share__btn" target="_blank" rel="noopener"
                href="https://twitter.com/intent/tweet?url={{ urlencode(url('/blog/'.$post->slug)) }}&text={{ urlencode($post->title) }}">Twitter</a>
             <a class="art-share__btn" target="_blank" rel="noopener"
@@ -134,7 +145,7 @@
 
     {{-- CTA STRIP --}}
     <section class="cta-strip">
-        <div class="wrap">
+        <x-container>
             <h2 class="cta-strip__title" data-split>Let's <em>create.</em></h2>
             <div class="cta-strip__row reveal">
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">
@@ -144,7 +155,7 @@
                     Start a brief <span class="arr"></span>
                 </a>
             </div>
-        </div>
+        </x-container>
     </section>
 
 </x-layouts.app>

@@ -254,7 +254,6 @@ class ImportLocalMedia extends Command
         'rahul-dravid-teaser' => 'rahul-dravid-teaser',
         'range-rover' => 'range-rover',
         'black-label' => 'black-label',
-        'pramod-pooja-prewedding' => 'prewedding-pramod-pooja',
         'birthday-reel' => 'birthday-reel',
         'jw-fashion-show' => 'jw-fashion-show',
         'diwali-motion' => 'diwali-motion',

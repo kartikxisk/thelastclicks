@@ -22,6 +22,24 @@ class PermissionsSeeder extends Seeder
         $this->assignRolePermissions();
     }
 
+    /**
+     * The lead desk, pipeline board and their widgets. Shield generates one
+     * permission per page/widget, so they have to be handed to the lead-facing
+     * roles explicitly — otherwise only Super-admin ever sees the sales console.
+     *
+     * @var list<string>
+     */
+    protected array $leadDeskPermissions = [
+        'page_LeadDesk',
+        'page_LeadPipeline',
+        'widget_LeadStatsWidget',
+        'widget_LeadsTrendChart',
+        'widget_PipelineFunnelChart',
+        'widget_NeedsAttentionTable',
+        'widget_AssigneeWorkloadWidget',
+        'widget_RecentActivityWidget',
+    ];
+
     protected function assignRolePermissions(): void
     {
         $superAdmin = Role::findOrCreate('Super-admin', 'web');
@@ -31,22 +49,31 @@ class PermissionsSeeder extends Seeder
 
         $all = Permission::pluck('name')->all();
 
+        // Only hand out lead-desk permissions that shield:generate actually created.
+        $leadDesk = array_values(array_intersect($this->leadDeskPermissions, $all));
+
         // Super-admin: everything
         $superAdmin->syncPermissions($all);
 
         // Editor: CRUD on content resources (post, portfolio, service, industry,
-        // category, tag, testimonial).
-        $editorResources = 'post|portfolio|service|industry|category|tag|testimonial';
+        // category, tag, testimonial, work, client).
+        $editorResources = 'post|service|industry|category|tag|testimonial|work|client';
         $editor->syncPermissions(array_filter($all, fn ($p) => preg_match('/_('.$editorResources.')$/', $p) === 1
             || preg_match('/_any_('.$editorResources.')$/', $p) === 1
         ));
 
-        // Sales: all perms on Quote + QuoteNote
-        $sales->syncPermissions(array_filter($all, fn ($p) => str_ends_with($p, '_quote') || str_ends_with($p, '_quote_note')
+        // Sales: all perms on Quote + QuoteNote + Subscriber (all inbound lead data),
+        // plus the lead desk and pipeline they work from every day.
+        $sales->syncPermissions(array_merge(
+            array_filter($all, fn ($p) => str_ends_with($p, '_quote') || str_ends_with($p, '_quote_note') || str_ends_with($p, '_subscriber')),
+            $leadDesk,
         ));
 
-        // Viewer: only view_* perms
-        $viewer->syncPermissions(array_filter($all, fn ($p) => str_starts_with($p, 'view_')
+        // Viewer: read-only everywhere, including the lead desk. Moving a card is
+        // still refused by QuotePolicy::update, which Viewer never satisfies.
+        $viewer->syncPermissions(array_merge(
+            array_filter($all, fn ($p) => str_starts_with($p, 'view_')),
+            $leadDesk,
         ));
     }
 }

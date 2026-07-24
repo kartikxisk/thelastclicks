@@ -17,7 +17,7 @@ beforeEach(function () {
 it('renders existing settings into the form on load', function () {
     Livewire::test(SiteSettingsPage::class)
         ->assertFormFieldExists('contact_email')
-        ->assertFormSet(['contact_email' => 'hello@thelastclicks.com']);
+        ->assertFormSet(['contact_email' => 'info@thelastclicks.com']);
 });
 
 it('saves changes to the site_settings KV store', function () {

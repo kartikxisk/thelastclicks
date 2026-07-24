@@ -31,5 +31,6 @@
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="FILESYSTEM_DISK" value="local"/>
         <env name="MEDIA_DISK" value="public"/>
+        <env name="FILAMENT_FILESYSTEM_DISK" value="public"/>
     </php>
 </phpunit>

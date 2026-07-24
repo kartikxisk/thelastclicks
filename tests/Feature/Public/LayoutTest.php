@@ -1,7 +1,12 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
+
+uses(RefreshDatabase::class);
+
+beforeEach(fn () => $this->seed());
 
 it('layout renders title, description, vite manifest, and nav/footer slots', function () {
     // Ignore a dev server's public/hot file so @vite always renders /build/ URLs

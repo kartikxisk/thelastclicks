@@ -169,6 +169,39 @@ them to R2/S3 per the storage section below and serve via `AWS_URL` — the
 repo history keeps the weight either way, so migrate before the archive
 grows.
 
+## Shared media-items release (2026-07-23)
+
+This release drops the Work-only `work_media` table and folds it into a
+single polymorphic `media_items` table shared by Work and Industry
+(`HasMediaItems`), then repoints medialibrary's `media.model_type` for the
+affected rows from `App\Models\WorkMedia` to `App\Models\MediaItem`. The
+migration is destructive — `work_media` rows are copied into `media_items`
+and the table is dropped in the same `up()`.
+
+**BEFORE deploying — back up the tables the migration rewrites:**
+
+```bash
+mysqldump thelastclicks work_media media > ~/backup-media-items-$(date +%F).sql
+```
+
+**Deploy runs the normal script:**
+
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+php artisan responsecache:clear
+```
+
+Seeders are idempotent. `IndustriesSeeder` retires any industry outside the
+hardcoded 7 (placeholder cleanup) by hydrating and deleting through Eloquent
+so `HasMediaItems`' cascade runs — its `media_items` and medialibrary rows,
+and the underlying S3 files, are cleaned up rather than orphaned.
+
+**Rollback:** `php artisan migrate:rollback` recreates `work_media` from the
+`media_items` rows with `mediable_type = Work` and repoints only the
+`media` rows that were actually copied back — Industry-owned rows are left
+pointing at `MediaItem`, since `work_media` has no room for them.
+
 ## Monitoring
 
 - **Errors:** Sentry (configured via `SENTRY_LARAVEL_DSN`).

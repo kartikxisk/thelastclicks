@@ -11,7 +11,7 @@ it('renders the homepage with key copy', function () {
     $this->get('/')
         ->assertOk()
         ->assertSee('TheLastClicks')
-        ->assertSee('Capturing', false);
+        ->assertSee('Not a vendor.', false);
 });
 
 it('homepage emits Organization JSON-LD', function () {

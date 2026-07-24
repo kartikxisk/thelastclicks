@@ -15,3 +15,55 @@
     h1, h2, h3 { font-family: 'Sora', system-ui, sans-serif; }
     em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: normal; }
 }
+
+/*
+ * Panel chrome, styled to match the public site: mono uppercase labels, a brand
+ * accent on stat cards, denser tables. Everything here targets Filament's own
+ * fi-* classes rather than overriding component internals, so upgrades stay clean.
+ */
+@layer components {
+    /* Mono eyebrow treatment for sidebar groups + table headers. */
+    .fi-sidebar-group-label,
+    .fi-ta-header-cell {
+        font-family: 'Sora', ui-monospace, monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+
+    /* Brand accent bar down the side of each KPI card. */
+    .fi-wi-stats-overview-stat {
+        position: relative;
+        overflow: hidden;
+    }
+    .fi-wi-stats-overview-stat::before {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: 2px;
+        background: #e80f03;
+        opacity: 0.75;
+    }
+
+    /* Tighter table rows — more leads visible without scrolling. */
+    .fi-ta-cell {
+        padding-block: 0.55rem;
+    }
+
+    /* Section + card edges read better on the near-black background. */
+    .fi-section,
+    .fi-wi-stats-overview-stat,
+    .fi-ta-ctn {
+        border-radius: 0.9rem;
+    }
+
+    /* Login screen: lift the card off the black. */
+    .fi-simple-main {
+        border: 1px solid rgb(255 255 255 / 0.08);
+        border-radius: 1rem;
+    }
+
+    /* Pipeline: keep tall columns scrollable instead of stretching the page. */
+    .fi-page .fi-ta-ctn:has(.fi-ta-empty-state) { min-height: 0; }
+}

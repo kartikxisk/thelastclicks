@@ -13,7 +13,11 @@ class ServicesSeeder extends Seeder
         // Weddings, social content and creative direction are no longer offered as
         // standalone services; the studio sells photography, videography and
         // post-production (the USP) only.
-        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction'])->delete();
+        // Hydrate then delete through Eloquent (not a Builder delete) so the
+        // `deleting` event fires — Service uses Spatie's InteractsWithMedia
+        // directly, which hooks `deleting` to clean up its media/S3 files; a
+        // Builder ->delete() bypasses that and leaks the hero/gallery files.
+        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction'])->get()->each->delete();
 
         $services = [
             'videography' => [

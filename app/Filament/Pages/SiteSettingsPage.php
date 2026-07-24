@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Portfolio;
+use App\Models\Quote;
 use App\Models\SiteSetting;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -24,6 +24,8 @@ class SiteSettingsPage extends Page implements HasForms
 
     protected static ?string $navigationGroup = 'Site';
 
+    protected static ?int $navigationSort = 10;
+
     /** @var array<string, mixed> */
     public ?array $data = [];
 
@@ -36,10 +38,16 @@ class SiteSettingsPage extends Page implements HasForms
             'whatsapp_url' => SiteSetting::get('whatsapp_url'),
             'socials_instagram' => SiteSetting::get('socials')['instagram'] ?? null,
             'socials_youtube' => SiteSetting::get('socials')['youtube'] ?? null,
+            'socials_facebook' => SiteSetting::get('socials')['facebook'] ?? null,
+            'socials_linkedin' => SiteSetting::get('socials')['linkedin'] ?? null,
+            'socials_x' => SiteSetting::get('socials')['x'] ?? null,
+            'socials_behance' => SiteSetting::get('socials')['behance'] ?? null,
+            'socials_pinterest' => SiteSetting::get('socials')['pinterest'] ?? null,
             'seo_default_title' => SiteSetting::get('seo_default_title'),
             'seo_default_description' => SiteSetting::get('seo_default_description'),
-            'home_strip' => SiteSetting::get('home_strip', []),
-            'hero_videos' => SiteSetting::get('hero_videos', []),
+            'seo_default_og_image' => SiteSetting::get('seo_default_og_image'),
+            'brand_logo' => SiteSetting::get('brand_logo'),
+            'lead_sla_hours' => SiteSetting::get('lead_sla_hours', Quote::DEFAULT_SLA_HOURS),
         ]);
     }
 
@@ -58,42 +66,38 @@ class SiteSettingsPage extends Page implements HasForms
                         ->schema([
                             Forms\Components\TextInput::make('socials_instagram')->label('Instagram URL')->url(),
                             Forms\Components\TextInput::make('socials_youtube')->label('YouTube URL')->url(),
+                            Forms\Components\TextInput::make('socials_facebook')->label('Facebook URL')->url(),
+                            Forms\Components\TextInput::make('socials_linkedin')->label('LinkedIn URL')->url(),
+                            Forms\Components\TextInput::make('socials_x')->label('X (Twitter) URL')->url(),
+                            Forms\Components\TextInput::make('socials_behance')->label('Behance URL')->url(),
+                            Forms\Components\TextInput::make('socials_pinterest')->label('Pinterest URL')->url(),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Leads')
+                        ->schema([
+                            Forms\Components\TextInput::make('lead_sla_hours')
+                                ->label('Response promise (hours)')
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(168)
+                                ->required()
+                                ->helperText('A new lead is flagged overdue on the dashboard and pipeline after this many hours. The public pages promise 4 working hours.'),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Branding')
+                        ->schema([
+                            Forms\Components\FileUpload::make('brand_logo')
+                                ->label('Brand logo')
+                                ->image()
+                                ->directory('branding')
+                                ->helperText('Shown in the header, preloader and quote modal. Transparent PNG or SVG works best. Leave empty and no logo is shown anywhere.'),
                         ]),
                     Forms\Components\Tabs\Tab::make('SEO')
                         ->schema([
                             Forms\Components\TextInput::make('seo_default_title'),
                             Forms\Components\Textarea::make('seo_default_description')->rows(3),
-                        ]),
-                    Forms\Components\Tabs\Tab::make('Homepage')
-                        ->schema([
-                            Forms\Components\Repeater::make('home_strip')
-                                ->label('Film strip')
-                                ->schema([
-                                    Forms\Components\Select::make('portfolio_slug')
-                                        ->label('Portfolio')
-                                        ->options(fn () => Portfolio::published()->orderBy('title')->pluck('title', 'slug')->all())
-                                        ->searchable()
-                                        ->required(),
-                                    Forms\Components\TextInput::make('tag')->required(),
-                                    Forms\Components\TextInput::make('title')
-                                        ->helperText('HTML allowed, e.g. Indian <em>Navy.</em>')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('meta')->required(),
-                                ])
-                                ->columns(2)
-                                ->reorderable()
-                                ->defaultItems(0),
-                            Forms\Components\Repeater::make('hero_videos')
-                                ->label('Hero background films (in order)')
-                                ->simple(
-                                    Forms\Components\Select::make('portfolio_slug')
-                                        ->label('Portfolio')
-                                        ->options(fn () => Portfolio::published()->orderBy('title')->pluck('title', 'slug')->all())
-                                        ->searchable()
-                                        ->required(),
-                                )
-                                ->reorderable()
-                                ->defaultItems(0),
+                            Forms\Components\TextInput::make('seo_default_og_image')
+                                ->label('Default social share image URL')
+                                ->helperText('Fallback OG/Twitter image (1200×630 recommended) used when a page has none.')
+                                ->url(),
                         ]),
                 ]),
             ])
@@ -111,11 +115,24 @@ class SiteSettingsPage extends Page implements HasForms
         SiteSetting::set('socials', [
             'instagram' => $data['socials_instagram'] ?? null,
             'youtube' => $data['socials_youtube'] ?? null,
+            'facebook' => $data['socials_facebook'] ?? null,
+            'linkedin' => $data['socials_linkedin'] ?? null,
+            'x' => $data['socials_x'] ?? null,
+            'behance' => $data['socials_behance'] ?? null,
+            'pinterest' => $data['socials_pinterest'] ?? null,
         ]);
         SiteSetting::set('seo_default_title', $data['seo_default_title'] ?? '');
         SiteSetting::set('seo_default_description', $data['seo_default_description'] ?? '');
-        SiteSetting::set('home_strip', array_values($data['home_strip'] ?? []));
-        SiteSetting::set('hero_videos', array_values($data['hero_videos'] ?? []));
+        SiteSetting::set('seo_default_og_image', $data['seo_default_og_image'] ?? '');
+        SiteSetting::set('lead_sla_hours', max(1, (int) ($data['lead_sla_hours'] ?? Quote::DEFAULT_SLA_HOURS)));
+
+        // FileUpload hands back a string path for single uploads, but can surface an
+        // array mid-edit — normalise so the stored setting is always a plain path.
+        $brandLogo = $data['brand_logo'] ?? '';
+        if (is_array($brandLogo)) {
+            $brandLogo = (string) (reset($brandLogo) ?: '');
+        }
+        SiteSetting::set('brand_logo', $brandLogo);
 
         Notification::make()
             ->title('Settings saved')

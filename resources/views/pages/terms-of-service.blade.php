@@ -6,9 +6,8 @@
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">
     <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Terms</span></div>
     <h1 data-split>Terms of <em>service.</em></h1>
-    <dl class="page-header__meta"><div><dt>Effective</dt><dd>01 May 2026</dd></div><div><dt>Version</dt><dd>4.0</dd></div></dl>
   </section>
-  <section class="section"><div class="wrap"><div class="legal">
+  <section class="section"><x-container><div class="legal">
     <p>By using this website or engaging our production services, you agree to these terms.</p>
     <h2>1. Services</h2>
     <p>Scope, deliverables and timelines are defined per project in a separate Statement of Work.</p>
@@ -22,5 +21,5 @@
     <p>We carry standard production insurance. Total liability is limited to the project fee.</p>
     <h2>6. Governing law</h2>
     <p>These terms are governed by the laws of India and the courts of Madhya Pradesh.</p>
-  </div></div></section>
+  </div></x-container></section>
 </x-layouts.app>

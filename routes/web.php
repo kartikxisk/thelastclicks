@@ -4,9 +4,10 @@ use App\Http\Controllers\Public\BlogController;
 use App\Http\Controllers\Public\ContactController;
 use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\IndustryController;
+use App\Http\Controllers\Public\NewsletterController;
 use App\Http\Controllers\Public\PageController;
-use App\Http\Controllers\Public\PortfolioController;
 use App\Http\Controllers\Public\ServiceController;
+use App\Http\Controllers\Public\WorkController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('cacheResponse')->group(function () {
@@ -26,10 +27,11 @@ Route::middleware('cacheResponse')->group(function () {
     Route::redirect('/services/creative-direction', '/services/post-production', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
-    // Industry detail pages retired — the list page is the destination now.
-    Route::redirect('/industries/{slug}', '/industries', 301);
-    Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
-    Route::get('/portfolio/{slug}', [PortfolioController::class, 'show'])->name('portfolio.show');
+    Route::get('/industries/{industry:slug}', [IndustryController::class, 'show'])->name('industry.show');
+    Route::get('/our-works', [WorkController::class, 'index'])->name('works');
+    // Portfolio feature retired — 301 old URLs home so inbound links don't 404
+    Route::redirect('/portfolio', '/', 301);
+    Route::redirect('/portfolio/{slug}', '/', 301);
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
     Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
     // Talent/crew pages retired — permanent redirects preserve inbound links
@@ -40,3 +42,4 @@ Route::middleware('cacheResponse')->group(function () {
 
 // Mutations NOT cached:
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');

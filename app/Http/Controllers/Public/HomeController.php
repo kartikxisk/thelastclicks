@@ -3,91 +3,41 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Models\Portfolio;
+use App\Models\Industry;
 use App\Models\Service;
-use App\Models\SiteSetting;
 use App\Models\Testimonial;
-use Illuminate\Support\Collection;
+use App\Models\Work;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     public function index(): View
     {
-        /** @var array<int, array<string, string>> $homeStripRaw */
-        $homeStripRaw = SiteSetting::get('home_strip', []);
-        /** @var array<int, string> $heroVideosRaw */
-        $heroVideosRaw = SiteSetting::get('hero_videos', []);
-
-        $stripSettings = collect($homeStripRaw);
-        $heroSlugs = collect($heroVideosRaw);
-
-        $portfolios = Portfolio::published()
-            ->whereIn('slug', $stripSettings->pluck('portfolio_slug')->merge($heroSlugs)->unique())
-            ->with('media')
-            ->get()
-            ->keyBy('slug');
-
         return view('home', [
             'services' => Service::orderBy('order')->with('media')->get(),
+            'industries' => Industry::orderBy('order')->orderBy('id')->with(['media', 'mediaItems.media'])->get(),
             'testimonials' => Testimonial::published()->orderBy('order')->get(),
-            'stripCards' => $this->stripCards($stripSettings, $portfolios),
-            'heroVideos' => $this->heroVideos($heroSlugs, $portfolios),
+            'featuredWorks' => $this->featuredWorks(),
         ]);
     }
 
     /**
-     * @param  Collection<int, array<string, string>>  $settings
-     * @param  Collection<string, Portfolio>  $portfolios
-     * @return list<array<string, string>>
+     * Featured works for the homepage strip; falls back to the most recent
+     * published works so the section is never empty just because nobody
+     * ticked "Show on homepage".
+     *
+     * @return Collection<int, Work>
      */
-    protected function stripCards(Collection $settings, Collection $portfolios): array
+    protected function featuredWorks(): Collection
     {
-        return $settings
-            ->map(function (array $entry) use ($portfolios): ?array {
-                $portfolio = $portfolios->get($entry['portfolio_slug'] ?? '');
-                $videoUrl = $portfolio?->getFirstMediaUrl('gallery');
+        $base = fn () => Work::published()->with(['media', 'mediaItems.media']);
 
-                if (! $videoUrl) {
-                    return null;
-                }
+        $featured = $base()->where('is_featured', true)
+            ->orderBy('order')->orderByDesc('id')->take(6)->get();
 
-                return [
-                    'video_url' => $videoUrl,
-                    'poster_url' => $portfolio->getFirstMediaUrl('cover'),
-                    'tag' => $entry['tag'] ?? '',
-                    'title' => $entry['title'] ?? '',
-                    'meta' => $entry['meta'] ?? '',
-                ];
-            })
-            ->filter()
-            ->values()
-            ->all();
-    }
-
-    /**
-     * @param  Collection<int, string>  $slugs
-     * @param  Collection<string, Portfolio>  $portfolios
-     * @return list<array<string, string>>
-     */
-    protected function heroVideos(Collection $slugs, Collection $portfolios): array
-    {
-        return $slugs
-            ->map(function (string $slug) use ($portfolios): ?array {
-                $portfolio = $portfolios->get($slug);
-                $videoUrl = $portfolio?->getFirstMediaUrl('gallery');
-
-                if (! $videoUrl) {
-                    return null;
-                }
-
-                return [
-                    'video_url' => $videoUrl,
-                    'poster_url' => $portfolio->getFirstMediaUrl('cover'),
-                ];
-            })
-            ->filter()
-            ->values()
-            ->all();
+        return $featured->isNotEmpty()
+            ? $featured
+            : $base()->orderBy('order')->orderByDesc('id')->take(6)->get();
     }
 }

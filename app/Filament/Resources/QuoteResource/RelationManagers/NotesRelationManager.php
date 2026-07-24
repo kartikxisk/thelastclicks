@@ -26,13 +26,20 @@ class NotesRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('author.name')->label('By'),
                 Tables\Columns\TextColumn::make('body')->wrap()->limit(120),
+                Tables\Columns\TextColumn::make('stage')
+                    ->label('Stage')
+                    ->badge()
+                    ->placeholder('—'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->since(),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
+                    // Stamp the stage the lead is at right now; it must not follow
+                    // the lead as it moves on.
                     ->mutateFormDataUsing(fn (array $data) => [
                         ...$data,
                         'author_id' => auth()->id(),
+                        'stage' => $this->getOwnerRecord()->status,
                     ]),
             ])
             ->actions([

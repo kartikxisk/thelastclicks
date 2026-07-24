@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasMediaItems;
+use App\Support\MediaUrl;
 use Database\Factories\IndustryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +16,7 @@ use Spatie\Sluggable\SlugOptions;
 class Industry extends Model implements HasMedia
 {
     /** @use HasFactory<IndustryFactory> */
-    use HasFactory, HasSlug, InteractsWithMedia;
+    use HasFactory, HasMediaItems, HasSlug, InteractsWithMedia;
 
     protected $fillable = ['slug', 'title', 'summary', 'image_url', 'body', 'order'];
 
@@ -32,5 +34,27 @@ class Industry extends Model implements HasMedia
     public function testimonials(): HasMany
     {
         return $this->hasMany(Testimonial::class)->orderBy('order');
+    }
+
+    protected function mediaCoverCollection(): string
+    {
+        return 'hero';
+    }
+
+    protected function mediaCoverFallback(): ?string
+    {
+        return MediaUrl::asset($this->image_url);
+    }
+
+    /**
+     * Industries lead with a curated editorial still, so the uploaded hero (then
+     * the image_url) wins over any gallery media — otherwise a YouTube poster in
+     * the media array would hijack the card cover. Falls through to the media
+     * array only when neither is set.
+     */
+    public function coverUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('hero')
+            ?: (MediaUrl::asset($this->image_url) ?? $this->firstMediaItemCover());
     }
 }

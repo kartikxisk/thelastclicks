@@ -1,24 +1,18 @@
 <x-layouts.app
-    title="Journal — TheLastClicks"
-    description="Studio dispatches — film craft, behind-the-scenes, and editorial notes from TheLastClicks."
+    title="Journal — Film Craft & Production Notes | TheLastClicks"
+    description="Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month."
     :canonical="url('/blog')"
 >
 
     {{-- 01 Page Header --}}
-    <section class="page-header" data-screen-label="01 Header">
+    <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1800&q=80')">
         <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Journal</span></div>
         <h1 data-split>Notes from <em>set,</em><br>edit &amp; finish.</h1>
-        <dl class="page-header__meta">
-            <div><dt>Posts</dt><dd>{{ $posts->total() + ($featured ? 1 : 0) }}</dd></div>
-            <div><dt>Categories</dt><dd>Craft · Brand · Process</dd></div>
-            <div><dt>Updated</dt><dd>Monthly</dd></div>
-            <div><dt>Subscribers</dt><dd>2.4k</dd></div>
-        </dl>
     </section>
 
     {{-- 02 Journal — featured article, category chips, post grid --}}
-    <section class="section" data-screen-label="02 Journal">
-        <div class="wrap">
+    <section class="section" data-screen-label="02 Journal" style="background:var(--ink-2);border-radius:var(--stack-r)">
+        <x-container>
 
             {{-- Featured article spotlight (article.feat from design) --}}
             @if ($featured)
@@ -83,50 +77,32 @@
                 <div class="pagination">{{ $posts->links() }}</div>
             @endif
 
-        </div>
+        </x-container>
     </section>
 
-    {{-- 03 Newsletter subscribe card --}}
-    {{-- TODO: wire newsletter form to a controller action / email service (e.g. Mailcoach, Mailchimp) before launch --}}
-    <section class="news" data-screen-label="03 Newsletter">
-        <div class="wrap">
-            <div class="news__card reveal">
-                <div>
-                    <span class="section__eyebrow" data-scramble>The journal</span>
-                    <h2 class="news__h" data-split>Stay close to the <em>set.</em></h2>
-                    <p class="news__p">One craft note a month — what we shot and how we cut it. No spam.</p>
-                </div>
-                <div>
-                    {{-- Form posts to '#' placeholder — no backend wired yet --}}
-                    <form class="news__form" action="#" method="POST">
-                        @csrf
-                        <input type="email" name="email" placeholder="you@studio.com" required>
-                        <button class="btn btn--red" type="submit" data-magnetic>Subscribe <span class="arr"></span></button>
-                    </form>
-                    <div class="news__hint">
-                        <span>2,400 subscribers</span>
-                        <span>6 issues this year</span>
-                        <span>Unsubscribe in one click</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     {{-- CTA Strip --}}
     <section class="cta-strip">
-        <div class="wrap">
+        <x-container>
             <h2 class="cta-strip__title" data-split>Get the <em>journal.</em></h2>
             <div class="cta-strip__row reveal">
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">One craft note a month. No spam, no growth-hacks.</p>
-                {{-- TODO: wire newsletter form to a controller action / email service before launch --}}
-                <form class="row" action="#" method="POST">
+                <form class="row" action="{{ route('newsletter.store') }}" method="POST">
                     @csrf
-                    <input type="email" name="email" placeholder="you@studio.com" required style="background:transparent;border:1px solid var(--line);border-radius:100px;padding:14px 22px;color:var(--paper);font:inherit;min-width:280px">
+                    {{-- Honeypot: real people never fill this; bots do. Mirrors the contact form. --}}
+                    <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">
+                    <input type="hidden" name="source_page" value="{{ request()->path() }}">
+                    <input type="email" name="email" aria-label="Email address" placeholder="you@studio.com" required value="{{ old('email') }}" style="background:transparent;border:1px solid var(--line);border-radius:100px;padding:14px 22px;color:var(--paper);font:inherit;flex:1 1 220px;min-width:0">
                     <button class="btn btn--red" type="submit" data-magnetic>Subscribe <span class="arr"></span></button>
                 </form>
+                @if (session('newsletter_status'))
+                    <output style="width:100%;font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-dim)">{{ session('newsletter_status') }}</output>
+                @endif
+                @error('email')
+                    <p role="alert" style="width:100%;font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red)">{{ $message }}</p>
+                @enderror
             </div>
-        </div>
+        </x-container>
     </section>
 
     {{-- Category filter — ported from design/blog.html. Matches chip data-cat to .post[data-cat] (category slug). --}}

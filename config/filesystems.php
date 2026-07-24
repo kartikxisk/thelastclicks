@@ -56,7 +56,10 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
+            // Must throw: with 'throw' => false a rejected PutObject returns false and
+            // Filament still saves the path, leaving the site pointing at an object that
+            // does not exist. Failing loudly is the only way that surfaces.
+            'throw' => env('AWS_THROW', true),
             'report' => false,
         ],
 

@@ -9,26 +9,30 @@
 ## Env (production and local)
     FILESYSTEM_DISK=s3
     MEDIA_DISK=s3
+    FILAMENT_FILESYSTEM_DISK=s3  # RichEditor attachments
     AWS_ACCESS_KEY_ID=...
     AWS_SECRET_ACCESS_KEY=...
     AWS_DEFAULT_REGION=...
     AWS_BUCKET=...
     AWS_URL=https://<cloudfront-domain>
 
+> **Outdated (Portfolio feature removed).** The Portfolio feature — model,
+> pages, admin resource, `portfolios` / `portfolio_service` tables,
+> `testimonials.portfolio_id`, the `home_strip` / `hero_videos` settings and the
+> `media:import-local` command — was deleted. Steps referencing them no longer
+> apply. The S3/CloudFront disk config below is still current.
+
 ## Deploy order
 1. Deploy code; `composer install`.
-2. `php artisan config:clear && php artisan db:seed` (adds home_strip / hero_videos
-   settings; portfolio seeder no longer writes /videos paths).
-   **Warning:** `db:seed` unconditionally overwrites `home_strip` / `hero_videos`
-   via `SiteSetting::set`, clobbering any admin edits made through Filament since
-   the last seed. Skip this step on subsequent deploys once an admin has edited
-   those settings, or re-apply the admin's edits afterward.
-3. `php artisan media:import-local` — uploads public/videos films + posters to S3
-   and attaches them to portfolios; migrates any existing public-disk media rows.
-   Idempotent; re-run until exit code 0.
-4. Verify: homepage hero + strip and portfolio pages serve `https://<cloudfront-domain>/...`
-   URLs; spot-check a video plays.
-5. `php artisan responsecache:clear`.
+2. `php artisan migrate && php artisan config:clear && php artisan db:seed`.
+   Migrate drops the retired portfolio tables (`drop_portfolio_feature`).
+3. Verify: the homepage hero reel (`public/videos/hero-reel.mp4`) and service
+   pages serve their media; spot-check a video plays.
+4. `php artisan responsecache:clear`.
+
+> Portfolio revamp (same release): no data entry required — trust sections stay
+> hidden until real content is added in admin (Result facts on portfolios,
+> "Attach to case" on testimonials).
 
 ## Cleanup (only after step 4 verified in production)
 - Delete `public/videos/` from the server and from git (`git rm -r public/videos`)

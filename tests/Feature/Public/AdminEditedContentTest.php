@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Industry;
-use App\Models\Portfolio;
 use App\Models\Post;
 use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,24 +15,6 @@ it('edited service hero_copy appears on its public page', function () {
     $this->get('/services/photography')
         ->assertOk()
         ->assertSeeText('Editor-set tagline ABC123');
-});
-
-it('edited industry summary appears on the industries list', function () {
-    $ind = Industry::where('slug', 'fashion-creators')->first();
-    $ind->update(['summary' => 'Edited industry summary XYZ789']);
-
-    $this->get('/industries')
-        ->assertOk()
-        ->assertSeeText('Edited industry summary XYZ789');
-});
-
-it('edited portfolio title appears on public detail', function () {
-    $p = Portfolio::published()->first();
-    $p->update(['title' => 'Renamed Case Study QWERTY']);
-
-    $this->get('/portfolio/'.$p->slug)
-        ->assertOk()
-        ->assertSeeText('Renamed Case Study QWERTY');
 });
 
 it('edited blog post body appears on its detail page', function () {

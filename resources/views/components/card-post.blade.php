@@ -23,7 +23,4 @@
         <span>· {{ $readMin }} min read</span>
     </div>
     <h3>{{ $post->title }}</h3>
-    @if ($post->excerpt)
-        <p style="color:var(--paper-dim);font-size:14.5px;line-height:1.55">{{ $post->excerpt }}</p>
-    @endif
 </a>

@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeEach(fn () => $this->seed());
+
 it('static pages return 200', function (string $path) {
     $this->get($path)->assertOk();
 })->with([

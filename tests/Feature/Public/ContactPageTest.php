@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeEach(fn () => $this->seed());
+
 it('GET /contact renders the form', function () {
     $this->get('/contact')
         ->assertOk()

@@ -1,139 +1,109 @@
 <x-layouts.app
     title="TheLastClicks — Cinematic photography & film production"
-    description="Cinematic photography, brand films and post for premium teams."
+    description="Cinematic photography, brand films and post-production for premium teams across India — trusted by Fortune 500 brands, automotive houses and the armed forces."
     :canonical="url('/')"
 >
     <x-slot name="head">
-        <x-json-ld :data="[
-            '@type'     => 'Organization',
-            'name'      => 'TheLastClicks',
-            'url'       => url('/'),
-            'logo'      => asset('apple-touch-icon.svg'),
-            'email'     => \App\Models\SiteSetting::get('contact_email'),
-            'telephone' => \App\Models\SiteSetting::get('contact_phone'),
-        ]" />
+        @php
+            // sameAs is the strongest entity signal Google reads for a brand — feed it every
+            // social profile the admin has configured. array_filter drops anything unset.
+            $orgSameAs = array_values(array_filter((array) (\App\Models\SiteSetting::get('socials') ?? [])));
+            $orgEmail = \App\Models\SiteSetting::get('contact_email');
+            $orgPhone = \App\Models\SiteSetting::get('contact_phone');
+        @endphp
+        <x-json-ld :data="array_filter([
+            '@type'        => 'Organization',
+            'name'         => 'TheLastClicks',
+            'url'          => url('/'),
+            {{-- Schema needs a logo to be eligible for rich results, so this one keeps an
+                 icon fallback even when no brand logo is uploaded. Not rendered on screen. --}}
+            'logo'         => \App\Models\SiteSetting::brandLogoUrl() ?: asset('apple-touch-icon.png'),
+            'description'  => 'Cinematic photography, brand films and post-production for premium teams across India.',
+            'email'        => $orgEmail,
+            'telephone'    => $orgPhone,
+            'areaServed'   => ['@type' => 'Country', 'name' => 'India'],
+            'sameAs'       => $orgSameAs,
+            'contactPoint' => [array_filter([
+                '@type'             => 'ContactPoint',
+                'contactType'       => 'sales',
+                'email'             => $orgEmail,
+                'telephone'         => $orgPhone,
+                'areaServed'        => 'IN',
+                'availableLanguage' => ['en', 'hi'],
+            ])],
+        ])" />
     </x-slot>
 
     {{-- Hero --}}
-    <x-hero :videos="$heroVideos" />
+    <x-hero />
 
-    {{-- Marquee --}}
-    <x-marquee />
+    {{-- Client-logo marquee (replaces the text marquee) --}}
+    <x-clients-marquee />
 
-    @if ($stripCards)
-    <!-- FILM STRIP CAROUSEL -->
-    <section class="strip" data-screen-label="02 Reel">
-        <div class="strip__head">
-            <div>
-                <span class="section__eyebrow" data-scramble>Frame · 01 of 06</span>
-                <h2 class="strip__title" data-split>The reel, <em>scrolled.</em></h2>
-            </div>
-            <div class="strip__ctrl">
-                <span class="strip__time" data-strip-time>00:00 / 00:36</span>
-                <div class="strip__btns">
-                    <button class="strip__btn is-muted" data-strip-sound aria-label="Unmute reel" aria-pressed="false">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M11 5L6.5 9H3v6h3.5L11 19V5z"/>
-                            <path class="snd-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>
-                            <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5"/>
-                        </svg>
-                    </button>
-                    <button class="strip__btn" data-strip-prev aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18L9 12L15 6"/></svg></button>
-                    <button class="strip__btn" data-strip-next aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6L15 12L9 18"/></svg></button>
+    <!-- DISCIPLINE -->
+    <section class="section disc" data-screen-label="02 Discipline">
+        <x-container>
+            <div class="disc__grid">
+                <div class="disc__lead">
+                    <span class="section__eyebrow">Why The Last Clicks</span>
+                    <h2 class="section__title" data-split>Built on the discipline of <em>premium brands.</em></h2>
+                    <p class="disc__kicker reveal">Not a vendor — a long-term partner that scales with your story.</p>
+                </div>
+                <div class="disc__copy reveal" data-delay="1">
+                    <p>Brands choose us because we deliver trust, not just footage. Every shoot — wedding, brand, commercial, or corporate — is run with the same discipline: show up prepared, protect the brief, deliver work that holds up under scrutiny.</p>
+                    <p>That discipline is why our client list spans far beyond weddings and product launches — we've delivered for the nation's most demanding institutions, including the <strong>Indian Navy, Indian Army, and BSF</strong>, alongside <strong>Fortune 500 brands</strong> and automotive houses.</p>
+                    <p>We don't chase "good enough." Every project is a chance to be better than the last one — sharper frames, tighter edits, stronger stories.</p>
                 </div>
             </div>
-        </div>
-        <div class="strip__rail" data-strip>
-            <div class="strip__perf strip__perf--top" aria-hidden="true"></div>
-            <div class="strip__perf strip__perf--bot" aria-hidden="true"></div>
-            <div class="strip__track" data-strip-track>
-                @foreach ($stripCards as $i => $card)
-                    <article class="strip__card {{ $i === 0 ? 'is-on' : '' }}" data-i="{{ $i }}">
-                        <span class="strip__tag">{{ $card['tag'] }}</span>
-                        <video data-strip-video src="{{ $card['video_url'] }}"
-                               @if ($card['poster_url']) poster="{{ $card['poster_url'] }}" @endif
-                               muted loop playsinline preload="none"></video>
-                        <button class="strip__mute is-muted" data-card-mute aria-label="Unmute this film" aria-pressed="false">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M11 5L6.5 9H3v6h3.5L11 19V5z"/>
-                                <path class="snd-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>
-                                <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5"/>
-                            </svg>
-                        </button>
-                        <div class="strip__body">
-                            <h3>{!! $card['title'] !!}</h3>
-                            <span>{{ $card['meta'] }}</span>
-                        </div>
-                    </article>
-                @endforeach
+
+            <div class="disc__stats">
+                <div class="disc__stat reveal">
+                    <div class="disc__num"><span data-count="5">0</span><em>+</em></div>
+                    <span class="disc__lab">Years of experience</span>
+                </div>
+                <div class="disc__stat reveal" data-delay="1">
+                    <div class="disc__num"><span data-count="20">0</span><em>+</em></div>
+                    <span class="disc__lab">Cities covered across India</span>
+                </div>
+                <div class="disc__stat reveal" data-delay="2">
+                    <div class="disc__num"><span data-count="1000">0</span><em>+</em></div>
+                    <span class="disc__lab">Events &amp; activations over the last decade</span>
+                </div>
             </div>
-        </div>
-        <div class="strip__progress">
-            <button class="strip__dot is-on" data-strip-jump="0"></button>
-            <button class="strip__dot" data-strip-jump="1"></button>
-            <button class="strip__dot" data-strip-jump="2"></button>
-            <button class="strip__dot" data-strip-jump="3"></button>
-            <button class="strip__dot" data-strip-jump="4"></button>
-            <button class="strip__dot" data-strip-jump="5"></button>
-        </div>
+        </x-container>
+    </section>
+
+    <!-- INDUSTRIES -->
+    @if ($industries->isNotEmpty())
+    <section class="section" data-screen-label="02 Industries">
+        <x-container>
+            <div class="services__head">
+                <div>
+                    <span class="section__eyebrow">Industries</span>
+                    <h2 class="section__title" data-split>What we <em>cover.</em></h2>
+                </div>
+            </div>
+            <x-media-grid :items="$industries" :meta="fn ($industry) => $industry->summary" meta-class="work-tile__desc" layout="grid" :link="fn ($industry) => url('/industries/'.$industry->slug)" />
+        </x-container>
     </section>
     @endif
 
-    <!-- CLIENTS -->
-    <section class="section" data-screen-label="02 Clients">
-        <div class="wrap">
-            <div class="services__head">
-                <div>
-                    <span class="section__eyebrow">Our Clients</span>
-                    <h2 class="section__title" data-split>Who we <em>work with</em></h2>
-                </div>
-                <p class="section__lead reveal">Brands choose us because we deliver trust, not just footage — from Fortune 500 companies and automotive houses to the nation's most demanding institutions, including the Indian Navy, Indian Army, and BSF.</p>
-            </div>
-            <div class="clients">
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Corporate &amp; Enterprise</span>
-                </a>
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Brands &amp; Agencies</span>
-                </a>
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Automobile &amp; Luxury</span>
-                </a>
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Lifestyle &amp; Beverage</span>
-                </a>
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Weddings &amp; Celebrations</span>
-                </a>
-                <a href="{{ url('/industries') }}" class="client" data-cursor="EXPLORE">
-                    <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800&q=80" alt="" loading="lazy" decoding="async">
-                    <span class="label">Government &amp; Defence</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- SERVICES -->
     <section class="section services" id="services" data-screen-label="03 Services">
-        <div class="wrap">
+        <x-container>
             <div class="services__head">
                 <div>
                     <span class="section__eyebrow" data-scramble>Our Services</span>
                     <h2 class="section__title" data-split>What <em>we do</em></h2>
                 </div>
-                <p class="section__lead reveal">Photography and film, finished in-house. Post-production is where we win — post-only briefs welcome.</p>
             </div>
             <div class="services__list">
                 @foreach ($services as $service)
-                    <a class="svc reveal" href="{{ url('/services/'.$service->slug) }}" data-preview="{{ $service->getFirstMediaUrl('hero') ?: $service->hero_url }}" data-cursor="EXPLORE">
+                    <a class="svc reveal" href="{{ url('/services/'.$service->slug) }}"
+                       data-preview="{{ $service->getFirstMediaUrl('hero') ?: $service->hero_url }}"
+                       data-delay="{{ $loop->index }}" data-cursor="EXPLORE">
                         <span class="svc__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="svc__title">{{ $service->title }}</h3>
-                        <p class="svc__desc">{{ $service->hero_copy }}</p>
                         @if (!empty($service->proof['sectors'] ?? ''))
                             <div class="svc__tags">{{ $service->proof['sectors'] }}</div>
                         @endif
@@ -141,177 +111,73 @@
                     </a>
                 @endforeach
             </div>
-        </div>
-    </section>
-
-    <!-- STATS -->
-    <section class="section" data-screen-label="04 Stats">
-        <div class="wrap">
-            <div class="stats">
-                <div class="reveal"><div class="stat__num"><span data-count="547">0</span><em>+</em></div><div class="stat__lab">Productions delivered</div></div>
-                <div class="reveal" data-delay="1"><div class="stat__num"><span data-count="52">0</span><em>+</em></div><div class="stat__lab">Premium brand partners</div></div>
-                <div class="reveal" data-delay="2"><div class="stat__num"><span data-count="98.4" data-decimals="1">0</span><em>%</em></div><div class="stat__lab">Guideline compliance</div></div>
-                <div class="reveal" data-delay="3"><div class="stat__num"><span data-count="8">0</span><em>yr</em></div><div class="stat__lab">Years in production</div></div>
-            </div>
-        </div>
+        </x-container>
     </section>
 
     <!-- TESTIMONIALS -->
     @if ($testimonials->isNotEmpty())
     <section class="car" data-carousel data-screen-label="06 Testimonials">
-        <div class="wrap" style="margin-bottom:32px">
+        <x-container style="margin-bottom:32px">
             <span class="section__eyebrow" data-scramble>Client Stories</span>
             <h2 class="section__title" data-split>What our <em>clients say</em></h2>
-        </div>
+        </x-container>
         <div class="car__viewport">
-            @foreach ($testimonials as $t)
-                <div class="car__slide {{ $loop->first ? 'is-on' : '' }}">
-                    <div class="car__quote">"{{ $t->quote }}"</div>
-                    <div class="who">
+            <div class="car__track" data-car-track>
+                @foreach ($testimonials as $t)
+                    <article class="car__slide {{ $loop->first ? 'is-on' : '' }}">
                         <span class="av">{{ collect(explode(' ', $t->client_name))->map(fn ($w) => mb_substr($w, 0, 1))->take(2)->implode('') }}</span>
-                        <span>{{ $t->client_name }}{{ $t->role_company ? ' · '.$t->role_company : '' }}</span>
-                    </div>
-                </div>
-            @endforeach
+                        <p class="car__quote">"{{ $t->quote }}"</p>
+                        <div class="who">
+                            <span class="who__name">{{ $t->client_name }}</span>
+                            @if ($t->role_company)
+                                <span class="who__role">{{ $t->role_company }}</span>
+                            @endif
+                        </div>
+                    </article>
+                @endforeach
+            </div>
         </div>
-        <div class="car__nav wrap">
+        <x-container class="car__nav">
             <div class="car__dots">
                 @foreach ($testimonials as $t)
-                    <button class="car__dot {{ $loop->first ? 'is-on' : '' }}" data-cursor="{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}"></button>
+                    <button type="button" class="car__dot {{ $loop->first ? 'is-on' : '' }}" aria-label="Go to slide {{ $loop->iteration }}" data-cursor="{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}"></button>
                 @endforeach
             </div>
             <div class="car__btns">
-                <button class="car__prev" data-cursor="PREV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18L9 12L15 6"/></svg></button>
-                <button class="car__next" data-cursor="NEXT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6L15 12L9 18"/></svg></button>
+                <button type="button" class="car__prev" aria-label="Previous testimonial" data-cursor="PREV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18L9 12L15 6"/></svg></button>
+                <button type="button" class="car__next" aria-label="Next testimonial" data-cursor="NEXT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
             </div>
-        </div>
+        </x-container>
     </section>
     @endif
 
-    <!-- WHY US -->
-    <section class="section" data-screen-label="07 Why us">
-        <div class="wrap about-grid">
-            <div>
-                <span class="section__eyebrow">Why The Last Clicks</span>
-                <h2 class="section__title" data-split>Built for <em>partnership.</em></h2>
-                <p class="section__lead reveal">Not a vendor — a long-term partner that scales with your story.</p>
-                <div class="reveal" data-delay="2" style="margin-top:32px">
-                    <a class="btn btn--red" href="{{ url('/about') }}" data-magnetic data-cursor="ABOUT US">
-                        About the studio <span class="arr"></span>
-                    </a>
-                </div>
-            </div>
-            <ol class="why-list reveal" data-delay="1">
-                <li>Post-production in-house — the edit is our edge</li>
-                <li>One team from brief to final master</li>
-                <li>Same standard across photo and film</li>
-                <li>Trusted by Fortune 500 brands, the Indian Navy, Indian Army &amp; BSF</li>
-            </ol>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section" data-screen-label="08 FAQ">
-        <div class="wrap">
+    <!-- OUR WORK -->
+    @if ($featuredWorks->isNotEmpty())
+    <section class="section" data-screen-label="07 Work">
+        <x-container>
             <div class="services__head">
                 <div>
-                    <span class="section__eyebrow">FAQs</span>
-                    <h2 class="section__title" data-split>Frequently asked <em>questions</em></h2>
+                    <span class="section__eyebrow" data-scramble>Our Work</span>
+                    <h2 class="section__title" data-split>Selected <em>work.</em></h2>
                 </div>
-                <p class="section__lead reveal">Still have questions? We're just a message away. Reach out anytime.</p>
+                <a class="btn btn--ghost" href="{{ url('/our-works') }}" data-cursor="VIEW">View all work <span class="arr"></span></a>
             </div>
-            <div class="acc" data-acc>
-                <div class="acc__item is-open">
-                    <button class="acc__head"><h3>Do you handle large-scale corporate events?</h3><span class="acc__plus"></span></button>
-                    <div class="acc__body"><div class="acc__body-inner">Yes, we regularly work on conferences, brand launches, and multi-day productions — with crews that scale from a single shooter to a full unit.</div></div>
-                </div>
-                <div class="acc__item">
-                    <button class="acc__head"><h3>Do you collaborate with brands and agencies?</h3><span class="acc__plus"></span></button>
-                    <div class="acc__body"><div class="acc__body-inner">Yes — we work with internal teams and agencies to align visuals with campaign objectives and brand guidelines.</div></div>
-                </div>
-                <div class="acc__item">
-                    <button class="acc__head"><h3>How involved are you in post-production?</h3><span class="acc__plus"></span></button>
-                    <div class="acc__body"><div class="acc__body-inner">Deeply. Color, edit, sound and finishing are all handled in-house — so every deliverable meets the same standard.</div></div>
-                </div>
-                <div class="acc__item">
-                    <button class="acc__head"><h3>Do you travel for projects?</h3><span class="acc__plus"></span></button>
-                    <div class="acc__body"><div class="acc__body-inner">Yes — we support events and productions across cities and destinations based on project requirements.</div></div>
-                </div>
-                <div class="acc__item">
-                    <button class="acc__head"><h3>How quickly do you deliver final files?</h3><span class="acc__plus"></span></button>
-                    <div class="acc__body"><div class="acc__body-inner">48 hours for highlights, 2–3 weeks for full edits — faster for time-sensitive launches.</div></div>
-                </div>
-            </div>
-        </div>
+            <x-media-grid :items="$featuredWorks" />
+        </x-container>
     </section>
+    @endif
 
     <!-- CTA -->
-    <section class="cta-strip" data-screen-label="09 CTA">
-        <div class="wrap">
+    <section class="cta-strip" data-screen-label="08 CTA">
+        <x-container>
             <h2 class="cta-strip__title" data-split>Let's create<br>something <em>impactful.</em></h2>
             <div class="cta-strip__row reveal" data-delay="2">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Planning an event, campaign, or production? Bring us the brief — we'll bring the craft.</p>
                 <div style="display:flex;gap:12px;flex-wrap:wrap">
                     <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
-                    <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">View our work <span class="arr"></span></a>
+                    <a class="btn btn--ghost" href="{{ url('/services/photography') }}" data-cursor="VIEW">Explore services <span class="arr"></span></a>
                 </div>
             </div>
-        </div>
+        </x-container>
     </section>
-
-    @if ($stripCards)
-    <script>
-    // Film-strip cards: play the preview on hover/focus, pause on leave.
-    // Sound button toggles muted state for every preview in the strip.
-    (function () {
-      const videos = [...document.querySelectorAll('.strip__card video[data-strip-video]')];
-
-      const touch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-      document.querySelectorAll('.strip__card').forEach((card) => {
-        const v = card.querySelector('video[data-strip-video]');
-        if (!v) return;
-        if (touch) {
-          // No hover on touch — tap toggles playback (mute button handles its own clicks).
-          card.addEventListener('click', (e) => {
-            if (e.target.closest('[data-card-mute]')) return;
-            if (v.paused) v.play().catch(() => {}); else v.pause();
-          });
-        } else {
-          card.addEventListener('mouseenter', () => { v.play().catch(() => {}); });
-          card.addEventListener('mouseleave', () => { v.pause(); });
-        }
-      });
-
-      function setBtn(btn, muted, scope) {
-        btn.classList.toggle('is-muted', muted);
-        btn.setAttribute('aria-pressed', muted ? 'false' : 'true');
-        btn.setAttribute('aria-label', (muted ? 'Unmute' : 'Mute') + (scope === 'all' ? ' reel' : ' this film'));
-      }
-
-      // Per-card mute buttons — toggle only that card, never follow the link.
-      document.querySelectorAll('[data-card-mute]').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const v = btn.closest('.strip__card').querySelector('video[data-strip-video]');
-          v.muted = !v.muted;
-          setBtn(btn, v.muted, 'card');
-          if (!v.muted) v.play().catch(() => {});
-        });
-      });
-
-      // Header sound button — controls every card, syncs their buttons.
-      const soundBtn = document.querySelector('[data-strip-sound]');
-      if (soundBtn) {
-        soundBtn.addEventListener('click', () => {
-          const unmuting = soundBtn.classList.contains('is-muted');
-          videos.forEach((v) => { v.muted = !unmuting; });
-          setBtn(soundBtn, !unmuting, 'all');
-          document.querySelectorAll('[data-card-mute]').forEach((b) => setBtn(b, !unmuting, 'card'));
-        });
-      }
-    })();
-    </script>
-    @endif
 
 </x-layouts.app>

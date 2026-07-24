@@ -5,31 +5,31 @@
 
     <div class="field-row">
         <div class="field">
-            <label>Name</label>
-            <input name="name" required placeholder="Your full name" value="{{ old('name') }}">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" required placeholder="Your full name" value="{{ old('name') }}">
             @error('name') <small class="err">{{ $message }}</small> @enderror
         </div>
         <div class="field">
-            <label>Company</label>
-            <input name="company" placeholder="Optional" value="{{ old('company') }}">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" placeholder="Optional" value="{{ old('company') }}">
             @error('company') <small class="err">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="field-row">
         <div class="field">
-            <label>Email</label>
-            <input name="email" type="email" required placeholder="you@studio.com" value="{{ old('email') }}">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" required placeholder="you@studio.com" value="{{ old('email') }}">
             @error('email') <small class="err">{{ $message }}</small> @enderror
         </div>
         <div class="field">
-            <label>Phone</label>
-            <input name="phone" type="tel" placeholder="+91" value="{{ old('phone') }}">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" name="phone" type="tel" placeholder="+91" value="{{ old('phone') }}">
             @error('phone') <small class="err">{{ $message }}</small> @enderror
         </div>
     </div>
     <div class="field">
-        <label>Project type</label>
-        <select name="project_type">
+        <label for="f-project-type">Project type</label>
+        <select id="f-project-type" name="project_type">
             <option {{ old('project_type') == 'Brand film / commercial' ? 'selected' : '' }}>Brand film / commercial</option>
             <option {{ old('project_type') == 'Corporate event' ? 'selected' : '' }}>Corporate event</option>
             <option {{ old('project_type') == 'Product launch' ? 'selected' : '' }}>Product launch</option>
@@ -42,8 +42,8 @@
     </div>
     <div class="field-row">
         <div class="field">
-            <label>Budget</label>
-            <select name="budget">
+            <label for="f-budget">Budget</label>
+            <select id="f-budget" name="budget">
                 <option value="" {{ old('budget') === null || old('budget') === '' ? 'selected' : '' }}>Select a range</option>
                 <option {{ old('budget') == 'Under ₹5L' ? 'selected' : '' }}>Under ₹5L</option>
                 <option {{ old('budget') == '₹5L – ₹15L' ? 'selected' : '' }}>₹5L – ₹15L</option>
@@ -53,8 +53,8 @@
             @error('budget') <small class="err">{{ $message }}</small> @enderror
         </div>
         <div class="field">
-            <label>Timeline</label>
-            <select name="timeline">
+            <label for="f-timeline">Timeline</label>
+            <select id="f-timeline" name="timeline">
                 <option {{ old('timeline') == 'Flexible' ? 'selected' : '' }}>Flexible</option>
                 <option {{ old('timeline') == 'Within 2 weeks' ? 'selected' : '' }}>Within 2 weeks</option>
                 <option {{ old('timeline') == '1–2 months' ? 'selected' : '' }}>1–2 months</option>
@@ -64,8 +64,8 @@
         </div>
     </div>
     <div class="field">
-        <label>Tell us about it</label>
-        <textarea name="message" rows="5" placeholder="A few sentences about goals, audience, and references.">{{ old('message') }}</textarea>
+        <label for="f-message">Tell us about it</label>
+        <textarea id="f-message" name="message" rows="5" placeholder="A few sentences about goals, audience, and references.">{{ old('message') }}</textarea>
         @error('message') <small class="err">{{ $message }}</small> @enderror
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:8px">

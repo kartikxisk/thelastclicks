@@ -1,9 +1,7 @@
 # https://thelastclicks.com/robots.txt
 User-agent: *
 Allow: /
-Disallow: /login.html
-Disallow: /signup.html
-Disallow: /forgot-password.html
-Disallow: /thank-you.html
+Disallow: /admin
+Disallow: /thank-you
 
 Sitemap: https://thelastclicks.com/sitemap.xml

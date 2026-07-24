@@ -5,10 +5,18 @@
    ============================================================ */
 window.TLC = (function(){
 
+  // Mirrors <meta name="brand-logo"> emitted by the Blade layout (admin-managed, stored on S3).
+  // Meta absent = nothing uploaded → render no logo at all, never a bundled fallback.
+  const BRAND_LOGO = document.querySelector('meta[name="brand-logo"]')?.content || '';
+  function brandImg(cls) {
+    if (!BRAND_LOGO) return '';
+    const classAttr = cls ? ` class="${cls}"` : '';
+    return `<img${classAttr} src="${BRAND_LOGO}" alt="The Last Clicks">`;
+  }
+
   const NAV_LINKS = [
     { href: '/#services', label: 'Services' },
     { href: '/industries', label: 'Industries' },
-    { href: '/portfolio', label: 'Portfolio' },
     { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
@@ -17,8 +25,8 @@ window.TLC = (function(){
   function navHTML() {
     return `
     <header class="nav">
-      <a class="nav__brand" href="/" data-cursor="HOME">
-        <span class="nav__brand-word">TheLast<em>Clicks</em></span>
+      <a class="nav__brand" href="/" data-cursor="HOME" aria-label="The Last Clicks — home">
+        ${brandImg('nav__brand-img')}
       </a>
       <nav>
         <ul class="nav__links">
@@ -37,7 +45,7 @@ window.TLC = (function(){
         <li><a href="#quote" data-quote-trigger><span>Get a Quote →</span></a></li>
       </ul>
       <div class="menu__foot">
-        <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">+91 87701 55842 · hello@thelastclicks.com</p>
+        <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">+91 87701 55842 · info@thelastclicks.com</p>
       </div>
     </div>`;
   }
@@ -59,10 +67,9 @@ window.TLC = (function(){
           </div>
           <div class="foot__col">
             <h5>Work</h5>
-            <a href="/portfolio">Portfolio</a>
-            <a href="/portfolio#weddings">Weddings</a>
-            <a href="/portfolio#brands">Brand films</a>
-            <a href="/portfolio#corporate">Corporate</a>
+            <a href="/services/post-production">Post Production</a>
+            <a href="/services/videography">Videography</a>
+            <a href="/services/photography">Photography</a>
             <a href="/contact">Start a project</a>
           </div>
           <div class="foot__col">
@@ -95,7 +102,7 @@ window.TLC = (function(){
           <span></span><span></span>
         </button>
         <aside class="quote__aside">
-          <div class="quote__brand"><span class="dot"></span><span>TLC.</span></div>
+          <div class="quote__brand">${brandImg()}</div>
           <div class="quote__head">
             <div class="quote__eyebrow">Start a project</div>
             <h2 class="quote__title">Let's make<br><em>something real.</em></h2>
@@ -108,7 +115,7 @@ window.TLC = (function(){
             <div class="quote__step" data-step="4"><span>04</span> Done</div>
           </div>
           <div class="quote__foot">
-            <span class="quote__pill">hello@thelastclicks.com</span>
+            <span class="quote__pill">info@thelastclicks.com</span>
             <span class="quote__pill">+91 87701 55842</span>
           </div>
         </aside>
@@ -175,7 +182,7 @@ window.TLC = (function(){
               <h3>Brief received.</h3>
               <p>Thanks <span data-out="name">friend</span> — we'll be in touch within 4 working hours at <span data-out="email">your inbox</span>. In the meantime, peek at the reel.</p>
               <div class="quote__success-actions">
-                <a class="btn" href="/portfolio"><span>See the reel</span><span class="arr"></span></a>
+                <a class="btn" href="/services/photography"><span>See the reel</span><span class="arr"></span></a>
                 <button type="button" class="btn btn--ghost" data-quote-close><span>Close</span></button>
               </div>
             </section>
@@ -202,9 +209,9 @@ window.TLC = (function(){
     </div>
     <div class="preloader">
       <div class="preloader__inner">
-        <div class="preloader__counter">00</div>
+        ${brandImg('preloader__logo')}
         <div class="preloader__bar"></div>
-        <div class="preloader__label">TheLastClicks · Loading the reel</div>
+        <div class="preloader__label">Loading the reel</div>
       </div>
     </div>
     <div class="scrollbar"><div class="scrollbar__fill"></div></div>

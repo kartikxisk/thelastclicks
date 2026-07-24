@@ -12,7 +12,7 @@ class QuoteNote extends Model
     /** @use HasFactory<QuoteNoteFactory> */
     use HasFactory;
 
-    protected $fillable = ['quote_id', 'author_id', 'body'];
+    protected $fillable = ['quote_id', 'author_id', 'body', 'stage'];
 
     /** @return BelongsTo<Quote, $this> */
     public function quote(): BelongsTo

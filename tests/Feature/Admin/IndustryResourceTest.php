@@ -33,3 +33,14 @@ it('Editor can edit industries', function () {
     $editor->assignRole('Editor');
     expect($editor->can('update', Industry::first()))->toBeTrue();
 });
+
+it('stores mixed media rows against an industry in order', function () {
+    $industry = Industry::firstOrFail();
+
+    $industry->mediaItems()->create(['type' => 'image', 'order' => 1]);
+    $industry->mediaItems()->create(['type' => 'youtube', 'order' => 2, 'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ']);
+    $industry->mediaItems()->create(['type' => 'video', 'order' => 3]);
+
+    expect($industry->fresh()->mediaItems->pluck('type')->all())
+        ->toBe(['image', 'youtube', 'video']);
+});

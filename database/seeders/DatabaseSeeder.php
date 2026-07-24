@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             ServicesSeeder::class,
             IndustriesSeeder::class,
+            ClientsSeeder::class,
             TestimonialsSeeder::class,
-            PortfoliosSeeder::class,
             PostsSeeder::class,
             SiteSettingsSeeder::class,
         ]);

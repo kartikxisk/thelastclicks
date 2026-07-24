@@ -76,7 +76,7 @@
         </div>
       </div>
       <div class="ty__cta">
-        <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="WORK">See the reel <span class="arr"></span></a>
+        <a class="btn btn--ghost" href="{{ url('/') }}" data-cursor="WORK">See the reel <span class="arr"></span></a>
         <a class="btn btn--ghost" href="{{ url('/blog') }}" data-cursor="READ">Read the journal <span class="arr"></span></a>
       </div>
     </div>
