@@ -84,6 +84,13 @@ class SiteSettingsPage extends Page implements HasForms
                         ]),
                     Forms\Components\Tabs\Tab::make('Branding')
                         ->schema([
+                            Forms\Components\Placeholder::make('current_brand_logo')
+                                ->label('Currently live')
+                                ->content(fn (): string => SiteSetting::brandLogoUrl() ?: 'No logo set'),
+                            Forms\Components\Toggle::make('remove_brand_logo')
+                                ->label('Remove the current brand logo')
+                                ->helperText('Leave off to keep the existing logo. Uploading a new file replaces it.')
+                                ->default(false),
                             Forms\Components\FileUpload::make('brand_logo')
                                 ->label('Brand logo')
                                 ->image()
@@ -132,7 +139,16 @@ class SiteSettingsPage extends Page implements HasForms
         if (is_array($brandLogo)) {
             $brandLogo = (string) (reset($brandLogo) ?: '');
         }
-        SiteSetting::set('brand_logo', $brandLogo);
+
+        // An empty upload field is ambiguous: it means "removed" *and* "failed to
+        // hydrate" — which is what happens whenever the media disk is unreachable.
+        // Writing it back blindly silently destroys the stored logo, so removal has
+        // to be asked for explicitly.
+        if ($data['remove_brand_logo'] ?? false) {
+            SiteSetting::set('brand_logo', '');
+        } elseif ($brandLogo !== '') {
+            SiteSetting::set('brand_logo', $brandLogo);
+        }
 
         Notification::make()
             ->title('Settings saved')
