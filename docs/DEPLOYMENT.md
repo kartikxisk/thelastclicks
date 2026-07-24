@@ -92,7 +92,28 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    php artisan route:cache
    php artisan view:cache
    php artisan responsecache:clear
+   php artisan clients:import-legacy
+   php artisan videos:import
+   php artisan sitemap:generate
+   php artisan app:preflight
    ```
+
+   `sitemap:generate` runs on deploy as well as weekly on the scheduler:
+   `public/sitemap.xml` is generated, not committed, so a fresh checkout has
+   none until it runs. It refuses to write localhost URLs unless forced.
+
+   `clients:import-legacy` and `videos:import` push the bundled logo and video
+   assets to the media disk so CloudFront serves them instead of the app server.
+   Both are idempotent — they skip anything already uploaded, so leaving them in
+   the deploy script is safe. The hero reel resolves through the media disk, so
+   on a fresh environment `videos:import` must run or the homepage video 404s.
+
+   `app:preflight` is the last step on purpose — it runs after `config:cache`,
+   so it validates the config the app will actually serve. It exits non-zero and
+   should fail the deploy if `APP_URL` is still a local value or not https, if
+   `APP_DEBUG` is on, or if the media disk is unreachable. None of those throw on
+   their own: a wrong `APP_URL` silently publishes canonical tags, `og:url` and
+   every `asset()` pointing at a host crawlers cannot reach.
 
    `responsecache:clear` is NOT optional: `npm run build` replaces the hashed
    filenames in `public/build`, and the response cache keeps serving HTML that

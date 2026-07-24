@@ -23,3 +23,6 @@ yarn-error.log
 /.zed
 .playwright-mcp/
 .superpowers/
+
+# Generated on deploy by `sitemap:generate` — never committed.
+/public/sitemap.xml
