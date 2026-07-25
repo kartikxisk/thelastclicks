@@ -27,7 +27,8 @@
     </x-slot>
 
     {{-- 1. PAGE HEADER --}}
-    <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1800&q=80')">
+    @php $pageHeader = \App\Models\SiteSetting::pageImage('industries'); @endphp
+    <section class="page-header page-header--media" data-screen-label="01 Header" @if ($pageHeader) style="--ph-bg:url('{{ $pageHeader }}')" @endif>
         <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Industries</span></div>
         <h1 data-split>The verticals<br>we <em>know cold.</em></h1>
     </section>

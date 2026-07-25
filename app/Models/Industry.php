@@ -49,7 +49,7 @@ class Industry extends Model implements HasMedia
 
     protected function mediaCoverFallback(): ?string
     {
-        return MediaUrl::asset($this->image_url);
+        return MediaUrl::onMediaDisk($this->image_url);
     }
 
     /**

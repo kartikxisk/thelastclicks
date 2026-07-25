@@ -2,7 +2,7 @@
     :title="$service->title.' — TheLastClicks'"
     :description="$service->hero_copy"
     :canonical="url('/services/'.$service->slug)"
-    :ogImage="$service->getFirstMediaUrl('hero') ?: $service->hero_url"
+    :ogImage="$service->heroUrl()"
 >
     <x-slot name="head">
         <x-json-ld :data="[
@@ -20,11 +20,8 @@
     </x-slot>
 
     @php
-        $heroImg = $service->getFirstMediaUrl('hero') ?: $service->hero_url;
-        $galleryMedia = $service->getMedia('gallery');
-        $galleryUrls = $galleryMedia->isNotEmpty()
-            ? $galleryMedia->map(fn ($m) => $m->getUrl())->all()
-            : ($service->gallery_urls ?? []);
+        $heroImg = $service->heroUrl();
+        $galleryUrls = $service->galleryUrls();
         $gallerySpans = ['g--7', 'g--5', 'g--4', 'g--8'];
         $cta = $service->cta ?? [];
     @endphp

@@ -3,44 +3,43 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 
 /**
- * The client logo strip. This is the canonical list: the display name and site
- * for each logo file that used to be hardcoded in public/clients/.
- *
- * Rows only — the logo images are uploaded to the media disk (S3) by
- * `php artisan clients:import-legacy`, which matches rows through this same
- * mapping. Keeping the upload out of the seeder means `db:seed` never has to
- * reach S3 (and the test suite stays offline and fast).
+ * The client logo strip. Canonical list of display name, website, and the S3
+ * key of the logo already uploaded to the shared media bucket. Because local and
+ * production point at the same bucket, seeding these keys makes the strip render
+ * on a fresh `db:seed` without re-uploading — the object already exists. Only the
+ * key is stored; Client::logoUrl() prepends the CloudFront host from config at
+ * runtime. A later admin upload (Spatie media) transparently overrides the key.
  */
 class ClientsSeeder extends Seeder
 {
     /**
-     * logo filename (without extension) => [display name, website]
+     * logo file key => [display name, website, media-disk S3 key]
      *
-     * @var array<string, array{0: string, 1: ?string}>
+     * @var array<string, array{0: string, 1: ?string, 2: ?string}>
      */
     public const CLIENTS = [
-        'dlf' => ['DLF', 'https://www.dlf.in'],
-        'amazon' => ['Amazon', 'https://www.amazon.in'],
-        'adobe' => ['Adobe', 'https://www.adobe.com'],
-        'meta' => ['Meta', 'https://about.meta.com'],
-        'taskus' => ['TaskUs', 'https://www.taskus.com'],
-        'wns' => ['WNS', 'https://www.wns.com'],
-        'mothercare' => ['Mothercare', 'https://www.mothercare.in'],
-        'oberoi' => ['Oberoi Hotels', 'https://www.oberoihotels.com'],
-        'taj-hotels' => ['Taj Hotels', 'https://www.tajhotels.com'],
-        'hyatt' => ['Hyatt', 'https://www.hyatt.com'],
-        'ritz-carlton' => ['Ritz-Carlton', 'https://www.ritzcarlton.com'],
-        'bmw' => ['BMW', 'https://www.bmw.in'],
-        'mercedes-benz' => ['Mercedes-Benz', 'https://www.mercedes-benz.co.in'],
-        'range-rover' => ['Range Rover', 'https://www.landrover.in'],
-        'rolls-royce' => ['Rolls-Royce', 'https://www.rolls-roycemotorcars.com'],
-        'johnnie-walker' => ['Johnnie Walker', 'https://www.johnniewalker.com'],
-        'bacardi' => ['Bacardi', 'https://www.bacardi.com'],
-        'beluga' => ['Beluga', 'https://belugavodka.com'],
+        'dlf' => ['DLF', 'https://www.dlf.in', '27/dlf.png'],
+        'amazon' => ['Amazon', 'https://www.amazon.in', '23/amazon.png'],
+        'adobe' => ['Adobe', 'https://www.adobe.com', '22/adobe.png'],
+        'meta' => ['Meta', 'https://about.meta.com', '31/meta.png'],
+        'taskus' => ['TaskUs', 'https://www.taskus.com', '38/taskus.png'],
+        'wns' => ['WNS', 'https://www.wns.com', '39/wns.png'],
+        'mothercare' => ['Mothercare', 'https://www.mothercare.in', '32/mothercare.png'],
+        'oberoi' => ['Oberoi Hotels', 'https://www.oberoihotels.com', '33/oberoi.png'],
+        'taj-hotels' => ['Taj Hotels', 'https://www.tajhotels.com', '37/taj-hotels.png'],
+        'hyatt' => ['Hyatt', 'https://www.hyatt.com', '28/hyatt.png'],
+        'ritz-carlton' => ['Ritz-Carlton', 'https://www.ritzcarlton.com', '35/ritz-carlton.png'],
+        'bmw' => ['BMW', 'https://www.bmw.in', '26/bmw.png'],
+        'mercedes-benz' => ['Mercedes-Benz', 'https://www.mercedes-benz.co.in', '30/mercedes-benz.png'],
+        'range-rover' => ['Range Rover', 'https://www.landrover.in', '34/range-rover.png'],
+        'rolls-royce' => ['Rolls-Royce', 'https://www.rolls-roycemotorcars.com', '36/rolls-royce.png'],
+        'johnnie-walker' => ['Johnnie Walker', 'https://www.johnniewalker.com', '29/johnnie-walker.png'],
+        'bacardi' => ['Bacardi', 'https://www.bacardi.com', '24/bacardi.png'],
+        'beluga' => ['Beluga', 'https://belugavodka.com', '25/beluga.png'],
     ];
 
     /**
@@ -59,16 +58,12 @@ class ClientsSeeder extends Seeder
     {
         $order = 0;
 
-        // Keys still name the intended logo file, but nothing reads them now that
-        // artwork is uploaded rather than seeded.
-        foreach (self::CLIENTS as [$name, $url]) {
+        foreach (self::CLIENTS as [$name, $url, $logo]) {
             Client::updateOrCreate(
                 ['name' => $name],
                 [
                     'url' => $url,
-                    // No seeded artwork — logos are uploaded through the admin.
-                    // Until then the marquee falls back to styled wordmarks.
-                    'logo_path' => null,
+                    'logo_path' => $logo,
                     'order' => $order++,
                     'is_active' => true,
                 ],

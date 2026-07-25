@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\MediaUrl;
 use Database\Factories\ServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,36 @@ class Service extends Model implements HasMedia
     {
         $this->addMediaCollection('hero')->singleFile();
         $this->addMediaCollection('gallery');
+    }
+
+    /**
+     * Hero image URL: an admin-attached upload wins, else the seeded hero_url —
+     * which holds an S3 key resolved against the media disk, so the CloudFront
+     * host is read from config at runtime. Absolute URLs pass through untouched.
+     */
+    public function heroUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('hero') ?: MediaUrl::onMediaDisk($this->hero_url);
+    }
+
+    /**
+     * Gallery URLs: admin-attached media wins, else each seeded gallery entry
+     * resolved against the media disk (S3 key or absolute URL).
+     *
+     * @return list<string>
+     */
+    public function galleryUrls(): array
+    {
+        $media = $this->getMedia('gallery');
+
+        if ($media->isNotEmpty()) {
+            return $media->map(fn ($m) => $m->getUrl())->all();
+        }
+
+        return collect($this->gallery_urls ?? [])
+            ->map(fn ($u) => MediaUrl::onMediaDisk($u))
+            ->filter()
+            ->values()
+            ->all();
     }
 }

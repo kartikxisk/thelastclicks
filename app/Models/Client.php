@@ -34,6 +34,9 @@ class Client extends Model implements HasMedia
      */
     public function logoUrl(): ?string
     {
-        return $this->getFirstMediaUrl('logo') ?: MediaUrl::asset($this->logo_path);
+        // logo_path holds an S3 key (e.g. "27/dlf.png") resolved against the media
+        // disk, so the CloudFront host comes from config at runtime, not the DB. An
+        // absolute URL stored there still passes through untouched.
+        return $this->getFirstMediaUrl('logo') ?: MediaUrl::onMediaDisk($this->logo_path);
     }
 }

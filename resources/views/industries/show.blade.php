@@ -13,14 +13,14 @@
     </x-slot>
 
     @php
-        $cover = $industry->coverUrl() ?: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1800&q=80';
+        $cover = $industry->coverUrl();
         $tiles = $industry->mediaTiles();
         // Index-aligned lightbox payload (thumb stripped) shared by every tile.
         $payload = array_map(fn ($t) => ['type' => $t['type'], 'url' => $t['url'], 'caption' => $t['caption']], $tiles);
     @endphp
 
     {{-- 01 HEADER --}}
-    <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('{{ $cover }}')">
+    <section class="page-header page-header--media" data-screen-label="01 Header" @if ($cover) style="--ph-bg:url('{{ $cover }}')" @endif>
         <div class="page-header__crumb">
             <a href="{{ url('/') }}">Home</a><span>/</span>
             <a href="{{ url('/industries') }}">Industries</a><span>/</span>

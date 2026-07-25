@@ -27,7 +27,8 @@
     </x-slot>
 
     {{-- HEADER --}}
-    <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1800&q=80')">
+    @php $pageHeader = \App\Models\SiteSetting::pageImage('works'); @endphp
+    <section class="page-header page-header--media" data-screen-label="01 Header" @if ($pageHeader) style="--ph-bg:url('{{ $pageHeader }}')" @endif>
         <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Our Work</span></div>
         <h1 data-split>Our <em>work.</em></h1>
     </section>

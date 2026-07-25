@@ -23,7 +23,8 @@
     </x-slot>
 
     {{-- 01 Page Header --}}
-    <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1800&q=80')">
+    @php $pageHeader = \App\Models\SiteSetting::pageImage('blog'); @endphp
+    <section class="page-header page-header--media" data-screen-label="01 Header" @if ($pageHeader) style="--ph-bg:url('{{ $pageHeader }}')" @endif>
         <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Journal</span></div>
         <h1 data-split>Notes from <em>set,</em><br>edit &amp; finish.</h1>
     </section>
@@ -38,11 +39,11 @@
                     <div class="feat__media">
                         <span class="feat__tag">Editor's pick</span>
                         @php $coverUrl = $featured->getFirstMediaUrl('cover'); @endphp
-                        <img
-                            src="{{ $coverUrl ?: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1800&q=85' }}"
-                            alt=""
-                            decoding="async"
-                        >
+                        @if ($coverUrl)
+                            <img src="{{ $coverUrl }}" alt="" decoding="async">
+                        @else
+                            <div class="placeholder" style="position:absolute;inset:0">Featured</div>
+                        @endif
                     </div>
                     <div class="feat__body">
                         <span class="feat__eyebrow">{{ $featured->published_at->format('M j, Y') }} · Featured</span>

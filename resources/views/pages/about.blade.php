@@ -21,7 +21,8 @@
     ]]" />
   </x-slot>
 
-  <section class="page-header page-header--media" data-screen-label="01 Header" style="--ph-bg:url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1800&q=80')">
+  @php $pageHeader = \App\Models\SiteSetting::pageImage('about'); @endphp
+  <section class="page-header page-header--media" data-screen-label="01 Header" @if ($pageHeader) style="--ph-bg:url('{{ $pageHeader }}')" @endif>
     <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>About</span></div>
     <h1 data-split>A studio of <em>cinema,</em><br>brand &amp; craft.</h1>
   </section>
@@ -55,7 +56,10 @@
             </div>
           </div>
         </div>
-        <div class="about-img clip-reveal"><img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=1200&q=85" alt="Photographer at work" decoding="async"></div>
+        @php $aboutPhoto = \App\Models\SiteSetting::pageImage('about_body'); @endphp
+        @if ($aboutPhoto)
+          <div class="about-img clip-reveal"><img src="{{ $aboutPhoto }}" alt="TheLastClicks studio at work" decoding="async"></div>
+        @endif
       </div>
     </x-container>
   </section>

@@ -121,6 +121,16 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    cache is flushed. Every deploy script (including the Forge auto-deploy
    script) must end with it.
 
+   **`composer install` is mandatory on every deploy — never skip it.** Laravel's
+   `createS3Driver` unconditionally builds `League\Flysystem\AwsS3V3\PortableVisibilityConverter`,
+   so *any* `Storage::disk('s3')` operation (every media URL, Spatie `getFirstMediaUrl`,
+   Filament file uploads, saving Site Settings) needs that class. If `vendor/` is
+   pushed stale — code deployed without `composer install` — the server throws
+   `Class "League\Flysystem\AwsS3V3\PortableVisibilityConverter" not found` and every
+   page that shows s3 media 500s. Fix: `composer install --no-dev --optimize-autoloader`
+   then `php artisan optimize:clear`. Do NOT add a disk-level `'visibility'` key to the
+   s3 disk to work around it — that forces the same converter on every disk resolve.
+
 6. Add the supervisor config for `queue:work` (see top of this file).
 7. Add the system cron entry (see top).
 8. Configure SSL via Let's Encrypt (Forge button).

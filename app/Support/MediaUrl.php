@@ -42,9 +42,21 @@ final class MediaUrl
             return asset(ltrim($path, '/'));
         }
 
-        return $disk === null
-            ? asset($path)
-            : Storage::disk($disk)->url($path);
+        if ($disk === null) {
+            return asset($path);
+        }
+
+        // Build the URL from the disk's configured base URL (CloudFront for s3) by
+        // string, NOT via Storage::disk()->url(). Resolving the s3 driver instantiates
+        // Laravel's AwsS3PortableVisibilityConverter unconditionally — which hard-crashes
+        // on any server whose flysystem-aws-s3-v3 predates that class. A CloudFront URL is
+        // just base + key, so displaying media never needs the driver (only uploads do).
+        $base = config("filesystems.disks.{$disk}.url");
+        if (is_string($base) && $base !== '') {
+            return rtrim($base, '/').'/'.ltrim($path, '/');
+        }
+
+        return Storage::disk($disk)->url($path);
     }
 
     /** Uploads handled by media library (S3 via MEDIA_DISK). */

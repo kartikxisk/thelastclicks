@@ -63,4 +63,16 @@ class SiteSetting extends Model
 
         return (is_string($path) ? MediaUrl::onUploadDisk($path) : null) ?: asset('favicon.png');
     }
+
+    /**
+     * Admin-managed page image (page-header backgrounds, the About studio photo).
+     * Uploaded to S3; stored as a key and resolved to the CloudFront host at
+     * runtime. Null when nothing is uploaded — callers render no image.
+     */
+    public static function pageImage(string $key): ?string
+    {
+        $path = static::get("page_image_{$key}");
+
+        return is_string($path) ? MediaUrl::onUploadDisk($path) : null;
+    }
 }

@@ -100,7 +100,7 @@
             <div class="services__list">
                 @foreach ($services as $service)
                     <a class="svc reveal" href="{{ url('/services/'.$service->slug) }}"
-                       data-preview="{{ $service->getFirstMediaUrl('hero') ?: $service->hero_url }}"
+                       data-preview="{{ $service->heroUrl() }}"
                        data-delay="{{ $loop->index }}" data-cursor="EXPLORE">
                         <span class="svc__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="svc__title">{{ $service->title }}</h3>

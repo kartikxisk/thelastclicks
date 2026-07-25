@@ -5,15 +5,19 @@
     $catName = $category?->name;
     // data-cat key MUST match the chip key in blog/index.blade.php (category slug).
     $catKey = $category?->slug ?? 'uncategorized';
-    $cover = $post->getFirstMediaUrl('cover')
-        ?: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=1200&q=85';
+    // S3 cover only — no external placeholder. Empty renders a styled block below.
+    $cover = $post->getFirstMediaUrl('cover');
     // Reading time: ~200 wpm over the post body. Mirrors design's "· N min read" span.
     $readMin = max(1, (int) ceil(str_word_count(strip_tags((string) $post->body)) / 200));
 @endphp
 
 <a class="post reveal" href="{{ url('/blog/' . $post->slug) }}" data-cat="{{ $catKey }}">
     <div class="post__img">
-        <img src="{{ $cover }}" alt="{{ $post->title }}" loading="lazy" decoding="async">
+        @if ($cover)
+            <img src="{{ $cover }}" alt="{{ $post->title }}" loading="lazy" decoding="async">
+        @else
+            <div class="placeholder" style="position:absolute;inset:0">Journal</div>
+        @endif
         @if ($catName)
             <span class="post__cat">{{ $catName }}</span>
         @endif

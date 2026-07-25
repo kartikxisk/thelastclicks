@@ -49,6 +49,12 @@ class SiteSettingsPage extends Page implements HasForms
             'brand_logo' => SiteSetting::get('brand_logo'),
             'favicon' => SiteSetting::get('favicon'),
             'lead_sla_hours' => SiteSetting::get('lead_sla_hours', Quote::DEFAULT_SLA_HOURS),
+            'page_image_about' => SiteSetting::get('page_image_about'),
+            'page_image_contact' => SiteSetting::get('page_image_contact'),
+            'page_image_works' => SiteSetting::get('page_image_works'),
+            'page_image_blog' => SiteSetting::get('page_image_blog'),
+            'page_image_industries' => SiteSetting::get('page_image_industries'),
+            'page_image_about_body' => SiteSetting::get('page_image_about_body'),
         ]);
     }
 
@@ -129,6 +135,25 @@ class SiteSettingsPage extends Page implements HasForms
                                 ->helperText('Fallback OG/Twitter image (1200×630 recommended) used when a page has none.')
                                 ->url(),
                         ]),
+                    Forms\Components\Tabs\Tab::make('Page images')
+                        ->schema([
+                            Forms\Components\Placeholder::make('page_images_note')
+                                ->label('')
+                                ->content('Decorative header stills for the static pages. Uploaded to S3/CloudFront. ~1800px wide works best. Leave empty for a plain dark header.'),
+                            ...collect([
+                                'about' => 'About — header',
+                                'contact' => 'Contact — header',
+                                'works' => 'Our Work — header',
+                                'blog' => 'Journal — header',
+                                'industries' => 'Industries — header',
+                                'about_body' => 'About — studio photo',
+                            ])->map(fn (string $label, string $key): Forms\Components\FileUpload => Forms\Components\FileUpload::make("page_image_{$key}")
+                                ->label($label)
+                                ->image()
+                                ->directory('headers')
+                                ->visibility('private')
+                                ->fetchFileInformation(false))->values()->all(),
+                        ]),
                 ]),
             ])
             ->statePath('data');
@@ -158,6 +183,10 @@ class SiteSettingsPage extends Page implements HasForms
 
         $this->storeUpload('brand_logo', $data['brand_logo'] ?? '', (bool) ($data['remove_brand_logo'] ?? false));
         $this->storeUpload('favicon', $data['favicon'] ?? '', (bool) ($data['remove_favicon'] ?? false));
+
+        foreach (['about', 'contact', 'works', 'blog', 'industries', 'about_body'] as $key) {
+            $this->storeUpload("page_image_{$key}", $data["page_image_{$key}"] ?? '', false);
+        }
 
         Notification::make()
             ->title('Settings saved')
