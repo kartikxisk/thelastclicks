@@ -56,10 +56,11 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            // The bucket uses Object Ownership: bucket owner enforced, so ACLs are
-            // disabled — asking for public-read fails with AccessControlListNotSupported.
-            // Objects stay private and CloudFront (OAC) is what serves them publicly.
-            'visibility' => 'private',
+            // NB: do NOT set a disk-level 'visibility' here. It forces Laravel to build a
+            // PortableVisibilityConverter the moment the disk resolves — on every page that
+            // asks for a media URL — which hard-crashes if the flysystem-aws-s3-v3 version
+            // on the server predates that class. ACL handling lives on the upload fields
+            // instead (->visibility('private')), so it only runs during an actual upload.
             // Must throw: with 'throw' => false a rejected PutObject returns false and
             // Filament still saves the path, leaving the site pointing at an object that
             // does not exist. Failing loudly is the only way that surfaces.
