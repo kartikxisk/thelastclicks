@@ -22,15 +22,20 @@ class ImportBrandLogo extends Command
             return self::FAILURE;
         }
 
-        $disk = config('filament.default_filesystem_disk', config('filesystems.default'));
-        $target = 'branding/'.basename($path);
-
         $contents = file_get_contents($path);
         if ($contents === false) {
             $this->error("Could not read {$path}");
 
             return self::FAILURE;
         }
+
+        $disk = config('filament.default_filesystem_disk', config('filesystems.default'));
+        // Content-hash the key so a changed logo is a NEW URL. CloudFront serves media
+        // with a 1-year immutable Cache-Control, so overwriting a fixed key (logo.png)
+        // would keep serving the stale object at the edge. Identical content → identical
+        // key → idempotent; new content → new key → no stale cache.
+        $ext = pathinfo($path, PATHINFO_EXTENSION) ?: 'png';
+        $target = 'branding/logo-'.substr(md5($contents), 0, 10).'.'.$ext;
 
         // Never assume success — a bad path here would point the whole site at a broken
         // image. Handles both failure modes: an exception ('throw' => true) and a false
