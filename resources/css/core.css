@@ -1090,6 +1090,11 @@ img, video { max-width: 100%; display: block; }
   background: var(--red);
   transition: height 0.1s linear;
 }
+/* A scroll-progress rail is a desktop affordance. On touch it just sits over the
+   content next to the OS scrollbar, so hide it on coarse pointers / small screens. */
+@media (hover: none), (max-width: 700px) {
+  .scrollbar { display: none; }
+}
 
 /* ---------- Utility ---------- */
 .row { display: flex; align-items: center; gap: 12px; }
