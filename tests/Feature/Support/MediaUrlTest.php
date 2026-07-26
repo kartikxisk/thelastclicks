@@ -28,12 +28,27 @@ it('treats a leading slash as a public file, not a disk key', function () {
         ->and(MediaUrl::asset('/clients/bmw.png'))->toBe(asset('clients/bmw.png'));
 });
 
-it('resolves a relative path on the given disk', function () {
-    Storage::fake('s3');
-    config(['media-library.disk_name' => 's3']);
+it('resolves a relative path against the disk base URL, without touching the driver', function () {
+    // Built by string from the disk's configured base (CloudFront for s3) rather
+    // than Storage::disk()->url(), so displaying media never instantiates the s3
+    // driver — which crashes on servers with an old flysystem-aws-s3-v3.
+    config([
+        'media-library.disk_name' => 's3',
+        'filesystems.disks.s3.url' => 'https://cdn.test',
+    ]);
+
+    expect(MediaUrl::onMediaDisk('branding/logo.png'))->toBe('https://cdn.test/branding/logo.png');
+});
+
+it('falls back to the driver only when the disk has no base URL', function () {
+    Storage::fake('local');
+    config([
+        'media-library.disk_name' => 'local',
+        'filesystems.disks.local.url' => null,
+    ]);
 
     expect(MediaUrl::onMediaDisk('branding/logo.png'))
-        ->toBe(Storage::disk('s3')->url('branding/logo.png'));
+        ->toBe(Storage::disk('local')->url('branding/logo.png'));
 });
 
 it('trims surrounding whitespace before resolving', function () {

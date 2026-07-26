@@ -2,6 +2,7 @@
 
 use App\Models\Industry;
 use App\Models\MediaItem;
+use App\Support\MediaUrl;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -33,12 +34,13 @@ it('builds an ordered media payload for an industry', function () {
 it('leads with the curated still: hero upload, then image_url, over gallery media', function () {
     $industry = Industry::firstOrFail();
 
-    // A seeded industry carries a curated image_url and no media.
-    expect($industry->coverUrl())->toBe($industry->image_url);
+    // The seeded image_url is a media-disk path, resolved to its CloudFront URL.
+    $curated = MediaUrl::onMediaDisk($industry->image_url);
+    expect($industry->coverUrl())->toBe($curated);
 
     // Gallery media must NOT hijack the curated still.
     $industry->mediaItems()->create(['type' => 'youtube', 'order' => 2, 'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ']);
-    expect($industry->fresh()->coverUrl())->toBe($industry->image_url);
+    expect($industry->fresh()->coverUrl())->toBe($curated);
 
     // An uploaded hero outranks even the curated image_url.
     $industry->addMedia(UploadedFile::fake()->image('hero.jpg'))->toMediaCollection('hero');

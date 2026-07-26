@@ -27,31 +27,36 @@ it('seeds every client logo as an active, ordered row', function () {
 });
 
 it('gives every seeded client a working logo without any upload', function () {
+    // logo_path holds the S3 key of a logo already in the shared bucket, so a
+    // fresh db:seed resolves a URL without re-uploading.
+    config(['filesystems.disks.s3.url' => 'https://cdn.test']);
     $this->seed(ClientsSeeder::class);
 
     $resolved = Client::all()->filter(fn (Client $c): bool => $c->logoUrl() !== null);
 
     expect($resolved)->toHaveCount(count(ClientsSeeder::CLIENTS))
-        ->and(Client::where('name', 'BMW')->firstOrFail()->logoUrl())->toContain('clients/bmw.png');
+        ->and(Client::where('name', 'BMW')->firstOrFail()->logoUrl())->toBe('https://cdn.test/26/bmw.png');
 });
 
-it('resolves a logo path relative to public, and passes an absolute URL through', function () {
-    $relative = Client::create(['name' => 'Relative', 'logo_path' => 'clients/bmw.png']);
+it('resolves a logo key on the media disk, and passes an absolute URL through', function () {
+    config(['filesystems.disks.s3.url' => 'https://cdn.test']);
+
+    $key = Client::create(['name' => 'Key', 'logo_path' => '26/bmw.png']);
     $absolute = Client::create(['name' => 'Absolute', 'logo_path' => 'https://cdn.example.com/a.png']);
     $none = Client::create(['name' => 'None']);
 
-    expect($relative->logoUrl())->toBe(asset('clients/bmw.png'))
+    expect($key->logoUrl())->toBe('https://cdn.test/26/bmw.png')
         ->and($absolute->logoUrl())->toBe('https://cdn.example.com/a.png')
         ->and($none->logoUrl())->toBeNull();
 });
 
 it('prefers an uploaded logo over the configured path', function () {
-    $client = Client::create(['name' => 'Both', 'logo_path' => 'clients/bmw.png']);
+    $client = Client::create(['name' => 'Both', 'logo_path' => '26/bmw.png']);
     $client->addMedia(UploadedFile::fake()->image('upload.png'))->toMediaCollection('logo');
 
     expect($client->fresh()->logoUrl())
         ->toBe($client->fresh()->getFirstMediaUrl('logo'))
-        ->not->toContain('clients/bmw.png');
+        ->not->toContain('26/bmw.png');
 });
 
 it('re-seeding does not duplicate clients', function () {

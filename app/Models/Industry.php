@@ -61,6 +61,6 @@ class Industry extends Model implements HasMedia
     public function coverUrl(): ?string
     {
         return $this->getFirstMediaUrl('hero')
-            ?: (MediaUrl::asset($this->image_url) ?? $this->firstMediaItemCover());
+            ?: (MediaUrl::onMediaDisk($this->image_url) ?? $this->firstMediaItemCover());
     }
 }

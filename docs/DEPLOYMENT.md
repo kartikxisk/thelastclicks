@@ -85,11 +85,13 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    composer install --no-dev --optimize-autoloader
    php artisan migrate --force
    php artisan db:seed --force
-   npm install
+   npm ci                              # exact lockfile install (see registry note below)
    npm run build
    php artisan deploy:refresh          # optimize:clear + optimize + storage:link + responsecache:clear + filament:optimize
+   chown -R www:www storage bootstrap/cache && chmod -R 775 storage bootstrap/cache   # web user must own the runtime-writable dirs
    php artisan clients:import-legacy
    php artisan videos:import
+   php artisan industries:import
    php artisan sitemap:generate
    php artisan app:preflight
    ```
@@ -98,11 +100,13 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    `public/sitemap.xml` is generated, not committed, so a fresh checkout has
    none until it runs. It refuses to write localhost URLs unless forced.
 
-   `clients:import-legacy` and `videos:import` push the bundled logo and video
-   assets to the media disk so CloudFront serves them instead of the app server.
-   Both are idempotent — they skip anything already uploaded, so leaving them in
-   the deploy script is safe. The hero reel resolves through the media disk, so
-   on a fresh environment `videos:import` must run or the homepage video 404s.
+   `clients:import-legacy`, `videos:import` and `industries:import` push the
+   bundled logo, video and industry-cover assets to the media disk so CloudFront
+   serves them instead of the app server. All idempotent — they skip anything
+   already uploaded, so leaving them in the deploy script is safe. The hero reel
+   and the industry covers resolve through the media disk, so on a fresh
+   environment these must run or the homepage video 404s and the industry cards
+   render blank.
 
    `app:preflight` is the last step on purpose — it runs after `config:cache`,
    so it validates the config the app will actually serve. It exits non-zero and
@@ -126,6 +130,33 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    page that shows s3 media 500s. Fix: `composer install --no-dev --optimize-autoloader`
    then `php artisan optimize:clear`. Do NOT add a disk-level `'visibility'` key to the
    s3 disk to work around it — that forces the same converter on every disk resolve.
+
+   **Storage permissions — `Failed to open stream: Permission denied` on
+   `storage/framework/views/…`.** Laravel compiles Blade to PHP under
+   `storage/framework/views/` *at request time*, written by the PHP-FPM user
+   (aaPanel/BT: `www`; Ubuntu/Forge: `www-data`). If the repo was pulled as root,
+   those dirs are root-owned and the web user gets `Permission denied`, 500ing
+   every page. `storage` and `bootstrap/cache` are the only two dirs the runtime
+   writes to — the deploy script hands them to the web user:
+
+   ```bash
+   chown -R www:www storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
+   ```
+
+   Confirm the web user before trusting `www` —
+   `ps aux | grep -E 'php-fpm|nginx' | grep -v root | awk '{print $1}' | sort -u`.
+   Never `chmod 777`; `775` plus the right owner is enough. If it already broke,
+   `rm -rf storage/framework/views/*` first to clear root-owned compiled views,
+   then chown.
+
+   **npm — `E404 … npm.pkg.github.com/<public-package>`.** The server's global
+   `~/.npmrc` points the registry at GitHub Packages (which needs auth and does
+   not host public packages), so `npm ci` 404s on every dependency. The repo ships
+   an `.npmrc` pinning `registry=https://registry.npmjs.org/` — a project `.npmrc`
+   overrides the global one, so a fresh checkout is immune. To unblock a server
+   before that file is present: `npm config set registry https://registry.npmjs.org/`
+   then `npm cache clean --force && npm ci`. `package-lock.json` already resolves
+   every package to `registry.npmjs.org`, so nothing in the repo needs changing.
 
 6. Add the supervisor config for `queue:work` (see top of this file).
 7. Add the system cron entry (see top).

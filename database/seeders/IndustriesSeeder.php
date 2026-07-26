@@ -25,8 +25,10 @@ class IndustriesSeeder extends Seeder
             Industry::updateOrCreate(['slug' => $row['slug']], [
                 'title' => $row['title'],
                 'summary' => $row['summary'],
-                // Hero image is uploaded through the admin — nothing is seeded.
-                'image_url' => null,
+                // Media-disk path to the bundled cover, so a fresh deploy is never
+                // blank. `industries:import` uploads public/industries/* to S3, and
+                // an uploaded hero in the admin still overrides this.
+                'image_url' => 'industries/'.$row['slug'].'.jpg',
                 'body' => $row['body'],
                 'order' => $i,
             ]);

@@ -32,6 +32,22 @@ it('renders each seeded industry with its title and summary', function () {
         ->assertSee($industry->summary);
 });
 
+it('gives every seeded industry a cover so the grid is never blank', function () {
+    // Regression: industries shipped with image_url = null once, so every card
+    // on /industries rendered as an empty dark tile on a fresh deploy.
+    Industry::all()->each(function (Industry $industry): void {
+        expect($industry->coverUrl())->not->toBeNull()
+            ->and($industry->image_url)->toStartWith('industries/');
+    });
+
+    $html = $this->get('/industries')->assertOk()->getContent();
+
+    // Every tile must render its cover <img>, not just an empty dark box.
+    Industry::all()->each(
+        fn (Industry $industry) => expect($html)->toContain('src="'.$industry->coverUrl().'"')
+    );
+});
+
 it('renders each industry tile as a link to its detail page', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 

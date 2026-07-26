@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 /**
  * The client logo strip. Canonical list of display name, website, and the S3
