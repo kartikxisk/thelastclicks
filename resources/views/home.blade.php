@@ -116,15 +116,16 @@
 
     <!-- TESTIMONIALS -->
     @if ($testimonials->isNotEmpty())
-    <section class="car" data-carousel data-screen-label="06 Testimonials">
+    <section class="car" data-screen-label="06 Testimonials">
         <x-container style="margin-bottom:32px">
             <span class="section__eyebrow" data-scramble>Client Stories</span>
             <h2 class="section__title" data-split>What our <em>clients say</em></h2>
         </x-container>
-        <div class="car__viewport">
-            <div class="car__track" data-car-track>
+        <x-container>
+            {{-- Every testimonial shown at full clarity — no carousel, no faded neighbours. --}}
+            <div class="car__grid">
                 @foreach ($testimonials as $t)
-                    <article class="car__slide {{ $loop->first ? 'is-on' : '' }}">
+                    <article class="car__slide reveal" data-delay="{{ $loop->index % 3 }}">
                         <span class="av">{{ collect(explode(' ', $t->client_name))->map(fn ($w) => mb_substr($w, 0, 1))->take(2)->implode('') }}</span>
                         <p class="car__quote">"{{ $t->quote }}"</p>
                         <div class="who">
@@ -135,17 +136,6 @@
                         </div>
                     </article>
                 @endforeach
-            </div>
-        </div>
-        <x-container class="car__nav">
-            <div class="car__dots">
-                @foreach ($testimonials as $t)
-                    <button type="button" class="car__dot {{ $loop->first ? 'is-on' : '' }}" aria-label="Go to slide {{ $loop->iteration }}" data-cursor="{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}"></button>
-                @endforeach
-            </div>
-            <div class="car__btns">
-                <button type="button" class="car__prev" aria-label="Previous testimonial" data-cursor="PREV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18L9 12L15 6"/></svg></button>
-                <button type="button" class="car__next" aria-label="Next testimonial" data-cursor="NEXT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
             </div>
         </x-container>
     </section>

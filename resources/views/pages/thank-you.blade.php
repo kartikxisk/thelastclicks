@@ -58,6 +58,9 @@
       <span class="ty__kicker">Brief received</span>
       <h1 data-split>Thanks — we're on <em>your brief.</em></h1>
       <p>We'll read every line and reply with next steps, a direction, and a number — within 4 working hours. Here's what happens next.</p>
+      {{-- Heading for the steps so the page reads h1 -> h2 -> h3; the visible
+           intro above already says "what happens next", so this is sr-only. --}}
+      <h2 class="sr-only">What happens next</h2>
       <div class="ty__next">
         <div class="ty__step">
           <div class="ty__step-n">01</div>

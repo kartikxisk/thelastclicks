@@ -120,6 +120,15 @@ import { initWorkLightbox } from './work-lightbox';
     revealScrollFrame = requestAnimationFrame(forceRevealVisible);
   }, { passive: true });
 
+  /* -------------------- Form error summary focus -------------------- */
+  // The form reloads server-side on a validation error; move focus to the
+  // summary so a screen reader announces it and the fixes are one tab away.
+  const errorSummary = document.querySelector('[data-error-summary]');
+  if (errorSummary) {
+    errorSummary.focus();
+    errorSummary.scrollIntoView({ block: 'center' });
+  }
+
   /* -------------------- Split text (auto-wrap words) -------------------- */
   document.querySelectorAll('[data-split]').forEach(el => {
     if (el.dataset.splitDone) return;
@@ -205,19 +214,41 @@ import { initWorkLightbox } from './work-lightbox';
   const menu = document.querySelector('.menu');
   if (burger && menu) {
     burger.setAttribute('aria-expanded', 'false');
-    burger.addEventListener('click', () => {
-      menu.classList.toggle('is-open');
-      burger.classList.toggle('is-open');
-      const open = menu.classList.contains('is-open');
-      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    const menuLinks = () => [...menu.querySelectorAll('a, button')].filter((x) => x.getClientRects().length > 0);
+
+    const closeMenu = () => {
+      if (!menu.classList.contains('is-open')) return;
       menu.classList.remove('is-open');
       burger.classList.remove('is-open');
       burger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-    }));
+      burger.focus(); // return focus to the control that opened it
+    };
+
+    burger.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) menuLinks()[0]?.focus(); // move focus into the overlay
+    });
+
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+    // Escape closes; Tab is trapped inside the open overlay.
+    document.addEventListener('keydown', (e) => {
+      if (!menu.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { closeMenu(); return; }
+      if (e.key === 'Tab') {
+        const f = menuLinks();
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        // The burger stays in the tab order as the overlay's first stop.
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
   }
 
   /* -------------------- Work lightbox -------------------- */

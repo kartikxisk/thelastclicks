@@ -97,7 +97,7 @@ window.TLC = (function(){
     return `
     <div class="quote" aria-hidden="true">
       <div class="quote__overlay" data-quote-close></div>
-      <div class="quote__panel" role="dialog" aria-label="Get a quote">
+      <div class="quote__panel" role="dialog" aria-modal="true" aria-label="Get a quote">
         <button class="quote__close" data-quote-close aria-label="Close">
           <span></span><span></span>
         </button>
@@ -119,7 +119,7 @@ window.TLC = (function(){
             <span class="quote__pill">+91 87701 55842</span>
           </div>
         </aside>
-        <main class="quote__body">
+        <div class="quote__body">
           <form class="quote__form" autocomplete="off">
             <!-- STEP 1: type -->
             <section class="quote__panel-step is-on" data-panel="1">
@@ -195,7 +195,7 @@ window.TLC = (function(){
               <span class="quote__next-arr">→</span>
             </button>
           </footer>
-        </main>
+        </div>
       </div>
     </div>`;
   }
@@ -280,40 +280,64 @@ window.TLC = (function(){
       });
     }
 
-    // Quote modal trigger
+    // Quote modal trigger + dialog focus management
+    let quoteLastFocused = null;
+    // Visible, focusable elements inside the dialog (getClientRects excludes
+    // display:none steps but keeps the position:fixed panel, unlike offsetParent).
+    const quoteFocusables = (q) => [...q.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+      .filter((x) => !x.disabled && x.getClientRects().length > 0);
+
+    function openQuote(q, pref) {
+      if (q.parentElement !== document.body) document.body.appendChild(q);
+      if (pref) {
+        q.querySelectorAll('.quote__chips[data-name="type"] .quote__chip').forEach((c) => {
+          c.classList.toggle('is-on', c.dataset.value === pref);
+        });
+      }
+      quoteLastFocused = document.activeElement;
+      q.classList.add('is-open');
+      q.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      // Move focus into the dialog so keyboard/SR users land inside it.
+      (q.querySelector('.quote__close') || quoteFocusables(q)[0])?.focus();
+    }
+
+    function closeQuote(q) {
+      q.classList.remove('is-open');
+      q.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      // Return focus to whatever opened the modal.
+      if (quoteLastFocused && typeof quoteLastFocused.focus === 'function') quoteLastFocused.focus();
+      quoteLastFocused = null;
+    }
+
     document.body.addEventListener('click', (e) => {
       const t = e.target.closest('[data-quote-trigger]');
       if (t) {
         e.preventDefault();
         const q = document.querySelector('.quote');
-        if (q) {
-          if (q.parentElement !== document.body) document.body.appendChild(q);
-          // Pre-select project type via [data-quote-prefill="Wedding film"] or [data-quote-trigger="Wedding film"]
-          const pref = t.dataset.quotePrefill || (t.dataset.quoteTrigger && t.dataset.quoteTrigger !== '' ? t.dataset.quoteTrigger : '');
-          if (pref) {
-            q.querySelectorAll('.quote__chips[data-name="type"] .quote__chip').forEach(c => {
-              c.classList.toggle('is-on', c.dataset.value === pref);
-            });
-          }
-          q.classList.add('is-open');
-          q.setAttribute('aria-hidden','false');
-          document.body.style.overflow = 'hidden';
-        }
+        // Pre-select project type via [data-quote-prefill] or [data-quote-trigger].
+        const pref = t.dataset.quotePrefill || (t.dataset.quoteTrigger && t.dataset.quoteTrigger !== '' ? t.dataset.quoteTrigger : '');
+        if (q) openQuote(q, pref);
       }
       const c = e.target.closest('[data-quote-close]');
       if (c) {
         const q = document.querySelector('.quote');
-        if (q) {
-          q.classList.remove('is-open');
-          q.setAttribute('aria-hidden','true');
-          document.body.style.overflow = '';
-        }
+        if (q) closeQuote(q);
       }
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const q = document.querySelector('.quote.is-open');
-        if (q) { q.classList.remove('is-open'); q.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+      const q = document.querySelector('.quote.is-open');
+      if (!q) return;
+      if (e.key === 'Escape') { closeQuote(q); return; }
+      // Trap Tab within the dialog so focus can't reach the page behind it.
+      if (e.key === 'Tab') {
+        const f = quoteFocusables(q);
+        if (!f.length) return;
+        const first = f[0];
+        const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
 

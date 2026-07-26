@@ -51,25 +51,28 @@
     <h1 data-split>Let's <em>talk</em><br>about your brief.</h1>
   </section>
 
-  <section class="section" style="padding-bottom:48px">
+  <section class="section">
     <x-container class="contact-grid">
       <x-quote-form />
 
-      <aside class="contact-side reveal" data-delay="1">
+      <aside class="contact-side reveal" data-delay="1" aria-labelledby="contact-details-heading">
+        {{-- Structures the page for assistive tech (h1 -> h2 -> h3) without a
+             visible section title; the cards read as small mono labels. --}}
+        <h2 id="contact-details-heading" class="sr-only">Contact details</h2>
         <div class="contact-card">
-          <h4>Email</h4>
+          <h3>Email</h3>
           <a href="mailto:{{ \App\Models\SiteSetting::get('contact_email', 'info@thelastclicks.com') }}">{{ \App\Models\SiteSetting::get('contact_email', 'info@thelastclicks.com') }}</a>
         </div>
         <div class="contact-card">
-          <h4>Phone</h4>
+          <h3>Phone</h3>
           <a href="tel:{{ preg_replace('/[^+\d]/', '', \App\Models\SiteSetting::get('contact_phone', '+918770155842')) }}">{{ \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842') }}</a>
         </div>
         <div class="contact-card">
-          <h4>WhatsApp</h4>
+          <h3>WhatsApp</h3>
           <a href="{{ \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842') }}" target="_blank" rel="noopener" data-noswap>{{ \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842') }} · DM us</a>
         </div>
         <div class="contact-card">
-          <h4>Studio</h4>
+          <h3>Studio</h3>
           {{-- Kept identical to the schema address and the Business Profile listing. --}}
           <p>TheLastClicks<br>B-7, D-Block, Sector 26<br>Noida · Uttar Pradesh<br>India · 201301</p>
           <a href="https://share.google/QlMQkefJfn2iRnma3" target="_blank" rel="noopener" data-noswap>Open in Google Maps ↗</a>
@@ -80,7 +83,7 @@
 
   {{-- Studio location. Lazy-loaded so the map never competes with the form for
        bandwidth, and the iframe is titled for screen readers. --}}
-  <section class="section" style="padding-top:0" data-screen-label="03 Location">
+  <section class="section" data-screen-label="03 Location">
     <x-container>
       <div class="contact-map reveal">
         <iframe
@@ -93,7 +96,7 @@
     </x-container>
   </section>
 
-  <section class="cta-strip" style="padding-top:40px">
+  <section class="cta-strip">
     <x-container>
       <h2 class="cta-strip__title" data-split>Or just <em>say hi.</em></h2>
       <div class="cta-strip__row reveal">
