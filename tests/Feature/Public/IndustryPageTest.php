@@ -23,6 +23,21 @@ it('returns 404 for an unknown industry slug', function () {
     $this->get('/industries/not-a-real-industry')->assertNotFound();
 });
 
+it('labels a gallery tile with its caption and hides the decorative poster', function () {
+    $industry = Industry::orderBy('order')->firstOrFail();
+    $industry->mediaItems()->create([
+        'type' => 'youtube',
+        'order' => 1,
+        'caption' => 'Diwali brand film',
+        'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ',
+    ]);
+
+    $html = $this->get('/industries/'.$industry->slug)->assertOk()->getContent();
+
+    // Accessible name mirrors the visible caption (WCAG 2.5.3 label-in-name).
+    expect($html)->toContain('aria-label="Play — Diwali brand film"');
+});
+
 it('renders each seeded industry with its title and summary', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 

@@ -37,9 +37,9 @@ window.TLC = (function(){
         <span class="dot"></span>
         <span>Get a Quote</span>
       </a>
-      <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
+      <button class="nav__burger" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span></button>
     </header>
-    <div class="menu">
+    <div class="menu" id="mobile-menu">
       <ul class="menu__list">
         ${NAV_LINKS.map(l => `<li><a href="${l.href}"><span>${l.label}</span></a></li>`).join('')}
         <li><a href="#quote" data-quote-trigger><span>Get a Quote →</span></a></li>

@@ -43,10 +43,10 @@
     <span class="dot"></span>
     <span>Get a Quote</span>
   </a>
-  <button class="nav__burger" aria-label="Menu"><span></span><span></span></button>
+  <button class="nav__burger" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
-<div class="menu">
+<div class="menu" id="mobile-menu">
   <ul class="menu__list">
     <li><a href="{{ url('/#services') }}"><span>Services</span></a>
       <div class="menu__sub">

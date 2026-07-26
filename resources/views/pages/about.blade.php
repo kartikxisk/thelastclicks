@@ -1,6 +1,6 @@
 <x-layouts.app
     title="About TheLastClicks — Cinematic Film & Photography Studio"
-    description="A photography and film production studio at the intersection of cinema, brand and craft. Five years, 547 productions and 26 cities across India and counting."
+    description="A photography and film production studio at the intersection of cinema, brand and craft. Five years, 1,000+ events and 20+ cities across India and counting."
     :canonical="url('/about')"
 >
   <x-slot name="head">
@@ -47,12 +47,12 @@
               <span class="disc__lab">Years of experience</span>
             </div>
             <div class="disc__stat reveal" data-delay="1">
-              <div class="disc__num"><span data-count="26">0</span><em>+</em></div>
-              <span class="disc__lab">Cities covered</span>
+              <div class="disc__num"><span data-count="20">0</span><em>+</em></div>
+              <span class="disc__lab">Cities covered across India</span>
             </div>
             <div class="disc__stat reveal" data-delay="2">
-              <div class="disc__num"><span data-count="547">0</span><em>+</em></div>
-              <span class="disc__lab">Productions</span>
+              <div class="disc__num"><span data-count="1000">0</span><em>+</em></div>
+              <span class="disc__lab">Events &amp; activations over the last decade</span>
             </div>
           </div>
         </div>
@@ -89,7 +89,7 @@
         <div class="timeline-x__sticky reveal">
           <span class="label">The journey</span>
           <h3>Five years, <em>one obsession.</em></h3>
-          <p>One borrowed lens to a 60-person studio across 26 cities — earned by saying no to briefs that didn't fit.</p>
+          <p>One borrowed lens to a 60-person studio across 20+ cities — earned by saying no to briefs that didn't fit.</p>
         </div>
         <div class="timeline-x__rail">
           <div class="timeline-x__item reveal">
@@ -114,8 +114,8 @@
           </div>
           <div class="timeline-x__item reveal">
             <div class="timeline-x__year">2026</div>
-            <div class="timeline-x__title"><em>547+</em> productions in.</div>
-            <div class="timeline-x__desc">Crew of 60+ across cities, booked into 2026 — same standard, scaled.</div>
+            <div class="timeline-x__title"><em>1,000+</em> events in.</div>
+            <div class="timeline-x__desc">Crew of 60+ across 20+ cities, booked into 2026 — same standard, scaled.</div>
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@
       <div class="cities__aside">
         <div class="cities__head">
           <span class="section__eyebrow" data-scramble>Where we shoot</span>
-          <h2 class="section__title" data-split>26 cities, <em>one team.</em></h2>
+          <h2 class="section__title" data-split>20+ cities, <em>one team.</em></h2>
           <p class="section__lead reveal">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
         </div>
       </div>

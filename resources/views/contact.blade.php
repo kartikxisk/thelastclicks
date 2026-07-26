@@ -62,11 +62,11 @@
         </div>
         <div class="contact-card">
           <h4>Phone</h4>
-          <a href="tel:{{ preg_replace('/[^+\d]/', '', \App\Models\SiteSetting::get('contact_phone', '+918770155842')) }}">{{ \App\Models\SiteSetting::get('contact_phone', '+91-87701-55842') }}</a>
+          <a href="tel:{{ preg_replace('/[^+\d]/', '', \App\Models\SiteSetting::get('contact_phone', '+918770155842')) }}">{{ \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842') }}</a>
         </div>
         <div class="contact-card">
           <h4>WhatsApp</h4>
-          <a href="{{ \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842') }}" target="_blank" rel="noopener" data-noswap>{{ \App\Models\SiteSetting::get('contact_phone', '+91-87701-55842') }} · DM us</a>
+          <a href="{{ \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842') }}" target="_blank" rel="noopener" data-noswap>{{ \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842') }} · DM us</a>
         </div>
         <div class="contact-card">
           <h4>Studio</h4>

@@ -36,7 +36,9 @@
             @endif
         >
             @if ($cover)
-                <img src="{{ $cover }}" alt="{{ $item->title }}" loading="lazy" decoding="async">
+                {{-- Decorative: the tile is labelled by its visible title (and aria-label
+                     on interactive tiles), so a matching alt would just double-announce. --}}
+                <img src="{{ $cover }}" alt="" loading="lazy" decoding="async">
             @endif
             <span class="work-tile__scrim" aria-hidden="true"></span>
             <span class="work-tile__body">

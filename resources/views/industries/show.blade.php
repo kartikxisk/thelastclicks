@@ -55,6 +55,14 @@
                 </div>
                 <div class="work-grid work-grid--bento" data-work-grid>
                     @foreach ($tiles as $i => $t)
+                        @php
+                            // Accessible name mirrors the visible caption so it satisfies
+                            // label-in-name (WCAG 2.5.3); prefix says what activating it does.
+                            $mediaVerb = $t['type'] === 'image' ? 'View' : 'Play';
+                            $tileLabel = $t['caption']
+                                ? $mediaVerb.' — '.$t['caption']
+                                : $mediaVerb.' '.$industry->title.' media '.($i + 1);
+                        @endphp
                         <button
                             type="button"
                             class="work-tile reveal"
@@ -62,13 +70,14 @@
                             data-work-tile
                             data-work-media='@json($payload)'
                             data-work-index="{{ $i }}"
-                            aria-label="View media {{ $i + 1 }}"
+                            aria-label="{{ $tileLabel }}"
                         >
                             @if ($t['type'] === 'video')
-                                <video src="{{ $t['url'] }}" muted playsinline preload="metadata"></video>
+                                {{-- Decorative poster frame; the button carries the accessible name. --}}
+                                <video src="{{ $t['url'] }}" muted playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
                                 <span class="work-tile__play" aria-hidden="true"></span>
                             @else
-                                <img src="{{ $t['thumb'] }}" alt="{{ $t['caption'] ?: $industry->title }}" loading="lazy" decoding="async">
+                                <img src="{{ $t['thumb'] }}" alt="" loading="lazy" decoding="async">
                                 @if ($t['type'] === 'youtube')
                                     <span class="work-tile__play" aria-hidden="true"></span>
                                 @endif

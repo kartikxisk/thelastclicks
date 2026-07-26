@@ -679,7 +679,14 @@ import { initWorkLightbox } from './work-lightbox';
 
   /* -------------------- Hero video autoplay nudge -------------------- */
   // Some browsers defer muted autoplay until interaction/scroll; force-play on load.
+  // Reduced-motion users must not get a large autoplaying video (WCAG 2.2.2 / 2.3),
+  // so pause it and drop the poster in place instead.
   document.querySelectorAll('.hero__bg video').forEach(v => {
+    if (reduce) {
+      v.removeAttribute('autoplay');
+      v.pause();
+      return;
+    }
     v.muted = true;
     const p = v.play();
     if (p && p.catch) p.catch(() => {});

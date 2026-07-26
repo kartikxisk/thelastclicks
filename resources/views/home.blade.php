@@ -45,7 +45,7 @@
         <x-container>
             <div class="disc__grid">
                 <div class="disc__lead">
-                    <span class="section__eyebrow">Why The Last Clicks</span>
+                    <span class="section__eyebrow">Why TheLastClicks</span>
                     <h2 class="section__title" data-split>Built on the discipline of <em>premium brands.</em></h2>
                     <p class="disc__kicker reveal">Not a vendor — a long-term partner that scales with your story.</p>
                 </div>

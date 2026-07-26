@@ -38,7 +38,9 @@ export function initWorkLightbox() {
     } else {
       el = document.createElement('img');
       el.src = item.url;
-      el.alt = item.caption || '';
+      // The opened image IS the dialog's content, so it must not be silent to a
+      // screen reader — fall back to a generic label when there's no caption.
+      el.alt = item.caption || 'Enlarged media';
     }
     stage.appendChild(el);
     caption.textContent = item.caption || '';
