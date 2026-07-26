@@ -43,7 +43,7 @@
                         <h2 class="section__title" data-split>What we <em>cover.</em></h2>
                     </div>
                 </div>
-                <x-media-grid :items="$industries" :meta="fn ($industry) => $industry->summary" meta-class="work-tile__desc" layout="grid" :link="fn ($industry) => url('/industries/'.$industry->slug)" />
+                <x-media-grid :items="$industries" layout="grid" :link="fn ($industry) => url('/industries/'.$industry->slug)" />
             </x-container>
         </section>
     @endif

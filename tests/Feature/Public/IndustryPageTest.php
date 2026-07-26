@@ -38,10 +38,17 @@ it('labels a gallery tile with its caption and hides the decorative poster', fun
     expect($html)->toContain('aria-label="Play — Diwali brand film"');
 });
 
-it('renders each seeded industry with its title and summary', function () {
+it('shows each industry title on the index, and the summary on its detail page', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 
+    // The "What we cover" cards are title-only now — the summary lives on the
+    // detail page, not the grid.
     $this->get('/industries')
+        ->assertOk()
+        ->assertSee($industry->title)
+        ->assertDontSee($industry->summary);
+
+    $this->get('/industries/'.$industry->slug)
         ->assertOk()
         ->assertSee($industry->title)
         ->assertSee($industry->summary);
