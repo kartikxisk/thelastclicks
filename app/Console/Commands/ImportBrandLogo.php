@@ -38,17 +38,15 @@ class ImportBrandLogo extends Command
         try {
             $written = Storage::disk($disk)->put($target, $contents);
         } catch (\Throwable $e) {
-            $this->error("Upload rejected by disk [{$disk}] — brand logo NOT changed.");
-            $this->line($this->explain($e->getMessage()));
+            $this->error("Upload to disk [{$disk}] failed: ".$this->explain($e->getMessage()));
 
-            return self::FAILURE;
+            return $this->fallbackToLocal($path);
         }
 
         if ($written === false) {
-            $this->error("Upload rejected by disk [{$disk}] — brand logo NOT changed.");
-            $this->line('The disk refused the write. Check credentials and bucket permissions.');
+            $this->error("Disk [{$disk}] refused the write (credentials / bucket permissions).");
 
-            return self::FAILURE;
+            return $this->fallbackToLocal($path);
         }
 
         SiteSetting::set('brand_logo', $target);
@@ -66,6 +64,31 @@ class ImportBrandLogo extends Command
         } catch (\Throwable) {
             $this->warn('Could not read the object back — verify the URL in a browser.');
         }
+
+        return self::SUCCESS;
+    }
+
+    /**
+     * S3 is unreachable — still set the logo so the site shows it. A file bundled
+     * under public/ can be served directly by its root-relative path (e.g. /logo.png),
+     * so the brand logo is never left unset just because the upload disk is down.
+     */
+    private function fallbackToLocal(string $path): int
+    {
+        $public = rtrim(public_path(), '/').'/';
+
+        if (! str_starts_with($path, $public)) {
+            $this->error('Source is outside public/, so there is no local URL to fall back to. Brand logo NOT changed.');
+
+            return self::FAILURE;
+        }
+
+        $relative = '/'.ltrim(substr($path, strlen($public)), '/');
+        SiteSetting::set('brand_logo', $relative);
+
+        $this->warn("Set the brand logo to the bundled file {$relative} — served locally, NOT from S3.");
+        $this->info('Live at: '.SiteSetting::brandLogoUrl());
+        $this->line('Re-run once the S3 pipeline works to move it onto CloudFront.');
 
         return self::SUCCESS;
     }
