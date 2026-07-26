@@ -85,13 +85,9 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    composer install --no-dev --optimize-autoloader
    php artisan migrate --force
    php artisan db:seed --force
-   php artisan storage:link
    npm install
    npm run build
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   php artisan responsecache:clear
+   php artisan deploy:refresh          # optimize:clear + optimize + storage:link + responsecache:clear + filament:optimize
    php artisan clients:import-legacy
    php artisan videos:import
    php artisan sitemap:generate
