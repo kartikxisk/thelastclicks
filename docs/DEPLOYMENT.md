@@ -131,6 +131,16 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    then `php artisan optimize:clear`. Do NOT add a disk-level `'visibility'` key to the
    s3 disk to work around it — that forces the same converter on every disk resolve.
 
+   **`view:cache` — `Unable to locate a class or view for component
+   [laravel-exceptions-renderer::navigation]`.** Same root cause as above: a stale
+   `vendor/`. Early Laravel 11 could not compile the framework's exception-renderer
+   views under `view:cache` when `APP_DEBUG=false`; it was fixed in a later 11.x
+   patch. `composer.lock` pins a fixed version (11.53.1+), so the crash means the
+   server is running an older framework than the lock. Fix: run
+   `composer install --no-dev --optimize-autoloader`, then `php artisan optimize:clear`
+   and re-run `php artisan optimize`. `optimize` runs `view:cache`, which is why the
+   deploy fails there rather than at request time.
+
    **Storage permissions — `Failed to open stream: Permission denied` on
    `storage/framework/views/…`.** Laravel compiles Blade to PHP under
    `storage/framework/views/` *at request time*, written by the PHP-FPM user
