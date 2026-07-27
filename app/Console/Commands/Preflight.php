@@ -30,6 +30,7 @@ class Preflight extends Command
 
         $this->checkAppUrl($isProduction);
         $this->checkDebug($isProduction);
+        $this->checkRuntimeWritable($isProduction);
         $this->checkMediaDisk();
         $this->checkQueue($isProduction);
 
@@ -91,6 +92,155 @@ class Preflight extends Command
         }
 
         $this->pass('APP_DEBUG', config('app.debug') ? 'on (non-production)' : 'off');
+    }
+
+    /**
+     * The two directories the runtime writes to at request time.
+     *
+     * Deliberately NOT an is_writable() check: preflight usually runs as root or as
+     * the deploy user, for whom everything looks writable, while PHP-FPM runs as
+     * someone else and gets "Permission denied" on storage/logs and
+     * storage/framework/views. That combination is how a deploy reports success and
+     * still 500s every page. So this resolves the web user and asks whether *that*
+     * user could write, via owner/group/other bits.
+     */
+    protected function checkRuntimeWritable(bool $isProduction): void
+    {
+        $paths = [
+            'storage/logs',
+            'storage/framework/views',
+            'storage/framework/cache',
+            'storage/framework/sessions',
+            'bootstrap/cache',
+        ];
+
+        // Locally, PHP is served by the same account that owns the checkout, so the
+        // only meaningful question is whether the current user can write. Resolving a
+        // `www` account that exists on macOS but never serves anything would fail every
+        // dev machine for no reason.
+        $webUser = $isProduction ? $this->webUser() : null;
+        $problems = [];
+
+        foreach ($paths as $rel) {
+            $abs = base_path($rel);
+
+            if (! is_dir($abs)) {
+                $problems[] = "{$rel} missing";
+
+                continue;
+            }
+
+            if ($webUser === null) {
+                // No way to resolve the web user (non-POSIX host); the best available
+                // signal is whether the current user can write.
+                if (! is_writable($abs)) {
+                    $problems[] = "{$rel} not writable";
+                }
+
+                continue;
+            }
+
+            if (! $this->writableBy($abs, $webUser)) {
+                $problems[] = sprintf('%s owned by %s:%s (%04o)', $rel, $this->ownerName($abs), $this->groupName($abs), fileperms($abs) & 0777);
+            }
+        }
+
+        if ($problems === []) {
+            $this->pass('Runtime dirs', $webUser !== null
+                ? "writable by {$webUser['name']}"
+                : 'writable');
+
+            return;
+        }
+
+        $this->fail_('Runtime dirs', implode('; ', $problems).($webUser !== null
+            ? " — fix: chown -R {$webUser['name']}:{$webUser['name']} storage bootstrap/cache && chmod -R 775 storage bootstrap/cache"
+            : ''));
+    }
+
+    /**
+     * The account PHP-FPM serves as. aaPanel/BT uses `www`, Ubuntu/Forge `www-data`.
+     * APP_WEB_USER overrides when a host uses something else.
+     *
+     * @return array{name: string, uid: int, gid: int}|null
+     */
+    protected function webUser(): ?array
+    {
+        if (! function_exists('posix_getpwnam')) {
+            return null;
+        }
+
+        $candidates = array_filter([env('APP_WEB_USER'), 'www-data', 'www']);
+
+        foreach ($candidates as $name) {
+            $info = posix_getpwnam((string) $name);
+            if ($info !== false) {
+                return ['name' => (string) $name, 'uid' => (int) $info['uid'], 'gid' => (int) $info['gid']];
+            }
+        }
+
+        return null;
+    }
+
+    /** @param array{name: string, uid: int, gid: int} $user */
+    protected function writableBy(string $path, array $user): bool
+    {
+        $perms = fileperms($path) & 0777;
+
+        if (fileowner($path) === $user['uid']) {
+            return (bool) ($perms & 0200);
+        }
+
+        if ($this->inGroup($path, $user)) {
+            return (bool) ($perms & 0020);
+        }
+
+        return (bool) ($perms & 0002);
+    }
+
+    /**
+     * Group match covers both the user's primary group and any supplementary group —
+     * a deploy that chowns to `deploy:www` is perfectly valid.
+     *
+     * @param  array{name: string, uid: int, gid: int}  $user
+     */
+    protected function inGroup(string $path, array $user): bool
+    {
+        $gid = filegroup($path);
+
+        if ($gid === $user['gid']) {
+            return true;
+        }
+
+        if (! function_exists('posix_getgrgid')) {
+            return false;
+        }
+
+        $group = posix_getgrgid($gid);
+
+        return is_array($group) && in_array($user['name'], $group['members'], true);
+    }
+
+    protected function ownerName(string $path): string
+    {
+        $uid = fileowner($path);
+
+        if (function_exists('posix_getpwuid') && ($info = posix_getpwuid($uid)) !== false) {
+            return (string) $info['name'];
+        }
+
+        return (string) $uid;
+    }
+
+    protected function groupName(string $path): string
+    {
+        $gid = filegroup($path);
+
+        if (function_exists('posix_getgrgid') && ($info = posix_getgrgid($gid)) !== false) {
+            return (string) $info['name'];
+        }
+
+        return (string) $gid;
     }
 
     protected function checkMediaDisk(): void

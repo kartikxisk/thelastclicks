@@ -183,6 +183,15 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    `rm -rf storage/framework/views/*` first to clear root-owned compiled views,
    then chown.
 
+   `app:preflight` fails the deploy on this, so it can no longer pass while the
+   site 500s. In production it resolves the web user (`www-data`, then `www`,
+   or `APP_WEB_USER`) and checks the owner/group/mode bits of `storage/logs`,
+   `storage/framework/{views,cache,sessions}` and `bootstrap/cache` against *that*
+   account — not `is_writable()`, which reports true for the root or deploy user
+   running the check and so misses the failure entirely. Outside production it
+   falls back to a plain writability check, since local PHP is served by the same
+   account that owns the checkout.
+
    **npm — `E404 … npm.pkg.github.com/<public-package>`.** The server's global
    `~/.npmrc` points the registry at GitHub Packages (which needs auth and does
    not host public packages), so `npm ci` 404s on every dependency. The repo ships
