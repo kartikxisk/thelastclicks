@@ -52,7 +52,11 @@ class ServiceResource extends Resource
                 ->columns(2)
                 ->schema([
                     TextInput::make('hero_headline')->label('Hero headline')->columnSpanFull(),
-                    TextInput::make('hero_url')->label('Hero URL')->url(),
+                    // Resolved by Service::heroUrl() via MediaUrl, which accepts a
+                    // media-disk key (e.g. "industries/x.jpg") as well as an absolute
+                    // URL — so no strict ->url() rule, which rejects the path form.
+                    TextInput::make('hero_url')->label('Hero image path or URL')
+                        ->helperText('A media-disk key (industries/x.jpg) or a full https:// URL. An uploaded hero above overrides it.'),
                     TextInput::make('featured_slug')->label('Featured slug'),
                     Fieldset::make('Proof')
                         ->columns(3)

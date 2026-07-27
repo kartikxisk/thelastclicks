@@ -7,7 +7,7 @@
   .nf__kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); display: inline-flex; align-items: center; gap: 12px; margin-bottom: 32px; }
   .nf__kicker::before, .nf__kicker::after { content: ''; width: 28px; height: 1px; background: var(--red); }
   .nf h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(56px, 9vw, 144px); letter-spacing: -0.05em; line-height: 0.9; text-wrap: balance; }
-  .nf h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
+  .nf h1 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
   .nf p { margin-top: 28px; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: var(--paper-dim); max-width: 44ch; margin-left: auto; margin-right: auto; }
   .nf__buttons { margin-top: 40px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   .nf__links { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }

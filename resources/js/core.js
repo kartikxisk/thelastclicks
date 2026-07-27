@@ -368,8 +368,10 @@ import { initWorkLightbox } from './work-lightbox';
     let pcx = 0, pcy = 0, ptx = 0, pty = 0;
     items.forEach(it => {
       it.addEventListener('mouseenter', () => {
+        // No image = no ghost panel. Showing an empty framed box reads as broken.
         const src = it.dataset.preview;
-        if (src) previewBox.querySelector('img').src = src;
+        if (!src) return;
+        previewBox.querySelector('img').src = src;
         previewBox.classList.add('is-on');
       });
       it.addEventListener('mouseleave', () => previewBox.classList.remove('is-on'));
@@ -397,35 +399,110 @@ import { initWorkLightbox } from './work-lightbox';
   });
 
   /* -------------------- Testimonials carousel -------------------- */
-  document.querySelectorAll('[data-carousel]').forEach(car => {
+  /* Native scroll-snap does the scrolling; JS only mirrors state into the dots
+     and arrows, and adds pointer-drag for mouse users (touch already has it). */
+  document.querySelectorAll('[data-car]').forEach(car => {
     const viewport = car.querySelector('.car__viewport');
     const track = car.querySelector('.car__track');
-    const slides = car.querySelectorAll('.car__slide');
+    if (!viewport || !track) return;
+
+    const slides = Array.from(track.children);
+    if (!slides.length) return;
+
     const prev = car.querySelector('.car__prev');
     const next = car.querySelector('.car__next');
-    const dots = car.querySelectorAll('.car__dot');
-    let i = 0;
-    function show(n) {
-      i = (n + slides.length) % slides.length;
-      slides.forEach((s, idx) => s.classList.toggle('is-on', idx === i));
-      dots.forEach((d, idx) => d.classList.toggle('is-on', idx === i));
-      // Slide the track so the active card sits centred in the viewport,
-      // clamped so we never scroll past the first/last card.
-      if (track && viewport) {
-        const card = slides[i];
-        const raw = card.offsetLeft - (viewport.clientWidth - card.offsetWidth) / 2;
-        const maxOffset = track.scrollWidth - viewport.clientWidth;
-        const offset = Math.max(0, Math.min(raw, maxOffset));
-        track.style.transform = `translateX(${-offset}px)`;
-      }
+    const dots = Array.from(car.querySelectorAll('.car__dot'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior = reduce ? 'auto' : 'smooth';
+    const EDGE = 2; // px tolerance for "we're at the end"
+
+    // Distance between two card starts — one arrow click / arrow key = one card.
+    const step = () => (slides.length > 1
+      ? slides[1].getBoundingClientRect().left - slides[0].getBoundingClientRect().left
+      : slides[0].getBoundingClientRect().width);
+
+    // Snap anchor = left content edge of the viewport (scroll-padding accounted for).
+    const anchorX = () => viewport.getBoundingClientRect().left
+      + parseFloat(getComputedStyle(track).paddingLeft || 0);
+
+    const atStart = () => viewport.scrollLeft <= EDGE;
+    const atEnd = () => viewport.scrollLeft >= viewport.scrollWidth - viewport.clientWidth - EDGE;
+
+    function activeIndex() {
+      if (atEnd()) return slides.length - 1;
+      const x = anchorX();
+      let best = 0, min = Infinity;
+      slides.forEach((s, idx) => {
+        const d = Math.abs(s.getBoundingClientRect().left - x);
+        if (d < min) { min = d; best = idx; }
+      });
+      return best;
     }
-    prev && prev.addEventListener('click', () => show(i - 1));
-    next && next.addEventListener('click', () => show(i + 1));
-    dots.forEach((d, idx) => d.addEventListener('click', () => show(idx)));
-    show(0);
-    window.addEventListener('resize', () => show(i));
-    // auto
-    setInterval(() => show(i + 1), 7000);
+
+    function sync() {
+      const i = activeIndex();
+      dots.forEach((d, idx) => {
+        d.classList.toggle('is-on', idx === i);
+        d.setAttribute('aria-current', idx === i ? 'true' : 'false');
+      });
+      if (prev) prev.disabled = atStart();
+      if (next) next.disabled = atEnd();
+    }
+
+    function goTo(i) {
+      const target = slides[Math.max(0, Math.min(slides.length - 1, i))];
+      viewport.scrollBy({ left: target.getBoundingClientRect().left - anchorX(), behavior });
+    }
+
+    let syncFrame = 0;
+    viewport.addEventListener('scroll', () => {
+      cancelAnimationFrame(syncFrame);
+      syncFrame = requestAnimationFrame(sync);
+    }, { passive: true });
+    window.addEventListener('resize', sync);
+
+    prev && prev.addEventListener('click', () => viewport.scrollBy({ left: -step(), behavior }));
+    next && next.addEventListener('click', () => viewport.scrollBy({ left: step(), behavior }));
+    dots.forEach((d, idx) => d.addEventListener('click', () => goTo(idx)));
+
+    viewport.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      viewport.scrollBy({ left: e.key === 'ArrowRight' ? step() : -step(), behavior });
+    });
+
+    /* Click-and-drag for mouse/pen. Touch keeps native momentum, so it opts out. */
+    let dragging = false, startX = 0, startScroll = 0, moved = 0;
+    viewport.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      dragging = true; moved = 0;
+      startX = e.clientX;
+      startScroll = viewport.scrollLeft;
+      viewport.classList.add('is-dragging');
+    });
+    viewport.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      if (moved > 3 && !viewport.hasPointerCapture(e.pointerId)) viewport.setPointerCapture(e.pointerId);
+      viewport.scrollLeft = startScroll - dx;
+    });
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      if (e && viewport.hasPointerCapture(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
+      // Dropping .is-dragging restores mandatory snap; the browser settles itself.
+      viewport.classList.remove('is-dragging');
+      requestAnimationFrame(sync);
+    }
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+    // Swallow the click that terminates a drag so cards don't fire on release.
+    viewport.addEventListener('click', e => {
+      if (moved > 4) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+
+    sync();
   });
 
   /* -------------------- Audio toggle -------------------- */

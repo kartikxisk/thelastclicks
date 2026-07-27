@@ -18,14 +18,16 @@ class ImportIndustryImages extends Command
 {
     protected $signature = 'industries:import {--force : Re-upload even if the object already exists}';
 
-    protected $description = 'Upload public/industries/*.jpg to the media disk (CloudFront)';
+    protected $description = 'Upload public/industry-covers/*.jpg to the media disk (CloudFront)';
 
     public function handle(): int
     {
-        $root = public_path('industries');
+        // NOT public/industries/ — that path would shadow the /industries route
+        // (the dev server and nginx serve a matching directory before Laravel).
+        $root = public_path('industry-covers');
 
         if (! is_dir($root)) {
-            $this->warn('Nothing to import — public/industries/ does not exist.');
+            $this->warn('Nothing to import — public/industry-covers/ does not exist.');
 
             return self::SUCCESS;
         }

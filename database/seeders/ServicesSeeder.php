@@ -23,7 +23,7 @@ class ServicesSeeder extends Seeder
             'videography' => [
                 'hero_headline' => 'Films that <em>move</em><br>things.',
                 'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 02'],
+                    ['label' => 'Discipline', 'value' => 'Videography · 02'],
                     ['label' => 'Format', 'value' => 'Film + edit'],
                     ['label' => 'Typical scope', 'value' => '1–10 day shoot'],
                     ['label' => 'Timeline', 'value' => '2–6 weeks'],
@@ -60,7 +60,7 @@ class ServicesSeeder extends Seeder
             'photography' => [
                 'hero_headline' => 'Photography,<br><em>brand-grade.</em>',
                 'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 03'],
+                    ['label' => 'Discipline', 'value' => 'Photography · 03'],
                     ['label' => 'Format', 'value' => 'Stills + retouch'],
                     ['label' => 'Typical scope', 'value' => '1–5 day shoot'],
                     ['label' => 'Timeline', 'value' => '3–10 days'],
@@ -97,7 +97,7 @@ class ServicesSeeder extends Seeder
             'post-production' => [
                 'hero_headline' => 'Post that <em>carries</em><br>the brand.',
                 'hero_meta' => [
-                    ['label' => 'Discipline', 'value' => 'Discipline · 01'],
+                    ['label' => 'Discipline', 'value' => 'Post Production · 01'],
                     ['label' => 'Format', 'value' => 'Post-only or full'],
                     ['label' => 'Typical scope', 'value' => 'Per project'],
                     ['label' => 'Timeline', 'value' => '1–3 weeks'],
@@ -152,13 +152,23 @@ class ServicesSeeder extends Seeder
             'videography' => 35,
             'photography' => 25,
         ];
+        // Placeholder heroes drawn from the industry library already on the CDN, so
+        // the services list has a hover preview out of the box. An admin upload to the
+        // 'hero' media collection wins over these — see Service::heroUrl().
+        $heroUrl = [
+            'post-production' => 'industries/brands-agencies.jpg',
+            'videography' => 'industries/nightlife-entertainment.jpg',
+            'photography' => 'industries/fashion-creators.jpg',
+        ];
 
         foreach ($services as $slug => $data) {
+            $service = Service::firstWhere('slug', $slug);
+
             Service::updateOrCreate(['slug' => $slug], array_merge($data, [
                 'title' => $titles[$slug],
                 'hero_copy' => $heroCopy[$slug],
-                // Hero image comes from the admin upload (media collection 'hero').
-                'hero_url' => null,
+                // Never clobber a hero someone already set in the admin.
+                'hero_url' => filled($service?->hero_url) ? $service->hero_url : ($heroUrl[$slug] ?? null),
                 'body' => '',
                 'order' => array_search($slug, $order, true),
                 'share' => $share[$slug] ?? null,

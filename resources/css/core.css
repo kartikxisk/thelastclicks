@@ -19,9 +19,12 @@
   --red: #e80f03;
   --red-soft: rgba(232,15,3,0.18);
 
-  --f-display: 'Sora', 'Helvetica Neue', sans-serif;
-  --f-body: 'Inter', 'Helvetica Neue', sans-serif;
-  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* One typeface, site-wide. The only stylistic variants are filled (default)
+     and outlined (see the global `em` rule). No serif, no second sans, no mono. */
+  --f-display: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-mono: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-serif: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-2: cubic-bezier(0.65, 0, 0.35, 1);
@@ -230,7 +233,7 @@ img, video { max-width: 100%; display: block; }
 }
 .section__title em {
   font-style: italic;
-  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-family: var(--f-display);
   font-weight: 400;
   color: var(--paper-dim);
 }
@@ -654,19 +657,19 @@ img, video { max-width: 100%; display: block; }
 }
 
 /* ---------- Client-logo marquee (variant of .marquee) ---------- */
-.marquee--logos { padding: 30px 0; }
-.marquee--logos .marquee__track { gap: 62px; padding-right: 62px; align-items: center; }
+.marquee--logos { padding: 44px 0; }
+.marquee--logos .marquee__track { gap: clamp(72px, 7vw, 120px); padding-right: clamp(72px, 7vw, 120px); align-items: center; }
 .marquee--logos .marquee__item--logo { gap: 0; }
 .marquee--logos .marquee__item--logo::after { display: none; }
 /* Monochrome white logos on the dark strip — no chips, no white background */
 .marquee__logo {
-  height: clamp(24px, 2.4vw, 34px);
+  height: clamp(34px, 3.4vw, 52px);
   width: auto;
-  max-width: 168px;
+  max-width: 240px;
   object-fit: contain;
   display: block;
   filter: brightness(0) invert(1); /* any logo -> clean white */
-  opacity: 0.55;
+  opacity: 0.62;
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
 }
 .marquee__item--logo:hover .marquee__logo {
@@ -1114,10 +1117,11 @@ img, video { max-width: 100%; display: block; }
    ============================================================ */
 
 :root {
-  /* Display gets new character via Outfit (matches Sora's geometric feel but more refined) */
-  --f-display: 'Outfit', 'Sora', 'Helvetica Neue', sans-serif;
-  --f-body: 'Outfit', 'Inter', 'Helvetica Neue', sans-serif;
-  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  /* One typeface everywhere — display, body and label styles all use Outfit. */
+  --f-display: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-mono: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  --f-serif: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
 
   /* Spring easing tokens (anti-slop: never linear) */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);

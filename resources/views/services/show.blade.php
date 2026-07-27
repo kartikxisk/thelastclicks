@@ -77,25 +77,10 @@
         </section>
     @endif
 
-    {{-- 03 PILLARS --}}
-    @if (!empty($service->pillars))
-        <section class="section" data-screen-label="02 Pillars">
-            <x-container>
-                <div class="services__head">
-                    <div>
-                        <span class="section__eyebrow" data-scramble>Pillars</span>
-                        <h2 class="section__title" data-split>Four things we <em>never bend.</em></h2>
-                    </div>
-                    <p class="section__lead reveal">Break one and we re-scope or walk. The standard is the standard.</p>
-                </div>
-                <div class="pp-pillars">
-                    @foreach ($service->pillars as $p)
-                        <article class="pp-pillar spotlight reveal"><span class="pp-pillar__dot"></span><h3>{{ $p['title'] ?? '' }}</h3><p>{{ $p['desc'] ?? '' }}</p></article>
-                    @endforeach
-                </div>
-            </x-container>
-        </section>
-    @endif
+    {{-- 03 PILLARS — retired. Phases below already answers "how do you work", concretely
+         and with a timeline; Pillars restated it as four generic promises, and two
+         how-we-work blocks on one page dilute both. The `pillars` data is still seeded
+         and stored on the model, so restoring this section is just un-commenting it. --}}
 
     {{-- 04 PHASES --}}
     @if (!empty($service->phases))
@@ -175,21 +160,13 @@
         </section>
     @endif
 
-    {{-- 09 NEXT SERVICE --}}
+    {{-- 09 CTA STRIP — the page's single close. The next-discipline link rides along
+         inside it rather than as its own band, so the page doesn't end on two
+         competing calls to action. --}}
     @php
         $nextService ??= \App\Models\Service::where('order', '>', $service->order)->orderBy('order')->first()
             ?? \App\Models\Service::orderBy('order')->first();
     @endphp
-    @if ($nextService)
-        <section class="pp-next" data-screen-label="08 Next">
-            <x-container>
-                <span class="kicker" style="justify-self:center">Next discipline</span>
-                <a href="{{ url('/services/'.$nextService->slug) }}"><span>{{ $nextService->title }}</span> <em>→</em></a>
-            </x-container>
-        </section>
-    @endif
-
-    {{-- 10 CTA STRIP --}}
     <section class="cta-strip">
         <x-container>
             <h2 class="cta-strip__title" data-split>{!! $cta['title'] ?? 'Start the <em>brief.</em>' !!}</h2>
@@ -197,6 +174,13 @@
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">{{ $cta['copy'] ?? "Brief us — treatment, timeline, and budget back within 4 working hours." }}</p>
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-quote-prefill="{{ $cta['prefill'] ?? $service->title }}" data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
             </div>
+            @if ($nextService && $nextService->id !== $service->id)
+                <a class="cta-strip__next" href="{{ url('/services/'.$nextService->slug) }}" data-cursor="VIEW">
+                    <span class="cta-strip__next-label">Next discipline</span>
+                    <span class="cta-strip__next-title">{{ $nextService->title }}</span>
+                    <em>&rarr;</em>
+                </a>
+            @endif
         </x-container>
     </section>
 

@@ -100,14 +100,11 @@
             <div class="services__list">
                 @foreach ($services as $service)
                     <a class="svc reveal" href="{{ url('/services/'.$service->slug) }}"
-                       data-preview="{{ $service->heroUrl() }}"
+                       @if ($service->heroUrl()) data-preview="{{ $service->heroUrl() }}" @endif
                        data-delay="{{ $loop->index }}" data-cursor="EXPLORE">
-                        <span class="svc__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="svc__num" aria-hidden="true">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="svc__title">{{ $service->title }}</h3>
-                        @if (!empty($service->proof['sectors'] ?? ''))
-                            <div class="svc__tags">{{ $service->proof['sectors'] }}</div>
-                        @endif
-                        <span class="svc__arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
+                        <span class="svc__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
                     </a>
                 @endforeach
             </div>
@@ -116,17 +113,24 @@
 
     <!-- TESTIMONIALS -->
     @if ($testimonials->isNotEmpty())
-    <section class="car" data-screen-label="06 Testimonials">
+    <section class="car" data-screen-label="06 Testimonials" data-car>
         <x-container style="margin-bottom:32px">
             <span class="section__eyebrow" data-scramble>Client Stories</span>
             <h2 class="section__title" data-split>What our <em>clients say</em></h2>
         </x-container>
-        <x-container>
-            {{-- Every testimonial shown at full clarity — no carousel, no faded neighbours. --}}
-            <div class="car__grid">
+
+        {{-- Horizontal scroll-snap rail: every card stays fully legible, neighbours peek at the edge. --}}
+        <div class="car__viewport reveal"
+             tabindex="0"
+             role="group"
+             aria-roledescription="carousel"
+             aria-label="Client testimonials">
+            <div class="car__track">
                 @foreach ($testimonials as $t)
-                    <article class="car__slide reveal" data-delay="{{ $loop->index % 3 }}">
-                        <span class="av">{{ collect(explode(' ', $t->client_name))->map(fn ($w) => mb_substr($w, 0, 1))->take(2)->implode('') }}</span>
+                    <article class="car__slide"
+                             role="group"
+                             aria-roledescription="slide"
+                             aria-label="Testimonial {{ $loop->iteration }} of {{ $testimonials->count() }}">
                         <p class="car__quote">"{{ $t->quote }}"</p>
                         <div class="who">
                             <span class="who__name">{{ $t->client_name }}</span>
@@ -137,7 +141,25 @@
                     </article>
                 @endforeach
             </div>
-        </x-container>
+        </div>
+
+        @if ($testimonials->count() > 1)
+            <div class="car__nav">
+                <div class="car__dots">
+                    @foreach ($testimonials as $t)
+                        <button type="button" class="car__dot" aria-label="Go to testimonial {{ $loop->iteration }}"></button>
+                    @endforeach
+                </div>
+                <div class="car__btns">
+                    <button type="button" class="car__prev" aria-label="Previous testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                    </button>
+                    <button type="button" class="car__next" aria-label="Next testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        @endif
     </section>
     @endif
 
@@ -163,7 +185,9 @@
             <h2 class="cta-strip__title" data-split>Let's create<br>something <em>impactful.</em></h2>
             <div class="cta-strip__row reveal" data-delay="2">
                 <div style="display:flex;gap:12px;flex-wrap:wrap">
-                    <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
+                    {{-- href stays a real contact URL so it still works without JS; the
+                         delegated [data-quote-trigger] handler opens the modal instead. --}}
+                    <a class="btn btn--red" href="{{ url('/contact') }}" data-quote-trigger data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
                     <a class="btn btn--ghost" href="{{ url('/services/photography') }}" data-cursor="VIEW">Explore services <span class="arr"></span></a>
                 </div>
             </div>

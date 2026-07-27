@@ -171,7 +171,7 @@
       <h2 class="cta-strip__title" data-split>Bring us a <em>brief.</em></h2>
       <div class="cta-strip__row reveal" data-delay="2">
         <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Product launches to multi-day brand films — tell us what you're building.</p>
-        <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
+        <a class="btn btn--red" href="{{ url('/contact') }}" data-quote-trigger data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
       </div>
     </x-container>
   </section>

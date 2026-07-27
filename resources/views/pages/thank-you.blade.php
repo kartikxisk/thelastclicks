@@ -36,7 +36,7 @@
   .ty__check svg { width: 60px; height: 60px; color: var(--red); }
   .ty__kicker { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 24px; display: inline-block; }
   .ty h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(48px, 7.5vw, 112px); letter-spacing: -0.045em; line-height: 0.94; text-wrap: balance; }
-  .ty h1 em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: var(--red); }
+  .ty h1 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
   .ty p { margin-top: 26px; font-size: 17px; line-height: 1.6; color: var(--paper-dim); max-width: 50ch; margin-left: auto; margin-right: auto; text-wrap: pretty; }
   .ty__next { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-top: 48px; border-top: 1px solid var(--line); }
   .ty__step { padding: 28px 22px; border: 1px solid var(--line); text-align: left; transition: border-color 0.4s var(--ease-soft); }

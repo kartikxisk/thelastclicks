@@ -111,7 +111,7 @@
             <h2 class="cta-strip__title" data-split>Speak our <em>vertical.</em></h2>
             <div class="cta-strip__row reveal">
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Tell us about your {{ Str::lower($industry->title) }} brief — relevant case studies within 4 working hours.</p>
-                <a class="btn btn--red" href="{{ url('/contact') }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
+                <a class="btn btn--red" href="{{ url('/contact') }}" data-quote-trigger data-quote-prefill="{{ $industry->title ?? '' }}" data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
             </div>
         </x-container>
     </section>
