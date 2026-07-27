@@ -1131,12 +1131,19 @@ main > section:has(.clients) {
   background-position: center;
   transform: scale(1.03);
 }
+/* Directional scrim, weighted to the bottom where the title and lead sit. A flat
+   45% wash is fine over a dark photo and fails completely over a pale one (a
+   white product shot, a bright interior) — the copy has to stay legible whatever
+   the admin uploads, so this floors the contrast rather than hoping for it. */
 .page-header--media::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(0,0,0,0.45);
+  background:
+    linear-gradient(180deg, rgba(8,8,8,0.62) 0%, rgba(8,8,8,0.25) 22%, transparent 46%),
+    linear-gradient(0deg, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.55) 32%, rgba(8,8,8,0.12) 66%, transparent 84%),
+    rgba(8,8,8,0.3);
 }
 .page-header--media > * { position: relative; z-index: 2; }
 /* Media headers go full-bleed; their content still rides the shared container */
@@ -1151,9 +1158,106 @@ main > section:has(.clients) {
 .page-header--media .page-header__crumb a { color: rgba(255,255,255,0.72); }
 .page-header--media .page-header__crumb a:hover { color: #fff; }
 .page-header--media h1 { color: #fff; text-shadow: 0 2px 30px rgba(20,14,12,0.4); }
+/* Standfirst under the title. Near-white rather than --paper-dim: dimmed grey is
+   for dark flat panels and drops below AA once there's a photograph behind it. */
+.page-header__lead {
+  /* `.page-header--media > *` sets margin-inline:auto to centre children in the
+     container; left margin must be pinned back to 0 or a narrower max-width centres
+     the standfirst instead of aligning it under the title. The extra pad-x covers
+     the padding-inline that same rule applies, since box-sizing is border-box. */
+  max-width: calc(58ch + var(--pad-x) * 2);
+  margin-top: 20px;
+  margin-inline: 0 auto;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--paper-dim);
+  text-wrap: pretty;
+}
+.page-header--media .page-header__lead {
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 18px rgba(10,8,8,0.55);
+}
 .page-header--media .page-header__meta { border-top-color: rgba(255,255,255,0.22); }
 .page-header--media .page-header__meta dt { color: rgba(255,255,255,0.6); }
 .page-header--media .page-header__meta dd { color: #fff; }
+
+/* ---------- Rich-text body (blog articles, industry overviews) ----------
+   Lived only in blog/show.blade.php's inline <style>, so /industries/* used the
+   class and got no typography at all: body-sized headings, full-container line
+   lengths, unstyled lists. Shared here so every rich-text field renders the same.
+   Note h3 — the industry bodies are written with h3 as their section heading. */
+.art-body {
+  /* A reading measure, not the container width. Left-aligned to match the site's
+     rhythm; the blog overrides the margins to sit under its own hero. */
+  max-width: 68ch;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--paper-dim);
+  text-wrap: pretty;
+}
+.art-body > *:first-child { margin-top: 0; }
+.art-body > *:last-child { margin-bottom: 0; }
+.art-body p { margin-bottom: 22px; }
+.art-body h2,
+.art-body h3,
+.art-body h4 {
+  font-family: var(--f-display);
+  color: var(--paper);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.art-body h2 { font-weight: 600; font-size: clamp(26px, 3.2vw, 36px); margin: 56px 0 20px; }
+/* Enough size and space to actually read as a section break, which is the whole
+   job these do on an industry page. */
+.art-body h3 { font-weight: 500; font-size: clamp(21px, 2.3vw, 26px); margin: 48px 0 16px; }
+.art-body h4 { font-weight: 500; font-size: 18px; margin: 36px 0 12px; }
+.art-body h2 em,
+.art-body h3 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
+.art-body strong { color: var(--paper); font-weight: 600; }
+.art-body a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--red); }
+.art-body a:hover { color: var(--red); }
+.art-body ul,
+.art-body ol { margin: 0 0 24px; padding-left: 0; list-style: none; }
+.art-body ol { counter-reset: art-item; }
+.art-body li { position: relative; margin-bottom: 10px; padding-left: 26px; }
+/* Custom marker: a default disc at this size reads as a bullet dump. */
+.art-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 2px; top: 0.62em;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.art-body ol li::before {
+  counter-increment: art-item;
+  content: counter(art-item, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 0.1em;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--red);
+}
+.art-body blockquote {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.35;
+  color: var(--paper);
+  padding: 4px 0 4px 28px;
+  border-left: 2px solid var(--red);
+  margin: 36px 0;
+  text-wrap: balance;
+}
+.art-body img { width: 100%; margin: 32px 0; border-radius: 14px; }
+.art-body hr { border: 0; border-top: 1px solid var(--line); margin: 48px 0; }
+@media (max-width: 760px) {
+  .art-body { font-size: 16px; }
+  .art-body h2 { margin: 40px 0 16px; }
+  .art-body h3 { margin: 34px 0 12px; }
+}
 
 /* ---------- About: image + copy ---------- */
 .about-grid {

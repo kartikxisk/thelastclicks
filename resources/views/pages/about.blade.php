@@ -68,10 +68,6 @@
     <x-container>
       <div class="services__head">
         <div><span class="section__eyebrow">Principles</span><h2 class="section__title" data-split>How we <em>operate</em></h2></div>
-        <div class="section__lead reveal">
-          <p>We start by listening — understanding the brand, the brief, and the gap between what exists and what's possible. Then we build the story first, frame by frame, before a single camera rolls.</p>
-          <p style="margin-top:14px">Four non-negotiables that shape every brief we accept.</p>
-        </div>
       </div>
       <div class="proc">
         <div class="proc__step reveal"><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>We listen first — understanding your brand and where craft can push it further — then build the story before we shoot a single frame.</p></div>

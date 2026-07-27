@@ -28,7 +28,7 @@
         </div>
         <h1 data-split>{{ $industry->title }}</h1>
         @if ($industry->summary)
-            <p class="reveal" style="max-width:60ch;margin-top:18px;color:var(--paper-dim);font-size:18px;line-height:1.6">{{ $industry->summary }}</p>
+            <p class="page-header__lead reveal">{{ $industry->summary }}</p>
         @endif
     </section>
 

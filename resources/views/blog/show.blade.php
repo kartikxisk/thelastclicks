@@ -39,14 +39,12 @@
   /* Reading column left-aligned to the hero's content edge (not centered), so the
      body lines up under the title. --art-inset = the container's left gutter. */
   :root { --art-inset: max(var(--pad-x), calc((100% - var(--maxw)) / 2 + var(--pad-x))); }
-  .art-body { padding: 100px 0; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); font-size: 19px; line-height: 1.7; color: var(--paper); }
-  .art-body p { margin-bottom: 22px; text-wrap: pretty; }
-  .art-body h2 { font-family: var(--f-display); font-weight: 600; font-size: clamp(28px, 3.6vw, 40px); letter-spacing: -0.025em; margin: 56px 0 22px; text-wrap: balance; line-height: 1.1; }
-  .art-body h2 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
-  .art-body blockquote { font-family: var(--f-display); font-style: normal; font-weight: 500; font-size: 26px; line-height: 1.35; color: var(--paper); padding: 24px 0 24px 32px; border-left: 2px solid var(--red); margin: 36px 0; text-wrap: balance; max-width: 36ch; }
-  .art-body img { width: 100%; margin: 32px 0; aspect-ratio: 16/9; object-fit: cover; }
-  .art-body ul { padding-left: 22px; margin-bottom: 22px; }
-  .art-body ul li { margin-bottom: 8px; color: var(--paper-dim); }
+  /* Typography lives in pages.css (.art-body) and is shared with the industry
+     pages. Only the article-specific layout and scale is overridden here. */
+  .art-body { padding: 100px 0; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); font-size: 19px; }
+  .art-body h2 { font-size: clamp(28px, 3.6vw, 40px); margin: 56px 0 22px; }
+  .art-body blockquote { padding: 24px 0 24px 32px; max-width: 36ch; }
+  .art-body img { aspect-ratio: 16/9; object-fit: cover; }
   .art-share { padding: 40px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); }
   .art-share__label { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); }
   .art-share__btns { display: flex; gap: 8px; }

@@ -41,13 +41,10 @@
                 <p class="pp-hero__lead reveal">{{ $service->hero_copy }}</p>
             @endif
         </div>
-        @if (!empty($service->hero_meta))
-            <dl class="pp-hero__meta">
-                @foreach ($service->hero_meta as $m)
-                    <div><dt>{{ $m['label'] ?? '' }}</dt><dd>{{ $m['value'] ?? '' }}</dd></div>
-                @endforeach
-            </dl>
-        @endif
+        {{-- Hero meta strip retired: "Typical scope — Per project" and "Timeline — 1–3 weeks"
+             said nothing a buyer could act on, and the Phases section below gives the real
+             timeline per stage. The hero_meta data is still on the model, so restoring this
+             is just un-commenting it. --}}
         @if ($heroImg)
             <div class="pp-hero__cover clip-reveal">
                 <img src="{{ $heroImg }}" alt="{{ $service->title }}" decoding="async">
