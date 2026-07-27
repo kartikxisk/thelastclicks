@@ -21,10 +21,18 @@
                 ? $meta($item)
                 : collect([$item->client ?? null, $item->year ?? null])->filter()->implode(' · ');
             $tag = $href ? 'a' : ($payload ? 'button' : 'div');
+
+            // Only Work carries these; the component is also handed Industries and
+            // MediaItems, so every access is guarded.
+            $preview = method_exists($item, 'previewVideoUrl') ? $item->previewVideoUrl() : null;
+            $crafts = method_exists($item, 'craftSlugs') ? $item->craftSlugs() : [];
+            $category = $item->category ?? null;
         @endphp
         <{{ $tag }}
             class="work-tile reveal"
             data-delay="{{ $loop->index % 4 }}"
+            @if ($category) data-cat="{{ $category }}" @endif
+            @if ($crafts) data-crafts="{{ implode(' ', $crafts) }}" @endif
             @if ($href)
                 href="{{ $href }}"
                 aria-label="{{ $item->title }}"
@@ -39,6 +47,13 @@
                 {{-- Decorative: the tile is labelled by its visible title (and aria-label
                      on interactive tiles), so a matching alt would just double-announce. --}}
                 <img src="{{ $cover }}" alt="" loading="lazy" decoding="async">
+            @endif
+            @if ($preview)
+                {{-- Muted loop layered over the still, revealed on hover/focus. preload="none"
+                     keeps a grid of these from costing a dozen video fetches on page load;
+                     the JS starts the fetch on first hover. --}}
+                <video class="work-tile__preview" src="{{ $preview }}" muted loop playsinline
+                       preload="none" tabindex="-1" aria-hidden="true"></video>
             @endif
             <span class="work-tile__scrim" aria-hidden="true"></span>
             <span class="work-tile__body">

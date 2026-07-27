@@ -137,9 +137,6 @@
       <x-india-outline />
       <span class="cities__pin" style="left:32.1%;top:29.2%"><span class="label">Delhi</span></span>
       <span class="cities__pin" style="left:18.2%;top:62.1%"><span class="label">Mumbai</span></span>
-      <span class="cities__pin" style="left:33.4%;top:83.1%"><span class="label">Bengaluru</span></span>
-      <span class="cities__pin" style="left:36.3%;top:67.9%"><span class="label">Hyderabad</span></span>
-      <span class="cities__pin" style="left:42%;top:82.7%"><span class="label">Chennai</span></span>
       <span class="cities__pin" style="left:68%;top:50.1%"><span class="label">Kolkata</span></span>
       <span class="cities__pin" style="left:21.4%;top:64%"><span class="label">Pune</span></span>
       <span class="cities__pin" style="left:17.2%;top:48.5%"><span class="label">Ahmedabad</span></span>
@@ -149,13 +146,10 @@
       <span class="cities__pin" style="left:22.2%;top:75.1%"><span class="label">Goa</span></span>
       <span class="cities__pin" style="left:20.9%;top:43.1%"><span class="label">Udaipur</span></span>
       <span class="cities__pin" style="left:30.8%;top:21.9%"><span class="label">Chandigarh</span></span>
-      <span class="cities__pin" style="left:29.1%;top:93.6%"><span class="label">Kochi</span></span>
       <span class="cities__pin" style="left:27.8%;top:49.5%"><span class="label">Indore</span></span>
       <span class="cities__pin" style="left:18.1%;top:54.9%"><span class="label">Surat</span></span>
       <span class="cities__pin" style="left:38.2%;top:54.9%"><span class="label">Nagpur</span></span>
-      <span class="cities__pin" style="left:31.4%;top:89.8%"><span class="label">Coimbatore</span></span>
       <span class="cities__pin" style="left:18.7%;top:37.4%"><span class="label">Jodhpur</span></span>
-      <span class="cities__pin" style="left:51.5%;top:66.9%"><span class="label">Visakhapatnam</span></span>
       <span class="cities__pin" style="left:59.8%;top:57.9%"><span class="label">Bhubaneswar</span></span>
       <span class="cities__pin" style="left:57.6%;top:39.6%"><span class="label">Patna</span></span>
       <span class="cities__pin" style="left:78.9%;top:37.8%"><span class="label">Guwahati</span></span>

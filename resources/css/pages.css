@@ -24,13 +24,35 @@
    Cancel the grid and absolutely fill the parent so the video always covers the
    whole hero — a grid row sizes to the video's height and leaves black below it. */
 .hero__bg--reel { display: block; }
-.hero__bg--reel video {
+.hero__bg--reel > video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transform: none;
+}
+/* Admin-managed slides: stacked layers, only the active one painted. Two or more
+   cross-fade; a single slide never gets the JS and just sits at opacity 1. */
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-soft);
+  will-change: opacity;
+}
+.hero__slide.is-on { opacity: 1; }
+.hero__slide img,
+.hero__slide video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__slide { transition: none; }
 }
 .hero__bg .tile {
   position: relative;
@@ -1041,7 +1063,11 @@ main > section:has(.clients) {
 .page-header {
   max-width: var(--maxw);
   margin-inline: auto;
-  padding: 136px var(--pad-x) 44px;
+  /* The panel below pulls up by --stack-r (see `main > section`), and the h1 runs a
+     0.9 line-height so its descenders overhang the text box. Without both allowances
+     the 44px looked like ~4px and the glyph tails crossed into the next section —
+     .cta-strip compensates for the same pull on its top edge. */
+  padding: 136px var(--pad-x) calc(56px + var(--stack-r));
   position: relative;
   border-bottom: 1px solid var(--line);
   min-height: 36vh;
@@ -1908,7 +1934,7 @@ main > section:has(.clients) {
   .hero__center { padding: 40px var(--pad-x) 60px; gap: 24px; }
   .hero__meta { grid-template-columns: 1fr; gap: 24px; padding-top: 32px; }
   .hero__bg { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
-  .page-header { padding: 130px var(--pad-x) 40px; min-height: auto; }
+  .page-header { padding: 130px var(--pad-x) calc(40px + var(--stack-r)); min-height: auto; }
   .page-header__meta { grid-template-columns: 1fr 1fr; gap: 20px; }
   .services__head { gap: 24px; margin-bottom: 40px; }
   .svc { padding: 22px 0; gap: 16px; }
@@ -2105,7 +2131,7 @@ main > section:has(.clients) {
   .cta-strip__row p { font-size: 15px !important; }
 
   /* Page header */
-  .page-header { padding: 120px var(--pad-x) 36px; min-height: auto; }
+  .page-header { padding: 120px var(--pad-x) calc(36px + var(--stack-r)); min-height: auto; }
   .page-header__crumb { margin-bottom: 22px; font-size: 10px; }
   .page-header__meta { grid-template-columns: 1fr 1fr; gap: 18px; padding-top: 28px; margin-top: 32px; font-size: 13px; }
   .page-header__meta dt { font-size: 9.5px; margin-bottom: 6px; }
@@ -2626,7 +2652,7 @@ main > section:has(.clients) {
   .foot__copy { font-size: 10px; gap: 8px; padding-top: 20px; }
 
   /* Page header on interior pages */
-  .page-header { padding: 110px var(--pad-x) 32px; min-height: auto; }
+  .page-header { padding: 110px var(--pad-x) calc(32px + var(--stack-r)); min-height: auto; }
   .page-header__crumb { margin-bottom: 18px; }
   .page-header h1 { font-size: clamp(30px, 10vw, 46px); line-height: 0.95; }
   .page-header__meta { gap: 14px; padding-top: 22px; margin-top: 26px; }
@@ -4704,6 +4730,84 @@ main > section.strip {
 .work-tile[data-work-tile], .work-tile[href] { cursor: pointer; }
 .work-tile img { display: block; width: 100%; height: auto; aspect-ratio: auto; transition: transform 0.8s var(--ease); }
 .work-tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Muted loop layered over the still. The cover stays underneath as the poster, so
+   there is never a black frame while the film buffers. */
+.work-tile__preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-soft);
+  pointer-events: none;
+  z-index: 1;
+}
+.work-tile.is-previewing .work-tile__preview { opacity: 1; }
+/* Coarse pointers have no hover: the in-view slide plays outright rather than
+   waiting for an interaction that never comes. */
+@media (hover: none) {
+  .work-tile.is-previewing .work-tile__preview { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-tile__preview { display: none; }
+}
+/* Filtered out by the craft/category chips. */
+.work-tile[hidden] { display: none; }
+
+/* ---------- Work filters ---------- */
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.work-filters__chip {
+  padding: 9px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper-dim);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+.work-filters__chip:hover { color: var(--paper); border-color: rgba(232,15,3,0.45); }
+.work-filters__chip.is-on { background: var(--red); border-color: var(--red); color: #fff; }
+.work-filters__chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+/* Craft chips read as a distinct axis from the discipline chips beside them. */
+.work-filters__chip--craft { border-style: dashed; }
+.work-filters__sep {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  margin-inline: 6px;
+}
+.work-filters__label {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.work-filters__empty {
+  padding: 56px 0;
+  text-align: center;
+  color: var(--paper-dim);
+  font-size: 15px;
+}
+@media (max-width: 760px) {
+  .work-filters { gap: 8px; margin-bottom: 26px; padding-bottom: 20px; }
+  .work-filters__chip { padding: 7px 14px; font-size: 10px; letter-spacing: 0.14em; }
+  .work-filters__sep { display: none; }
+}
 
 /* Play affordance on video / YouTube gallery tiles. */
 .work-tile__play {

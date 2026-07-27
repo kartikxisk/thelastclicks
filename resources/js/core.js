@@ -398,6 +398,145 @@ import { initWorkLightbox } from './work-lightbox';
     });
   });
 
+  /* -------------------- Work tile video previews -------------------- */
+  /* Tiles ship preload="none", so the fetch starts on first hover rather than
+     costing a dozen video requests on page load. */
+  (() => {
+    const tiles = document.querySelectorAll('.work-tile:has(.work-tile__preview)');
+    if (!tiles.length || reduce) return;
+
+    function start(tile) {
+      const v = tile.querySelector('.work-tile__preview');
+      if (!v) return;
+      if (v.preload === 'none') v.preload = 'auto';
+      tile.classList.add('is-previewing');
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    }
+
+    function stop(tile) {
+      const v = tile.querySelector('.work-tile__preview');
+      if (!v) return;
+      tile.classList.remove('is-previewing');
+      v.pause();
+      v.currentTime = 0;
+    }
+
+    if (isCoarse) {
+      // No hover on touch — play whichever tile is centred in the viewport, one at
+      // a time so a long grid never decodes several films at once.
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => (e.isIntersecting ? start(e.target) : stop(e.target)));
+      }, { rootMargin: '-35% 0px -35% 0px' });
+      tiles.forEach(t => io.observe(t));
+      return;
+    }
+
+    tiles.forEach(tile => {
+      tile.addEventListener('mouseenter', () => start(tile));
+      tile.addEventListener('mouseleave', () => stop(tile));
+      tile.addEventListener('focusin', () => start(tile));
+      tile.addEventListener('focusout', () => stop(tile));
+    });
+  })();
+
+  /* -------------------- Work filters (category + craft) -------------------- */
+  document.querySelectorAll('[data-work-filters]').forEach(bar => {
+    const grid = document.querySelector(bar.dataset.workFilters || '[data-work-grid]');
+    if (!grid) return;
+
+    const tiles = Array.from(grid.querySelectorAll('.work-tile'));
+    const empty = document.querySelector('[data-work-empty]');
+
+    bar.addEventListener('click', e => {
+      const chip = e.target.closest('[data-filter]');
+      if (!chip) return;
+
+      bar.querySelectorAll('[data-filter]').forEach(c => {
+        c.classList.toggle('is-on', c === chip);
+        c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+      });
+
+      // Chips are either `all`, `cat:<slug>` or `craft:<slug>`.
+      const [kind, value] = (chip.dataset.filter || 'all').split(':');
+      let shown = 0;
+
+      tiles.forEach(tile => {
+        let match = true;
+        if (kind === 'cat') {
+          match = (tile.dataset.cat || '') === value;
+        } else if (kind === 'craft') {
+          match = (tile.dataset.crafts || '').split(/\s+/).includes(value);
+        }
+        tile.hidden = !match;
+        if (match) shown++;
+      });
+
+      if (empty) empty.hidden = shown > 0;
+    });
+  });
+
+  /* -------------------- Hero slides -------------------- */
+  /* Only mounted when the admin has two or more active slides. A video slide holds
+     for its own duration so a film is never cut mid-shot; stills hold a fixed beat. */
+  document.querySelectorAll('[data-hero-slides]').forEach(stage => {
+    const slides = Array.from(stage.querySelectorAll('.hero__slide'));
+    if (slides.length < 2) return;
+
+    const STILL_MS = 6000;
+    let i = 0;
+    let timer = 0;
+
+    const mediaOf = s => s.querySelector('video, img');
+
+    function holdFor(slide) {
+      const el = mediaOf(slide);
+      if (el && el.tagName === 'VIDEO' && Number.isFinite(el.duration) && el.duration > 1) {
+        return Math.min(el.duration * 1000, 20000);
+      }
+      return STILL_MS;
+    }
+
+    function show(n) {
+      const prev = slides[i];
+      i = (n + slides.length) % slides.length;
+      const next = slides[i];
+
+      slides.forEach((s, idx) => s.classList.toggle('is-on', idx === i));
+
+      // Pause what's leaving so offscreen films don't keep decoding.
+      const prevEl = mediaOf(prev);
+      if (prev !== next && prevEl && prevEl.tagName === 'VIDEO') prevEl.pause();
+
+      const nextEl = mediaOf(next);
+      if (nextEl && nextEl.tagName === 'VIDEO') {
+        // preload="none" on non-first slides means the source may not be fetched yet.
+        if (nextEl.preload === 'none') nextEl.preload = 'metadata';
+        nextEl.currentTime = 0;
+        const p = nextEl.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      }
+
+      clearTimeout(timer);
+      timer = setTimeout(() => show(i + 1), holdFor(next));
+    }
+
+    // Reduced motion: show the first slide and never rotate.
+    if (reduce) return;
+
+    timer = setTimeout(() => show(1), holdFor(slides[0]));
+
+    // Rotating behind a hidden tab burns decode for nothing.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        clearTimeout(timer);
+      } else {
+        clearTimeout(timer);
+        timer = setTimeout(() => show(i + 1), holdFor(slides[i]));
+      }
+    });
+  });
+
   /* -------------------- Testimonials carousel -------------------- */
   /* Native scroll-snap does the scrolling; JS only mirrors state into the dots
      and arrows, and adds pointer-drag for mouse users (touch already has it). */

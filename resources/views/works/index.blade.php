@@ -38,9 +38,39 @@
 
     {{-- GRID --}}
     @if ($works->isNotEmpty())
+        @php
+            // Only offer a chip when something is actually filed under it — an empty
+            // filter that always yields nothing is worse than no filter.
+            $usedCategories = collect(\App\Models\Work::CATEGORIES)
+                ->filter(fn ($label, $slug) => $works->contains(fn ($w) => $w->category === $slug));
+
+            $usedCrafts = collect(\App\Models\Work::CRAFTS)
+                ->filter(fn ($label, $slug) => $works->contains(fn ($w) => in_array($slug, $w->craftSlugs(), true)));
+        @endphp
+
         <section class="section" data-screen-label="02 Work">
             <x-container>
+                @if ($usedCategories->isNotEmpty() || $usedCrafts->isNotEmpty())
+                    <div class="work-filters" data-work-filters role="group" aria-label="Filter work">
+                        <button type="button" class="work-filters__chip is-on" data-filter="all" aria-pressed="true">All</button>
+
+                        @foreach ($usedCategories as $slug => $label)
+                            <button type="button" class="work-filters__chip" data-filter="cat:{{ $slug }}" aria-pressed="false">{{ $label }}</button>
+                        @endforeach
+
+                        @if ($usedCrafts->isNotEmpty())
+                            <span class="work-filters__sep" aria-hidden="true"></span>
+                            <span class="work-filters__label">In-house</span>
+                            @foreach ($usedCrafts as $slug => $label)
+                                <button type="button" class="work-filters__chip work-filters__chip--craft" data-filter="craft:{{ $slug }}" aria-pressed="false">{{ $label }}</button>
+                            @endforeach
+                        @endif
+                    </div>
+                @endif
+
                 <x-media-grid :items="$works" layout="bento" />
+
+                <p class="work-filters__empty" data-work-empty hidden>Nothing filed under that yet.</p>
             </x-container>
         </section>
     @endif
