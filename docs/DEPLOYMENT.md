@@ -79,7 +79,25 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    - `QUEUE_CONNECTION=database` (or `redis`)
    - `SENTRY_LARAVEL_DSN=<from-sentry.io>`
    - `ADMIN_SEED_EMAIL` + `ADMIN_SEED_PASSWORD` (change after first login)
-5. Run initial deploy script:
+5. Run the deploy:
+
+   ```bash
+   sudo -E php artisan deploy
+   ```
+
+   That single command runs the whole sequence below, in order, aborting on the
+   first failure with a non-zero exit code (so Forge marks the deploy failed
+   rather than reporting a green deploy that half-ran). `sudo` is only needed for
+   the `chown` step — without root it warns and skips that step instead of failing.
+
+   Preview without executing: `php artisan deploy --dry-run`.
+
+   Useful flags: `--skip-composer`, `--skip-npm`, `--skip-seed`, `--skip-media`,
+   `--skip-permissions`, `--web-user=<name>`, `--maintenance` (site goes down for
+   the duration and is always brought back up, including on failure),
+   `--strict-preflight`.
+
+   The steps it runs, which is the manual sequence if you ever need to drive it by hand:
 
    ```bash
    composer install --no-dev --optimize-autoloader
@@ -95,6 +113,12 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    php artisan sitemap:generate
    php artisan app:preflight
    ```
+
+   `php artisan deploy` runs each of these as its own subprocess rather than
+   in-process. That is load-bearing, not stylistic: step one replaces `vendor/`
+   while the command's own PHP process already holds the old autoloader in memory,
+   so running later steps in-process would execute them against a half-swapped
+   vendor — the exact stale-class failure documented below.
 
    `sitemap:generate` runs on deploy as well as weekly on the scheduler:
    `public/sitemap.xml` is generated, not committed, so a fresh checkout has
@@ -178,7 +202,21 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
 
 GitHub Actions runs pest + pint + phpstan on every PR. Forge auto-deploys on push to `main` via Forge webhook (configure in Forge → Site → Auto deploy).
 
-The Forge deploy script must include, after `npm run build`:
+The whole Forge deploy script is:
+
+```bash
+cd /home/forge/thelastclicks.com
+git pull origin main
+php artisan deploy
+```
+
+`php artisan deploy` covers every step below and exits non-zero on the first
+failure, which is what makes Forge report a failed deploy instead of a green one
+that only half-ran. It cannot chown `storage/` as the `forge` user, so either add
+`--skip-permissions` (Forge already owns those dirs) or grant the deploy user
+passwordless sudo for chown.
+
+If you drive the deploy by hand instead, it must include, after `npm run build`:
 
 ```bash
 php artisan responsecache:clear
