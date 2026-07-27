@@ -183,6 +183,16 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    `rm -rf storage/framework/views/*` first to clear root-owned compiled views,
    then chown.
 
+   **Why it comes back after you fix it.** Every artisan command writes
+   `storage/logs/laravel.log` as whoever runs it, so a `chown` early in the deploy
+   is undone by the steps that follow it. `php artisan deploy` therefore runs the
+   chown/chmod as the *last* mutating steps, after the media imports and sitemap,
+   and applies setgid (`find storage bootstrap/cache -type d -exec chmod g+s {} +`)
+   so files created later — by a root-run artisan, or by Blade compiling a view at
+   request time — inherit the web user's group instead of the creator's. It also
+   sets `umask(0002)` so anything it creates as root is group-writable rather than
+   644. Cleanest habit regardless: run artisan as the web user, `sudo -u www php artisan …`.
+
    `app:preflight` fails the deploy on this, so it can no longer pass while the
    site 500s. In production it resolves the web user (`www-data`, then `www`,
    or `APP_WEB_USER`) and checks the owner/group/mode bits of `storage/logs`,

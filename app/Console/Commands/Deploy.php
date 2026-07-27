@@ -30,11 +30,19 @@ class Deploy extends Command
 
     protected $description = 'Run the full deployment: composer, migrate, seed, assets, caches, media, sitemap, preflight';
 
+    /** Directories the runtime writes to at request time, and the only ones chowned. */
+    private const RUNTIME_DIRS = ['storage', 'bootstrap/cache'];
+
     /** @var list<array{label: string, cmd: list<string>, timeout: int}> */
     private array $ran = [];
 
     public function handle(): int
     {
+        // Group-writable by default, so files this deploy creates as root (a fresh
+        // laravel.log, a compiled view) stay writable by the web user's group rather
+        // than landing 644 root-owned and 500ing the next request that touches them.
+        umask(0002);
+
         $steps = $this->plan();
 
         if ($this->option('dry-run')) {
@@ -114,20 +122,6 @@ class Deploy extends Command
         // every cached page 404s its CSS/JS until this runs.
         $steps[] = ['label' => 'Refresh caches', 'cmd' => [$php, 'artisan', 'deploy:refresh'], 'timeout' => 300];
 
-        if (! $this->option('skip-permissions') && ($owner = $this->runtimeOwner()) !== null) {
-            $steps[] = [
-                'label' => "Hand storage + bootstrap/cache to {$owner}",
-                'cmd' => ['chown', '-R', "{$owner}:{$owner}", 'storage', 'bootstrap/cache'],
-                'timeout' => 120,
-            ];
-            // 775, never 777 — the right owner plus group-write is enough.
-            $steps[] = [
-                'label' => 'Set runtime dir permissions',
-                'cmd' => ['chmod', '-R', '775', 'storage', 'bootstrap/cache'],
-                'timeout' => 120,
-            ];
-        }
-
         if (! $this->option('skip-media')) {
             // Idempotent uploads: they skip objects already on the media disk. Without
             // them a fresh environment 404s the hero reel and renders blank industry cards.
@@ -137,6 +131,33 @@ class Deploy extends Command
         }
 
         $steps[] = ['label' => 'Generate sitemap', 'cmd' => [$php, 'artisan', 'sitemap:generate'], 'timeout' => 300];
+
+        // Permissions come LAST of the mutating steps, not next to deploy:refresh.
+        // Every artisan step above writes storage/logs/laravel.log as whoever runs the
+        // deploy, so chowning earlier just gets undone by the steps that follow it —
+        // the site then 500s on a deploy that reported success.
+        if (! $this->option('skip-permissions') && ($owner = $this->runtimeOwner()) !== null) {
+            $steps[] = [
+                'label' => 'Hand '.implode(' + ', self::RUNTIME_DIRS)." to {$owner}",
+                'cmd' => ['chown', '-R', "{$owner}:{$owner}", ...self::RUNTIME_DIRS],
+                'timeout' => 120,
+            ];
+            // 775, never 777 — the right owner plus group-write is enough.
+            $steps[] = [
+                'label' => 'Set runtime dir permissions',
+                'cmd' => ['chmod', '-R', '775', ...self::RUNTIME_DIRS],
+                'timeout' => 120,
+            ];
+            // setgid on the directories: files created later (by a root-run artisan, or
+            // by Blade compiling a view at request time) inherit the web user's group
+            // instead of the creator's, so 775 keeps them writable and this stops being
+            // a recurring outage.
+            $steps[] = [
+                'label' => 'Set setgid so new files inherit the group',
+                'cmd' => ['find', ...self::RUNTIME_DIRS, '-type', 'd', '-exec', 'chmod', 'g+s', '{}', '+'],
+                'timeout' => 120,
+            ];
+        }
 
         $preflight = [$php, 'artisan', 'app:preflight'];
         if ($this->option('strict-preflight')) {
