@@ -183,6 +183,22 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    `rm -rf storage/framework/views/*` first to clear root-owned compiled views,
    then chown.
 
+   **Never `chmod -R 775` these directories.** Git records only the executable
+   bit, and `-R 775` sets it on *files* as well as directories — which flips the
+   eleven tracked `.gitignore` placeholders under `storage/` and `bootstrap/cache`
+   from `100644` to `100755`. Every deploy then reports eleven modified files and
+   can block the next `git pull`. Split it instead:
+
+   ```bash
+   find storage bootstrap/cache -type d -exec chmod 2775 {} +   # dirs: 775 + setgid
+   find storage bootstrap/cache -type f -exec chmod 664 {} +    # files: no +x
+   ```
+
+   `664` reads back as `100644`, so git sees no change, and data files should not
+   be executable anyway. `chown -R` is unaffected — git does not track ownership.
+   If a server is already showing the churn, `git config core.fileMode false` in
+   that clone tells git to stop comparing permission bits at all.
+
    **Why it comes back after you fix it.** Every artisan command writes
    `storage/logs/laravel.log` as whoever runs it, so a `chown` early in the deploy
    is undone by the steps that follow it. `php artisan deploy` therefore runs the

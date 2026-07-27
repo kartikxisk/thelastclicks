@@ -61,18 +61,9 @@
         </section>
     @endif
 
-    {{-- 02 PROOF STRIP --}}
-    @if (!empty($service->proof))
-        <section class="pp-proof reveal">
-            <x-container>
-                <div class="pp-proof__inner">
-                    <div class="pp-proof__n"><span data-count="{{ $service->proof['count'] ?? 0 }}" data-decimals="0">0</span><em>·</em></div>
-                    <div class="pp-proof__l">{{ $service->proof['label'] ?? '' }}</div>
-                    <div class="pp-proof__sectors"><span>Sectors covered:</span> {{ $service->proof['sectors'] ?? '' }}</div>
-                </div>
-            </x-container>
-        </section>
-    @endif
+    {{-- 02 PROOF STRIP — retired. An unverifiable counter ("286 cuts finished") next to
+         a sector list the visitor cannot act on, and the number is seeded rather than
+         derived from real work. The `proof` data is still on the model. --}}
 
     {{-- 03 PILLARS — retired. Phases below already answers "how do you work", concretely
          and with a timeline; Pillars restated it as four generic promises, and two

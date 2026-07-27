@@ -142,19 +142,23 @@ class Deploy extends Command
                 'cmd' => ['chown', '-R', "{$owner}:{$owner}", ...self::RUNTIME_DIRS],
                 'timeout' => 120,
             ];
-            // 775, never 777 — the right owner plus group-write is enough.
+            // Directories only: 2775 = rwxrwxr-x + setgid. The x bit lets the web user
+            // traverse; setgid means files created later (by a root-run artisan, or by
+            // Blade compiling a view at request time) inherit the web user's group
+            // rather than the creator's, so this stops being a recurring outage.
             $steps[] = [
-                'label' => 'Set runtime dir permissions',
-                'cmd' => ['chmod', '-R', '775', ...self::RUNTIME_DIRS],
+                'label' => 'Set runtime dir permissions (775 + setgid)',
+                'cmd' => ['find', ...self::RUNTIME_DIRS, '-type', 'd', '-exec', 'chmod', '2775', '{}', '+'],
                 'timeout' => 120,
             ];
-            // setgid on the directories: files created later (by a root-run artisan, or
-            // by Blade compiling a view at request time) inherit the web user's group
-            // instead of the creator's, so 775 keeps them writable and this stops being
-            // a recurring outage.
+            // Files get 664, never 775. Git records only the executable bit, so a
+            // blanket `chmod -R 775` flips the tracked .gitignore placeholders in these
+            // dirs from 100644 to 100755 and every deploy then reports 11 modified
+            // files and can block `git pull`. 664 reads as 100644 — no diff — and data
+            // files should not be executable anyway.
             $steps[] = [
-                'label' => 'Set setgid so new files inherit the group',
-                'cmd' => ['find', ...self::RUNTIME_DIRS, '-type', 'd', '-exec', 'chmod', 'g+s', '{}', '+'],
+                'label' => 'Set runtime file permissions (664)',
+                'cmd' => ['find', ...self::RUNTIME_DIRS, '-type', 'f', '-exec', 'chmod', '664', '{}', '+'],
                 'timeout' => 120,
             ];
         }
