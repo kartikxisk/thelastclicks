@@ -5552,6 +5552,36 @@ main > section.strip {
   html { scroll-behavior: auto; }
 }
 
+/* ---------- Mobile: stop pinning every scene to a full screen ----------
+   A 100svh floor per section is the whole point on desktop, where the content
+   nearly fills it. On a phone the same rule turns a two-line heading and three
+   rows into a screen and a half, and the page becomes mostly empty scrolling.
+   Sections size to their content here; the hero and media headers keep the
+   full-height treatment because their content IS the full-bleed image. */
+@media (max-width: 860px) {
+  :root { --scene-min: auto; }
+
+  main > section {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  /* The hero and full-bleed page headers still fill the screen. */
+  main > section.hero,
+  main > section.page-header--media {
+    min-height: 100svh;
+    justify-content: center;
+  }
+
+  /* Tighter vertical rhythm: the desktop value is tuned for sections that are
+     already a screen tall. */
+  .section { padding: clamp(44px, 7vh, 72px) 0; }
+}
+
+@media (max-width: 560px) {
+  .section { padding: clamp(36px, 6vh, 56px) 0; }
+}
+
 /* Footer closes the page — lifts over the section above (the compact CTA on
    most pages) so there's no dead champagne gap between them. */
 .foot {
@@ -5865,6 +5895,17 @@ em:hover {
 [data-anim="slide-r"]    { opacity: 0; transform: translateX(64px); }
 [data-anim="scale-frame"]{ opacity: 0; transform: scale(0.86); }
 [data-anim="rise"]       { opacity: 0; transform: translateY(46px); }
+
+/* Horizontal entrance offsets widen the document until they play: an element
+   parked 64px to the right of a full-width column sticks out past the viewport,
+   and the whole page gains a sideways scroll. Clipping the section contains the
+   start state without changing the animation. */
+main > section { overflow-x: clip; }
+@media (max-width: 860px) {
+  /* Tighter travel too — 64px is a big slide on a 390px screen. */
+  [data-anim="slide-l"] { transform: translateX(-28px); }
+  [data-anim="slide-r"] { transform: translateX(28px); }
+}
 
 [data-anim].is-in {
   opacity: 1;

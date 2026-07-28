@@ -33,6 +33,11 @@ class DevWorksSeeder extends Seeder
      * because they permit embedding — commercial music videos serve a poster
      * frame happily but refuse the iframe, so the lightbox opens onto "Video
      * unavailable" and you can't tell a broken player from blocked content.
+     *
+     * Every id here is verified to return a poster frame. Three earlier entries
+     * (Coffee Run, Caminandes, Hero) 404 on BOTH maxresdefault and hqdefault,
+     * so their tiles rendered YouTube's grey placeholder and logged a console
+     * error per tile. Check any new id against img.youtube.com before adding it.
      */
     private const VIDEO_IDS = [
         'YE7VzlLtp-4', // Big Buck Bunny
@@ -42,11 +47,9 @@ class DevWorksSeeder extends Seeder
         'Y-rmzh0PI3c', // Cosmos Laundromat
         'WhWc3b3KhnY', // Spring
         'mN0zPOpADL4', // Agent 327
-        'Gr3O0Fp3VXo', // Caminandes 3
-        'MoQeUhtlvfM', // Coffee Run
         'UXqq0ZvbOnk', // Charge
-        'ZfPBriZQviU', // Hero
         'pKmSdY56VtY', // Wing It!
+        'lqiN98z6Dak', // Big Buck Bunny (alt cut)
     ];
 
     private const TITLES = [

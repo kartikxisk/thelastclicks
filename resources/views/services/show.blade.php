@@ -37,7 +37,6 @@
         </div>
         <div class="pp-hero__row">
             <h1 data-split>{!! $service->hero_headline ?: e($service->title) !!}</h1>
-          s
         </div>
         {{-- Hero meta strip retired: "Typical scope — Per project" and "Timeline — 1–3 weeks"
              said nothing a buyer could act on, and the Phases section below gives the real

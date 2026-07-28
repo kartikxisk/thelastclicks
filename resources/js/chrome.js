@@ -317,7 +317,11 @@ window.TLC = (function(){
       </div>
     </div>
     ${quoteHTML()}
-    <div class="hover-preview"><img alt=""></div>`;
+    <!-- 1x1 transparent GIF rather than a src-less <img>: src-less counts as a
+         broken image to validators and audit tools. core.js swaps in the real
+         preview on first hover. -->
+    <div class="hover-preview"><img alt="" decoding="async"
+      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div>`;
   }
 
   function mount(opts = {}) {
