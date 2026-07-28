@@ -11,8 +11,9 @@
     $readMin = max(1, (int) ceil(str_word_count(strip_tags((string) $post->body)) / 200));
 @endphp
 
-<a class="post reveal" href="{{ url('/blog/' . $post->slug) }}" data-cat="{{ $catKey }}">
-    <div class="post__img">
+<a class="post scene-stop" href="{{ url('/blog/' . $post->slug) }}" data-cat="{{ $catKey }}"
+   data-anim="mask-up" data-lift data-sheen>
+    <div class="post__img" data-zoom>
         @if ($cover)
             <img src="{{ $cover }}" alt="{{ $post->title }}" loading="lazy" decoding="async">
         @else

@@ -37,16 +37,14 @@
         </div>
         <div class="pp-hero__row">
             <h1 data-split>{!! $service->hero_headline ?: e($service->title) !!}</h1>
-            @if ($service->hero_copy)
-                <p class="pp-hero__lead reveal">{{ $service->hero_copy }}</p>
-            @endif
+          s
         </div>
         {{-- Hero meta strip retired: "Typical scope — Per project" and "Timeline — 1–3 weeks"
              said nothing a buyer could act on, and the Phases section below gives the real
              timeline per stage. The hero_meta data is still on the model, so restoring this
              is just un-commenting it. --}}
         @if ($heroImg)
-            <div class="pp-hero__cover clip-reveal">
+            <div class="pp-hero__cover" data-anim="curtain" data-zoom>
                 <img src="{{ $heroImg }}" alt="{{ $service->title }}" decoding="async">
             </div>
         @endif
@@ -73,17 +71,18 @@
     {{-- 04 PHASES --}}
     @if (!empty($service->phases))
         <section class="pp-phases-section" data-screen-label="03 Phases">
+            <x-scene-bg type="edit" />
             <x-container>
                 <div class="services__head">
                     <div>
                         <span class="section__eyebrow" data-scramble>The flow</span>
                         <h2 class="section__title" data-split>From brief <em>to delivery.</em></h2>
                     </div>
-                    <p class="section__lead reveal">Every phase: an owner, a deliverable, a review gate. No drift.</p>
+                    <p class="section__lead" data-anim="rise">Every phase: an owner, a deliverable, a review gate. No drift.</p>
                 </div>
                 <div class="pp-phases">
                     @foreach ($service->phases as $ph)
-                        <article class="pp-phase reveal"><div class="pp-phase__num">{{ $ph['num'] ?? '' }}</div><div class="pp-phase__body"><h3>{{ $ph['title'] ?? '' }}</h3><p>{{ $ph['desc'] ?? '' }}</p></div><div class="pp-phase__time">{{ $ph['time'] ?? '' }}</div></article>
+                        <article class="pp-phase scene-stop" data-anim="curtain" data-sheen><div class="pp-phase__num">{{ $ph['num'] ?? '' }}</div><div class="pp-phase__body"><h3>{{ $ph['title'] ?? '' }}</h3><p>{{ $ph['desc'] ?? '' }}</p></div><div class="pp-phase__time">{{ $ph['time'] ?? '' }}</div></article>
                     @endforeach
                 </div>
             </x-container>
@@ -93,6 +92,7 @@
     {{-- 05 GALLERY --}}
     @if (!empty($galleryUrls))
         <section class="pp-gallery-section" data-screen-label="04 Gallery">
+            <x-scene-bg type="photo" />
             <x-container>
                 <div class="services__head">
                     <div>
@@ -100,9 +100,9 @@
                         <h2 class="section__title" data-split>The <em>output.</em></h2>
                     </div>
                 </div>
-                <div class="pp-gallery">
+                <div class="pp-gallery" data-stagger>
                     @foreach ($galleryUrls as $i => $url)
-                        <div class="pp-g {{ $gallerySpans[$i % count($gallerySpans)] }} reveal"><img src="{{ $url }}" alt="" {{ $i > 1 ? 'loading=lazy' : '' }} decoding="async"></div>
+                        <div class="pp-g {{ $gallerySpans[$i % count($gallerySpans)] }} scene-stop" data-anim="iris" data-zoom><img src="{{ $url }}" alt="" {{ $i > 1 ? 'loading=lazy' : '' }} decoding="async"></div>
                     @endforeach
                 </div>
             </x-container>
@@ -112,17 +112,18 @@
     {{-- 06 KIT --}}
     @if (!empty($service->kit))
         <section class="pp-kit" data-screen-label="05 Kit">
+            <x-scene-bg type="camera" />
             <x-container>
                 <div class="services__head">
                     <div>
                         <span class="section__eyebrow" data-scramble>Tools we trust</span>
                         <h2 class="section__title" data-split>Cinema-grade <em>by default.</em></h2>
                     </div>
-                    <p class="section__lead reveal">Our shortlist — extended per-brief when a project needs a specific look.</p>
+                    <p class="section__lead" data-anim="slide-l">Our shortlist — extended per-brief when a project needs a specific look.</p>
                 </div>
-                <div class="pp-kit__grid">
+                <div class="pp-kit__grid" data-stagger>
                     @foreach ($service->kit as $i => $k)
-                        <div class="pp-kit__card reveal"@if ($i > 0) data-delay="{{ $i }}"@endif><span class="pp-kit__cat">{{ $k['title'] ?? '' }}</span><p>{{ implode(' · ', $k['items'] ?? []) }}</p></div>
+                        <div class="pp-kit__card" data-anim="rotate-in" data-lift><span class="pp-kit__cat">{{ $k['title'] ?? '' }}</span><p>{{ implode(' · ', $k['items'] ?? []) }}</p></div>
                     @endforeach
                 </div>
             </x-container>
@@ -132,6 +133,7 @@
     {{-- 08 FAQ --}}
     @if (!empty($service->faqs))
         <section class="pp-faq" data-screen-label="07 FAQ">
+            <x-scene-bg type="grid" />
             <x-container>
                 <div class="services__head">
                     <div>
@@ -139,9 +141,9 @@
                         <h2 class="section__title" data-split>Things people <em>ask.</em></h2>
                     </div>
                 </div>
-                <div class="acc" data-acc>
+                <div class="acc" data-acc data-stagger>
                     @foreach ($service->faqs as $i => $f)
-                        <div class="acc__item{{ $i === 0 ? ' is-open' : '' }}"><button class="acc__head"><h3>{{ $f['q'] ?? '' }}</h3><span class="acc__plus"></span></button><div class="acc__body"><div class="acc__body-inner">{{ $f['a'] ?? '' }}</div></div></div>
+                        <div class="acc__item{{ $i === 0 ? ' is-open' : '' }}" data-anim="rise"><button class="acc__head"><h3>{{ $f['q'] ?? '' }}</h3><span class="acc__plus"></span></button><div class="acc__body"><div class="acc__body-inner">{{ $f['a'] ?? '' }}</div></div></div>
                     @endforeach
                 </div>
             </x-container>
@@ -156,19 +158,12 @@
             ?? \App\Models\Service::orderBy('order')->first();
     @endphp
     <section class="cta-strip">
-        <x-container>
-            <h2 class="cta-strip__title" data-split>{!! $cta['title'] ?? 'Start the <em>brief.</em>' !!}</h2>
-            <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">{{ $cta['copy'] ?? "Brief us — treatment, timeline, and budget back within 4 working hours." }}</p>
+        <x-scene-bg type="photo" />
+        <x-container data-stagger>
+            <h2 class="cta-strip__title" data-split data-anim="mask-up">{!! $cta['title'] ?? 'Start with a brief.<br>Or start with <em>a question.</em>' !!}</h2>
+            <div class="cta-strip__row" data-anim="rise">
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-quote-prefill="{{ $cta['prefill'] ?? $service->title }}" data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
             </div>
-            @if ($nextService && $nextService->id !== $service->id)
-                <a class="cta-strip__next" href="{{ url('/services/'.$nextService->slug) }}" data-cursor="VIEW">
-                    <span class="cta-strip__next-label">Next discipline</span>
-                    <span class="cta-strip__next-title">{{ $nextService->title }}</span>
-                    <em>&rarr;</em>
-                </a>
-            @endif
         </x-container>
     </section>
 

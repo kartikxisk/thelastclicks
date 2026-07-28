@@ -55,6 +55,7 @@ class SiteSettingsPage extends Page implements HasForms
             'page_image_blog' => SiteSetting::get('page_image_blog'),
             'page_image_industries' => SiteSetting::get('page_image_industries'),
             'page_image_about_body' => SiteSetting::get('page_image_about_body'),
+            'work_tile_ratio' => SiteSetting::get('work_tile_ratio', SiteSetting::DEFAULT_WORK_TILE_RATIO),
         ]);
     }
 
@@ -143,7 +144,7 @@ class SiteSettingsPage extends Page implements HasForms
                             ...collect([
                                 'about' => 'About — header',
                                 'contact' => 'Contact — header',
-                                'works' => 'Our Work — header',
+                                'works' => 'Portfolio — header',
                                 'blog' => 'Journal — header',
                                 'industries' => 'Industries — header',
                                 'about_body' => 'About — studio photo',
@@ -153,6 +154,20 @@ class SiteSettingsPage extends Page implements HasForms
                                 ->directory('headers')
                                 ->visibility('private')
                                 ->fetchFileInformation(false))->values()->all(),
+                        ]),
+
+                    Forms\Components\Tabs\Tab::make('Portfolio display')
+                        ->schema([
+                            Forms\Components\Placeholder::make('work_ratio_note')
+                                ->label('')
+                                ->content('Shape of the floating tiles in the homepage portfolio field. Every tile uses the same ratio — mixed shapes read as a mistake rather than as a collage.'),
+                            Forms\Components\Select::make('work_tile_ratio')
+                                ->label('Tile aspect ratio')
+                                ->options(SiteSetting::WORK_TILE_RATIOS)
+                                ->default(SiteSetting::DEFAULT_WORK_TILE_RATIO)
+                                ->selectablePlaceholder(false)
+                                ->native(false)
+                                ->helperText('Landscape suits film stills; square is the safest with mixed source material; portrait suits reels and social cuts.'),
                         ]),
                 ]),
             ])
@@ -183,6 +198,13 @@ class SiteSettingsPage extends Page implements HasForms
 
         $this->storeUpload('brand_logo', $data['brand_logo'] ?? '', (bool) ($data['remove_brand_logo'] ?? false));
         $this->storeUpload('favicon', $data['favicon'] ?? '', (bool) ($data['remove_favicon'] ?? false));
+
+        // Guard the ratio: an unknown value would emit invalid CSS and collapse
+        // every tile to zero height.
+        $ratio = $data['work_tile_ratio'] ?? SiteSetting::DEFAULT_WORK_TILE_RATIO;
+        SiteSetting::set('work_tile_ratio', isset(SiteSetting::WORK_TILE_RATIOS[$ratio])
+            ? $ratio
+            : SiteSetting::DEFAULT_WORK_TILE_RATIO);
 
         foreach (['about', 'contact', 'works', 'blog', 'industries', 'about_body'] as $key) {
             $this->storeUpload("page_image_{$key}", $data["page_image_{$key}"] ?? '', false);

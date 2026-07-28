@@ -30,12 +30,13 @@
     </section>
 
     {{-- 02 Journal — featured article, category chips, post grid --}}
-    <section class="section" data-screen-label="02 Journal" style="background:var(--ink-2);border-radius:var(--stack-r)">
+    <section class="section" data-screen-label="02 Journal">
+        <x-scene-bg type="grid" />
         <x-container>
 
             {{-- Featured article spotlight (article.feat from design) --}}
             @if ($featured)
-                <article class="feat reveal">
+                <article class="feat" data-anim="curtain" data-sheen>
                     <div class="feat__media">
                         <span class="feat__tag">Editor's pick</span>
                         @php $coverUrl = $featured->getFirstMediaUrl('cover'); @endphp
@@ -75,7 +76,7 @@
                 }
                 $cats = \App\Models\Category::orderBy('name')->get();
             @endphp
-            <div class="cats reveal" data-cats>
+            <div class="cats" data-anim="rise" data-cats>
                 <button class="cats__chip is-on" data-cat="all">All<span class="count">{{ str_pad((string) $posts->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
                 @foreach ($cats as $cat)
                     @php($count = $catCounts[$cat->slug] ?? 0)
@@ -86,7 +87,7 @@
             </div>
 
             {{-- Posts grid --}}
-            <div class="blog-grid">
+            <div class="blog-grid" data-stagger>
                 @foreach ($posts as $post)
                     <x-card-post :post="$post" />
                 @endforeach
@@ -102,16 +103,17 @@
 
     {{-- CTA Strip --}}
     <section class="cta-strip">
-        <x-container>
-            <h2 class="cta-strip__title" data-split>Get the <em>journal.</em></h2>
-            <div class="cta-strip__row reveal">
+        <x-scene-bg type="photo" />
+        <x-container data-stagger>
+            <h2 class="cta-strip__title" data-split data-anim="mask-up">Read us here.<br>Or read us <em>in your inbox.</em></h2>
+            <div class="cta-strip__row" data-anim="rise">
                 <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">One craft note a month. No spam, no growth-hacks.</p>
                 <form class="row" action="{{ route('newsletter.store') }}" method="POST">
                     @csrf
                     {{-- Honeypot: real people never fill this; bots do. Mirrors the contact form. --}}
                     <input type="text" name="website" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px" aria-hidden="true">
                     <input type="hidden" name="source_page" value="{{ request()->path() }}">
-                    <input type="email" name="email" aria-label="Email address" placeholder="you@studio.com" required value="{{ old('email') }}" style="background:transparent;border:1px solid var(--line);border-radius:100px;padding:14px 22px;color:var(--paper);font:inherit;flex:1 1 220px;min-width:0">
+                    <input type="email" name="email" aria-label="Email address" placeholder="you@studio.com" required value="{{ old('email') }}" style="background:transparent;border:1px solid var(--line);border-radius: 0;padding:14px 22px;color:var(--paper);font:inherit;flex:1 1 220px;min-width:0">
                     <button class="btn btn--red" type="submit" data-magnetic>Subscribe <span class="arr"></span></button>
                 </form>
                 @if (session('newsletter_status'))

@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Industry;
 use App\Models\Post;
 use App\Models\SeoPage;
 use App\Models\Service;
@@ -49,7 +48,7 @@ class GenerateSitemap extends Command
         };
 
         $statics = [
-            '/', '/about', '/blog', '/industries', '/our-works',
+            '/', '/about', '/blog', '/industries', '/portfolio',
             '/contact', '/privacy-policy', '/terms-of-service', '/cookie-policy', '/disclaimer',
         ];
         foreach ($statics as $path) {
@@ -59,9 +58,8 @@ class GenerateSitemap extends Command
         foreach (Service::all() as $svc) {
             $add('/services/'.$svc->slug, $svc->updated_at);
         }
-        foreach (Industry::all() as $ind) {
-            $add('/industries/'.$ind->slug, $ind->updated_at);
-        }
+        // Industry detail pages are retired — /industries/{slug} 301s to the
+        // index, and listing redirects in a sitemap is a crawl-budget waste.
         foreach (Post::published()->get() as $p) {
             $add('/blog/'.$p->slug, $p->updated_at);
         }

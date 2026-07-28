@@ -9,7 +9,7 @@
   .ty__inner { text-align: center; max-width: 760px; }
   .ty__check {
     width: 120px; height: 120px;
-    border-radius: 50%;
+    border-radius: 0;
     background: rgba(232,15,3,0.08);
     border: 1.5px solid var(--red);
     display: grid; place-items: center;
@@ -22,7 +22,7 @@
     position: absolute;
     inset: -8px;
     border: 1px solid rgba(232,15,3,0.18);
-    border-radius: 50%;
+    border-radius: 0;
     animation: tyRing 2.4s var(--ease-soft) infinite;
   }
   @keyframes tyPulse {

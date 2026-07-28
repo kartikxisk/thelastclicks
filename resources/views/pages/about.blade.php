@@ -29,28 +29,29 @@
 
   {{-- Our story — mirrors the homepage "discipline" block, image kept on the right --}}
   <section class="section disc" data-screen-label="02 Our story">
+      <x-scene-bg type="camera" />
     <x-container>
-      <div class="disc__grid">
-        <div class="disc__lead">
+      <div class="disc__grid" data-stagger>
+        <div class="disc__lead" data-anim="curtain">
           <span class="section__eyebrow">Our story</span>
           <h2 class="section__title" data-split>Built on the <em>discipline</em> of premium brands.</h2>
-          <div class="disc__copy reveal" data-delay="1">
+          <div class="disc__copy">
             <p>Brands choose us because we deliver trust, not just footage. Every shoot — wedding, commercial, or corporate — is run with the same discipline: show up prepared, protect the brief, deliver work that holds up under scrutiny.</p>
-            <p>That discipline is why our client list spans far beyond weddings and product launches — we've delivered for the nation's most demanding institutions, including the <strong>Indian Navy, Indian Army, and BSF</strong>, alongside <strong>Fortune 500 brands</strong> and automotive houses.</p>
+            <p>That discipline is why our client list spans far beyond weddings and product launches — we've delivered for some of the country's most demanding organisations, from <strong>national institutions and defence forces</strong> to <strong>global enterprise brands</strong> and leading automotive names.</p>
             <p>We don't chase &ldquo;good enough.&rdquo; Every project is a chance to be better than the last one — sharper frames, tighter edits, stronger stories.</p>
           </div>
           <p class="disc__kicker reveal" data-delay="2">Not a vendor — a long-term partner that scales with your story.</p>
 
-          <div class="disc__stats">
-            <div class="disc__stat reveal">
+          <div class="disc__stats" data-stagger>
+            <div class="disc__stat" data-anim="mask-up">
               <div class="disc__num"><span data-count="5">0</span><em>+</em></div>
               <span class="disc__lab">Years of experience</span>
             </div>
-            <div class="disc__stat reveal" data-delay="1">
+            <div class="disc__stat" data-anim="mask-up">
               <div class="disc__num"><span data-count="20">0</span><em>+</em></div>
               <span class="disc__lab">Cities covered across India</span>
             </div>
-            <div class="disc__stat reveal" data-delay="2">
+            <div class="disc__stat" data-anim="mask-up">
               <div class="disc__num"><span data-count="1000">0</span><em>+</em></div>
               <span class="disc__lab">Events &amp; activations over the last decade</span>
             </div>
@@ -58,57 +59,59 @@
         </div>
         @php $aboutPhoto = \App\Models\SiteSetting::pageImage('about_body'); @endphp
         @if ($aboutPhoto)
-          <div class="about-img clip-reveal"><img src="{{ $aboutPhoto }}" alt="TheLastClicks studio at work" decoding="async"></div>
+          <div class="about-img" data-anim="iris" data-zoom><img src="{{ $aboutPhoto }}" alt="TheLastClicks studio at work" decoding="async"></div>
         @endif
       </div>
     </x-container>
   </section>
 
   <section class="section">
+      <x-scene-bg type="edit" />
     <x-container>
       <div class="services__head">
         <div><span class="section__eyebrow">Principles</span><h2 class="section__title" data-split>How we <em>operate</em></h2></div>
       </div>
-      <div class="proc">
-        <div class="proc__step reveal"><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>We listen first — understanding your brand and where craft can push it further — then build the story before we shoot a single frame.</p></div>
-        <div class="proc__step reveal" data-delay="1"><div class="proc__num">02<span>CRAFT</span></div><h3>Brand-grade post</h3><p>In-house grading and finishing — never outsourced.</p></div>
-        <div class="proc__step reveal" data-delay="2"><div class="proc__num">03<span>SCALE</span></div><h3>Crews that flex</h3><p>One operator or thirty — same standard, same lead.</p></div>
-        <div class="proc__step reveal" data-delay="3"><div class="proc__num">04<span>TRUST</span></div><h3>Compliance by default</h3><p>Premium &amp; regulated brand guidelines understood deeply.</p></div>
+      <div class="proc" data-stagger>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>We listen first — understanding your brand and where craft can push it further — then build the story before we shoot a single frame.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">02<span>CRAFT</span></div><h3>Brand-grade post</h3><p>In-house grading and finishing — never outsourced.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">03<span>SCALE</span></div><h3>Crews that flex</h3><p>One operator or thirty — same standard, same lead.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">04<span>TRUST</span></div><h3>Compliance by default</h3><p>Premium &amp; regulated brand guidelines understood deeply.</p></div>
       </div>
     </x-container>
   </section>
 
   <!-- TIMELINE -->
   <section class="section" data-screen-label="03 Timeline">
+      <x-scene-bg type="edit" />
     <x-container>
       <div class="timeline-x">
-        <div class="timeline-x__sticky reveal">
+        <div class="timeline-x__sticky" data-anim="slide-l">
           <span class="label">The journey</span>
           <h3>Five years, <em>one obsession.</em></h3>
           <p>One borrowed lens to a 60-person studio across 20+ cities — earned by saying no to briefs that didn't fit.</p>
         </div>
-        <div class="timeline-x__rail">
-          <div class="timeline-x__item reveal">
+        <div class="timeline-x__rail" data-stagger>
+          <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2018</div>
             <div class="timeline-x__title">Started with <em>one camera.</em></div>
             <div class="timeline-x__desc">Founded in Noida as a 2-person wedding-film crew — first gig a 100-guest hometown engagement, and we still know the family.</div>
           </div>
-          <div class="timeline-x__item reveal">
+          <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2020</div>
             <div class="timeline-x__title">First brand film.</div>
             <div class="timeline-x__desc">Lockdown forced a pivot — within 90 days, our first corporate brand film: a regional FMCG launch still in their library.</div>
           </div>
-          <div class="timeline-x__item reveal">
+          <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2022</div>
             <div class="timeline-x__title">In-house <em>post pipeline.</em></div>
             <div class="timeline-x__desc">Stopped outsourcing grade — built a full DaVinci pipeline with ACES color management. Quality jumped overnight.</div>
           </div>
-          <div class="timeline-x__item reveal">
+          <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2024</div>
             <div class="timeline-x__title">Premium beverage partner.</div>
             <div class="timeline-x__desc">First Fortune-500 partner — working with regulated brands reshaped how we approach every brief.</div>
           </div>
-          <div class="timeline-x__item reveal">
+          <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2026</div>
             <div class="timeline-x__title"><em>1,000+</em> events in.</div>
             <div class="timeline-x__desc">Crew of 60+ across 20+ cities, booked into 2026 — same standard, scaled.</div>
@@ -120,16 +123,17 @@
 
   <!-- CITIES PULSE MAP -->
   <section class="cities" data-screen-label="06 Cities">
+      <x-scene-bg type="photo" />
     <x-container>
       <div class="cities__grid">
       <div class="cities__aside">
         <div class="cities__head">
           <span class="section__eyebrow" data-scramble>Where we shoot</span>
           <h2 class="section__title" data-split>20+ cities, <em>one team.</em></h2>
-          <p class="section__lead reveal">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
+          <p class="section__lead" data-anim="rise">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
         </div>
       </div>
-      <div class="cities__map reveal">
+      <div class="cities__map" data-anim="iris">
       <x-india-outline />
       <span class="cities__pin" style="left:32.1%;top:29.2%"><span class="label">Delhi</span></span>
       <span class="cities__pin" style="left:18.2%;top:62.1%"><span class="label">Mumbai</span></span>
@@ -157,9 +161,10 @@
   </section>
 
   <section class="cta-strip">
-    <x-container>
-      <h2 class="cta-strip__title" data-split>Bring us a <em>brief.</em></h2>
-      <div class="cta-strip__row reveal" data-delay="2">
+        <x-scene-bg type="photo" />
+    <x-container data-stagger>
+      <h2 class="cta-strip__title" data-split data-anim="mask-up">Bring us a brief.<br>Or bring us <em>a problem.</em></h2>
+      <div class="cta-strip__row" data-anim="rise">
         <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Product launches to multi-day brand films — tell us what you're building.</p>
         <a class="btn btn--red" href="{{ url('/contact') }}" data-quote-trigger data-magnetic data-cursor="START">Start a conversation <span class="arr"></span></a>
       </div>

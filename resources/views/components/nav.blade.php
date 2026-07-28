@@ -33,7 +33,7 @@
           </div>
         </div>
       </li>
-      <li><a href="{{ url('/our-works') }}" data-cursor="VIEW"><span class="a">Our Work</span><span class="b">Our Work</span></a></li>
+      <li><a href="{{ url('/portfolio') }}" data-cursor="VIEW"><span class="a">Portfolio</span><span class="b">Portfolio</span></a></li>
       <li><a href="{{ url('/blog') }}" data-cursor="VIEW"><span class="a">Blog</span><span class="b">Blog</span></a></li>
       <li><a href="{{ url('/about') }}" data-cursor="VIEW"><span class="a">About</span><span class="b">About</span></a></li>
       <li><a href="{{ url('/contact') }}" data-cursor="VIEW"><span class="a">Contact</span><span class="b">Contact</span></a></li>
@@ -62,7 +62,7 @@
         @endforeach
       </div>
     </li>
-    <li><a href="{{ url('/our-works') }}"><span>Our Work</span></a></li>
+    <li><a href="{{ url('/portfolio') }}"><span>Portfolio</span></a></li>
     <li><a href="{{ url('/blog') }}"><span>Blog</span></a></li>
     <li><a href="{{ url('/about') }}"><span>About</span></a></li>
     <li><a href="{{ url('/contact') }}"><span>Contact</span></a></li>

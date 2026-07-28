@@ -19,7 +19,6 @@
                         '@type' => 'ListItem',
                         'position' => $i + 1,
                         'name' => $industry->title,
-                        'url' => url('/industries/'.$industry->slug),
                     ])->all(),
                 ],
             ]" />
@@ -36,6 +35,7 @@
     {{-- 3. INDUSTRIES --}}
     @if ($industries->isNotEmpty())
         <section class="section" data-screen-label="03 Industries">
+            <x-scene-bg type="grid" />
             <x-container>
                 <div class="services__head">
                     <div>
@@ -43,7 +43,14 @@
                         <h2 class="section__title" data-split>What we <em>cover.</em></h2>
                     </div>
                 </div>
-                <x-media-grid :items="$industries" layout="grid" :link="fn ($industry) => url('/industries/'.$industry->slug)" />
+                {{-- Detail pages are retired: a tile now opens the quote wizard with
+                     its industry pre-selected. href stays a real URL so it still
+                     works without JS. --}}
+                <x-media-grid
+                    :items="$industries"
+                    layout="grid"
+                    :link="fn ($industry) => url('/contact')"
+                    :link-attrs="fn ($industry) => 'data-quote-trigger data-quote-prefill=\''.e($industry->title).'\''" />
             </x-container>
         </section>
     @endif
@@ -53,10 +60,10 @@
 
     {{-- 7. CTA STRIP --}}
     <section class="cta-strip">
-        <x-container>
-            <h2 class="cta-strip__title" data-split>Speak our <em>vertical.</em></h2>
-            <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">Tell us your industry — relevant case studies within 4 working hours.</p>
+        <x-scene-bg type="photo" />
+        <x-container data-stagger>
+            <h2 class="cta-strip__title" data-split data-anim="mask-up">Tell us your industry.<br>Or see how well we <em>already speak it.</em></h2>
+            <div class="cta-strip__row" data-anim="rise">
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">
                     Get in touch <span class="arr"></span>
                 </a>

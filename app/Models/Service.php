@@ -36,7 +36,14 @@ class Service extends Model implements HasMedia
 
     public function getSlugOptions(): SlugOptions
     {
-        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            // Without this, renaming a service silently rewrites its URL and
+            // every inbound link 404s. A slug that already exists is a published
+            // address — changing it has to be a deliberate act, not a side
+            // effect of editing the display title. Matches Work::getSlugOptions.
+            ->skipGenerateWhen(fn () => filled($this->slug));
     }
 
     public function registerMediaCollections(): void

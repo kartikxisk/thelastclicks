@@ -1,4 +1,7 @@
-@props(['items', 'meta' => null, 'metaClass' => 'work-tile__meta', 'lightboxLabel' => 'Media', 'layout' => 'masonry', 'link' => null])
+{{-- linkAttrs: optional closure returning an attribute string for linked tiles,
+     so a caller can turn them into quote-modal triggers without this component
+     having to know what a quote is. --}}
+@props(['items', 'meta' => null, 'metaClass' => 'work-tile__meta', 'lightboxLabel' => 'Media', 'layout' => 'masonry', 'link' => null, 'linkAttrs' => null])
 
 @php
     // masonry (default) · grid = equal 16:9 cards · bento = mixed-size feed
@@ -9,7 +12,7 @@
     };
 @endphp
 
-<div class="work-grid {{ $layoutClass }}" data-work-grid>
+<div class="work-grid {{ $layoutClass }}" data-work-grid data-stagger>
     @foreach ($items as $item)
         @php
             $cover = $item->coverUrl();
@@ -29,13 +32,17 @@
             $category = $item->category ?? null;
         @endphp
         <{{ $tag }}
-            class="work-tile reveal"
-            data-delay="{{ $loop->index % 4 }}"
+            class="work-tile scene-stop"
+            data-anim="scale-frame"
+            data-lift
+            data-sheen
+            data-zoom
             @if ($category) data-cat="{{ $category }}" @endif
             @if ($crafts) data-crafts="{{ implode(' ', $crafts) }}" @endif
             @if ($href)
                 href="{{ $href }}"
                 aria-label="{{ $item->title }}"
+                @if ($linkAttrs) {!! $linkAttrs($item) !!} @endif
             @elseif ($payload)
                 type="button"
                 data-work-tile
@@ -66,12 +73,4 @@
     @endforeach
 </div>
 
-@once
-<div class="wlb" data-work-lightbox hidden role="dialog" aria-modal="true" aria-label="{{ $lightboxLabel }}">
-    <button class="wlb__close" data-wlb-close aria-label="Close">&times;</button>
-    <button class="wlb__nav wlb__nav--prev" data-wlb-prev aria-label="Previous">&#8249;</button>
-    <div class="wlb__stage" data-wlb-stage></div>
-    <button class="wlb__nav wlb__nav--next" data-wlb-next aria-label="Next">&#8250;</button>
-    <p class="wlb__caption" data-wlb-caption></p>
-</div>
-@endonce
+<x-work-lightbox :label="$lightboxLabel" />

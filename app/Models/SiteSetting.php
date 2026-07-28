@@ -18,6 +18,32 @@ class SiteSetting extends Model
 
     protected $casts = ['value_json' => 'array'];
 
+    /**
+     * Aspect ratios offered for the homepage portfolio tiles. Keys are valid CSS
+     * `aspect-ratio` values and go straight into a custom property, so anything
+     * accepted here must be safe to emit — see the guard in SiteSettingsPage.
+     *
+     * @var array<string, string>
+     */
+    public const WORK_TILE_RATIOS = [
+        '16 / 9' => 'Widescreen 16:9 — film stills',
+        '3 / 2'  => 'Classic 3:2 — stills photography',
+        '4 / 3'  => 'Standard 4:3 — mixed material',
+        '1 / 1'  => 'Square 1:1 — safest crop',
+        '4 / 5'  => 'Portrait 4:5 — social',
+        '9 / 16' => 'Vertical 9:16 — reels',
+    ];
+
+    public const DEFAULT_WORK_TILE_RATIO = '4 / 3';
+
+    /** The configured tile ratio, falling back when unset or unrecognised. */
+    public static function workTileRatio(): string
+    {
+        $v = (string) static::get('work_tile_ratio', self::DEFAULT_WORK_TILE_RATIO);
+
+        return isset(self::WORK_TILE_RATIOS[$v]) ? $v : self::DEFAULT_WORK_TILE_RATIO;
+    }
+
     public static function get(string $key, mixed $default = null): mixed
     {
         try {

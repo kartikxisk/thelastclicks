@@ -31,13 +31,25 @@ class HomeController extends Controller
      */
     protected function featuredWorks(): Collection
     {
+        // The homepage renders these as a collage, which needs enough tiles to
+        // actually cluster — six leaves a sparse row with nothing overlapping.
+        $take = 15;
+
         $base = fn () => Work::published()->with(['media', 'mediaItems.media']);
 
         $featured = $base()->where('is_featured', true)
-            ->orderBy('order')->orderByDesc('id')->take(6)->get();
+            ->orderBy('order')->orderByDesc('id')->take($take)->get();
 
-        return $featured->isNotEmpty()
-            ? $featured
-            : $base()->orderBy('order')->orderByDesc('id')->take(6)->get();
+        // Top up with recent works when too few are flagged featured, so the
+        // collage never collapses back to a thin line.
+        if ($featured->count() >= $take) {
+            return $featured;
+        }
+
+        $filler = $base()->whereNotIn('id', $featured->pluck('id'))
+            ->orderBy('order')->orderByDesc('id')
+            ->take($take - $featured->count())->get();
+
+        return $featured->concat($filler);
     }
 }

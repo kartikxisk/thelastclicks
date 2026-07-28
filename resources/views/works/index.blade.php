@@ -1,18 +1,18 @@
 <x-layouts.app
-    title="Our Work — Film & Photography Portfolio | TheLastClicks"
+    title="Portfolio — Film & Photography | TheLastClicks"
     description="Selected films and photography from TheLastClicks — brand campaigns, corporate productions, automotive shoots, launches and weddings across 20+ Indian cities."
-    :canonical="url('/our-works')"
+    :canonical="url('/portfolio')"
 >
     <x-slot name="head">
         <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
             ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
-            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Our Work', 'item' => url('/our-works')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Portfolio', 'item' => url('/portfolio')],
         ]]" />
         @if ($works->isNotEmpty())
             <x-json-ld :data="[
                 '@type' => 'CollectionPage',
-                'name' => 'Selected work',
-                'url' => url('/our-works'),
+                'name' => 'Portfolio',
+                'url' => url('/portfolio'),
                 'mainEntity' => [
                     '@type' => 'ItemList',
                     'itemListElement' => $works->values()->map(fn ($work, $i) => array_filter([
@@ -29,12 +29,9 @@
     {{-- HEADER --}}
     @php $pageHeader = \App\Models\SiteSetting::pageImage('works'); @endphp
     <section class="page-header page-header--media" data-screen-label="01 Header" @if ($pageHeader) style="--ph-bg:url('{{ $pageHeader }}')" @endif>
-        <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Our Work</span></div>
-        <h1 data-split>Our <em>work.</em></h1>
+        <div class="page-header__crumb"><a href="{{ url('/') }}">Home</a><span>/</span><span>Portfolio</span></div>
+        <h1 data-split>Our <em>portfolio.</em></h1>
     </section>
-
-    {{-- CLIENT MARQUEE --}}
-    <x-clients-marquee />
 
     {{-- GRID --}}
     @if ($works->isNotEmpty())
@@ -49,9 +46,10 @@
         @endphp
 
         <section class="section" data-screen-label="02 Work">
+            <x-scene-bg type="photo" />
             <x-container>
                 @if ($usedCategories->isNotEmpty() || $usedCrafts->isNotEmpty())
-                    <div class="work-filters" data-work-filters role="group" aria-label="Filter work">
+                    <div class="work-filters" data-anim="rise" data-work-filters role="group" aria-label="Filter work">
                         <button type="button" class="work-filters__chip is-on" data-filter="all" aria-pressed="true">All</button>
 
                         @foreach ($usedCategories as $slug => $label)
@@ -74,4 +72,8 @@
             </x-container>
         </section>
     @endif
+
+    {{-- CLIENT MARQUEE — closes the page: the work makes the case first, the
+         client list is the proof that follows it. --}}
+    <x-clients-marquee />
 </x-layouts.app>

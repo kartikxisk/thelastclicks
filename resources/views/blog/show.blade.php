@@ -33,7 +33,7 @@
   .art-hero h1 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
   .art-meta { display: flex; gap: 24px; flex-wrap: wrap; padding: 32px 0; margin-top: 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); }
   .art-meta span { display: inline-flex; align-items: center; gap: 8px; }
-  .art-meta span::before { content: ''; width: 6px; height: 6px; background: var(--red); border-radius: 50%; }
+  .art-meta span::before { content: ''; width: 6px; height: 6px; background: var(--red); border-radius: 0; }
   .art-cover { aspect-ratio: 16/9; overflow: hidden; margin-top: 32px; }
   .art-cover img { width: 100%; height: 100%; object-fit: cover; }
   /* Reading column left-aligned to the hero's content edge (not centered), so the
@@ -48,10 +48,10 @@
   .art-share { padding: 40px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); }
   .art-share__label { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); }
   .art-share__btns { display: flex; gap: 8px; }
-  .art-share__btn { padding: 9px 14px; border: 1px solid var(--line); border-radius: 100px; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-dim); background: transparent; cursor: pointer; transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft); }
+  .art-share__btn { padding: 9px 14px; border: 1px solid var(--line); border-radius: 0; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-dim); background: transparent; cursor: pointer; transition: border-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft); }
   .art-share__btn:hover { border-color: var(--red); color: var(--red); }
   .art-author { padding: 60px 0; display: flex; gap: 20px; align-items: center; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); }
-  .art-author__avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 22px; flex-shrink: 0; }
+  .art-author__avatar { width: 64px; height: 64px; border-radius: 0; background: var(--red); color: #fff; display: grid; place-items: center; font-family: var(--f-display); font-weight: 700; font-size: 22px; flex-shrink: 0; }
   .art-author__name { font-family: var(--f-display); font-weight: 500; font-size: 18px; }
   .art-author__role { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); margin-top: 4px; }
   @media (max-width: 880px) {
@@ -85,7 +85,7 @@
             <span>{{ $post->author?->name ?? 'TheLastClicks' }}</span>
         </div>
         @if ($cover = $post->getFirstMediaUrl('cover'))
-            <div class="art-cover clip-reveal">
+            <div class="art-cover" data-anim="iris" data-zoom>
                 <img src="{{ $cover }}" alt="{{ $post->title }}" decoding="async">
             </div>
         @endif
@@ -131,12 +131,10 @@
 
     {{-- CTA STRIP --}}
     <section class="cta-strip">
-        <x-container>
-            <h2 class="cta-strip__title" data-split>Let's <em>create.</em></h2>
-            <div class="cta-strip__row reveal">
-                <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">
-                    Brief us — treatment, timeline, and budget back within 4 working hours.
-                </p>
+        <x-scene-bg type="photo" />
+        <x-container data-stagger>
+            <h2 class="cta-strip__title" data-split data-anim="mask-up">Read how we work.<br>Or put it <em>to work.</em></h2>
+            <div class="cta-strip__row" data-anim="rise">
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-magnetic data-cursor="START">
                     Start a brief <span class="arr"></span>
                 </a>

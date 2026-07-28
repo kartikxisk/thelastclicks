@@ -55,7 +55,7 @@ class ServicesSeeder extends Seeder
                     ['q' => 'What cameras and lenses do you shoot on?', 'a' => 'ARRI Alexa Mini, RED Komodo X, Sony FX6 — paired with Cooke S4 or Sigma Cine primes. The kit is matched to the brief, not the other way around.'],
                     ['q' => 'Can you handle live event coverage as well?', 'a' => 'Yes — we run dedicated event units with 2–6 cameras and a producer. Same-day recap reels included.'],
                 ],
-                'cta' => ['title' => 'Cut the <em>film.</em>', 'copy' => 'Tell us what the film has to do. We\'ll share a treatment and quote within 4 working hours.', 'prefill' => 'Brand commercial'],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Tell us what the film has to do. We\'ll share a treatment and quote within 4 working hours.', 'prefill' => 'Brand commercial'],
             ],
             'photography' => [
                 'hero_headline' => 'Photography,<br><em>brand-grade.</em>',
@@ -92,7 +92,7 @@ class ServicesSeeder extends Seeder
                     ['q' => 'Can we re-use a previous shoot\'s style?', 'a' => 'Absolutely — we save your project look profile and reapply it on new shoots so consecutive campaigns stay visually consistent.'],
                     ['q' => 'Do you shoot tabletop / product?', 'a' => 'Yes. Macro setups, motion-controlled tabletop and product stills are all handled in-house.'],
                 ],
-                'cta' => ['title' => 'Light the <em>frame.</em>', 'copy' => 'Brief us on the shoot. We\'ll come back with a treatment, timeline, and budget within 4 working hours.', 'prefill' => 'Product shoot'],
+                'cta' => ['title' => 'Light one product.<br>Or light <em>the whole campaign.</em>', 'copy' => 'Brief us on the shoot. We\'ll come back with a treatment, timeline, and budget within 4 working hours.', 'prefill' => 'Product shoot'],
             ],
             'post-production' => [
                 'hero_headline' => 'Post that <em>carries</em><br>the brand.',
@@ -129,7 +129,7 @@ class ServicesSeeder extends Seeder
                     ['q' => 'What\'s your turnaround on a 60-second cut?', 'a' => 'Typically 5–7 working days from picture-lock to mastered delivery.'],
                     ['q' => 'Do you handle subtitle and localisation?', 'a' => 'Yes — multilingual subtitles and full localisation passes are an add-on.'],
                 ],
-                'cta' => ['title' => 'Finish like <em>you mean it.</em>', 'copy' => 'Send your footage or your brief. We\'ll review and quote a finish plan within 4 working hours.', 'prefill' => 'Post-production only'],
+                'cta' => ['title' => 'Send us your footage.<br>Or send us <em>the whole mess.</em>', 'copy' => 'Send your footage or your brief. We\'ll review and quote a finish plan within 4 working hours.', 'prefill' => 'Post-production only'],
             ],
         ];
 

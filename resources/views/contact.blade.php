@@ -52,10 +52,10 @@
   </section>
 
   <section class="section">
-    <x-container class="contact-grid">
+    <x-container class="contact-grid" data-stagger>
       <x-quote-form />
 
-      <aside class="contact-side reveal" data-delay="1" aria-labelledby="contact-details-heading">
+      <aside class="contact-side" data-anim="slide-r" aria-labelledby="contact-details-heading">
         {{-- Structures the page for assistive tech (h1 -> h2 -> h3) without a
              visible section title; the cards read as small mono labels. --}}
         <h2 id="contact-details-heading" class="sr-only">Contact details</h2>
@@ -84,8 +84,9 @@
   {{-- Studio location. Lazy-loaded so the map never competes with the form for
        bandwidth, and the iframe is titled for screen readers. --}}
   <section class="section" data-screen-label="03 Location">
+      <x-scene-bg type="grid" />
     <x-container>
-      <div class="contact-map reveal">
+      <div class="contact-map" data-anim="blur-focus">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.6312724114205!2d77.3328251!3d28.580833099999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce56b4a8e1c41%3A0x2f95fac3ad6f578a!2sThe%20Last%20Clicks%20(TLC)!5e0!3m2!1sen!2sin!4v1784897931408!5m2!1sen!2sin"
           title="TheLastClicks studio location — B-7, D-Block, Sector 26, Noida"
@@ -97,9 +98,10 @@
   </section>
 
   <section class="cta-strip">
-    <x-container>
-      <h2 class="cta-strip__title" data-split>Or just <em>say hi.</em></h2>
-      <div class="cta-strip__row reveal">
+        <x-scene-bg type="photo" />
+    <x-container data-stagger>
+      <h2 class="cta-strip__title" data-split data-anim="mask-up">Send us a brief.<br>Or just <em>say hi.</em></h2>
+      <div class="cta-strip__row" data-anim="rise">
         <p style="max-width:42ch;color:var(--paper-dim);font-size:17px">No brief yet? A DM works too.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
           <a class="btn btn--red" href="{{ \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842') }}" target="_blank" rel="noopener" data-noswap data-magnetic data-cursor="DM">WhatsApp us <span class="arr"></span></a>

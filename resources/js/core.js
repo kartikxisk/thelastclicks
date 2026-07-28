@@ -5,6 +5,8 @@
    ============================================================ */
 
 import { initWorkLightbox } from './work-lightbox';
+import { initWorkGlobe } from './work-globe';
+import { initScenes } from './scene';
 
 (() => {
   const root = document.documentElement;
@@ -96,14 +98,19 @@ import { initWorkLightbox } from './work-lightbox';
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -2% 0px' });
-  document.querySelectorAll('.reveal, .split, .clip-reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.reveal, .split, .clip-reveal, [data-anim]').forEach(el => io.observe(el));
 
   // Failsafe — brute-force activate anything visible (or near it) in case IO is slow to fire on load.
   function forceRevealVisible() {
     const vh = window.innerHeight;
-    document.querySelectorAll('.reveal:not(.is-in), .split:not(.is-in), .clip-reveal:not(.is-in)').forEach(el => {
+    document.querySelectorAll('.reveal:not(.is-in), .split:not(.is-in), .clip-reveal:not(.is-in), [data-anim]:not(.is-in)').forEach(el => {
       const r = el.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < vh * 1.15) {
+      // In view, or approaching: play the reveal.
+      // Already scrolled past (bottom above the viewport): reveal it outright —
+      // a fast flick or a restored scroll position can carry the viewport clean
+      // over an element, and without this it stays invisible forever rather
+      // than merely un-animated.
+      if (r.bottom <= 0 || (r.bottom > 0 && r.top < vh * 1.15)) {
         el.classList.add('is-in');
         io.unobserve(el);
       }
@@ -253,6 +260,14 @@ import { initWorkLightbox } from './work-lightbox';
 
   /* -------------------- Work lightbox -------------------- */
   initWorkLightbox();
+
+  /* -------------------- Work globe -------------------- */
+  // Runs after the lightbox so the tiles already carry their click handlers by
+  // the time the globe re-parents them into the 3D scene.
+  initWorkGlobe();
+
+  /* -------------------- Scene engine -------------------- */
+  initScenes();
 
   /* -------------------- YouTube poster fallback -------------------- */
   // maxresdefault is the only 16:9 poster (hqdefault is 4:3 with black bars
@@ -642,6 +657,214 @@ import { initWorkLightbox } from './work-lightbox';
     }, true);
 
     sync();
+  });
+
+  /* -------------------- CTA background video -------------------- */
+  /* Mounted from JS into every .cta-strip so a new CTA section gets it for
+     free. It only ever decodes while on screen, and never mounts at all for
+     reduced-motion or data-saver users — a full-bleed autoplaying video is a
+     WCAG 2.2.2 failure and an expensive default on a metered connection. */
+  (() => {
+    const SRC = '/videos/bg-footer.mp4';
+    const strips = document.querySelectorAll('.cta-strip');
+    if (!strips.length || reduce) return;
+    if (navigator.connection?.saveData) return;
+
+    const mounted = [];
+
+    strips.forEach(strip => {
+      const bg = document.createElement('div');
+      bg.className = 'cta-strip__bg';
+      bg.setAttribute('aria-hidden', 'true');
+
+      const v = document.createElement('video');
+      v.src = SRC;
+      v.muted = true;          // must be set before play() for autoplay to be allowed
+      v.loop = true;
+      v.playsInline = true;
+      v.preload = 'none';      // the observer promotes this on first approach
+      v.tabIndex = -1;
+
+      // Fade in on the first decoded frame rather than on mount, so the strip
+      // never shows an empty black box waiting for the network.
+      v.addEventListener('loadeddata', () => bg.classList.add('is-ready'), { once: true });
+
+      bg.appendChild(v);
+      // First child: the content container is z-index 1 and stays above it.
+      strip.prepend(bg);
+      mounted.push(v);
+    });
+
+    // Decode only what's visible — offscreen CTAs on a long page cost nothing.
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const v = e.target;
+        if (e.isIntersecting) {
+          if (v.preload === 'none') v.preload = 'auto';
+          const p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    }, { rootMargin: '200px 0px' });
+    mounted.forEach(v => io.observe(v));
+
+    // A hidden tab should not keep decoding video.
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) return;
+      mounted.forEach(v => v.pause());
+    });
+  })();
+
+  /* -------------------- Industries 3D coverflow -------------------- */
+  /* Cards are real links sitting in 3D. Advancing re-assigns position classes
+     only, so each card retargets its transition from wherever it currently is. */
+  document.querySelectorAll('[data-i3d]').forEach(root => {
+    const stage = root.querySelector('.i3d__stage');
+    const cards = Array.from(root.querySelectorAll('[data-i3d-card]'));
+    if (!stage || !cards.length) return;
+
+    const prev = root.querySelector('[data-i3d-prev]');
+    const next = root.querySelector('[data-i3d-next]');
+    const dots = Array.from(root.querySelectorAll('[data-i3d-dot]'));
+    const status = root.querySelector('[data-i3d-status]');
+    const total = cards.length;
+    const POS = ['is-centre', 'is-p1-right', 'is-p2-right', 'is-p2-left', 'is-p1-left'];
+    let i = 0;
+
+    function render() {
+      cards.forEach((card, n) => {
+        // Signed distance from centre, wrapped to the shorter way round.
+        let d = (n - i + total) % total;
+        if (d > total / 2) d -= total;
+        card.classList.remove(...POS);
+        if (d === 0) card.classList.add('is-centre');
+        else if (d === 1) card.classList.add('is-p1-right');
+        else if (d === -1) card.classList.add('is-p1-left');
+        else if (d === 2) card.classList.add('is-p2-right');
+        else if (d === -2) card.classList.add('is-p2-left');
+        // Off-deck cards must not be tab stops; the visible ones stay reachable.
+        card.setAttribute('aria-hidden', Math.abs(d) > 2 ? 'true' : 'false');
+        card.tabIndex = Math.abs(d) > 2 ? -1 : 0;
+        card.dataset.i3dOffset = String(d);
+      });
+      dots.forEach((dot, n) => {
+        dot.classList.toggle('is-on', n === i);
+        dot.setAttribute('aria-current', n === i ? 'true' : 'false');
+      });
+      if (status) status.textContent = `${cards[i].textContent.trim()} — ${i + 1} of ${total}`;
+    }
+
+    function go(step) { i = (i + step + total) % total; render(); }
+    function goTo(n) { i = ((n % total) + total) % total; render(); }
+
+    prev && prev.addEventListener('click', () => go(-1));
+    next && next.addEventListener('click', () => go(1));
+    dots.forEach((dot, n) => dot.addEventListener('click', () => goTo(n)));
+
+    // A click on a side card rotates the deck to it rather than navigating —
+    // following a link you can barely see is never what was meant. The centre
+    // card is a plain link and is left alone.
+    cards.forEach((card, n) => {
+      // Whether this card was the centre one when the press STARTED. Focus fires
+      // before click and rotates the card into the centre, so checking the class
+      // inside the click handler would always say "centre" and let a side-card
+      // click navigate — the opposite of what's intended.
+      let pressedFromCentre = false;
+      card.addEventListener('pointerdown', () => {
+        pressedFromCentre = card.classList.contains('is-centre');
+      });
+      card.addEventListener('click', e => {
+        // Keyboard activation has no preceding pointerdown; fall back to the
+        // live class, which is correct there because focus already centred it.
+        const fromCentre = e.detail === 0 ? card.classList.contains('is-centre') : pressedFromCentre;
+        if (fromCentre) return;
+        e.preventDefault();
+        goTo(n);
+      });
+      // Tabbing to an off-centre card brings it round, so keyboard focus and
+      // what's legible on screen never disagree.
+      card.addEventListener('focus', () => { if (!card.classList.contains('is-centre')) goTo(n); });
+    });
+
+    stage.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      go(e.key === 'ArrowRight' ? 1 : -1);
+    });
+
+    /* Drag / swipe. One card per 90px of travel, direction-matched. */
+    let down = false, startX = 0, moved = 0, settled = 0;
+    stage.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      down = true; startX = e.clientX; moved = 0; settled = 0;
+    });
+    stage.addEventListener('pointermove', e => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      // Advance by the full delta, not one card per move event — a fast flick
+      // that crosses several thresholds in one frame must not under-scroll.
+      const steps = Math.trunc(dx / 90);
+      if (steps !== settled) { go(settled - steps); settled = steps; }
+    });
+    const endDrag = () => { down = false; };
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+    stage.addEventListener('pointerleave', endDrag);
+    // Swallow the click that ends a drag so a card doesn't also navigate.
+    stage.addEventListener('click', e => {
+      if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+
+    render();
+  });
+
+  /* -------------------- Testimonial deck -------------------- */
+  /* Every testimonial is a card in one stack. Advancing only re-assigns state
+     classes, so each card transitions from wherever it currently is — spamming
+     the arrows never restarts anything from zero. */
+  document.querySelectorAll('[data-tdeck]').forEach(deck => {
+    const cards = Array.from(deck.querySelectorAll('[data-tdeck-card]'));
+    if (!cards.length) return;
+
+    const prev = deck.querySelector('[data-tdeck-prev]');
+    const next = deck.querySelector('[data-tdeck-next]');
+    const status = deck.querySelector('[data-tdeck-status]');
+    const total = cards.length;
+    let i = 0;
+
+    function render() {
+      cards.forEach((card, n) => {
+        // Distance forward from the active card, wrapping at the end.
+        const d = (n - i + total) % total;
+        card.classList.toggle('is-active', d === 0);
+        card.classList.toggle('is-behind-1', d === 1 && total > 1);
+        card.classList.toggle('is-behind-2', d === 2 && total > 2);
+        // Only the readable card is reachable by keyboard or screen reader.
+        card.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      });
+      if (status) status.textContent = `Testimonial ${i + 1} of ${total}`;
+    }
+
+    function go(step) {
+      i = (i + step + total) % total;
+      render();
+    }
+
+    prev && prev.addEventListener('click', () => go(-1));
+    next && next.addEventListener('click', () => go(1));
+
+    // Arrow keys work when the deck itself has focus. No animation is tied to
+    // the keypress beyond the same card transition a click produces.
+    deck.querySelector('.tdeck__deck')?.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      go(e.key === 'ArrowRight' ? 1 : -1);
+    });
+
+    render();
   });
 
   /* -------------------- Audio toggle -------------------- */

@@ -51,12 +51,12 @@
           <h3 class="foot__h"><span class="foot__idx">01</span> Studio</h3>
           <a href="{{ url('/about') }}">About</a>
           <a href="{{ url('/industries') }}">Industries</a>
-          <a href="{{ url('/our-works') }}">Our Work</a>
+          <a href="{{ url('/portfolio') }}">Portfolio</a>
           <a href="{{ url('/blog') }}">Journal</a>
         </div>
         <div class="foot__col">
           <h3 class="foot__h"><span class="foot__idx">02</span> Work</h3>
-          <a href="{{ url('/services/post-production') }}">Post Production</a>
+          <a href="{{ url('/services/editing') }}">Editing</a>
           <a href="{{ url('/services/videography') }}">Videography</a>
           <a href="{{ url('/services/photography') }}">Photography</a>
         </div>

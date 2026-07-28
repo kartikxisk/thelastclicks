@@ -74,7 +74,7 @@ export function initWorkLightbox() {
   tiles.forEach((tile) => {
     tile.addEventListener('click', () => {
       // Gallery tiles carry a shared payload + their own index so the lightbox
-      // opens on the clicked item; Our Work tiles omit the index and start at 0.
+      // opens on the clicked item; Portfolio tiles omit the index and start at 0.
       const start = Number.parseInt(tile.dataset.workIndex || '0', 10);
       try { open(JSON.parse(tile.dataset.workMedia || '[]'), start); } catch (e) { /* malformed payload: ignore */ }
     });

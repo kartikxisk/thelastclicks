@@ -1,3 +1,5 @@
+@props(['heading' => 'Trusted by'])
+
 @php
     // Admin-managed: each client resolves to an uploaded logo (media disk) or the
     // logo path set alongside it. Wordmarks below are the last resort so the strip
@@ -14,6 +16,13 @@
         'Radico Khaitan', 'Bacardi', 'Beluga',
     ];
 @endphp
+{{-- The heading has to sit outside .marquee — that element is a flex row with
+     overflow:hidden, so anything inside it becomes another track item. The
+     wrapper owns the rules and padding instead. --}}
+<section class="cstrip">
+    @if ($heading)
+        <p class="cstrip__head">{{ $heading }}</p>
+    @endif
 <div class="marquee marquee--logos" aria-label="Brands we've worked with">
     <div class="marquee__track">
         @if ($clients->isNotEmpty())
@@ -30,3 +39,4 @@
         @endif
     </div>
 </div>
+</section>

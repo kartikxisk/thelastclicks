@@ -42,8 +42,8 @@ class SeoPageResource extends Resource
     public static function knownPaths(): array
     {
         return [
-            '/', '/about', '/our-works', '/industries', '/blog', '/contact',
-            '/services/photography', '/services/videography', '/services/post-production',
+            '/', '/about', '/portfolio', '/industries', '/blog', '/contact',
+            '/services/photography', '/services/videography', '/services/editing',
             '/privacy-policy', '/terms-of-service', '/cookie-policy', '/disclaimer', '/thank-you',
         ];
     }

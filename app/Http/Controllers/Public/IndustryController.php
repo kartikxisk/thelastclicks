@@ -17,12 +17,4 @@ class IndustryController extends Controller
         ]);
     }
 
-    public function show(Industry $industry): View
-    {
-        $industry->load(['media', 'mediaItems.media']);
-
-        return view('industries.show', [
-            'industry' => $industry,
-        ]);
-    }
 }

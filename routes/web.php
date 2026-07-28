@@ -21,16 +21,23 @@ Route::middleware('cacheResponse')->group(function () {
     Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('disclaimer');
     Route::get('/thank-you', [PageController::class, 'thankYou'])->name('thank-you');
     // Retired service pages — the studio now offers photography, videography and
-    // post-production only. Old URLs 301 to the closest remaining service.
+    // editing only. Old URLs 301 to the closest remaining service.
     Route::redirect('/services/weddings', '/services/videography', 301);
-    Route::redirect('/services/social-content', '/services/post-production', 301);
-    Route::redirect('/services/creative-direction', '/services/post-production', 301);
+    // Post Production was renamed to Editing; its slug moved with it.
+    Route::redirect('/services/post-production', '/services/editing', 301);
+    Route::redirect('/services/social-content', '/services/editing', 301);
+    Route::redirect('/services/creative-direction', '/services/editing', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
-    Route::get('/industries/{industry:slug}', [IndustryController::class, 'show'])->name('industry.show');
-    Route::get('/our-works', [WorkController::class, 'index'])->name('works');
-    // Portfolio feature retired — 301 old URLs home so inbound links don't 404
-    Route::redirect('/portfolio', '/', 301);
+    // Industry detail pages retired — the index and the homepage deck carry the
+    // vertical story now, and clicking through opens a pre-filled quote instead.
+    // 301 so indexed slugs and inbound links land on the index rather than 404.
+    Route::redirect('/industries/{slug}', '/industries', 301);
+    Route::get('/portfolio', [WorkController::class, 'index'])->name('works');
+    // Renamed from /our-works — 301 preserves inbound links and indexed URLs.
+    Route::redirect('/our-works', '/portfolio', 301);
+    // The old Portfolio feature's detail pages stay retired to home. Registered
+    // after the exact '/portfolio' route above, which therefore still wins.
     Route::redirect('/portfolio/{slug}', '/', 301);
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
     // Earlier posts were published under auto-generated slugs built from the full

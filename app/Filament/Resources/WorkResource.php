@@ -34,7 +34,7 @@ class WorkResource extends Resource
 
     protected static ?int $navigationSort = 20;
 
-    protected static ?string $navigationLabel = 'Our Work';
+    protected static ?string $navigationLabel = 'Portfolio';
 
     public static function form(Form $form): Form
     {
@@ -47,7 +47,7 @@ class WorkResource extends Resource
                 TextInput::make('year'),
                 Select::make('category')
                     ->options(Work::CATEGORIES)
-                    ->helperText('Drives the filter on the Our Work page.'),
+                    ->helperText('Drives the filter on the Portfolio page.'),
                 TextInput::make('order')->numeric()->default(0),
             ]),
             Textarea::make('summary')->rows(3)->columnSpanFull(),
@@ -56,7 +56,7 @@ class WorkResource extends Resource
                 CheckboxList::make('crafts')
                     ->options(Work::CRAFTS)
                     ->columns(3)
-                    ->helperText('Which of these we did in-house on this project. Also a filter on the Our Work page — this is the only place on the site where the in-house post claim is actually evidenced.'),
+                    ->helperText('Which of these we did in-house on this project. Also a filter on the Portfolio page — this is the only place on the site where the in-house post claim is actually evidenced.'),
                 Repeater::make('credits')
                     ->schema([
                         TextInput::make('role')->placeholder('Director')->required(),

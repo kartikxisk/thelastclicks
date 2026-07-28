@@ -153,18 +153,59 @@ img, video { max-width: 100%; display: block; }
   display: grid;
   gap: 24px;
 }
-.preloader__logo {
-  height: clamp(84px, 12vw, 150px);
-  width: auto;
-  display: block;
+/* ---------- Preloader: exploded camera assembling ----------
+   Every part flies in from its own direction and seats against the body. One
+   shot, so keyframes are right — there is no state to retarget mid-flight.
+   Only transform and opacity animate. */
+.prig {
+  width: min(420px, 74vw);
   margin: 0 auto;
+  color: var(--paper);
+}
+.prig__svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.prig__p {
+  /* Parts are positioned in user units, so scale from the artwork's centre
+     rather than each group's own bounding box. */
+  transform-box: view-box;
+  transform-origin: 133px 83px;
   opacity: 0;
-  transform: scale(0.94);
-  animation: preLogoIn 0.8s var(--ease-soft) forwards;
+  animation: prigSeat 0.9s var(--ease) forwards;
 }
-@keyframes preLogoIn {
-  to { opacity: 1; transform: scale(1); }
+@keyframes prigSeat {
+  from { opacity: 0; transform: var(--from); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; transform: none; }
 }
+
+/* Each part's launch position. Offsets are large relative to the 260-unit
+   viewBox — the exploded state has to be unmistakably exploded, with real gaps
+   between components, or the whole thing just reads as a logo easing in.
+   The body seats first and everything else converges onto it. */
+.prig__p--body   { --from: translate(0, 40px) scale(0.82) rotate(-3deg); animation-delay: 0s; }
+.prig__p--barrel { --from: translate(-120px, 62px) rotate(-22deg) scale(0.9); animation-delay: 0.06s; }
+.prig__p--grip   { --from: translate(-96px, -34px) rotate(-18deg); animation-delay: 0.12s; }
+.prig__p--top    { --from: translate(-18px, -104px) rotate(14deg); animation-delay: 0.16s; }
+.prig__p--finder { --from: translate(86px, -92px) rotate(24deg); animation-delay: 0.22s; }
+.prig__p--board  { --from: translate(128px, 40px) rotate(19deg) scale(0.9); animation-delay: 0.26s; }
+.prig__p--glass1 { --from: translate(-168px, 34px) scale(0.6) rotate(-14deg); animation-delay: 0.32s; }
+.prig__p--glass2 { --from: translate(-206px, 66px) scale(0.5) rotate(-20deg); animation-delay: 0.38s; }
+.prig__p--sensor { --from: translate(64px, -18px) rotate(-16deg) scale(0.7); animation-delay: 0.10s; }
+.prig__p--screws { --from: scale(2.6) rotate(30deg); animation-delay: 0.20s; }
+
+/* Shutter blink once the parts have seated — the camera "switching on". */
+.prig__flash {
+  transform-box: view-box;
+  transform-origin: 133px 83px;
+  opacity: 0;
+  animation: prigFlash 0.7s var(--ease) 0.95s forwards;
+}
+@keyframes prigFlash {
+  0%   { opacity: 0; transform: scale(0.6); }
+  35%  { opacity: 0.85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(2.6); }
+}
+
 .preloader__bar {
   width: min(420px, 60vw);
   height: 1px;
@@ -195,6 +236,11 @@ img, video { max-width: 100%; display: block; }
    footer share this so their left/right edges line up exactly.
    `.container` is the canonical name, applied via the <x-container> component. */
 .container {
+  /* width:100% is load-bearing. Sections are flex columns, and an auto inline
+     margin on a flex item overrides `align-items: stretch` — without this the
+     container shrink-to-fits its content, so every section starts at a
+     different left edge depending on how wide its text happens to be. */
+  width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 0 var(--pad-x);
@@ -385,7 +431,7 @@ img, video { max-width: 100%; display: block; }
 .nav__drop-inner {
   background: var(--ink);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 0;
   padding: 8px;
   box-shadow: 0 24px 60px -18px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,0,0,0.04);
   display: grid;
@@ -397,7 +443,7 @@ img, video { max-width: 100%; display: block; }
   justify-content: space-between;
   gap: 24px;
   padding: 11px 14px;
-  border-radius: 9px;
+  border-radius: 0;
   font-size: 14px;
   color: var(--paper);
   white-space: nowrap;
@@ -450,7 +496,7 @@ img, video { max-width: 100%; display: block; }
   gap: 10px;
   padding: 10px 18px;
   border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 100px;
+  border-radius: 0;
   font-size: 13px;
   letter-spacing: 0.02em;
   color: var(--paper);
@@ -470,7 +516,7 @@ img, video { max-width: 100%; display: block; }
 .nav__cta:hover { border-color: var(--red); color: #fff; }
 .nav__cta:hover::before { transform: translateY(0); }
 .nav__cta .dot {
-  width: 6px; height: 6px; border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 0;
   background: var(--red);
   box-shadow: 0 0 0 0 rgba(232,15,3,0.6);
   animation: pulse 1.6s var(--ease) infinite;
@@ -487,7 +533,7 @@ img, video { max-width: 100%; display: block; }
   display: none;
   width: 44px; height: 44px;
   border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 100px;
+  border-radius: 0;
   align-items: center; justify-content: center;
   flex-direction: column;
   gap: 4px;
@@ -558,7 +604,7 @@ img, video { max-width: 100%; display: block; }
   align-items: center;
   gap: 12px;
   padding: 16px 28px;
-  border-radius: 100px;
+  border-radius: 0;
   border: 1px solid var(--line);
   font-size: 14px;
   letter-spacing: 0.02em;
@@ -627,6 +673,9 @@ img, video { max-width: 100%; display: block; }
   animation: marquee 38s linear infinite;
   flex-shrink: 0;
   padding-right: 56px;
+  /* No will-change here on purpose. The track is ~10,000px wide, so promoting
+     it is a real memory cost, and an A/B measured no difference — the browser
+     already gives an actively-animating transform its own layer. */
 }
 .marquee__track--rev { animation-direction: reverse; }
 .marquee__item {
@@ -643,7 +692,7 @@ img, video { max-width: 100%; display: block; }
   content: '';
   width: 12px; height: 12px;
   background: var(--red);
-  border-radius: 50%;
+  border-radius: 0;
   display: inline-block;
 }
 .marquee__item.is-outline {
@@ -656,9 +705,48 @@ img, video { max-width: 100%; display: block; }
   to { transform: translateX(-50%); }
 }
 
+/* ---------- Client-logo strip ---------- */
+/* The wrapper owns the rules and vertical padding so the heading can sit above
+   the track — .marquee itself is a clipped flex row and can't hold one. */
+.cstrip {
+  border-top: 0;
+  border-bottom: 0;
+  padding: clamp(34px, 4vw, 58px) 0;
+  position: relative;
+}
+.cstrip__head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: clamp(26px, 3vw, 42px);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+/* Hairline either side, mirroring the left-anchored rule on .section__eyebrow. */
+.cstrip__head::before,
+.cstrip__head::after {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--red);
+}
+
 /* ---------- Client-logo marquee (variant of .marquee) ---------- */
-.marquee--logos { padding: 44px 0; }
-.marquee--logos .marquee__track { gap: clamp(72px, 7vw, 120px); padding-right: clamp(72px, 7vw, 120px); align-items: center; }
+/* Borders and padding now live on .cstrip; the track is bare. */
+.marquee--logos { padding: 0; border-top: 0; border-bottom: 0; }
+.marquee--logos .marquee__track {
+  gap: clamp(110px, 11vw, 200px);
+  padding-right: clamp(110px, 11vw, 200px);
+  align-items: center;
+  /* Slower than the text marquee: logos are read individually, not skimmed as
+     a band, and the wider gaps mean the track covers more ground per loop. */
+  animation-duration: 90s;
+}
 .marquee--logos .marquee__item--logo { gap: 0; }
 .marquee--logos .marquee__item--logo::after { display: none; }
 /* Monochrome white logos on the dark strip — no chips, no white background */
@@ -762,7 +850,7 @@ img, video { max-width: 100%; display: block; }
   margin-bottom: 40px;
   padding: 9px 16px;
   border: 1px solid var(--line);
-  border-radius: 100px;
+  border-radius: 0;
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
@@ -771,7 +859,7 @@ img, video { max-width: 100%; display: block; }
 }
 .foot__pulse {
   width: 7px; height: 7px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--red);
   box-shadow: 0 0 0 0 rgba(232,15,3,0.6);
   animation: pulse 1.6s var(--ease) infinite;
@@ -982,7 +1070,7 @@ img, video { max-width: 100%; display: block; }
   display: grid;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 0;
   color: var(--paper-dim);
   transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease), transform 0.3s var(--ease);
 }
@@ -1060,7 +1148,7 @@ img, video { max-width: 100%; display: block; }
   gap: 8px;
   padding: 6px 12px;
   border: 1px solid var(--line);
-  border-radius: 100px;
+  border-radius: 0;
   font-family: var(--f-mono);
   font-size: 10.5px;
   letter-spacing: 0.18em;
@@ -1068,7 +1156,7 @@ img, video { max-width: 100%; display: block; }
   color: var(--paper-dim);
 }
 .tag .dot {
-  width: 5px; height: 5px; background: var(--red); border-radius: 50%;
+  width: 5px; height: 5px; background: var(--red); border-radius: 0;
 }
 
 .kicker {
@@ -1161,7 +1249,7 @@ button:not(:disabled):active, [data-magnetic]:active {
 :focus-visible {
   outline: 2px solid var(--red);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 0;
 }
 a:focus-visible, button:focus-visible { outline-offset: 4px; }
 input:focus-visible, textarea:focus-visible, select:focus-visible { outline: none; }
@@ -1178,7 +1266,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { outline: non
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  border-radius: 100px;
+  border-radius: 0;
   transform: translateY(-160%);
   transition: transform 0.3s var(--ease);
 }
@@ -1214,7 +1302,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { outline: non
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  border-radius: 0;
   background: radial-gradient(
     600px circle at var(--mx, 50%) var(--my, 50%),
     rgba(232,15,3,0.18) 0%,
