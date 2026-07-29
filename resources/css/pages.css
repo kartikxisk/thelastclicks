@@ -1652,6 +1652,12 @@ main > section:has(.clients) {
     linear-gradient(180deg, var(--ink) 0%, var(--ink-3) 100%);
   border-top: 0;
 }
+/* The closing CTA runs a background video, so the animated aperture backdrop is
+   a second moving thing competing with it — and the one you can't see through.
+   Hidden in CSS rather than removed from seven Blade files, so any future CTA
+   inherits the same rule. display:none also parks its CSS animations. */
+.cta-strip .scenebg { display: none; }
+
 /* ---------- CTA background video ----------
    Injected by core.js into every .cta-strip, so a new CTA gets it for free.
    The scrim carries the contrast: the video sits under a dark wash rather than
@@ -1668,20 +1674,22 @@ main > section:has(.clients) {
   height: 100%;
   object-fit: cover;
   /* Slightly knocked back so the red gradient beneath still reads as brand. */
-  filter: saturate(0.85) contrast(1.02);
+  filter: saturate(0.95) contrast(1.04);
   opacity: 0;
   transition: opacity 0.8s var(--ease-soft);
 }
 /* Faded in only once the first frame is decoded — a black rectangle appearing
    before the video is ready reads as a broken element. */
-.cta-strip__bg.is-ready video { opacity: 0.4; }
+.cta-strip__bg.is-ready video { opacity: 0.78; }
 .cta-strip__bg::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(90% 130% at 50% 130%, rgba(232,15,3,0.22), transparent 62%),
-    linear-gradient(180deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.68) 45%, rgba(10,10,10,0.88) 100%);
+    /* Lighter than before so the footage is actually visible. Kept strongest at
+       the top and bottom edges, where the headline and the buttons sit. */
+    radial-gradient(90% 130% at 50% 130%, rgba(232,15,3,0.16), transparent 62%),
+    linear-gradient(180deg, rgba(10,10,10,0.58) 0%, rgba(10,10,10,0.34) 45%, rgba(10,10,10,0.66) 100%);
 }
 @media (prefers-reduced-motion: reduce) {
   /* JS never mounts the video here, but if one is somehow present it must not
