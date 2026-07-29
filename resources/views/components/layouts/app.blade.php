@@ -40,6 +40,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- chrome.js reads this to render the preloader / quote-modal marks. Absent = render no logo. --}}
     @if ($brandLogo) <meta name="brand-logo" content="{{ $brandLogo }}"> @endif
+    {{-- Background clip for the closing CTA. Admin-managed; core.js reads this
+         and falls back to the bundled file when nothing is uploaded. --}}
+    <meta name="cta-video" content="{{ \App\Models\SiteSetting::ctaVideoUrl() }}">
     <meta property="og:title" content="{{ $seoOgTitle }}">
     <meta property="og:description" content="{{ $seoOgDescription }}">
     <meta property="og:url" content="{{ $seoCanonical ?: url()->current() }}">

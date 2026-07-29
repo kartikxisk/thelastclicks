@@ -665,7 +665,10 @@ import { initScenes } from './scene';
      reduced-motion or data-saver users — a full-bleed autoplaying video is a
      WCAG 2.2.2 failure and an expensive default on a metered connection. */
   (() => {
-    const SRC = '/videos/bg-footer.mp4';
+    // Admin-managed via Site Settings; the meta carries the resolved URL and
+    // already falls back to the bundled clip when nothing is uploaded.
+    const SRC = document.querySelector('meta[name="cta-video"]')?.content
+      || '/videos/bg-footer.mp4';
     const strips = document.querySelectorAll('.cta-strip');
     if (!strips.length || reduce) return;
     if (navigator.connection?.saveData) return;

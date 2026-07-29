@@ -56,6 +56,7 @@ class SiteSettingsPage extends Page implements HasForms
             'page_image_industries' => SiteSetting::get('page_image_industries'),
             'page_image_about_body' => SiteSetting::get('page_image_about_body'),
             'work_tile_ratio' => SiteSetting::get('work_tile_ratio', SiteSetting::DEFAULT_WORK_TILE_RATIO),
+            'cta_video' => SiteSetting::get('cta_video'),
         ]);
     }
 
@@ -168,6 +169,21 @@ class SiteSettingsPage extends Page implements HasForms
                                 ->selectablePlaceholder(false)
                                 ->native(false)
                                 ->helperText('Landscape suits film stills; square is the safest with mixed source material; portrait suits reels and social cuts.'),
+
+                            Forms\Components\Placeholder::make('cta_video_note')
+                                ->label('')
+                                ->content(fn (): string => 'Currently live: '.SiteSetting::ctaVideoUrl()),
+                            Forms\Components\Toggle::make('remove_cta_video')
+                                ->label('Reset to the bundled clip')
+                                ->helperText('Leave off to keep the current video. Uploading a new file replaces it.')
+                                ->default(false),
+                            Forms\Components\FileUpload::make('cta_video')
+                                ->label('CTA background video')
+                                ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                                ->directory('video')
+                                ->visibility('private')
+                                ->fetchFileInformation(false)
+                                ->helperText('Plays behind the closing call-to-action on every page. Muted, looped and dark-scrimmed, so a quiet, low-contrast clip works best. Keep it short and well compressed — it is fetched on every page.'),
                         ]),
                 ]),
             ])
@@ -205,6 +221,8 @@ class SiteSettingsPage extends Page implements HasForms
         SiteSetting::set('work_tile_ratio', isset(SiteSetting::WORK_TILE_RATIOS[$ratio])
             ? $ratio
             : SiteSetting::DEFAULT_WORK_TILE_RATIO);
+
+        $this->storeUpload('cta_video', $data['cta_video'] ?? '', (bool) ($data['remove_cta_video'] ?? false));
 
         foreach (['about', 'contact', 'works', 'blog', 'industries', 'about_body'] as $key) {
             $this->storeUpload("page_image_{$key}", $data["page_image_{$key}"] ?? '', false);

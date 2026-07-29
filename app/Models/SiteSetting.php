@@ -36,6 +36,19 @@ class SiteSetting extends Model
 
     public const DEFAULT_WORK_TILE_RATIO = '4 / 3';
 
+    /** Bundled clip used when no CTA background video has been uploaded. */
+    public const DEFAULT_CTA_VIDEO = '/videos/bg-footer.mp4';
+
+    /** Background video for the closing CTA band. */
+    public static function ctaVideoUrl(): string
+    {
+        $path = static::get('cta_video');
+
+        return (is_string($path) && $path !== '')
+            ? (MediaUrl::onUploadDisk($path) ?: self::DEFAULT_CTA_VIDEO)
+            : self::DEFAULT_CTA_VIDEO;
+    }
+
     /** The configured tile ratio, falling back when unset or unrecognised. */
     public static function workTileRatio(): string
     {
