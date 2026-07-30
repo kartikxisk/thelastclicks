@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\IndustryController;
+use App\Http\Controllers\Api\V1\NewsletterController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\ServiceController;
@@ -47,4 +49,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+    // Writes. Rate limiting and the honeypot live in the controllers, ahead of
+    // validation, so a bot cannot tell a silent drop from a save.
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    Route::post('/quotes', [ContactController::class, 'store'])->name('quotes.store');
+    Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 });
