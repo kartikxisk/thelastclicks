@@ -367,3 +367,47 @@ Currently `FILESYSTEM_DISK=public` (local). To switch:
 
 2. Migrate existing media: `php artisan media-library:cloud-migrate` (or manual rsync to bucket).
 3. Update `config/backup.php` `destination.disks` to `['s3']`.
+
+## Portfolio import (2026-07-30)
+
+53 films — 3-4 per shoot category — live under `Work` rows created by
+`portfolio:import`. Masters stay on the editor's machine; only web-deliverable
+derivatives reach S3:
+
+| Derivative | Spec | Purpose |
+|---|---|---|
+| Film MP4 | 1920 long edge, 30fps, CRF 25, faststart | lightbox playback |
+| Poster JPG | frame at 18% of duration | `cover` collection, grid still |
+| Hover loop | 6s, 720p, no audio, CRF 30 (~0.4 MB) | `preview_video_url` |
+
+The hover loop matters: without it `Work::previewVideoUrl()` falls back to the
+first uploaded video, putting a 40 MB fetch behind every grid hover.
+
+### Replaying the import on a server
+
+`database/data/portfolio-manifest.json` is the same manifest rewritten to the
+CDN URLs the local run uploaded, so a server with none of the masters can
+reproduce the identical set:
+
+```bash
+php artisan portfolio:import database/data/portfolio-manifest.json
+```
+
+Each entry is fetched from CloudFront and re-attached under that database's own
+media ids. Idempotent — keyed on slug, and a re-run replaces a work's media
+instead of stacking duplicates. Add `--dry-run` to see the plan first.
+
+Two constraints the importer works around, both worth knowing before editing it:
+
+- **Downloads happen before deletes.** A replayed manifest can name the very
+  media rows the import is about to clear. Fetching first means the source is
+  already on disk whichever way round it is.
+- **CloudFront answers 403 to requests with no `User-Agent`.** That rules out
+  PHP's bare `fopen()` wrapper and medialibrary's `addMediaFromUrl()`; the
+  importer uses `Http::withHeaders([...])->sink()` instead.
+
+### Aspect ratio
+
+37 of the 53 films are vertical (9:16 reels). The tile ratio is admin-controlled
+— **Site Settings → Portfolio display** — and still set to the `4 / 3` default,
+which crops those hard. A portrait preset suits this library better.

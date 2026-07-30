@@ -1,0 +1,825 @@
+[
+    {
+        "slug": "anchor-anchor-revised-karna-hai",
+        "title": "Event Anchor Reel",
+        "client": null,
+        "source": "Anchor/Anchor_revised_karna_hai.mp4",
+        "vertical": "Event Anchoring",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/3/anchor-anchor-revised-karna-hai.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/2/anchor-anchor-revised-karna-hai.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-anchor-revised-karna-hai.mp4"
+    },
+    {
+        "slug": "anchor-engagement-final-1",
+        "title": "Engagement Anchor Reel",
+        "client": null,
+        "source": "Anchor/ENGAGEMENT FINAL_1.mp4",
+        "vertical": "Event Anchoring",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/5/anchor-engagement-final-1.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/4/anchor-engagement-final-1.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-engagement-final-1.mp4"
+    },
+    {
+        "slug": "anchor-haldi-reel-draft",
+        "title": "Haldi Ceremony Reel",
+        "client": null,
+        "source": "Anchor/HALDI REEL DRAFT .MP4",
+        "vertical": "Event Anchoring",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/7/anchor-haldi-reel-draft.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/6/anchor-haldi-reel-draft.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-haldi-reel-draft.mp4"
+    },
+    {
+        "slug": "anchor-kiran-draft-04",
+        "title": "Kiran — Anchor Showreel",
+        "client": null,
+        "source": "Anchor/Kiran Draft 04.mp4",
+        "vertical": "Event Anchoring",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/9/anchor-kiran-draft-04.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/8/anchor-kiran-draft-04.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-kiran-draft-04.mp4"
+    },
+    {
+        "slug": "birthday-birthday-edit",
+        "title": "Birthday Film",
+        "client": null,
+        "source": "Birthday/BIRTHDAY EDIT.mp4",
+        "vertical": "Birthday & Celebration",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/11/birthday-birthday-edit.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/10/birthday-birthday-edit.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-birthday-edit.mp4"
+    },
+    {
+        "slug": "birthday-birthday",
+        "title": "Birthday Celebration",
+        "client": null,
+        "source": "Birthday/Birthday.mp4",
+        "vertical": "Birthday & Celebration",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/13/birthday-birthday.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/12/birthday-birthday.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-birthday.mp4"
+    },
+    {
+        "slug": "birthday-reel-bday",
+        "title": "Birthday Reel",
+        "client": null,
+        "source": "Birthday/REEL BDAY.mp4",
+        "vertical": "Birthday & Celebration",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/15/birthday-reel-bday.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/14/birthday-reel-bday.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-reel-bday.mp4"
+    },
+    {
+        "slug": "birthday-ruhaan-bdy",
+        "title": "Ruhaan's Birthday",
+        "client": null,
+        "source": "Birthday/ruhaan bdy.mp4",
+        "vertical": "Birthday & Celebration",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/17/birthday-ruhaan-bdy.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/16/birthday-ruhaan-bdy.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-ruhaan-bdy.mp4"
+    },
+    {
+        "slug": "brands-mercedes-2-out",
+        "title": "Mercedes-Benz",
+        "client": "Mercedes-Benz",
+        "source": "Brands/Mercedes 2 Out.mp4",
+        "vertical": "Automobile & Luxury",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/19/brands-mercedes-2-out.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/18/brands-mercedes-2-out.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-mercedes-2-out.mp4"
+    },
+    {
+        "slug": "brands-range-rover-godwan-diageo",
+        "title": "Range Rover × Godawan",
+        "client": "Range Rover",
+        "source": "Brands/Range Rover Godwan Diageo.MOV",
+        "vertical": "Automobile & Luxury",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/21/brands-range-rover-godwan-diageo.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/20/brands-range-rover-godwan-diageo.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-range-rover-godwan-diageo.mp4"
+    },
+    {
+        "slug": "brands-the-singleton-final",
+        "title": "The Singleton",
+        "client": "The Singleton",
+        "source": "Brands/THE SINGLETON FINAL.mp4",
+        "vertical": "Automobile & Luxury",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/23/brands-the-singleton-final.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/22/brands-the-singleton-final.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-the-singleton-final.mp4"
+    },
+    {
+        "slug": "clubbing-bar-galaziio-delhi",
+        "title": "Galaziio, Delhi",
+        "client": "Galaziio",
+        "source": "Clubbing:Bar/Galaziio Delhi.mp4",
+        "vertical": "Nightlife & Bars",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/25/clubbing-bar-galaziio-delhi.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/24/clubbing-bar-galaziio-delhi.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-galaziio-delhi.mp4"
+    },
+    {
+        "slug": "clubbing-bar-mm-reel",
+        "title": "MM Nightclub",
+        "client": null,
+        "source": "Clubbing:Bar/MM Reel.mp4",
+        "vertical": "Nightlife & Bars",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/27/clubbing-bar-mm-reel.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/26/clubbing-bar-mm-reel.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-mm-reel.mp4"
+    },
+    {
+        "slug": "clubbing-bar-roma-band-v2",
+        "title": "Roma Band, Live",
+        "client": null,
+        "source": "Clubbing:Bar/Roma Band v2.mp4",
+        "vertical": "Nightlife & Bars",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/29/clubbing-bar-roma-band-v2.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/28/clubbing-bar-roma-band-v2.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-roma-band-v2.mp4"
+    },
+    {
+        "slug": "clubbing-bar-clubbing",
+        "title": "Club Night",
+        "client": null,
+        "source": "Clubbing:Bar/clubbing.mp4",
+        "vertical": "Nightlife & Bars",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/31/clubbing-bar-clubbing.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/30/clubbing-bar-clubbing.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-clubbing.mp4"
+    },
+    {
+        "slug": "concert-artist-javed-ali-draft-02",
+        "title": "Javed Ali, Live",
+        "client": "Javed Ali",
+        "source": "Concert:Artist/Javed Ali Draft 02.mp4",
+        "vertical": "Concerts & Artists",
+        "category": "music-video",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/33/concert-artist-javed-ali-draft-02.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/32/concert-artist-javed-ali-draft-02.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/concert-artist-javed-ali-draft-02.mp4"
+    },
+    {
+        "slug": "concert-artist-molecule-final-copy",
+        "title": "Molecule",
+        "client": "Molecule",
+        "source": "Concert:Artist/molecule_final copy.mov",
+        "vertical": "Concerts & Artists",
+        "category": "music-video",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/35/concert-artist-molecule-final-copy.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/34/concert-artist-molecule-final-copy.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/concert-artist-molecule-final-copy.mp4"
+    },
+    {
+        "slug": "decor-shoots-deco-1st",
+        "title": "Decor Film I",
+        "client": null,
+        "source": "Decor shoots/DECO 1ST.mp4",
+        "vertical": "Decor & Set Design",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/37/decor-shoots-deco-1st.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/36/decor-shoots-deco-1st.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-deco-1st.mp4"
+    },
+    {
+        "slug": "decor-shoots-deco-2nd",
+        "title": "Decor Film II",
+        "client": null,
+        "source": "Decor shoots/DECO 2ND.mp4",
+        "vertical": "Decor & Set Design",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/39/decor-shoots-deco-2nd.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/38/decor-shoots-deco-2nd.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-deco-2nd.mp4"
+    },
+    {
+        "slug": "decor-shoots-decore-reels",
+        "title": "Decor Reel",
+        "client": null,
+        "source": "Decor shoots/decore reels.mp4",
+        "vertical": "Decor & Set Design",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/41/decor-shoots-decore-reels.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/40/decor-shoots-decore-reels.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-decore-reels.mp4"
+    },
+    {
+        "slug": "designer-aarayans-by-reet",
+        "title": "Aarayans by Reet",
+        "client": "Aarayans by Reet",
+        "source": "Designer/AArayans by reet.mp4",
+        "vertical": "Fashion & Designers",
+        "category": "editorial",
+        "crafts": [
+            "edit",
+            "colour",
+            "retouch"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/43/designer-aarayans-by-reet.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/42/designer-aarayans-by-reet.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/designer-aarayans-by-reet.mp4"
+    },
+    {
+        "slug": "engagement-karena-and-lakshay-engagement",
+        "title": "Karena & Lakshay — Engagement",
+        "client": "Private Client",
+        "source": "Engagement/Karena-and-lakshay-engagement.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/45/engagement-karena-and-lakshay-engagement.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/44/engagement-karena-and-lakshay-engagement.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/engagement-karena-and-lakshay-engagement.mp4"
+    },
+    {
+        "slug": "fashion-show-jhonee-walker-udaipur-2026",
+        "title": "Johnnie Walker, Udaipur",
+        "client": "Johnnie Walker",
+        "source": "Fashion Show/JHONEE WALKER Udaipur 2026.mp4",
+        "vertical": "Fashion & Designers",
+        "category": "editorial",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/47/fashion-show-jhonee-walker-udaipur-2026.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/46/fashion-show-jhonee-walker-udaipur-2026.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/fashion-show-jhonee-walker-udaipur-2026.mp4"
+    },
+    {
+        "slug": "festival-lohri-edit",
+        "title": "Lohri",
+        "client": null,
+        "source": "Festival/LOHRI EDIT.mp4",
+        "vertical": "Festivals",
+        "category": "event",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/49/festival-lohri-edit.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/48/festival-lohri-edit.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/festival-lohri-edit.mp4"
+    },
+    {
+        "slug": "ins-navy-csd-diageo-black-dog-ins",
+        "title": "Black Dog × CSD, INS",
+        "client": "Black Dog",
+        "source": "INS navy/CSD Diageo Black Dog INS.mp4",
+        "vertical": "Defence & Institutional",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/51/ins-navy-csd-diageo-black-dog-ins.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/50/ins-navy-csd-diageo-black-dog-ins.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-csd-diageo-black-dog-ins.mp4"
+    },
+    {
+        "slug": "ins-navy-dandia-night-story-ins-navy-2025",
+        "title": "Dandiya Night, INS Navy",
+        "client": "INS Navy",
+        "source": "INS navy/DANDIA NIGHT STORY INS NAVY 2025.mp4",
+        "vertical": "Defence & Institutional",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/53/ins-navy-dandia-night-story-ins-navy-2025.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/52/ins-navy-dandia-night-story-ins-navy-2025.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-dandia-night-story-ins-navy-2025.mp4"
+    },
+    {
+        "slug": "ins-navy-hawein-night-2025",
+        "title": "Hawein Night, INS Navy",
+        "client": "INS Navy",
+        "source": "INS navy/Hawein Night 2025.mp4",
+        "vertical": "Defence & Institutional",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/55/ins-navy-hawein-night-2025.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/54/ins-navy-hawein-night-2025.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-hawein-night-2025.mp4"
+    },
+    {
+        "slug": "ins-navy-navy-event-final",
+        "title": "Navy Event Film",
+        "client": "INS Navy",
+        "source": "INS navy/Navy Event Final.mp4",
+        "vertical": "Defence & Institutional",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/57/ins-navy-navy-event-final.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/56/ins-navy-navy-event-final.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-navy-event-final.mp4"
+    },
+    {
+        "slug": "influnancer-real-state1-3",
+        "title": "Real Estate Creator Reel",
+        "client": null,
+        "source": "Influnancer/REAL STATE1_3.mp4",
+        "vertical": "Creators & Influencers",
+        "category": "editorial",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/59/influnancer-real-state1-3.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/58/influnancer-real-state1-3.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/influnancer-real-state1-3.mp4"
+    },
+    {
+        "slug": "interior-shoots-ramboll-interior",
+        "title": "Ramboll Office",
+        "client": "Ramboll",
+        "source": "Interior shoots/Ramboll interior.mp4",
+        "vertical": "Spaces & Interiors",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/61/interior-shoots-ramboll-interior.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/60/interior-shoots-ramboll-interior.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-ramboll-interior.mp4"
+    },
+    {
+        "slug": "interior-shoots-taskus-gurugram-interior",
+        "title": "TaskUs, Gurugram",
+        "client": "TaskUs",
+        "source": "Interior shoots/TASKUS gurugram Interior.mp4",
+        "vertical": "Spaces & Interiors",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/63/interior-shoots-taskus-gurugram-interior.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/62/interior-shoots-taskus-gurugram-interior.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-taskus-gurugram-interior.mp4"
+    },
+    {
+        "slug": "interior-shoots-asha-ram-sons-pvt-ltd",
+        "title": "Asha Ram & Sons",
+        "client": "Asha Ram & Sons",
+        "source": "Interior shoots/asha ram & sons pvt. Ltd.mp4",
+        "vertical": "Spaces & Interiors",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/65/interior-shoots-asha-ram-sons-pvt-ltd.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/64/interior-shoots-asha-ram-sons-pvt-ltd.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-asha-ram-sons-pvt-ltd.mp4"
+    },
+    {
+        "slug": "interior-shoots-stallion-universal-interior",
+        "title": "Stallion Universal",
+        "client": "Stallion Universal",
+        "source": "Interior shoots/stallion universal interior.mp4",
+        "vertical": "Spaces & Interiors",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/67/interior-shoots-stallion-universal-interior.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/66/interior-shoots-stallion-universal-interior.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-stallion-universal-interior.mp4"
+    },
+    {
+        "slug": "liquor-industry-godawan-jonnie-walker",
+        "title": "Godawan × Johnnie Walker",
+        "client": "Godawan",
+        "source": "Liquor Industry/Godawan Jonnie Walker.mp4",
+        "vertical": "Lifestyle & Beverage",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/69/liquor-industry-godawan-jonnie-walker.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/68/liquor-industry-godawan-jonnie-walker.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-godawan-jonnie-walker.mp4"
+    },
+    {
+        "slug": "liquor-industry-donjulio-jaipur",
+        "title": "Don Julio, Jaipur",
+        "client": "Don Julio",
+        "source": "Liquor Industry/DONJULIO JAIPUR.mp4",
+        "vertical": "Lifestyle & Beverage",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/71/liquor-industry-donjulio-jaipur.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/70/liquor-industry-donjulio-jaipur.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-donjulio-jaipur.mp4"
+    },
+    {
+        "slug": "liquor-industry-tanqueray",
+        "title": "Tanqueray",
+        "client": "Tanqueray",
+        "source": "Liquor Industry/TANQUERAY.mp4",
+        "vertical": "Lifestyle & Beverage",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/73/liquor-industry-tanqueray.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/72/liquor-industry-tanqueray.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-tanqueray.mp4"
+    },
+    {
+        "slug": "liquor-industry-chivas-raise-the-bar",
+        "title": "Chivas — Raise the Bar",
+        "client": "Chivas Regal",
+        "source": "Liquor Industry/Chivas-raise the bar.mp4",
+        "vertical": "Lifestyle & Beverage",
+        "category": "commercial",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/75/liquor-industry-chivas-raise-the-bar.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/74/liquor-industry-chivas-raise-the-bar.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-chivas-raise-the-bar.mp4"
+    },
+    {
+        "slug": "podcast-b-roll-new-project-3-6f64237",
+        "title": "Podcast B-roll",
+        "client": null,
+        "source": "Podcast/B-roll New Project 3 [6F64237].mp4",
+        "vertical": "Podcast & Long-form",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/77/podcast-b-roll-new-project-3-6f64237.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/76/podcast-b-roll-new-project-3-6f64237.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/podcast-b-roll-new-project-3-6f64237.mp4"
+    },
+    {
+        "slug": "prewedding-pramod-pooja-pre-wedding",
+        "title": "Pramod & Pooja — Pre-wedding",
+        "client": "Private Client",
+        "source": "Prewedding/Pramod & Pooja Pre wedding.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/79/prewedding-pramod-pooja-pre-wedding.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/78/prewedding-pramod-pooja-pre-wedding.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/prewedding-pramod-pooja-pre-wedding.mp4"
+    },
+    {
+        "slug": "store-brand-launch-amiri-sample",
+        "title": "Amiri Store Launch",
+        "client": "Amiri",
+        "source": "Store:Brand Launch/Amiri Sample.mp4",
+        "vertical": "Store & Brand Launch",
+        "category": "brand-film",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/81/store-brand-launch-amiri-sample.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/80/store-brand-launch-amiri-sample.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-amiri-sample.mp4"
+    },
+    {
+        "slug": "store-brand-launch-lalit-dalmia-reel",
+        "title": "Lalit Dalmia",
+        "client": "Lalit Dalmia",
+        "source": "Store:Brand Launch/LALIT DALMIA REEL.mp4",
+        "vertical": "Store & Brand Launch",
+        "category": "brand-film",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/83/store-brand-launch-lalit-dalmia-reel.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/82/store-brand-launch-lalit-dalmia-reel.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-lalit-dalmia-reel.mp4"
+    },
+    {
+        "slug": "store-brand-launch-mepta-golf",
+        "title": "Mepta Golf",
+        "client": "Mepta Golf",
+        "source": "Store:Brand Launch/MEPTA GOLF.mp4",
+        "vertical": "Store & Brand Launch",
+        "category": "brand-film",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/85/store-brand-launch-mepta-golf.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/84/store-brand-launch-mepta-golf.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-mepta-golf.mp4"
+    },
+    {
+        "slug": "store-brand-launch-prive-3",
+        "title": "Privé",
+        "client": "Privé",
+        "source": "Store:Brand Launch/Prive (3).mp4",
+        "vertical": "Store & Brand Launch",
+        "category": "brand-film",
+        "crafts": [
+            "edit",
+            "colour"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/87/store-brand-launch-prive-3.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/86/store-brand-launch-prive-3.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-prive-3.mp4"
+    },
+    {
+        "slug": "wedding-wedding",
+        "title": "Wedding Film",
+        "client": "Private Client",
+        "source": "Wedding/WEDDING.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/89/wedding-wedding.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/88/wedding-wedding.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-wedding.mp4"
+    },
+    {
+        "slug": "wedding-ankush-wedding",
+        "title": "Ankush — Wedding Film",
+        "client": "Private Client",
+        "source": "Wedding/ankush wedding.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/91/wedding-ankush-wedding.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/90/wedding-ankush-wedding.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-ankush-wedding.mp4"
+    },
+    {
+        "slug": "wedding-anushka-antus-main-video",
+        "title": "Anushka & Antus — Wedding Film",
+        "client": "Private Client",
+        "source": "Wedding/ANUSHKA & ANTUS main video.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/93/wedding-anushka-antus-main-video.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/92/wedding-anushka-antus-main-video.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-anushka-antus-main-video.mp4"
+    },
+    {
+        "slug": "wedding-roka-hl-4",
+        "title": "Roka Highlights",
+        "client": "Private Client",
+        "source": "Wedding/Roka HL 4.mp4",
+        "vertical": "Weddings & Celebrations",
+        "category": "wedding",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/95/wedding-roka-hl-4.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/94/wedding-roka-hl-4.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-roka-hl-4.mp4"
+    },
+    {
+        "slug": "corporate-e-summit",
+        "title": "E-Summit",
+        "client": null,
+        "source": "corporate /E SUMMIT.mp4",
+        "vertical": "Corporate & Enterprise",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/97/corporate-e-summit.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/96/corporate-e-summit.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-e-summit.mp4"
+    },
+    {
+        "slug": "corporate-lucknow-centrum",
+        "title": "Centrum, Lucknow",
+        "client": "Centrum",
+        "source": "corporate /Lucknow Centrum.mp4",
+        "vertical": "Corporate & Enterprise",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/99/corporate-lucknow-centrum.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/98/corporate-lucknow-centrum.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-lucknow-centrum.mp4"
+    },
+    {
+        "slug": "corporate-rahul-dravid-teaser",
+        "title": "Rahul Dravid — Teaser",
+        "client": null,
+        "source": "corporate /RAHUL DRAVID TEASER.MP4",
+        "vertical": "Corporate & Enterprise",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/101/corporate-rahul-dravid-teaser.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/100/corporate-rahul-dravid-teaser.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-rahul-dravid-teaser.mp4"
+    },
+    {
+        "slug": "corporate-salesforce-blr-video",
+        "title": "Salesforce, Bengaluru",
+        "client": "Salesforce",
+        "source": "corporate /Salesforce BLR Video.mp4",
+        "vertical": "Corporate & Enterprise",
+        "category": "corporate",
+        "crafts": [
+            "edit",
+            "colour",
+            "sound"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/103/corporate-salesforce-blr-video.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/102/corporate-salesforce-blr-video.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-salesforce-blr-video.mp4"
+    },
+    {
+        "slug": "motion-graphic-piyush-diwali-offer",
+        "title": "Diwali Offer — Motion",
+        "client": null,
+        "source": "motion graphic/Piyush [Diwali Offer].MP4",
+        "vertical": "Motion Graphics",
+        "category": "brand-film",
+        "crafts": [
+            "motion",
+            "vfx"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/105/motion-graphic-piyush-diwali-offer.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/104/motion-graphic-piyush-diwali-offer.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/motion-graphic-piyush-diwali-offer.mp4"
+    },
+    {
+        "slug": "motion-graphic-motion-graphics",
+        "title": "Motion Graphics Reel",
+        "client": null,
+        "source": "motion graphic/motion_graphics.mp4",
+        "vertical": "Motion Graphics",
+        "category": "brand-film",
+        "crafts": [
+            "motion",
+            "vfx"
+        ],
+        "mp4": "https://d47sbsiyondmu.cloudfront.net/111/motion-graphic-motion-graphics.mp4",
+        "poster": "https://d47sbsiyondmu.cloudfront.net/110/motion-graphic-motion-graphics.jpg",
+        "preview": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/motion-graphic-motion-graphics.mp4"
+    }
+]
