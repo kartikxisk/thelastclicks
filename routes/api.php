@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\SettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/health', fn () => ['status' => 'ok', 'version' => 'v1'])->name('health');
 
     Route::get('/settings', SettingsController::class)->name('settings');
+
+    Route::get('/pages/home', [PageController::class, 'home'])->name('pages.home');
 });
