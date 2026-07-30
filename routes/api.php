@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,6 @@ use Illuminate\Support\Facades\Route;
 // `route()` calls; they must not drift from the URL.
 Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/health', fn () => ['status' => 'ok', 'version' => 'v1'])->name('health');
+
+    Route::get('/settings', SettingsController::class)->name('settings');
 });
