@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\SettingsController;
+use App\Http\Controllers\Api\V1\WorkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,4 +34,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/pages/{slug}', [PageController::class, 'staticPage'])
         ->whereIn('slug', PageController::STATIC_PAGES)
         ->name('pages.static');
+
+    Route::get('/works', [WorkController::class, 'index'])->name('works.index');
 });
