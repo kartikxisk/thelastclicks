@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\IndustryController;
 use App\Http\Controllers\Api\V1\PageController;
+use App\Http\Controllers\Api\V1\ServiceController;
 use App\Http\Controllers\Api\V1\SettingsController;
 use App\Http\Controllers\Api\V1\WorkController;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +38,9 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         ->name('pages.static');
 
     Route::get('/works', [WorkController::class, 'index'])->name('works.index');
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
+
+    Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
 });
