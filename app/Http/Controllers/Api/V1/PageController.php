@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Resources\Api\V1\ClientResource;
 use App\Http\Resources\Api\V1\HeroSlideResource;
 use App\Http\Resources\Api\V1\IndustryResource;
@@ -25,6 +26,28 @@ use Illuminate\Http\JsonResponse;
  */
 class PageController extends Controller
 {
+    /**
+     * Static pages whose slug is a fixed route, not a database lookup. Using
+     * the public URL slug directly means there is no alias table to keep in
+     * sync between here and the frontend router.
+     *
+     * @var list<string>
+     */
+    public const STATIC_PAGES = [
+        'privacy-policy', 'terms-of-service', 'cookie-policy', 'disclaimer', 'thank-you',
+    ];
+
+    /**
+     * Static pages that carry body copy. thank-you is absent on purpose: it is
+     * a designed confirmation screen, not an article, so the frontend owns its
+     * markup and only needs the metadata.
+     *
+     * @var list<string>
+     */
+    private const LEGAL_PAGES = [
+        'privacy-policy', 'terms-of-service', 'cookie-policy', 'disclaimer',
+    ];
+
     public function home(): JsonResponse
     {
         return response()->json([
@@ -76,6 +99,63 @@ class PageController extends Controller
             ->orderByDesc('id')
             ->take(15)
             ->get();
+    }
+
+    public function about(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'testimonials' => TestimonialResource::collection(
+                    Testimonial::published()->orderBy('order')->get()
+                ),
+                'clients' => ClientResource::collection(
+                    Client::active()->orderBy('order')->with(ClientResource::eagerLoads())->get()
+                ),
+                'stats' => [
+                    'works' => Work::published()->count(),
+                    'clients' => Client::active()->count(),
+                ],
+            ],
+            'seo' => SeoResource::forPath('/about'),
+        ]);
+    }
+
+    public function contact(): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                'services' => ServiceResource::collection(
+                    Service::orderBy('order')->with(ServiceResource::eagerLoads())->get()
+                ),
+                'project_types' => collect(Work::CATEGORIES)
+                    ->map(fn (string $label, string $slug) => ['value' => $slug, 'label' => $label])
+                    ->values(),
+                // Value and label are the same string: the quote form stores
+                // the label itself, so an API that invented slugs here would
+                // save values the admin's existing rows do not use.
+                'budget_ranges' => collect(StoreQuoteRequest::BUDGET_RANGES)
+                    ->map(fn (string $range) => ['value' => $range, 'label' => $range])
+                    ->values(),
+            ],
+            'seo' => SeoResource::forPath('/contact'),
+        ]);
+    }
+
+    public function staticPage(string $slug): JsonResponse
+    {
+        return response()->json([
+            'data' => [
+                // Rendered from a partial holding only the copy, never from the
+                // full page view — that would drag the layout, nav, footer and
+                // script tags into the response. The same partial backs the
+                // Blade page, so there is one source of truth until Plan 3
+                // moves this copy into the admin.
+                'body' => in_array($slug, self::LEGAL_PAGES, true)
+                    ? view("pages.legal.{$slug}")->render()
+                    : null,
+            ],
+            'seo' => SeoResource::forPath("/{$slug}", ['canonical' => url("/{$slug}")]),
+        ]);
     }
 
     /**

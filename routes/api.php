@@ -26,5 +26,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
     Route::get('/settings', SettingsController::class)->name('settings');
 
+    // Exact page routes are registered before the {slug} wildcard so they win.
     Route::get('/pages/home', [PageController::class, 'home'])->name('pages.home');
+    Route::get('/pages/about', [PageController::class, 'about'])->name('pages.about');
+    Route::get('/pages/contact', [PageController::class, 'contact'])->name('pages.contact');
+    Route::get('/pages/{slug}', [PageController::class, 'staticPage'])
+        ->whereIn('slug', PageController::STATIC_PAGES)
+        ->name('pages.static');
 });
