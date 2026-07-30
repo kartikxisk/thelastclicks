@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\IndustryController;
 use App\Http\Controllers\Api\V1\PageController;
+use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\ServiceController;
 use App\Http\Controllers\Api\V1\SettingsController;
 use App\Http\Controllers\Api\V1\WorkController;
@@ -43,4 +44,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
+
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
