@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Client extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, TouchesFrontend;
 
     protected $fillable = ['name', 'url', 'logo_path', 'order', 'is_active'];
 
@@ -38,5 +39,15 @@ class Client extends Model implements HasMedia
         // disk, so the CloudFront host comes from config at runtime, not the DB. An
         // absolute URL stored there still passes through untouched.
         return $this->getFirstMediaUrl('logo') ?: MediaUrl::onMediaDisk($this->logo_path);
+    }
+
+    /**
+     * The logo marquee runs on both pages.
+     *
+     * @return list<string>
+     */
+    public function frontendCacheTags(): array
+    {
+        return ['pages:home', 'pages:about'];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Database\Factories\ServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,7 @@ use Spatie\Sluggable\SlugOptions;
 class Service extends Model implements HasMedia
 {
     /** @use HasFactory<ServiceFactory> */
-    use HasFactory, HasSlug, InteractsWithMedia;
+    use HasFactory, HasSlug, InteractsWithMedia, TouchesFrontend;
 
     protected $fillable = [
         'slug', 'title', 'hero_copy', 'hero_headline', 'hero_meta', 'proof',
@@ -81,5 +82,15 @@ class Service extends Model implements HasMedia
             ->filter()
             ->values()
             ->all();
+    }
+
+    /**
+     * Services appear on the homepage and as options in the quote form.
+     *
+     * @return list<string>
+     */
+    public function frontendCacheTags(): array
+    {
+        return ['services', 'services:'.$this->slug, 'pages:home', 'pages:contact'];
     }
 }

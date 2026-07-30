@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    /*
+     * The Next.js frontend. Leave revalidate_url empty to disable on-demand
+     * ISR invalidation — content then refreshes on the time-based window only.
+     */
+    'frontend' => [
+        'revalidate_url' => env('FRONTEND_REVALIDATE_URL'),
+        'revalidate_secret' => env('FRONTEND_REVALIDATE_SECRET'),
+    ],
+
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TouchesFrontend;
 use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Spatie\Sluggable\SlugOptions;
 class Post extends Model implements HasMedia
 {
     /** @use HasFactory<PostFactory> */
-    use HasFactory, HasSlug, InteractsWithMedia;
+    use HasFactory, HasSlug, InteractsWithMedia, TouchesFrontend;
 
     protected $fillable = [
         'author_id', 'title', 'slug', 'excerpt', 'body',
@@ -65,5 +66,15 @@ class Post extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('cover')->singleFile();
+    }
+
+    /**
+     * Posts appear nowhere else.
+     *
+     * @return list<string>
+     */
+    public function frontendCacheTags(): array
+    {
+        return ['posts', 'posts:'.$this->slug];
     }
 }
