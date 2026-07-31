@@ -26,6 +26,24 @@ export class ApiError extends Error {
 }
 
 /**
+ * True when the API reported the record missing.
+ *
+ * Checks the shape rather than using `instanceof ApiError`, deliberately: an
+ * error thrown inside a `use cache` scope is serialised across the cache
+ * boundary and rebuilt on the other side, so it arrives as a plain Error with
+ * the properties intact but the prototype chain gone. Production minification
+ * makes the class name unreliable too. `status` is the one thing that survives.
+ */
+export function isNotFound(error: unknown): boolean {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    (error as { status: unknown }).status === 404
+  )
+}
+
+/**
  * Raw transport. Not cached itself — the exported getters below own caching, so
  * that each one can declare its own tags and lifetime.
  */
@@ -46,6 +64,23 @@ async function request<T>(
   }
 
   return response.json() as Promise<T>
+}
+
+/**
+ * Like request(), but resolves to null when the record is missing.
+ *
+ * Detail getters use this rather than throwing. An exception raised inside a
+ * `use cache` scope is intercepted by the cache layer and surfaces as a 500
+ * before a page-level catch can turn it into notFound() — so a missing slug
+ * has to be a value, not a throw.
+ */
+async function requestOrNull<T>(path: string): Promise<T | null> {
+  try {
+    return await request<T>(path)
+  } catch (error) {
+    if (isNotFound(error)) return null
+    throw error
+  }
 }
 
 /*
@@ -124,12 +159,12 @@ export async function getServices(): Promise<ServiceList> {
   return request<ServiceList>('/services')
 }
 
-export async function getService(slug: string): Promise<ServiceDetail> {
+export async function getService(slug: string): Promise<ServiceDetail | null> {
   'use cache'
   cacheTag('services', `services:${slug}`)
   cacheLife('hours')
 
-  return request<ServiceDetail>(`/services/${slug}`)
+  return requestOrNull<ServiceDetail>(`/services/${slug}`)
 }
 
 export async function getIndustries(): Promise<IndustryList> {
@@ -150,12 +185,12 @@ export async function getPosts(
   return request<PostsPage>('/posts', params)
 }
 
-export async function getPost(slug: string): Promise<PostDetail> {
+export async function getPost(slug: string): Promise<PostDetail | null> {
   'use cache'
   cacheTag('posts', `posts:${slug}`)
   cacheLife('hours')
 
-  return request<PostDetail>(`/posts/${slug}`)
+  return requestOrNull<PostDetail>(`/posts/${slug}`)
 }
 
 /*

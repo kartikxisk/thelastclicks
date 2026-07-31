@@ -7,22 +7,26 @@
  *
  * Next matches static segments before dynamic ones, so `/portfolio` resolves to
  * the page and only `/portfolio/<something>` hits the wildcard entry.
+ *
+ * statusCode: 301 rather than permanent: true, which emits 308. Google treats
+ * the two the same, but the Blade site returns 301 and matching it exactly
+ * means the pre-cutover parity crawl has one less difference to explain.
  */
 export const REDIRECTS = [
-  { source: '/our-process', destination: '/about', permanent: true },
+  { source: '/our-process', destination: '/about', statusCode: 301 },
 
   // Retired services — the studio now offers photography, videography and
   // editing only. Each points at the closest survivor.
-  { source: '/services/weddings', destination: '/services/videography', permanent: true },
-  { source: '/services/post-production', destination: '/services/editing', permanent: true },
-  { source: '/services/social-content', destination: '/services/editing', permanent: true },
-  { source: '/services/creative-direction', destination: '/services/editing', permanent: true },
+  { source: '/services/weddings', destination: '/services/videography', statusCode: 301 },
+  { source: '/services/post-production', destination: '/services/editing', statusCode: 301 },
+  { source: '/services/social-content', destination: '/services/editing', statusCode: 301 },
+  { source: '/services/creative-direction', destination: '/services/editing', statusCode: 301 },
 
   // Industry detail pages retired; the index carries the vertical story now.
-  { source: '/industries/:slug', destination: '/industries', permanent: true },
+  { source: '/industries/:slug', destination: '/industries', statusCode: 301 },
 
-  { source: '/our-works', destination: '/portfolio', permanent: true },
-  { source: '/portfolio/:slug', destination: '/', permanent: true },
+  { source: '/our-works', destination: '/portfolio', statusCode: 301 },
+  { source: '/portfolio/:slug', destination: '/', statusCode: 301 },
 
   // Earlier posts were published under auto-generated slugs built from the full
   // headline. These consolidate onto the short canonical slugs.
@@ -30,30 +34,30 @@ export const REDIRECTS = [
     source:
       '/blog/how-to-brief-a-video-production-team-so-the-film-you-get-is-the-film-you-imagined',
     destination: '/blog/how-to-brief-a-video-production-team',
-    permanent: true,
+    statusCode: 301,
   },
   {
     source: '/blog/planning-your-wedding-photography-timeline-a-working-template',
     destination: '/blog/wedding-photography-timeline-planning',
-    permanent: true,
+    statusCode: 301,
   },
   {
     source: '/blog/what-post-production-actually-includes-and-why-it-is-half-the-film',
     destination: '/blog/what-post-production-actually-includes',
-    permanent: true,
+    statusCode: 301,
   },
   {
     source: '/blog/photo-video-or-both-choosing-coverage-for-your-corporate-event',
     destination: '/blog/photo-vs-video-corporate-event-coverage',
-    permanent: true,
+    statusCode: 301,
   },
   {
     source: '/blog/how-to-prepare-your-team-for-a-corporate-shoot',
     destination: '/blog/preparing-your-team-for-a-corporate-shoot',
-    permanent: true,
+    statusCode: 301,
   },
 
   // Talent/crew pages retired.
-  { source: '/crew', destination: '/about', permanent: true },
-  { source: '/crew/:slug', destination: '/about', permanent: true },
+  { source: '/crew', destination: '/about', statusCode: 301 },
+  { source: '/crew/:slug', destination: '/about', statusCode: 301 },
 ] as const
