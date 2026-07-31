@@ -1,0 +1,72 @@
+/* ============================================================
+   TheLastClicks — design tokens
+
+   Premium agency · dark surfaces with light text · 60fps motion
+
+   Naming is historical and confusing without this note:
+   --ink*   are dark SURFACES
+   --paper* are light TEXT
+   --red    is the brand accent
+
+   Ported verbatim from resources/css/core.css. Values must not drift —
+   the Blade site and this app render the same brand until cutover.
+   ============================================================ */
+
+:root {
+  --ink: #0a0a0a;
+  --ink-2: #111111;
+  --ink-3: #161616;
+  --ink-4: #1c1c1c;
+
+  --line: #262626;
+  --line-2: #1f1f1f;
+
+  --paper: #f4f3ef;
+  --paper-dim: #c7c5be;
+  --muted: #8a8784;
+  /* 4.64:1 on --ink. The previous #6a6864 measured 3.56:1 and failed WCAG AA.
+     Do not darken this without re-measuring against --ink. */
+  --muted-2: #7d7a76;
+
+  --red: #e80f03;
+  --red-soft: rgba(232, 15, 3, 0.18);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-2: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-3: cubic-bezier(0.85, 0, 0.15, 1);
+
+  --maxw: 1560px;
+  --pad-x: clamp(20px, 4vw, 56px);
+  /* One vertical rhythm for every section block, site-wide. */
+  --section-y: clamp(64px, 9vh, 120px);
+}
+
+/* Expose the tokens to Tailwind v4 so `bg-ink`, `text-paper`, `border-line`
+   and `text-red` resolve. Utilities and raw custom properties stay in sync
+   because both read the same source. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);
+
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+
+  --color-red: var(--red);
+  --color-red-soft: var(--red-soft);
+
+  --ease-brand: var(--ease);
+  --ease-brand-2: var(--ease-2);
+  --ease-brand-3: var(--ease-3);
+
+  /* One typeface site-wide, as on the Blade site. The only stylistic variants
+     are filled (default) and outlined. No serif, no second sans, no mono. */
+  --font-sans: var(--font-outfit), 'Helvetica Neue', Arial, sans-serif;
+  --font-display: var(--font-outfit), 'Helvetica Neue', Arial, sans-serif;
+}

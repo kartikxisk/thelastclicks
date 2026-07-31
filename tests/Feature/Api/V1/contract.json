@@ -1,0 +1,745 @@
+{
+    "/api/v1/health": {
+        "status": "string",
+        "version": "string"
+    },
+    "/api/v1/settings": {
+        "data": {
+            "contact_email": "string",
+            "contact_phone": "string",
+            "whatsapp_url": "string",
+            "socials": {
+                "instagram": "string",
+                "youtube": "string",
+                "facebook": "null",
+                "linkedin": "null",
+                "x": "null",
+                "behance": "null",
+                "pinterest": "null"
+            },
+            "brand_logo_url": "null",
+            "favicon_url": "string",
+            "cta_video_url": "string",
+            "work_tile_ratio": "string",
+            "seo_defaults": {
+                "title": "string",
+                "description": "string",
+                "og_image": "null"
+            }
+        }
+    },
+    "/api/v1/pages/home": {
+        "data": {
+            "hero_slides": [
+                {
+                    "id": "int",
+                    "label": "string",
+                    "asset": "null",
+                    "poster": "null",
+                    "mime": "null",
+                    "is_video": "bool"
+                }
+            ],
+            "services": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "hero_headline": "string",
+                    "hero_copy": "string",
+                    "hero_meta": [
+                        {
+                            "label": "string",
+                            "value": "string"
+                        }
+                    ],
+                    "hero": "null",
+                    "proof": {
+                        "count": "string",
+                        "label": "string",
+                        "sectors": "string"
+                    },
+                    "pillars": [
+                        {
+                            "title": "string",
+                            "desc": "string"
+                        }
+                    ],
+                    "phases": [
+                        {
+                            "num": "string",
+                            "title": "string",
+                            "desc": "string",
+                            "time": "string"
+                        }
+                    ],
+                    "kit": [
+                        {
+                            "title": "string",
+                            "items": [
+                                "string"
+                            ]
+                        }
+                    ],
+                    "faqs": [
+                        {
+                            "q": "string",
+                            "a": "string"
+                        }
+                    ],
+                    "cta": {
+                        "title": "string",
+                        "copy": "string",
+                        "prefill": "string"
+                    },
+                    "tags": "array<empty>",
+                    "gallery": "array<empty>",
+                    "body": "string",
+                    "share": "int"
+                }
+            ],
+            "featured_works": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "summary": "string",
+                    "client": "string",
+                    "category": "string",
+                    "category_label": "string",
+                    "crafts": "array<empty>",
+                    "credits": [
+                        {
+                            "role": "string",
+                            "name": "string"
+                        }
+                    ],
+                    "location": "string",
+                    "agency": "string",
+                    "year": "string",
+                    "cover": "string",
+                    "preview_video_url": "null",
+                    "media": [
+                        {
+                            "type": "string",
+                            "url": "string",
+                            "caption": "string"
+                        }
+                    ],
+                    "is_featured": "bool"
+                }
+            ],
+            "industries": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "summary": "string",
+                    "body": "string",
+                    "cover": "string",
+                    "media": "array<empty>",
+                    "testimonials": "array<empty>"
+                }
+            ],
+            "testimonials": [
+                {
+                    "id": "int",
+                    "quote": "string",
+                    "client_name": "string",
+                    "role_company": "string"
+                }
+            ],
+            "clients": [
+                {
+                    "id": "int",
+                    "name": "string",
+                    "logo": "string",
+                    "url": "string"
+                }
+            ]
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": [
+                {
+                    "@context": "string",
+                    "@type": "string",
+                    "name": "string",
+                    "url": "string",
+                    "logo": "string"
+                }
+            ]
+        }
+    },
+    "/api/v1/pages/about": {
+        "data": {
+            "testimonials": [
+                {
+                    "id": "int",
+                    "quote": "string",
+                    "client_name": "string",
+                    "role_company": "string"
+                }
+            ],
+            "clients": [
+                {
+                    "id": "int",
+                    "name": "string",
+                    "logo": "string",
+                    "url": "string"
+                }
+            ],
+            "stats": {
+                "works": "int",
+                "clients": "int"
+            }
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/pages/contact": {
+        "data": {
+            "services": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "hero_headline": "string",
+                    "hero_copy": "string",
+                    "hero_meta": [
+                        {
+                            "label": "string",
+                            "value": "string"
+                        }
+                    ],
+                    "hero": "null",
+                    "proof": {
+                        "count": "string",
+                        "label": "string",
+                        "sectors": "string"
+                    },
+                    "pillars": [
+                        {
+                            "title": "string",
+                            "desc": "string"
+                        }
+                    ],
+                    "phases": [
+                        {
+                            "num": "string",
+                            "title": "string",
+                            "desc": "string",
+                            "time": "string"
+                        }
+                    ],
+                    "kit": [
+                        {
+                            "title": "string",
+                            "items": [
+                                "string"
+                            ]
+                        }
+                    ],
+                    "faqs": [
+                        {
+                            "q": "string",
+                            "a": "string"
+                        }
+                    ],
+                    "cta": {
+                        "title": "string",
+                        "copy": "string",
+                        "prefill": "string"
+                    },
+                    "tags": "array<empty>",
+                    "gallery": "array<empty>",
+                    "body": "string",
+                    "share": "int"
+                }
+            ],
+            "project_types": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ],
+            "budget_ranges": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ]
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/pages/privacy-policy": {
+        "data": {
+            "body": "string"
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/pages/thank-you": {
+        "data": {
+            "body": "null"
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/works": {
+        "data": [
+            {
+                "id": "int",
+                "slug": "string",
+                "title": "string",
+                "summary": "string",
+                "client": "string",
+                "category": "string",
+                "category_label": "string",
+                "crafts": "array<empty>",
+                "credits": [
+                    {
+                        "role": "string",
+                        "name": "string"
+                    }
+                ],
+                "location": "string",
+                "agency": "string",
+                "year": "string",
+                "cover": "string",
+                "preview_video_url": "null",
+                "media": [
+                    {
+                        "type": "string",
+                        "url": "string",
+                        "caption": "string"
+                    }
+                ],
+                "is_featured": "bool"
+            }
+        ],
+        "meta": {
+            "current_page": "int",
+            "last_page": "int",
+            "per_page": "int",
+            "total": "int"
+        },
+        "filters": {
+            "categories": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ]
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/services": {
+        "data": [
+            {
+                "id": "int",
+                "slug": "string",
+                "title": "string",
+                "hero_headline": "string",
+                "hero_copy": "string",
+                "hero_meta": [
+                    {
+                        "label": "string",
+                        "value": "string"
+                    }
+                ],
+                "hero": "null",
+                "proof": {
+                    "count": "string",
+                    "label": "string",
+                    "sectors": "string"
+                },
+                "pillars": [
+                    {
+                        "title": "string",
+                        "desc": "string"
+                    }
+                ],
+                "phases": [
+                    {
+                        "num": "string",
+                        "title": "string",
+                        "desc": "string",
+                        "time": "string"
+                    }
+                ],
+                "kit": [
+                    {
+                        "title": "string",
+                        "items": [
+                            "string"
+                        ]
+                    }
+                ],
+                "faqs": [
+                    {
+                        "q": "string",
+                        "a": "string"
+                    }
+                ],
+                "cta": {
+                    "title": "string",
+                    "copy": "string",
+                    "prefill": "string"
+                },
+                "tags": "array<empty>",
+                "gallery": "array<empty>",
+                "body": "string",
+                "share": "int"
+            }
+        ],
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/services/{slug}": {
+        "data": {
+            "id": "int",
+            "slug": "string",
+            "title": "string",
+            "hero_headline": "string",
+            "hero_copy": "string",
+            "hero_meta": [
+                {
+                    "label": "string",
+                    "value": "string"
+                }
+            ],
+            "hero": "null",
+            "proof": {
+                "count": "string",
+                "label": "string",
+                "sectors": "string"
+            },
+            "pillars": [
+                {
+                    "title": "string",
+                    "desc": "string"
+                }
+            ],
+            "phases": [
+                {
+                    "num": "string",
+                    "title": "string",
+                    "desc": "string",
+                    "time": "string"
+                }
+            ],
+            "kit": [
+                {
+                    "title": "string",
+                    "items": [
+                        "string"
+                    ]
+                }
+            ],
+            "faqs": [
+                {
+                    "q": "string",
+                    "a": "string"
+                }
+            ],
+            "cta": {
+                "title": "string",
+                "copy": "string",
+                "prefill": "string"
+            },
+            "tags": "array<empty>",
+            "gallery": "array<empty>",
+            "body": "string",
+            "share": "int",
+            "related_works": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "summary": "string",
+                    "client": "string",
+                    "category": "string",
+                    "category_label": "string",
+                    "crafts": "array<empty>",
+                    "credits": [
+                        {
+                            "role": "string",
+                            "name": "string"
+                        }
+                    ],
+                    "location": "string",
+                    "agency": "string",
+                    "year": "string",
+                    "cover": "string",
+                    "preview_video_url": "null",
+                    "media": [
+                        {
+                            "type": "string",
+                            "url": "string",
+                            "caption": "string"
+                        }
+                    ],
+                    "is_featured": "bool"
+                }
+            ]
+        },
+        "seo": {
+            "title": "string",
+            "description": "string",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "string",
+                "description": "string",
+                "image": "null"
+            },
+            "json_ld": [
+                {
+                    "@context": "string",
+                    "@type": "string",
+                    "name": "string",
+                    "description": "string",
+                    "provider": {
+                        "@type": "string",
+                        "name": "string"
+                    },
+                    "url": "string"
+                }
+            ]
+        }
+    },
+    "/api/v1/industries": {
+        "data": [
+            {
+                "id": "int",
+                "slug": "string",
+                "title": "string",
+                "summary": "string",
+                "body": "string",
+                "cover": "string",
+                "media": "array<empty>",
+                "testimonials": "array<empty>"
+            }
+        ],
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/posts": {
+        "data": [
+            {
+                "id": "int",
+                "slug": "string",
+                "title": "string",
+                "excerpt": "string",
+                "body": "string",
+                "published_at": "string",
+                "reading_minutes": "int",
+                "cover": "null",
+                "category": {
+                    "value": "string",
+                    "label": "string"
+                },
+                "tags": [
+                    {
+                        "value": "string",
+                        "label": "string"
+                    }
+                ]
+            }
+        ],
+        "meta": {
+            "current_page": "int",
+            "last_page": "int",
+            "per_page": "int",
+            "total": "int"
+        },
+        "filters": {
+            "categories": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ],
+            "tags": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ]
+        },
+        "seo": {
+            "title": "null",
+            "description": "null",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": "array<empty>"
+        }
+    },
+    "/api/v1/posts/{slug}": {
+        "data": {
+            "id": "int",
+            "slug": "string",
+            "title": "string",
+            "excerpt": "string",
+            "body": "string",
+            "published_at": "string",
+            "reading_minutes": "int",
+            "cover": "null",
+            "category": {
+                "value": "string",
+                "label": "string"
+            },
+            "tags": [
+                {
+                    "value": "string",
+                    "label": "string"
+                }
+            ],
+            "related": [
+                {
+                    "id": "int",
+                    "slug": "string",
+                    "title": "string",
+                    "excerpt": "string",
+                    "body": "string",
+                    "published_at": "string",
+                    "reading_minutes": "int",
+                    "cover": "null",
+                    "category": {
+                        "value": "string",
+                        "label": "string"
+                    },
+                    "tags": [
+                        {
+                            "value": "string",
+                            "label": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        "seo": {
+            "title": "string",
+            "description": "string",
+            "canonical": "string",
+            "noindex": "bool",
+            "nofollow": "bool",
+            "og": {
+                "title": "null",
+                "description": "null",
+                "image": "null"
+            },
+            "json_ld": [
+                {
+                    "@context": "string",
+                    "@type": "string",
+                    "headline": "string",
+                    "datePublished": "string",
+                    "dateModified": "string",
+                    "image": "null",
+                    "author": {
+                        "@type": "string",
+                        "name": "string"
+                    },
+                    "mainEntityOfPage": "string"
+                }
+            ]
+        }
+    }
+}

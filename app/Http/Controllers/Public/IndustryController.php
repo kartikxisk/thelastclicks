@@ -16,5 +16,4 @@ class IndustryController extends Controller
                 ->get(),
         ]);
     }
-
 }

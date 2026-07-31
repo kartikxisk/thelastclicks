@@ -6,13 +6,17 @@ use App\Models\SeoPage;
 use Illuminate\Database\Seeder;
 
 /**
- * Search-facing title/description overrides for pages whose on-page copy is
- * deliberately short. The service pages are the commercial money pages, but
- * their headings ("Photography") make terrible <title>s on their own — these
+ * Search-facing title/description overrides for the service pages.
+ *
+ * Their headings ("Photography") make terrible <title>s on their own; these
  * rows give them intent-bearing titles without touching the page design.
  *
- * Editable afterwards under Site → Manage SEO; the row wins over whatever the
- * Blade page passes.
+ * Titles for the other public routes live in PageSeoSeeder, which is a
+ * one-time content migration and is deliberately not called from
+ * DatabaseSeeder.
+ *
+ * Editable afterwards under Site -> Manage SEO; the row wins over whatever a
+ * page passes.
  */
 class SeoPagesSeeder extends Seeder
 {

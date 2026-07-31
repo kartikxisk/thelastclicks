@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Assert;
 use Tests\TestCase;
 
 /*
@@ -43,7 +45,39 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Run $callback with the query log enabled and fail if it issues more than
+ * $max queries. Guards every API endpoint against N+1 regressions, which code
+ * review does not reliably catch.
+ *
+ * @template T
+ *
+ * @param  Closure(): T  $callback
+ * @return T
+ */
+function assertQueryCount(int $max, Closure $callback): mixed
 {
-    // ..
+    $connection = DB::connection();
+    $connection->flushQueryLog();
+    $connection->enableQueryLog();
+
+    try {
+        $result = $callback();
+    } finally {
+        $log = $connection->getQueryLog();
+        $connection->disableQueryLog();
+    }
+
+    Assert::assertLessThanOrEqual(
+        $max,
+        count($log),
+        sprintf(
+            "Expected at most %d queries, got %d:\n%s",
+            $max,
+            count($log),
+            collect($log)->pluck('query')->map(fn ($q) => '  - '.$q)->implode("\n")
+        )
+    );
+
+    return $result;
 }

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 
 class SiteSetting extends Model
 {
+    use TouchesFrontend;
+
     protected $primaryKey = 'key';
 
     public $incrementing = false;
@@ -27,10 +30,10 @@ class SiteSetting extends Model
      */
     public const WORK_TILE_RATIOS = [
         '16 / 9' => 'Widescreen 16:9 — film stills',
-        '3 / 2'  => 'Classic 3:2 — stills photography',
-        '4 / 3'  => 'Standard 4:3 — mixed material',
-        '1 / 1'  => 'Square 1:1 — safest crop',
-        '4 / 5'  => 'Portrait 4:5 — social',
+        '3 / 2' => 'Classic 3:2 — stills photography',
+        '4 / 3' => 'Standard 4:3 — mixed material',
+        '1 / 1' => 'Square 1:1 — safest crop',
+        '4 / 5' => 'Portrait 4:5 — social',
         '9 / 16' => 'Vertical 9:16 — reels',
     ];
 
@@ -113,5 +116,15 @@ class SiteSetting extends Model
         $path = static::get("page_image_{$key}");
 
         return is_string($path) ? MediaUrl::onUploadDisk($path) : null;
+    }
+
+    /**
+     * Settings back the nav and footer on every route, which the frontend caches under one tag.
+     *
+     * @return list<string>
+     */
+    public function frontendCacheTags(): array
+    {
+        return ['settings'];
     }
 }

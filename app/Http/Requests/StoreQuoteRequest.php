@@ -6,6 +6,24 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuoteRequest extends FormRequest
 {
+    /**
+     * Budget bands offered in the quote form. The stored value is the label
+     * itself, which is why this is a flat list rather than a value => label
+     * map — changing a label here rewrites what is already saved on existing
+     * quotes, so treat these strings as data, not copy.
+     *
+     * Consumed by the Blade quote form and by the /api/v1/pages/contact
+     * endpoint, so both offer the same options.
+     *
+     * @var list<string>
+     */
+    public const BUDGET_RANGES = [
+        'Under ₹5L',
+        '₹5L – ₹15L',
+        '₹15L – ₹50L',
+        '₹50L+',
+    ];
+
     public function authorize(): bool
     {
         return true;
