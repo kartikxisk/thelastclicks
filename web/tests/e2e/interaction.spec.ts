@@ -165,3 +165,49 @@ test.describe('faq disclosure', () => {
     await context.close()
   })
 })
+
+test.describe('route transition', () => {
+  test('navigation completes and content is readable after the wipe', async ({ page }) => {
+    await page.goto('/')
+
+    const started = Date.now()
+    await page
+      .getByRole('navigation', { name: 'Footer' })
+      .getByRole('link', { name: 'Portfolio' })
+      .click()
+    await page.locator('[data-work-tile]').first().waitFor({ state: 'visible' })
+
+    // A curtain that outlasts the navigation makes the site feel broken
+    // rather than considered (plans/001).
+    expect(Date.now() - started).toBeLessThan(4000)
+  })
+
+  test('the wipe never intercepts a click', async ({ page }) => {
+    await page.goto('/')
+    await page
+      .getByRole('navigation', { name: 'Footer' })
+      .getByRole('link', { name: 'Journal' })
+      .click()
+    await page.waitForURL('**/blog')
+
+    // Immediately click on through while the wipe may still be running.
+    await page
+      .getByRole('navigation', { name: 'Footer' })
+      .getByRole('link', { name: 'About' })
+      .click()
+    await expect(page).toHaveURL(/\/about/)
+  })
+
+  test('back navigation works through the transition', async ({ page }) => {
+    await page.goto('/')
+    await page
+      .getByRole('navigation', { name: 'Footer' })
+      .getByRole('link', { name: 'Portfolio' })
+      .click()
+    await expect(page).toHaveURL(/\/portfolio/)
+
+    await page.goBack()
+    await expect(page).toHaveURL(/127\.0\.0\.1:\d+\/$|\/$/)
+    await expect(page.locator('[data-section="hero"]')).toBeVisible()
+  })
+})

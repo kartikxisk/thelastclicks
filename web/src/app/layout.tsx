@@ -5,6 +5,7 @@ import { CanvasMount } from '@/webgl/CanvasMount'
 import { Cursor } from '@/components/chrome/Cursor'
 import { Footer } from '@/components/chrome/Footer'
 import { Nav } from '@/components/chrome/Nav'
+import { RouteTransition } from '@/components/chrome/RouteTransition'
 import { SmoothScroll } from '@/components/chrome/SmoothScroll'
 import './globals.css'
 
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               so navigation reuses the context, its compiled shaders and its
               GPU-resident textures instead of tearing them down. */}
           <CanvasMount />
+          <RouteTransition />
           <Cursor />
           <Nav settings={settings} services={services.data} industries={industries.data} />
           <main id="main">{children}</main>
