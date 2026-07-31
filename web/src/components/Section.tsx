@@ -15,10 +15,19 @@ export function Section({
   children,
   className = '',
   as = 'h2',
+  titleHtml,
 }: {
   name: string
   eyebrow?: string
   title?: ReactNode
+  /**
+   * Render the title as HTML.
+   *
+   * Service headlines are admin-authored and contain <br> and <em> — the Blade
+   * site renders them raw, and escaping them printed the tags on screen. Same
+   * trust boundary as the post body: an authenticated editor wrote it.
+   */
+  titleHtml?: string
   children: ReactNode
   className?: string
   /**
@@ -39,16 +48,27 @@ export function Section({
             {eyebrow && (
               <p className="mb-3 text-sm uppercase tracking-[0.2em] text-muted-2">{eyebrow}</p>
             )}
-            {title && (
+            {titleHtml ? (
               <Heading
                 className={
                   as === 'h1'
                     ? 'text-balance text-4xl font-semibold tracking-tight md:text-6xl'
                     : 'text-balance text-3xl font-semibold tracking-tight md:text-5xl'
                 }
-              >
-                {title}
-              </Heading>
+                dangerouslySetInnerHTML={{ __html: titleHtml }}
+              />
+            ) : (
+              title && (
+                <Heading
+                  className={
+                    as === 'h1'
+                      ? 'text-balance text-4xl font-semibold tracking-tight md:text-6xl'
+                      : 'text-balance text-3xl font-semibold tracking-tight md:text-5xl'
+                  }
+                >
+                  {title}
+                </Heading>
+              )
             )}
           </header>
         )}
