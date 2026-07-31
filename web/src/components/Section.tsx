@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { sanitizeHeadline } from '@/lib/sanitize'
 
 /**
  * The shared section shell: one vertical rhythm, one max width, one eyebrow
@@ -21,7 +22,7 @@ export function Section({
   eyebrow?: string
   title?: ReactNode
   /**
-   * Render the title as HTML.
+   * Render the title as HTML, reduced to <br> and <em>.
    *
    * Service headlines are admin-authored and contain <br> and <em> — the Blade
    * site renders them raw, and escaping them printed the tags on screen. Same
@@ -55,7 +56,8 @@ export function Section({
                     ? 'text-balance text-4xl font-semibold tracking-tight md:text-6xl'
                     : 'text-balance text-3xl font-semibold tracking-tight md:text-5xl'
                 }
-                dangerouslySetInnerHTML={{ __html: titleHtml }}
+                // Allowlisted to <br> and <em>; anything else becomes visible text.
+                dangerouslySetInnerHTML={{ __html: sanitizeHeadline(titleHtml) }}
               />
             ) : (
               title && (

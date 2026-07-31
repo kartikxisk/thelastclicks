@@ -99,7 +99,14 @@ export function GalleryScene({ works }: { works: Work[] }) {
     if (animating) invalidate()
   })
 
-  if (tier === 'off' || rects.length === 0) return null
+  // Nothing renders until the grid has been measured. The orthographic
+  // frustum is built from these bounds, and a camera constructed with a
+  // zero-width frustum projects everything to a degenerate point — from which
+  // it never recovers, because the projection matrix is only rebuilt when the
+  // camera itself remounts.
+  if (tier === 'off' || rects.length === 0 || bounds.width === 0 || bounds.height === 0) {
+    return null
+  }
 
   return (
     <>
