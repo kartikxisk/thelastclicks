@@ -68,7 +68,7 @@ async function request<T>(
     throw new Error(
       `Cannot reach the Laravel API at ${apiBaseUrl()} (requesting ${path}).\n\n` +
         `Start it alongside Next:\n` +
-        `  npm run dev:all      # starts both\n` +
+        `  npm run dev          # starts both\n` +
         `  ./bin/php artisan serve --port=8000   # or just the API\n\n` +
         `If it is running on another port, set API_BASE_URL in web/.env.`,
       { cause }

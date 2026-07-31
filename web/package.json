@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -n api,web -c magenta,cyan --kill-others-on-fail \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "cd .. && ./bin/php artisan serve --port=8000",
+    "dev:web": "next dev",
     "build": "next build",
     "start": "node .next/standalone/server.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
-    "test:e2e": "playwright test",
-    "dev:all": "concurrently -n api,web -c magenta,cyan \"npm run dev:api\" \"npm run dev\"",
-    "dev:api": "cd .. && ./bin/php artisan serve --port=8000"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

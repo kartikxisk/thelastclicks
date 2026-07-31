@@ -72,11 +72,12 @@ alongside Laravel. **It is not yet wired to nginx — Blade still serves
 production.**
 
 ```bash
-npm run dev:all --prefix web   # starts the Laravel API and Next together
+npm run dev --prefix web   # starts the Laravel API and Next together
 ```
 
-Running `npm run dev` alone starts Next without the API, and every page fails
-on ECONNREFUSED — every route reads from `/api/v1`.
+That starts both, because every route reads from `/api/v1` and Next on its own
+only produces a connection error. Use `dev:web` if the API is already running
+elsewhere.
 
 First run in a new environment needs both of these once:
 
