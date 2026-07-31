@@ -64,3 +64,28 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Frontend (Next.js)
+
+The public site is being rebuilt as a Next.js 16 app in `web/`, served by Node
+alongside Laravel. **It is not yet wired to nginx — Blade still serves
+production.**
+
+```bash
+npm run dev:all --prefix web   # starts the Laravel API and Next together
+```
+
+Running `npm run dev` alone starts Next without the API, and every page fails
+on ECONNREFUSED — every route reads from `/api/v1`.
+
+First run in a new environment needs both of these once:
+
+```bash
+php artisan db:seed --class=PageSeoSeeder      # page titles/descriptions
+php artisan db:seed --class=HeroSlidesSeeder   # homepage hero
+```
+
+- Deploy: [docs/deploy/nextjs.md](docs/deploy/nextjs.md)
+- API contract: [docs/api-v1.md](docs/api-v1.md)
+- Motion rules: [docs/motion-spec.md](docs/motion-spec.md)
+- Known bug: [docs/webgl-gallery-debug.md](docs/webgl-gallery-debug.md)
