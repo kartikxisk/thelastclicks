@@ -105,6 +105,12 @@ export function WorkGallery({
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    // Grid only. On /portfolio the first row is the LCP
+                    // element, and lazy-loading it makes LCP wait for a
+                    // request that starts after layout. On the homepage
+                    // collage the hero already owns LCP, and priority here
+                    // just competes with it for bandwidth.
+                    priority={layout === 'grid' && i < 3}
                     className="object-cover transition-transform duration-(--dur-slow) ease-(--ease-brand) group-hover:scale-105"
                   />
                 )}
