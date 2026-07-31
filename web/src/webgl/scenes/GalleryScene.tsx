@@ -56,7 +56,7 @@ export function GalleryScene({ works }: { works: Work[] }) {
           typeof window === 'undefined'
             ? '#e80f03'
             : getComputedStyle(document.documentElement).getPropertyValue('--red').trim() ||
-              '#e80f03'
+                '#e80f03'
         ),
       },
     }),

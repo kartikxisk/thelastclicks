@@ -101,7 +101,7 @@ export function HeroScene({ slides }: { slides: HeroSlide[] }) {
           typeof window === 'undefined'
             ? '#e80f03'
             : getComputedStyle(document.documentElement).getPropertyValue('--red').trim() ||
-              '#e80f03'
+                '#e80f03'
         ),
       },
     }),
@@ -114,10 +114,7 @@ export function HeroScene({ slides }: { slides: HeroSlide[] }) {
 
     material.uniforms.uTime.value += delta
     material.uniforms.uVelocity.value = velocity.current
-    material.uniforms.uPointer.value.set(
-      (state.pointer.x + 1) / 2,
-      (state.pointer.y + 1) / 2
-    )
+    material.uniforms.uPointer.value.set((state.pointer.x + 1) / 2, (state.pointer.y + 1) / 2)
 
     if (texture && material.uniforms.uTexture.value !== texture) {
       material.uniforms.uTexture.value = texture

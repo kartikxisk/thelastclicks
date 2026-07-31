@@ -5,6 +5,7 @@ import { getService, getServices, getSettings } from '@/lib/api'
 import { toMetadata } from '@/lib/metadata'
 import { JsonLd } from '@/components/JsonLd'
 import { Section } from '@/components/Section'
+import { ServicesSceneMount } from '@/webgl/ServicesSceneMount'
 import { WorkGallery } from '@/components/work/WorkGallery'
 
 type Params = Promise<{ slug: string }>
@@ -65,7 +66,8 @@ export default async function ServicePage({ params }: { params: Params }) {
       </Section>
 
       {data.pillars.length > 0 && (
-        <Section name="pillars" eyebrow="Approach" title="How we work.">
+        <Section name="pillars" eyebrow="Approach" title="How we work." className="relative">
+          <ServicesSceneMount count={data.pillars.length} />
           <ul className="grid gap-px border border-line bg-line md:grid-cols-3">
             {data.pillars.map((pillar) => (
               <li key={pillar.title} className="bg-ink p-8">
