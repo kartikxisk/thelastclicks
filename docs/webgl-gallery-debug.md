@@ -74,3 +74,49 @@ draw, do not reintroduce a condition that hides the image when WebGL is
 "active" — decoration must never be able to remove content. If the two layers
 need to not overlap, fade the DOM image with opacity *after* the scene has
 proven it drew a frame, never before.
+
+## Debug session 2 — results
+
+Ran steps 1 and 2 of the procedure above. Both suspects are now **ruled out**.
+
+**Step 1 (solid colour, no shader, no texture): still nothing.** The material
+was replaced with `<meshBasicMaterial color="hotpink" />` and no pink appeared.
+That eliminates the shader, the textures and `uHasTexture`'s `discard` as
+causes — the geometry is not reaching the screen at all.
+
+**`frameloop="demand"` is not the cause.** Switching to `"always"` changed
+nothing.
+
+**The View is correctly sized.** `[data-scene="work-grid"]` measures
+1328×1542, exactly matching `[data-grid-root]`. The tracking element and the
+scissor box are right.
+
+**No WebGL errors.** Only deprecation and GPU-performance warnings.
+
+**A zero-width frustum guard did not fix it.** `GalleryScene` now returns null
+until `bounds` is measured, on the theory that an `OrthographicCamera` built
+with `left === right === 0` never recovers. Correct defensively, but not the
+bug.
+
+### What that leaves
+
+The geometry exists and the view exists, but nothing rasterises. Remaining
+candidates, in order:
+
+1. **`makeDefault` inside a `<View>`.** drei's View manages its own camera.
+   A child `OrthographicCamera` with `makeDefault` may be fighting it, or may
+   not be applied to the View's render pass at all. Try removing the camera
+   entirely and sizing planes in the View's default camera units instead —
+   `useThree().viewport` inside a View reports that camera's world size.
+2. **Plane scale versus camera units.** Without the ortho camera, planes sized
+   in pixels (hundreds of units) against a default perspective camera at z=5
+   are astronomically oversized and entirely off-screen. This would look
+   exactly like "nothing renders".
+3. **`<View.Port />` placement.** It is rendered as a sibling of
+   `<PostProcessing />` inside the Canvas. Confirm the postprocessing pass is
+   not consuming the render target the views draw into.
+
+Suspect 3 is worth checking first and costs nothing: temporarily remove
+`<PostProcessing />` from `Canvas.tsx` and see whether the planes appear. The
+effect composer was added after the gallery, and nobody has verified the two
+coexist.
