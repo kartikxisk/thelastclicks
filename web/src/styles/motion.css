@@ -1,0 +1,39 @@
+/* ============================================================
+   Motion tokens
+
+   Consolidated per plans/011 — durations and easings are declared once here
+   and referenced everywhere, so a timing change is one edit rather than a
+   grep. See docs/motion-spec.md for the rules these serve.
+   ============================================================ */
+
+:root {
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+}
+
+/*
+  Reduced motion is gentler, not zero (plans/008). Removing motion entirely
+  loses the spatial cues that make navigation legible — a panel that snaps
+  into place reads as a bug, not as an accommodation. Durations collapse to
+  something near-instant but non-zero, and only genuinely decorative,
+  continuous animation is stopped outright.
+*/
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur-base: 150ms;
+    --dur-slow: 150ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    /* Infinite decorative loops (marquees, idle drift) stop. */
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    /* Transitions shorten rather than vanish. */
+    transition-duration: 150ms !important;
+    scroll-behavior: auto !important;
+  }
+}
