@@ -26,17 +26,31 @@ export function WebGLCanvas() {
   const [painted, setPainted] = useState(false)
 
   useEffect(() => {
-    // Two frames after mount the DOM content has painted, and we can afford to
-    // start compiling shaders.
-    let inner = 0
-    const outer = requestAnimationFrame(() => {
-      inner = requestAnimationFrame(() => setPainted(true))
-    })
+    /*
+     * Wait for the main thread to go idle, not merely for a paint.
+     *
+     * Two frames after mount was enough to keep WebGL off the critical path to
+     * LCP, but not enough to keep it off Total Blocking Time: parsing and
+     * compiling ~600KB of three, fiber and drei still landed while the browser
+     * was hydrating, and TBT measured 450ms against a 300ms budget.
+     *
+     * requestIdleCallback waits until there is genuinely nothing else to do.
+     * The timeout is a floor so the canvas still arrives on a page that never
+     * goes idle, and the rAF fallback covers Safari, which has no rIC.
+     */
+    const start = () => setPainted(true)
 
-    return () => {
-      cancelAnimationFrame(outer)
-      if (inner) cancelAnimationFrame(inner)
+    const idle =
+      typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback : null
+
+    if (idle) {
+      const id = idle(start, { timeout: 2500 })
+      return () => window.cancelIdleCallback(id)
     }
+
+    // Safari has no requestIdleCallback.
+    const id = window.setTimeout(start, 1200)
+    return () => window.clearTimeout(id)
   }, [])
 
   if (!painted || tier === 'off') return null
