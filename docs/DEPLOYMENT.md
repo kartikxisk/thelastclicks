@@ -411,3 +411,21 @@ Two constraints the importer works around, both worth knowing before editing it:
 37 of the 53 films are vertical (9:16 reels). The tile ratio is admin-controlled
 — **Site Settings → Portfolio display** — and still set to the `4 / 3` default,
 which crops those hard. A portrait preset suits this library better.
+
+## Frontend (Next.js)
+
+The public site is a Next.js 16 app in `web/`, served by Node alongside
+Laravel. Laravel keeps the Filament admin and the `/api/v1` layer.
+
+See [deploy/nextjs.md](deploy/nextjs.md) for the build sequence, the
+environment variables that must match between the two apps, and how cache
+revalidation works.
+
+Two things bite if missed:
+
+- `cp -r .next/static .next/standalone/.next/static` and `cp -r public
+  .next/standalone/public` after every build — the standalone server does not
+  copy them, and skipping it produces an unstyled site.
+- `php artisan db:seed --class=PageSeoSeeder` once per environment — the
+  frontend reads page titles from `seo_pages`, and without those rows eleven
+  routes ship with no title.
