@@ -50,7 +50,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <RouteTransition />
           <Cursor />
           <Nav settings={settings} services={services.data} industries={industries.data} />
-          <main id="main">{children}</main>
+          <main id="main" className="pt-24">
+            {children}
+          </main>
           <Footer settings={settings} />
         </SmoothScroll>
       </body>

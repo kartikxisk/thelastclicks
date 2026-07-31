@@ -99,7 +99,7 @@ export function WorkGallery({
                 // images decode (plans/012).
                 style={{ aspectRatio: ratio }}
               >
-                {work.cover && !webglActive && (
+                {work.cover && (
                   <Image
                     src={work.cover}
                     alt=""

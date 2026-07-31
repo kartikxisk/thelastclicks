@@ -26,7 +26,13 @@ const HeroScene = dynamic(() => import('@/webgl/scenes/HeroScene').then((m) => m
  * Slide one's poster is the LCP element, so it is the only image marked
  * priority and it is never lazy. Later slides load normally.
  */
-export function Hero({ slides }: { slides: HeroSlide[] }) {
+export function Hero({
+  slides,
+  fallbackImage,
+}: {
+  slides: HeroSlide[]
+  fallbackImage?: string | null
+}) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -43,7 +49,9 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
     <section
       data-section="hero"
       data-nav-transparent
-      className="relative flex min-h-[88vh] items-end overflow-hidden"
+      // -mt-24 cancels the layout padding that clears the fixed header: the
+      // hero is designed to sit *under* a transparent nav, full bleed.
+      className="relative -mt-24 flex min-h-[92vh] items-end overflow-hidden"
     >
       {slides.map((slide, i) => {
         const poster = slide.poster?.url ?? slide.asset?.url
@@ -82,12 +90,31 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
         )
       })}
 
+      {slides.length === 0 && fallbackImage && (
+        // No hero slides configured. Rather than a black void, lead with the
+        // most recent featured work — it is real content and it is what the
+        // section is for.
+        <Image
+          src={fallbackImage}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      )}
+
       {/* WebGL sits above the poster and below the scrim, so the DOM image
           stays the LCP element and the headline keeps its contrast whether or
           not the scene ever loads. */}
       <Scene section="hero">
         <HeroScene slides={slides} />
       </Scene>
+
+      {/* Top scrim for the nav. The header is transparent over the hero, so
+          without this the links sit on whatever the frame happens to be and
+          contrast becomes a coin flip per slide. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/80 to-transparent" />
 
       {/* Legibility scrim. Without it the headline sits on whatever the frame
           happens to be, and contrast becomes a coin flip per slide. */}

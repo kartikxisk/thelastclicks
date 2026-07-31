@@ -28,7 +28,7 @@ export default async function HomePage() {
     <>
       <JsonLd data={seo.json_ld} />
 
-      <Hero slides={data.hero_slides} />
+      <Hero slides={data.hero_slides} fallbackImage={data.featured_works[0]?.cover} />
       <ClientLogos clients={data.clients} />
       <IndustriesDeck industries={data.industries} />
       <ServicesSection services={data.services} />

@@ -23,7 +23,6 @@ export function Nav({
   const links = (
     <>
       <Link href="/portfolio">Portfolio</Link>
-      <Link href="/industries">Industries</Link>
       <Link href="/blog">Journal</Link>
       <Link href="/about">About</Link>
       <Link href="/contact">Contact</Link>
