@@ -87,7 +87,7 @@ function PostsSkeleton() {
 
 export default function BlogPage({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <Section name="blog" eyebrow="Journal" title="Notes from the studio.">
+    <Section name="blog" eyebrow="Journal" title="Notes from the studio." as="h1">
       <Suspense fallback={<PostsSkeleton />}>
         <Posts searchParams={searchParams} />
       </Suspense>

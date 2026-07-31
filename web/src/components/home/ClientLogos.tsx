@@ -14,10 +14,7 @@ export function ClientLogos({ clients }: { clients: Client[] }) {
   if (withLogos.length === 0) return null
 
   const track = (hidden: boolean) => (
-    <ul
-      aria-hidden={hidden || undefined}
-      className="flex shrink-0 items-center gap-16 pr-16"
-    >
+    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center gap-16 pr-16">
       {withLogos.map((client) => (
         <li key={client.id} className="shrink-0 opacity-60">
           <Image

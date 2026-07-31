@@ -27,6 +27,18 @@ class SettingsController extends Controller
         'instagram', 'youtube', 'facebook', 'linkedin', 'x', 'behance', 'pinterest',
     ];
 
+    /** Leaves an already-absolute URL alone; resolves a public/ path against APP_URL. */
+    private function absolute(?string $url): ?string
+    {
+        if (blank($url)) {
+            return null;
+        }
+
+        return str_starts_with($url, 'http://') || str_starts_with($url, 'https://')
+            ? $url
+            : url($url);
+    }
+
     public function __invoke(): JsonResponse
     {
         $socials = SiteSetting::get('socials');
@@ -42,7 +54,13 @@ class SettingsController extends Controller
                     ->all(),
                 'brand_logo_url' => SiteSetting::brandLogoUrl(),
                 'favicon_url' => SiteSetting::faviconUrl(),
-                'cta_video_url' => SiteSetting::ctaVideoUrl(),
+                // Absolute, always. ctaVideoUrl() falls back to the bundled
+                // /videos/bg-footer.mp4, which is a path under Laravel's
+                // public/ — and the Next frontend is served from the same
+                // origin but a different process, so a relative path 404s
+                // there. An uploaded video already resolves to an absolute
+                // CDN URL and passes through untouched.
+                'cta_video_url' => $this->absolute(SiteSetting::ctaVideoUrl()),
                 'work_tile_ratio' => SiteSetting::workTileRatio(),
                 'seo_defaults' => [
                     'title' => SiteSetting::get('seo_default_title') ?: null,

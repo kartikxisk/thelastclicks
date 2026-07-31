@@ -29,11 +29,7 @@ async function Form() {
 
 export default function ContactPage() {
   return (
-    <Section
-      name="contact"
-      eyebrow="Contact"
-      title="Bring us a brief."
-    >
+    <Section name="contact" eyebrow="Contact" title="Bring us a brief." as="h1">
       <p className="mb-10 max-w-xl text-paper-dim">
         Photography, videography or post-production. We reply within four working hours.
       </p>

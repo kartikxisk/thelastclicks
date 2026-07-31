@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default function ThankYouPage() {
   return (
-    <Section name="thank-you" eyebrow="Received" title="Brief received.">
+    <Section name="thank-you" eyebrow="Received" title="Brief received." as="h1">
       <p className="max-w-xl text-lg text-paper-dim">
         Thanks — we will be in touch within four working hours.
       </p>

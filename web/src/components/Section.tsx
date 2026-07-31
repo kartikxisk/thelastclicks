@@ -14,13 +14,23 @@ export function Section({
   title,
   children,
   className = '',
+  as = 'h2',
 }: {
   name: string
   eyebrow?: string
   title?: ReactNode
   children: ReactNode
   className?: string
+  /**
+   * Heading level. Every page needs exactly one h1, so the lead section of
+   * each route passes `as="h1"` and the rest stay h2 — otherwise a page has
+   * no document heading at all, which breaks both screen-reader navigation
+   * and the heading structure crawlers read.
+   */
+  as?: 'h1' | 'h2'
 }) {
+  const Heading = as
+
   return (
     <section data-section={name} className={`px-(--pad-x) py-(--section-y) ${className}`}>
       <div className="mx-auto max-w-(--maxw)">
@@ -30,9 +40,15 @@ export function Section({
               <p className="mb-3 text-sm uppercase tracking-[0.2em] text-muted-2">{eyebrow}</p>
             )}
             {title && (
-              <h2 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">
+              <Heading
+                className={
+                  as === 'h1'
+                    ? 'text-balance text-4xl font-semibold tracking-tight md:text-6xl'
+                    : 'text-balance text-3xl font-semibold tracking-tight md:text-5xl'
+                }
+              >
                 {title}
-              </h2>
+              </Heading>
             )}
           </header>
         )}

@@ -36,7 +36,7 @@ export default async function PostPage({ params }: { params: Params }) {
       <JsonLd data={seo.json_ld} />
 
       <article>
-        <Section name="post-header" eyebrow={data.category?.label} title={data.title}>
+        <Section name="post-header" eyebrow={data.category?.label} title={data.title} as="h1">
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-2">
             {data.published_at && (
               <time dateTime={data.published_at}>
@@ -116,9 +116,7 @@ export default async function PostPage({ params }: { params: Params }) {
               <li key={post.id}>
                 <Link href={`/blog/${post.slug}`} className="group block">
                   <h3 className="font-medium">{post.title}</h3>
-                  <p className="mt-1 text-sm text-muted-2">
-                    {post.reading_minutes} min read
-                  </p>
+                  <p className="mt-1 text-sm text-muted-2">{post.reading_minutes} min read</p>
                 </Link>
               </li>
             ))}

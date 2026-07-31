@@ -19,10 +19,11 @@ export default async function AboutPage() {
         name="about"
         eyebrow="Studio"
         title="A studio at the intersection of cinema, brand and craft."
+        as="h1"
       >
         <p className="max-w-2xl text-lg text-paper-dim">
-          We plan, shoot and finish in one place — a single crew from director to editor,
-          with colour and sound handled in house rather than passed on.
+          We plan, shoot and finish in one place — a single crew from director to editor, with
+          colour and sound handled in house rather than passed on.
         </p>
 
         <dl className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

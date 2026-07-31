@@ -41,9 +41,7 @@ export function WorkLightbox({ work, onClose }: { work: Work; onClose: () => voi
       if (event.key === 'ArrowLeft') prev()
 
       if (event.key === 'Tab') {
-        const items = Array.from(
-          panel.current?.querySelectorAll<HTMLElement>('button') ?? []
-        )
+        const items = Array.from(panel.current?.querySelectorAll<HTMLElement>('button') ?? [])
         if (items.length === 0) return
 
         const first = items[0]

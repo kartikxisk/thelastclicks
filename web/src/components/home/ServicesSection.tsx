@@ -17,9 +17,7 @@ export function ServicesSection({ services }: { services: Service[] }) {
             >
               <h3 className="text-2xl font-semibold tracking-tight">{service.title}</h3>
 
-              {service.hero_copy && (
-                <p className="text-paper-dim">{service.hero_copy}</p>
-              )}
+              {service.hero_copy && <p className="text-paper-dim">{service.hero_copy}</p>}
 
               {service.tags.length > 0 && (
                 <ul className="mt-auto flex flex-wrap gap-2 pt-6 text-sm text-muted-2">

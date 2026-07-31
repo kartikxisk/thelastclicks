@@ -7,7 +7,7 @@ import { Section } from '@/components/Section'
  */
 export default function NotFound() {
   return (
-    <Section name="not-found" eyebrow="404" title="That page has moved on.">
+    <Section name="not-found" eyebrow="404" title="That page has moved on." as="h1">
       <p className="max-w-xl text-paper-dim">
         The link may be old, or the page retired. The work is all still here.
       </p>

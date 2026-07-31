@@ -62,7 +62,7 @@ it('rejects a work tile ratio that is not an offered option', function () {
 it('falls back to the bundled cta video when none is uploaded', function () {
     $this->getJson('/api/v1/settings')
         ->assertOk()
-        ->assertJsonPath('data.cta_video_url', SiteSetting::DEFAULT_CTA_VIDEO);
+        ->assertJsonPath('data.cta_video_url', url(SiteSetting::DEFAULT_CTA_VIDEO));
 });
 
 it('returns null brand logo rather than substituting a bundled file', function () {

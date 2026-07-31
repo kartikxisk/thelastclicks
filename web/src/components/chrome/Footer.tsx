@@ -72,9 +72,7 @@ export async function Footer({ settings }: { settings: Settings }) {
       </div>
 
       <div className="mx-auto mt-16 flex max-w-(--maxw) flex-wrap gap-x-6 gap-y-2 text-sm text-muted-2">
-        <span>
-          &copy; {year} TheLastClicks. All rights reserved.
-        </span>
+        <span>&copy; {year} TheLastClicks. All rights reserved.</span>
         <Link href="/privacy-policy">Privacy</Link>
         <Link href="/terms-of-service">Terms</Link>
         <Link href="/cookie-policy">Cookies</Link>

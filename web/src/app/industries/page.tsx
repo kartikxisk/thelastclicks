@@ -19,7 +19,7 @@ export default async function IndustriesPage() {
   const { data } = await getIndustries()
 
   return (
-    <Section name="industries" eyebrow="Sectors" title="Industries we know.">
+    <Section name="industries" eyebrow="Sectors" title="Industries we know." as="h1">
       <ul className="grid gap-10 md:grid-cols-2">
         {data.map((industry) => (
           <li key={industry.id} data-industry-card className="border-t border-line pt-8">
@@ -38,9 +38,7 @@ export default async function IndustriesPage() {
 
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight">{industry.title}</h2>
-                {industry.summary && (
-                  <p className="mt-2 text-paper-dim">{industry.summary}</p>
-                )}
+                {industry.summary && <p className="mt-2 text-paper-dim">{industry.summary}</p>}
 
                 {industry.testimonials.length > 0 && (
                   <figure className="mt-4 border-l-2 border-red pl-4">

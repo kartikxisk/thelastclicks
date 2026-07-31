@@ -31,9 +31,7 @@ export function NavScrollState() {
     let applied: boolean | null = null
 
     const measure = () => {
-      threshold = overMedia
-        ? Math.max(overMedia.getBoundingClientRect().height - 80, 120)
-        : 30
+      threshold = overMedia ? Math.max(overMedia.getBoundingClientRect().height - 80, 120) : 30
     }
 
     const evaluate = () => {

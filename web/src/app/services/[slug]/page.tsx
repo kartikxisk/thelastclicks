@@ -38,7 +38,12 @@ export default async function ServicePage({ params }: { params: Params }) {
     <>
       <JsonLd data={seo.json_ld} />
 
-      <Section name="service-hero" eyebrow={data.title} title={data.hero_headline ?? data.title}>
+      <Section
+        name="service-hero"
+        eyebrow={data.title}
+        title={data.hero_headline ?? data.title}
+        as="h1"
+      >
         {data.hero_copy && <p className="max-w-2xl text-lg text-paper-dim">{data.hero_copy}</p>}
 
         {/* The hero meta strip was deliberately retired from the Blade service

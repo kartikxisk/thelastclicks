@@ -13,17 +13,11 @@ export async function legalMetadata(slug: StaticPageSlug): Promise<Metadata> {
   return toMetadata(seo)
 }
 
-export async function LegalPage({
-  slug,
-  heading,
-}: {
-  slug: StaticPageSlug
-  heading: string
-}) {
+export async function LegalPage({ slug, heading }: { slug: StaticPageSlug; heading: string }) {
   const { data } = await getStaticPage(slug)
 
   return (
-    <Section name="legal" eyebrow="Legal" title={heading}>
+    <Section name="legal" eyebrow="Legal" title={heading} as="h1">
       {data.body && (
         <div
           className="max-w-3xl space-y-4 text-paper-dim [&_a]:text-red [&_a]:underline [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-paper [&_li]:ml-5 [&_ul]:list-disc"

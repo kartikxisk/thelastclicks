@@ -65,7 +65,7 @@ function ResultsSkeleton() {
 
 export default function PortfolioPage({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <Section name="portfolio" eyebrow="Work" title="Selected films & photography.">
+    <Section name="portfolio" eyebrow="Work" title="Selected films & photography." as="h1">
       <Suspense fallback={<ResultsSkeleton />}>
         <Results searchParams={searchParams} />
       </Suspense>
