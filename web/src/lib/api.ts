@@ -163,38 +163,9 @@ export async function getPost(slug: string): Promise<PostDetail> {
 | Writes
 |------------------------------------------------------------------------------
 |
-| Never cached, and the only functions here safe to call from a client
-| component. They return the parsed body rather than throwing, because the
-| forms render 422 field errors inline instead of failing.
+| Write endpoints live in ./api-client.ts, not here. Next rejects any module
+| reachable from a Client Component that defines "use cache" functions, and the
+| forms that submit them are client components. Keeping the split structural
+| means a cached server read can never be imported into the browser bundle.
 |
 */
-
-export interface SubmitResult {
-  ok: boolean
-  status: number
-  body: {
-    message?: string
-    errors?: Record<string, string[]>
-    data?: { id: number | null }
-  }
-}
-
-async function submit(path: string, body: Record<string, unknown>): Promise<SubmitResult> {
-  const response = await fetch(`${apiBaseUrl()}/api/v1${path}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(body),
-    cache: 'no-store',
-  })
-
-  return {
-    ok: response.ok,
-    status: response.status,
-    body: await response.json().catch(() => ({})),
-  }
-}
-
-export const submitContact = (body: Record<string, unknown>) => submit('/contact', body)
-export const submitQuote = (body: Record<string, unknown>) => submit('/quotes', body)
-export const submitNewsletter = (body: { email: string; website?: string }) =>
-  submit('/newsletter', body)

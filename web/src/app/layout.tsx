@@ -1,5 +1,10 @@
 import type { ReactNode } from 'react'
 import { Outfit } from 'next/font/google'
+import { getIndustries, getServices, getSettings } from '@/lib/api'
+import { Cursor } from '@/components/chrome/Cursor'
+import { Footer } from '@/components/chrome/Footer'
+import { Nav } from '@/components/chrome/Nav'
+import { SmoothScroll } from '@/components/chrome/SmoothScroll'
 import './globals.css'
 
 /**
@@ -18,14 +23,28 @@ const outfit = Outfit({
  * admin-managed SeoPage row via toMetadata(); a layout-level title would sit
  * underneath those as a default nobody maintains.
  */
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Three cached reads, each tagged separately, so an edit to one does not
+  // invalidate the chrome wholesale.
+  const [settings, services, industries] = await Promise.all([
+    getSettings(),
+    getServices(),
+    getIndustries(),
+  ])
+
   return (
     <html lang="en" className={outfit.variable}>
       <body className="min-h-dvh">
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <main id="main">{children}</main>
+
+        <SmoothScroll>
+          <Cursor />
+          <Nav settings={settings} services={services.data} industries={industries.data} />
+          <main id="main">{children}</main>
+          <Footer settings={settings} />
+        </SmoothScroll>
       </body>
     </html>
   )
