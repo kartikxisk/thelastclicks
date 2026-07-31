@@ -1,7 +1,7 @@
 'use client' // owns lightbox open state
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import type { Work } from '@/lib/types'
 import { WorkLightbox } from './WorkLightbox'
 
@@ -26,6 +26,13 @@ export function WorkGallery({
   layout?: 'grid' | 'collage'
 }) {
   const [open, setOpen] = useState<Work | null>(null)
+
+  // Cache Components hides a route with <Activity> rather than unmounting it,
+  // so component state survives navigation. That is right for a filters panel
+  // and wrong for a modal: without this, leaving the page with the lightbox
+  // open and coming back reopens it over the grid. Closing in the cleanup
+  // resets it whenever this route is hidden.
+  useLayoutEffect(() => () => setOpen(null), [])
 
   if (works.length === 0) {
     return <p className="text-muted-2">No published work yet.</p>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Outfit } from 'next/font/google'
 import { getIndustries, getServices, getSettings } from '@/lib/api'
+import { CanvasMount } from '@/webgl/CanvasMount'
 import { Cursor } from '@/components/chrome/Cursor'
 import { Footer } from '@/components/chrome/Footer'
 import { Nav } from '@/components/chrome/Nav'
@@ -40,6 +41,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </a>
 
         <SmoothScroll>
+          {/* One WebGL context for the whole site. Mounted in the layout,
+              above the <Activity> boundary Cache Components wraps routes in,
+              so navigation reuses the context, its compiled shaders and its
+              GPU-resident textures instead of tearing them down. */}
+          <CanvasMount />
           <Cursor />
           <Nav settings={settings} services={services.data} industries={industries.data} />
           <main id="main">{children}</main>

@@ -1,6 +1,6 @@
 'use client' // owns open state, focus trap and body scroll lock
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 
 /**
  * The small-screen navigation drawer.
@@ -14,6 +14,12 @@ export function MobileMenu({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
   const panel = useRef<HTMLDivElement>(null)
   const trigger = useRef<HTMLButtonElement>(null)
+
+  // Cache Components hides a route with <Activity> instead of unmounting it,
+  // so state survives navigation. A drawer is transient, not view state:
+  // without this, tapping a link inside it and pressing back returns to the
+  // destination with the menu still covering it.
+  useLayoutEffect(() => () => setOpen(false), [])
 
   useEffect(() => {
     if (!open) return
