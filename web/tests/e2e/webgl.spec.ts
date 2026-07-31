@@ -134,3 +134,43 @@ test('transient state does not survive navigation', async ({ page }) => {
   // reset in WorkGallery the lightbox would still be open over the grid.
   await expect(page.getByRole('dialog')).not.toBeVisible()
 })
+
+test('post-processing runs on the full tier only', async ({ page }) => {
+  await page.goto('/')
+  await page.waitForFunction(() => (window as TierWindow).__webglTier !== undefined)
+
+  // The flag is set in an effect once the canvas has mounted, which is a
+  // dynamic import away — reading it before then measures nothing.
+  await page.waitForTimeout(3000)
+
+  const tier = await page.evaluate(() => (window as TierWindow).__webglTier)
+  const post = await page.evaluate(
+    () => (window as unknown as { __postProcessing?: boolean }).__postProcessing ?? false
+  )
+
+  // A full-screen pass every frame is exactly the cost a low-end device cannot
+  // absorb, so it is the first thing dropped below the full tier.
+  expect(post).toBe(tier === 'full')
+})
+
+test('the canvas sits behind page content', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('canvas')).toHaveCount(1, { timeout: 15_000 })
+
+  // Grain over text is the fastest way to fail contrast without noticing, so
+  // the pass must stay underneath the DOM rather than over it.
+  //
+  // R3F nests the canvas two levels inside its positioned wrapper, so walk up
+  // to the first ancestor that actually establishes a stacking context.
+  const z = await page.evaluate(() => {
+    let el: HTMLElement | null = document.querySelector('canvas')
+    while (el) {
+      const style = getComputedStyle(el)
+      if (style.position !== 'static') return style.zIndex
+      el = el.parentElement
+    }
+    return null
+  })
+
+  expect(z).toBe('0')
+})

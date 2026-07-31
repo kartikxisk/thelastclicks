@@ -3,6 +3,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Preload, View } from '@react-three/drei'
 import { useEffect, useState } from 'react'
+import { PostProcessing } from './PostProcessing'
 import { useDeviceTier } from './useDeviceTier'
 
 /**
@@ -58,6 +59,7 @@ export function WebGLCanvas() {
       }}
     >
       <View.Port />
+      <PostProcessing tier={tier} />
       <Preload all />
     </Canvas>
   )
