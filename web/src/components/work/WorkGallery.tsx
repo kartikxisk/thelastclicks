@@ -1,0 +1,92 @@
+'use client' // owns lightbox open state
+
+import Image from 'next/image'
+import { useState } from 'react'
+import type { Work } from '@/lib/types'
+import { WorkLightbox } from './WorkLightbox'
+
+/**
+ * Tiles that open a lightbox. Shared by the homepage collage and the portfolio
+ * grid — the layout differs, the interaction does not.
+ *
+ * Tiles are buttons rather than links: work detail pages are retired, so there
+ * is nowhere to navigate to. A link to `#` would be a lie to assistive tech.
+ *
+ * `data-section="work-grid"` and `data-work-tile` are contracts Plan 3's WebGL
+ * gallery binds to.
+ */
+export function WorkGallery({
+  works,
+  ratio,
+  layout = 'grid',
+}: {
+  works: Work[]
+  /** CSS aspect-ratio from admin settings, e.g. "4 / 3". */
+  ratio: string
+  layout?: 'grid' | 'collage'
+}) {
+  const [open, setOpen] = useState<Work | null>(null)
+
+  if (works.length === 0) {
+    return <p className="text-muted-2">No published work yet.</p>
+  }
+
+  return (
+    <>
+      <ul
+        data-section="work-grid"
+        className={
+          layout === 'collage'
+            ? 'grid grid-cols-2 gap-4 md:grid-cols-4'
+            : 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3'
+        }
+      >
+        {works.map((work, i) => (
+          <li
+            key={work.id}
+            data-work-tile
+            // The collage staggers every third tile downward so the grid reads
+            // as a cluster rather than a strict lattice.
+            className={layout === 'collage' && i % 3 === 1 ? 'md:mt-12' : undefined}
+          >
+            <button
+              type="button"
+              data-magnetic
+              onClick={() => setOpen(work)}
+              className="group block w-full text-left"
+              aria-haspopup="dialog"
+            >
+              <div
+                className="relative overflow-hidden bg-ink-2"
+                // Reserved from the admin-set ratio, so nothing shifts as
+                // images decode (plans/012).
+                style={{ aspectRatio: ratio }}
+              >
+                {work.cover && (
+                  <Image
+                    src={work.cover}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-(--dur-slow) ease-(--ease-brand) group-hover:scale-105"
+                  />
+                )}
+              </div>
+
+              <div className="mt-3 flex items-baseline justify-between gap-4">
+                <h3 className="font-medium">{work.title}</h3>
+                {work.category_label && (
+                  <span className="text-sm text-muted-2">{work.category_label}</span>
+                )}
+              </div>
+
+              {work.client && <p className="text-sm text-muted-2">{work.client}</p>}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {open && <WorkLightbox work={open} onClose={() => setOpen(null)} />}
+    </>
+  )
+}

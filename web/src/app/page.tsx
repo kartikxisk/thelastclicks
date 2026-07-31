@@ -1,7 +1,15 @@
 import type { Metadata } from 'next'
-import { getHome } from '@/lib/api'
+import { getHome, getSettings } from '@/lib/api'
 import { toMetadata } from '@/lib/metadata'
 import { JsonLd } from '@/components/JsonLd'
+import { Section } from '@/components/Section'
+import { Hero } from '@/components/home/Hero'
+import { ClientLogos } from '@/components/home/ClientLogos'
+import { IndustriesDeck } from '@/components/home/IndustriesDeck'
+import { ServicesSection } from '@/components/home/ServicesSection'
+import { TestimonialsSection } from '@/components/home/TestimonialsSection'
+import { CtaBand } from '@/components/home/CtaBand'
+import { WorkGallery } from '@/components/work/WorkGallery'
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo } = await getHome()
@@ -9,35 +17,32 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Temporary smoke page. Proves the data path, tokens and metadata pipeline
- * work end to end against the live API; replaced by the real homepage in the
- * next task.
+ * Section order matches the Blade homepage: hero, clients, industries,
+ * services, testimonials, work, CTA. Keeping the order identical is what lets
+ * the pre-cutover SEO parity crawl compare heading structure cleanly.
  */
 export default async function HomePage() {
-  const { data, seo } = await getHome()
+  const [{ data, seo }, settings] = await Promise.all([getHome(), getSettings()])
 
   return (
     <>
       <JsonLd data={seo.json_ld} />
-      <div className="mx-auto max-w-(--maxw) px-(--pad-x) py-(--section-y)">
-        <h1 className="text-5xl font-semibold tracking-tight text-paper">
-          {seo.title ?? 'TheLastClicks'}
-        </h1>
-        <p className="mt-4 text-muted-2">{seo.description}</p>
 
-        <ul className="mt-10 space-y-1 text-paper-dim">
-          <li>hero slides: {data.hero_slides.length}</li>
-          <li>services: {data.services.length}</li>
-          <li>featured works: {data.featured_works.length}</li>
-          <li>industries: {data.industries.length}</li>
-          <li>testimonials: {data.testimonials.length}</li>
-          <li>clients: {data.clients.length}</li>
-        </ul>
+      <Hero slides={data.hero_slides} />
+      <ClientLogos clients={data.clients} />
+      <IndustriesDeck industries={data.industries} />
+      <ServicesSection services={data.services} />
+      <TestimonialsSection testimonials={data.testimonials} />
 
-        <p className="mt-10 text-red" data-first-service>
-          {data.services[0]?.title ?? 'no services'}
-        </p>
-      </div>
+      <Section name="work" eyebrow="07 — Work" title="Selected projects.">
+        <WorkGallery
+          works={data.featured_works}
+          ratio={settings.work_tile_ratio}
+          layout="collage"
+        />
+      </Section>
+
+      <CtaBand videoUrl={settings.cta_video_url} />
     </>
   )
 }
