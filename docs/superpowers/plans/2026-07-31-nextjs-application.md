@@ -6,7 +6,19 @@
 
 **Architecture:** Next.js 15 App Router in `web/`, server components by default, fetching from `http://127.0.0.1/api/v1` over localhost. Tailwind v4 carries the existing design tokens forward. GSAP and Lenis provide motion. Every route is ISR-cached by tag, invalidated by the webhook Plan 1 Task 11 fires. The Blade site keeps serving production traffic throughout.
 
-**Tech Stack:** Next.js 15 (App Router), React 19, TypeScript 5, Tailwind CSS v4, GSAP 3 (ScrollTrigger, SplitText), Lenis, Playwright.
+**Tech Stack:** Next.js **16** (App Router, Cache Components), React 19, TypeScript 5, Tailwind CSS v4, GSAP 3 (ScrollTrigger, SplitText), Lenis, Playwright.
+
+> **Revised during execution.** The installed Next is 16.2.12, not 15. Next 16
+> replaces the ISR fetch-options model this plan was written against with
+> **Cache Components**: `'use cache'` + `cacheTag()` + `cacheLife()`, with
+> Partial Prerendering on by default. `revalidateTag` still works in Route
+> Handlers, so the contract with Laravel's `RevalidateFrontend` job is
+> unchanged. Tasks 1, 2 and 10 are implemented against the new model; the
+> snippets below that show `fetch(url, {next: {tags, revalidate}})` are
+> superseded by `web/src/lib/api.ts` as built.
+>
+> `web/AGENTS.md` requires reading `node_modules/next/dist/docs/` before writing
+> code in this app. Do that — the differences are not cosmetic.
 
 **Prerequisite:** Plan 1 (`docs/superpowers/plans/2026-07-31-api-v1-layer.md`) is complete and `docs/api-v1.md` exists.
 

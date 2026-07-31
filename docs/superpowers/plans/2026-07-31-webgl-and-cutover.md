@@ -10,6 +10,28 @@
 
 **Prerequisites:** Plan 1 and Plan 2 are complete. The staging site renders every route with real content.
 
+> **Revised during Plan 2 execution — read before starting Task 1.**
+>
+> The app runs Next 16 with `cacheComponents: true`. That flag changes
+> navigation semantics in a way this plan's canvas design depends on: Next uses
+> React `<Activity>` to keep recently visited routes **mounted but hidden**
+> rather than unmounting them, so effects are cleaned up and recreated as a
+> route hides and shows.
+>
+> Consequences to verify before building on Task 1:
+>
+> - The "single canvas persists across navigation" test still holds, but for a
+>   different reason than assumed — confirm the canvas lives in the root layout
+>   above any `<Activity>` boundary, or it will be preserved per-route instead
+>   of shared.
+> - `<Scene>`'s IntersectionObserver must survive hide/show. An observer
+>   attached in an effect is torn down when a route hides; on re-show it must
+>   re-attach, or a returning visitor gets a dead scene.
+> - Video textures on a hidden route must pause. `<Activity>` cleanup runs
+>   effects, so the existing pause-on-unmount path should fire — assert it.
+>
+> See `node_modules/next/dist/docs/01-app/02-guides/preserving-ui-state.md`.
+
 ## Global Constraints
 
 - **Zero WebGL bytes in the initial bundle.** Every scene is `next/dynamic` with `ssr: false` behind `<Suspense>`. A route's first paint is server-rendered HTML and CSS only. Task 8 enforces this with a bundle-size assertion.
