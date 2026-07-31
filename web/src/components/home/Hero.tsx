@@ -1,10 +1,20 @@
 'use client' // advances slides on a timer
 
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import type { HeroSlide } from '@/lib/types'
+import { Scene } from '@/webgl/Scene'
 
 const SLIDE_MS = 6000
+
+/**
+ * Loaded separately from the canvas so the scene's own code is fetched only on
+ * routes that mount it, rather than riding along with the shared context.
+ */
+const HeroScene = dynamic(() => import('@/webgl/scenes/HeroScene').then((m) => m.HeroScene), {
+  ssr: false,
+})
 
 /**
  * The opening frame.
@@ -71,6 +81,13 @@ export function Hero({ slides }: { slides: HeroSlide[] }) {
           </div>
         )
       })}
+
+      {/* WebGL sits above the poster and below the scrim, so the DOM image
+          stays the LCP element and the headline keeps its contrast whether or
+          not the scene ever loads. */}
+      <Scene section="hero">
+        <HeroScene slides={slides} />
+      </Scene>
 
       {/* Legibility scrim. Without it the headline sits on whatever the frame
           happens to be, and contrast becomes a coin flip per slide. */}
