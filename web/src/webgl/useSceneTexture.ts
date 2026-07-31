@@ -3,6 +3,23 @@
 import { useEffect, useMemo, useState } from 'react'
 import { LinearFilter, SRGBColorSpace, Texture, TextureLoader, VideoTexture } from 'three'
 import { acquire, release, whenEvicted } from './videoBudget'
+
+/**
+ * Route an image through Next's optimiser instead of fetching the CDN direct.
+ *
+ * A WebGL texture needs CORS headers, and the CDN only allows the production
+ * origin — so a direct fetch fails on localhost, on staging, and anywhere else
+ * the origin is not exactly right, leaving the shader with nothing to draw.
+ * /_next/image is same-origin by definition, so the texture always loads, and
+ * it arrives resized and re-encoded rather than at full resolution.
+ */
+// 1200 not 1280: /_next/image rejects any width outside the configured
+// deviceSizes list with a 400, and 1280 is not one of the defaults.
+function sameOrigin(url: string, width = 1200): string {
+  if (url.startsWith('/')) return url
+
+  return `/_next/image?url=${encodeURIComponent(url)}&w=${width}&q=75`
+}
 import type { DeviceTier } from './useDeviceTier'
 
 /**
@@ -52,7 +69,7 @@ export function useSceneTexture({
     const loader = new TextureLoader()
     loader.setCrossOrigin('anonymous')
 
-    loader.load(posterUrl, (loaded) => {
+    loader.load(sameOrigin(posterUrl), (loaded) => {
       if (cancelled) {
         loaded.dispose()
         return

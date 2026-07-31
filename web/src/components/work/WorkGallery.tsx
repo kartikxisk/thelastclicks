@@ -77,9 +77,6 @@ export function WorkGallery({
         <ul
           data-section="work-grid"
           data-webgl={webglActive || undefined}
-          /* NB: this attribute is a hook for styling, never a content gate. The
-           cover image always renders — WebGL is a layer on top of a page that
-           already works, not a replacement for it. */
           className={
             layout === 'collage'
               ? 'grid grid-cols-2 gap-4 md:grid-cols-4'
@@ -107,6 +104,16 @@ export function WorkGallery({
                   // images decode (plans/012).
                   style={{ aspectRatio: ratio }}
                 >
+                  {/*
+                    ALWAYS render the cover.
+
+                    Twice now this was gated on webglActive, and twice the grid
+                    went blank: the WebGL gallery does not currently draw, so
+                    hiding the image left nothing behind it. The rule this
+                    encodes is not about that bug — WebGL is decoration layered
+                    over a page that already works, and no decoration should be
+                    able to remove content.
+                  */}
                   {work.cover && (
                     <Image
                       src={work.cover}

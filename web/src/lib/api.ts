@@ -57,7 +57,23 @@ async function request<T>(
     if (value !== undefined && value !== '') url.searchParams.set(key, String(value))
   }
 
-  const response = await fetch(url, { headers: { Accept: 'application/json' } })
+  let response: Response
+
+  try {
+    response = await fetch(url, { headers: { Accept: 'application/json' } })
+  } catch (cause) {
+    // A raw ECONNREFUSED stack trace says nothing about what to do. Every page
+    // reads from the Laravel API, so the API not running is the single most
+    // likely reason a developer sees this — say so.
+    throw new Error(
+      `Cannot reach the Laravel API at ${apiBaseUrl()} (requesting ${path}).\n\n` +
+        `Start it alongside Next:\n` +
+        `  npm run dev:all      # starts both\n` +
+        `  ./bin/php artisan serve --port=8000   # or just the API\n\n` +
+        `If it is running on another port, set API_BASE_URL in web/.env.`,
+      { cause }
+    )
+  }
 
   if (!response.ok) {
     throw new ApiError(response.status, path)
