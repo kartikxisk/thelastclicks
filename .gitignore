@@ -26,3 +26,11 @@ yarn-error.log
 
 # Generated on deploy by `sitemap:generate` — never committed.
 /public/sitemap.xml
+
+# Next.js frontend
+/web/node_modules
+/web/.next
+/web/out
+/web/.env
+/web/test-results
+/web/playwright-report
