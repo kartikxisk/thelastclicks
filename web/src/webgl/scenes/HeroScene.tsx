@@ -1,5 +1,6 @@
 'use client'
 
+import { OrthographicCamera } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import { Color, Mesh, ShaderMaterial, Vector2 } from 'three'
@@ -76,7 +77,7 @@ export function HeroScene({ slides }: { slides: HeroSlide[] }) {
   const tier = useDeviceTier()
   const velocity = useScrollVelocity()
   const mesh = useRef<Mesh>(null)
-  const { viewport, invalidate } = useThree()
+  const { size, invalidate } = useThree()
 
   const slide = slides[0]
 
@@ -129,15 +130,30 @@ export function HeroScene({ slides }: { slides: HeroSlide[] }) {
   if (!slide) return null
 
   return (
-    <mesh ref={mesh}>
-      {/* Subdivided enough to bend smoothly; 64x64 is where extra segments
-          stop being visible and start costing frames. */}
-      <planeGeometry args={[viewport.width, viewport.height, 64, 64]} />
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
+    <>
+      {/* Pixel-unit orthographic camera, so the plane can be sized in CSS
+          pixels and fill the hero exactly. */}
+      <OrthographicCamera
+        makeDefault
+        position={[0, 0, 1000]}
+        left={-size.width / 2}
+        right={size.width / 2}
+        top={size.height / 2}
+        bottom={-size.height / 2}
+        near={0.1}
+        far={3000}
       />
-    </mesh>
+
+      <mesh ref={mesh}>
+        {/* Subdivided enough to bend smoothly; 64x64 is where extra segments
+            stop being visible and start costing frames. */}
+        <planeGeometry args={[size.width, size.height, 64, 64]} />
+        <shaderMaterial
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+        />
+      </mesh>
+    </>
   )
 }

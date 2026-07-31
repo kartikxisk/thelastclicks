@@ -6,7 +6,7 @@ import type { Mesh, ShaderMaterial } from 'three'
 import type { Work } from '@/lib/types'
 import type { DeviceTier } from '../useDeviceTier'
 import { useSceneTexture } from '../useSceneTexture'
-import { rectToWorld, type SharedUniforms } from './GalleryScene'
+import { rectToWorld, type SharedUniforms, type TileRect } from './GalleryScene'
 
 const vertexShader = /* glsl */ `
   uniform float uVelocity;
@@ -70,7 +70,7 @@ export function GalleryTile({
   sharedUniforms,
 }: {
   work: Work
-  rect: DOMRect
+  rect: TileRect
   viewport: { width: number; height: number }
   tier: DeviceTier
   sharedUniforms: SharedUniforms

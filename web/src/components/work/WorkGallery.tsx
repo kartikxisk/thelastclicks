@@ -65,69 +65,78 @@ export function WorkGallery({
 
   return (
     <>
-      <Scene section="work-grid">
-        <GalleryScene works={works} />
-      </Scene>
+      {/* Positioned wrapper: drei View scissors the canvas to its tracking
+          div, and an absolutely-positioned div with no positioned ancestor
+          resolves against the wrong box — which is why the scene rendered
+          nowhere visible. */}
+      <div className="relative" data-grid-root>
+        <Scene section="work-grid">
+          <GalleryScene works={works} />
+        </Scene>
 
-      <ul
-        data-section="work-grid"
-        data-webgl={webglActive || undefined}
-        className={
-          layout === 'collage'
-            ? 'grid grid-cols-2 gap-4 md:grid-cols-4'
-            : 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3'
-        }
-      >
-        {works.map((work, i) => (
-          <li
-            key={work.id}
-            data-work-tile
-            // The collage staggers every third tile downward so the grid reads
-            // as a cluster rather than a strict lattice.
-            className={layout === 'collage' && i % 3 === 1 ? 'md:mt-12' : undefined}
-          >
-            <button
-              type="button"
-              data-magnetic
-              onClick={() => setOpen(work)}
-              className="group block w-full text-left"
-              aria-haspopup="dialog"
+        <ul
+          data-section="work-grid"
+          data-webgl={webglActive || undefined}
+          /* NB: this attribute is a hook for styling, never a content gate. The
+           cover image always renders — WebGL is a layer on top of a page that
+           already works, not a replacement for it. */
+          className={
+            layout === 'collage'
+              ? 'grid grid-cols-2 gap-4 md:grid-cols-4'
+              : 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3'
+          }
+        >
+          {works.map((work, i) => (
+            <li
+              key={work.id}
+              data-work-tile
+              // The collage staggers every third tile downward so the grid reads
+              // as a cluster rather than a strict lattice.
+              className={layout === 'collage' && i % 3 === 1 ? 'md:mt-12' : undefined}
             >
-              <div
-                className="relative overflow-hidden bg-ink-2"
-                // Reserved from the admin-set ratio, so nothing shifts as
-                // images decode (plans/012).
-                style={{ aspectRatio: ratio }}
+              <button
+                type="button"
+                data-magnetic
+                onClick={() => setOpen(work)}
+                className="group block w-full text-left"
+                aria-haspopup="dialog"
               >
-                {work.cover && (
-                  <Image
-                    src={work.cover}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    // Grid only. On /portfolio the first row is the LCP
-                    // element, and lazy-loading it makes LCP wait for a
-                    // request that starts after layout. On the homepage
-                    // collage the hero already owns LCP, and priority here
-                    // just competes with it for bandwidth.
-                    priority={layout === 'grid' && i < 3}
-                    className="object-cover transition-transform duration-(--dur-slow) ease-(--ease-brand) group-hover:scale-105"
-                  />
-                )}
-              </div>
+                <div
+                  className="relative overflow-hidden bg-ink-2"
+                  // Reserved from the admin-set ratio, so nothing shifts as
+                  // images decode (plans/012).
+                  style={{ aspectRatio: ratio }}
+                >
+                  {work.cover && (
+                    <Image
+                      src={work.cover}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      // Grid only. On /portfolio the first row is the LCP
+                      // element, and lazy-loading it makes LCP wait for a
+                      // request that starts after layout. On the homepage
+                      // collage the hero already owns LCP, and priority here
+                      // just competes with it for bandwidth.
+                      priority={layout === 'grid' && i < 3}
+                      className="object-cover transition-transform duration-(--dur-slow) ease-(--ease-brand) group-hover:scale-105"
+                    />
+                  )}
+                </div>
 
-              <div className="mt-3 flex items-baseline justify-between gap-4">
-                <h3 className="font-medium">{work.title}</h3>
-                {work.category_label && (
-                  <span className="text-sm text-muted-2">{work.category_label}</span>
-                )}
-              </div>
+                <div className="mt-3 flex items-baseline justify-between gap-4">
+                  <h3 className="font-medium">{work.title}</h3>
+                  {work.category_label && (
+                    <span className="text-sm text-muted-2">{work.category_label}</span>
+                  )}
+                </div>
 
-              {work.client && <p className="text-sm text-muted-2">{work.client}</p>}
-            </button>
-          </li>
-        ))}
-      </ul>
+                {work.client && <p className="text-sm text-muted-2">{work.client}</p>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {open && <WorkLightbox work={open} onClose={() => setOpen(null)} />}
     </>
