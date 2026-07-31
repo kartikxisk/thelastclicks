@@ -120,3 +120,52 @@ Suspect 3 is worth checking first and costs nothing: temporarily remove
 `<PostProcessing />` from `Canvas.tsx` and see whether the planes appear. The
 effect composer was added after the gallery, and nobody has verified the two
 coexist.
+
+## Debug session 3 — the scene graph is correct, the camera is not
+
+Instrumented `GalleryScene` and read the live values:
+
+```
+rects:    12
+bounds:   1328 x 1542
+children: 12
+firstPos: [-450.7, 592.4, 0]
+```
+
+Twelve meshes exist, at arithmetically correct pixel positions, and render
+nothing. That eliminates the data path entirely — measurement, `rectToWorld`,
+and the group are all right.
+
+**`<PostProcessing />` is not the cause either.** Removing it changed nothing.
+
+**Scaling the group into View camera units did not fix it.** Replacing the
+child `OrthographicCamera` with
+`scale={viewport.width / size.width}` on the group still rendered nothing,
+which is the surprising result — that should have mapped pixel geometry onto
+whatever camera the View owns.
+
+### Where that points
+
+Everything downstream of the View is provably correct, and two different camera
+strategies both fail. The remaining suspicion is the View itself: that
+`<View track={ref}>` in `Scene.tsx` is not actually rendering its children into
+the shared canvas at all, and the "scene attached" checks only ever proved the
+tracking `<div>` exists in the DOM.
+
+Next test, and it is decisive — bypass `View` entirely:
+
+1. In `Canvas.tsx`, render a hard-coded `<mesh><boxGeometry /><meshBasicMaterial
+   color="hotpink" /></mesh>` as a direct child of `<Canvas>`, outside any
+   `View`, with the default camera.
+2. If that box appears, `View` is the broken link and the fix is to stop using
+   it — render scenes directly in the canvas and position them from DOM rects
+   with a full-viewport camera, which is how most WebGL/DOM sites actually do
+   this.
+3. If even that box does not appear, the canvas is not compositing at all, and
+   the problem is `Canvas.tsx` — `frameloop`, the `style`, or the fact that
+   nothing has ever verified a single pixel came out of it.
+
+Step 3 is worth doing first regardless. **No test in this repo has ever proven
+the canvas renders a visible pixel** — only that the element exists and the
+context is `webgl2`. That assumption has survived every session so far and is
+the one thing never checked.

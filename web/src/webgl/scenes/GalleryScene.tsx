@@ -1,6 +1,5 @@
 'use client'
 
-import { OrthographicCamera } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Color, Group, ShaderMaterial, Vector2 } from 'three'
@@ -23,7 +22,7 @@ export function GalleryScene({ works }: { works: Work[] }) {
   const tier = useDeviceTier()
   const velocity = useScrollVelocity()
   const group = useRef<Group>(null)
-  const { invalidate } = useThree()
+  const { invalidate, viewport, size } = useThree()
   const [rects, setRects] = useState<TileRect[]>([])
   const [bounds, setBounds] = useState({ width: 0, height: 0 })
 
@@ -111,23 +110,19 @@ export function GalleryScene({ works }: { works: Work[] }) {
   return (
     <>
       {/*
-       * Orthographic, in pixel units, centred on the view. That is what makes
-       * a DOM rect convert to a world position by simple subtraction — with a
-       * perspective camera the mapping depends on distance and every plane
-       * would need solving separately.
+       * Pixel-space geometry, scaled into the camera the View is actually
+       * using.
+       *
+       * A child OrthographicCamera with makeDefault never took effect here:
+       * drei's View manages its own camera, so the frustum the planes were
+       * built for was not the one rendering them, and every plane landed far
+       * off-screen. Instrumenting the scene graph showed twelve meshes at
+       * correct pixel positions rendering nothing at all.
+       *
+       * Scaling by world-width over pixel-width maps a rect measured in CSS
+       * pixels onto whatever camera the View owns, without fighting it.
        */}
-      <OrthographicCamera
-        makeDefault
-        position={[0, 0, 1000]}
-        left={-bounds.width / 2}
-        right={bounds.width / 2}
-        top={bounds.height / 2}
-        bottom={-bounds.height / 2}
-        near={0.1}
-        far={3000}
-      />
-
-      <group ref={group}>
+      <group ref={group} scale={size.width > 0 ? viewport.width / size.width : 1}>
         {works.slice(0, rects.length).map((work, i) => (
           <GalleryTile
             key={work.id}
