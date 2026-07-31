@@ -1,9 +1,16 @@
 'use client' // owns lightbox open state
 
 import Image from 'next/image'
-import { useLayoutEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { Scene } from '@/webgl/Scene'
 import type { Work } from '@/lib/types'
 import { WorkLightbox } from './WorkLightbox'
+
+const GalleryScene = dynamic(
+  () => import('@/webgl/scenes/GalleryScene').then((m) => m.GalleryScene),
+  { ssr: false }
+)
 
 /**
  * Tiles that open a lightbox. Shared by the homepage collage and the portfolio
@@ -34,14 +41,37 @@ export function WorkGallery({
   // resets it whenever this route is hidden.
   useLayoutEffect(() => () => setOpen(null), [])
 
+  // Hide the DOM cover images only once a canvas actually exists and the
+  // device is on the full tier. Anything that goes wrong upstream — no WebGL,
+  // reduced motion, a chunk that never loads — leaves this false and the plain
+  // grid on screen, which is the behaviour a failure should have.
+  const [webglActive, setWebglActive] = useState(false)
+
+  useEffect(() => {
+    const check = () => {
+      const tier = (window as unknown as { __webglTier?: string }).__webglTier
+      setWebglActive(tier === 'full' && document.querySelector('canvas') !== null)
+    }
+
+    const id = window.setInterval(check, 500)
+    check()
+
+    return () => window.clearInterval(id)
+  }, [])
+
   if (works.length === 0) {
     return <p className="text-muted-2">No published work yet.</p>
   }
 
   return (
     <>
+      <Scene section="work-grid">
+        <GalleryScene works={works} />
+      </Scene>
+
       <ul
         data-section="work-grid"
+        data-webgl={webglActive || undefined}
         className={
           layout === 'collage'
             ? 'grid grid-cols-2 gap-4 md:grid-cols-4'
@@ -69,7 +99,7 @@ export function WorkGallery({
                 // images decode (plans/012).
                 style={{ aspectRatio: ratio }}
               >
-                {work.cover && (
+                {work.cover && !webglActive && (
                   <Image
                     src={work.cover}
                     alt=""

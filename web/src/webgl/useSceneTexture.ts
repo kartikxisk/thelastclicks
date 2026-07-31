@@ -32,12 +32,21 @@ export function useSceneTexture({
   track?: Element | null
 }): { texture: Texture | null; isVideo: boolean } {
   const [texture, setTexture] = useState<Texture | null>(null)
+  const [videoReady, setVideoReady] = useState(false)
 
   const wantsVideo = tier === 'full' && !!videoUrl
 
-  // Poster path — also the fallback while a video buffers.
+  /*
+   * The poster always loads, even when a video is wanted.
+   *
+   * It is the base layer: shown while the video buffers, and kept if the video
+   * never arrives at all. That last case is not hypothetical — a WebGL texture
+   * needs CORS headers from the media host, and a host that does not send them
+   * fails every video while images keep working. Without this the grid would
+   * go blank, because the DOM covers are hidden once the scene takes over.
+   */
   useEffect(() => {
-    if (wantsVideo || !posterUrl) return
+    if (!posterUrl) return
 
     let cancelled = false
     const loader = new TextureLoader()
@@ -95,6 +104,13 @@ export function useSceneTexture({
     const pause = () => video.pause()
     whenEvicted(id, pause)
 
+    // Only swap the poster out once there are real frames to show, and treat
+    // any load failure as "stay on the poster" rather than as an empty tile.
+    const onPlaying = () => setVideoReady(true)
+    const onError = () => setVideoReady(false)
+    video.addEventListener('playing', onPlaying)
+    video.addEventListener('error', onError)
+
     const start = () => {
       if (!acquire(id)) return
       // play() rejects if the element is detached or autoplay is blocked;
@@ -120,6 +136,8 @@ export function useSceneTexture({
     }
 
     return () => {
+      video.removeEventListener('playing', onPlaying)
+      video.removeEventListener('error', onError)
       observer?.disconnect()
       video.pause()
       release(id)
@@ -132,7 +150,10 @@ export function useSceneTexture({
   }, [video, videoTexture, id, track])
 
   return useMemo(
-    () => ({ texture: videoTexture ?? texture, isVideo: wantsVideo }),
-    [videoTexture, texture, wantsVideo]
+    () => ({
+      texture: videoReady && videoTexture ? videoTexture : texture,
+      isVideo: videoReady,
+    }),
+    [videoReady, videoTexture, texture]
   )
 }
