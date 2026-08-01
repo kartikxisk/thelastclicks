@@ -121,8 +121,15 @@ export function Hero({
       <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
 
       <div className="relative mx-auto w-full max-w-(--maxw) px-(--pad-x) pb-(--section-y)">
-        <h1 className="max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-          Cinematic photography <em className="not-italic text-red">&</em> film production
+        {/* Verbatim from the Blade hero, outlined "creating" included. The
+            previous line here was invented rather than ported. */}
+        <h1 className="max-w-5xl text-balance text-6xl font-semibold leading-[1.02] tracking-tight md:text-8xl">
+          Capturing <em className="not-italic text-red">moments,</em>
+          <br />
+          <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(244,243,239,0.75)]">
+            creating
+          </span>{' '}
+          memories.
         </h1>
 
         {slides[index]?.label && (

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { RevealText } from '@/components/RevealText'
 import { sanitizeHeadline } from '@/lib/sanitize'
 
 /**
@@ -47,7 +48,12 @@ export function Section({
         {(eyebrow || title) && (
           <header className="mb-12">
             {eyebrow && (
-              <p className="mb-3 text-sm uppercase tracking-[0.2em] text-muted-2">{eyebrow}</p>
+              <RevealText
+                as="p"
+                className="mb-3 text-sm uppercase tracking-[0.2em] text-muted-2"
+              >
+                {eyebrow}
+              </RevealText>
             )}
             {titleHtml ? (
               <Heading
@@ -61,7 +67,8 @@ export function Section({
               />
             ) : (
               title && (
-                <Heading
+                <RevealText
+                  as={as}
                   className={
                     as === 'h1'
                       ? 'text-balance text-4xl font-semibold tracking-tight md:text-6xl'
@@ -69,7 +76,7 @@ export function Section({
                   }
                 >
                   {title}
-                </Heading>
+                </RevealText>
               )
             )}
           </header>
