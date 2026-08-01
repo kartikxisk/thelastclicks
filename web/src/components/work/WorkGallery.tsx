@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { Scene } from '@/webgl/Scene'
 import type { Work } from '@/lib/types'
+import { Parallax } from '@/components/Parallax'
 import { WorkLightbox } from './WorkLightbox'
 
 const GalleryScene = dynamic(
@@ -98,8 +99,9 @@ export function WorkGallery({
                 className="group block w-full text-left"
                 aria-haspopup="dialog"
               >
-                <div
-                  className="relative overflow-hidden bg-ink-2"
+                <Parallax
+                  amount={10}
+                  className="relative bg-ink-2"
                   // Reserved from the admin-set ratio, so nothing shifts as
                   // images decode (plans/012).
                   style={{ aspectRatio: ratio }}
@@ -125,7 +127,7 @@ export function WorkGallery({
                       className="object-cover transition-transform duration-(--dur-slow) ease-(--ease-brand) group-hover:scale-105"
                     />
                   )}
-                </div>
+                </Parallax>
 
                 <div className="mt-3 flex items-baseline justify-between gap-4">
                   <h3 className="font-medium">{work.title}</h3>
