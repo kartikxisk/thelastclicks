@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/JsonLd'
 import { Section } from '@/components/Section'
 import { Hero } from '@/components/home/Hero'
 import { ClientLogos } from '@/components/home/ClientLogos'
+import { Discipline } from '@/components/home/Discipline'
 import { IndustriesDeck } from '@/components/home/IndustriesDeck'
 import { ServicesSection } from '@/components/home/ServicesSection'
 import { TestimonialsSection } from '@/components/home/TestimonialsSection'
@@ -30,6 +31,7 @@ export default async function HomePage() {
 
       <Hero slides={data.hero_slides} fallbackImage={data.featured_works[0]?.cover} />
       <ClientLogos clients={data.clients} />
+      <Discipline />
       <IndustriesDeck industries={data.industries} />
       <ServicesSection services={data.services} />
       <TestimonialsSection testimonials={data.testimonials} />
