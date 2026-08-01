@@ -105,14 +105,10 @@ export function WorkGallery({
                   style={{ aspectRatio: ratio }}
                 >
                   {/*
-                    ALWAYS render the cover.
-
-                    Twice now this was gated on webglActive, and twice the grid
-                    went blank: the WebGL gallery does not currently draw, so
-                    hiding the image left nothing behind it. The rule this
-                    encodes is not about that bug — WebGL is decoration layered
-                    over a page that already works, and no decoration should be
-                    able to remove content.
+                    ALWAYS rendered. The gallery scene still does not draw even
+                    though the canvas provably composites now — the hero shader
+                    renders through the same View. Whatever the remaining cause,
+                    decoration must not be able to remove content.
                   */}
                   {work.cover && (
                     <Image

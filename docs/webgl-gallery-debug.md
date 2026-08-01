@@ -169,3 +169,43 @@ Step 3 is worth doing first regardless. **No test in this repo has ever proven
 the canvas renders a visible pixel** — only that the element exists and the
 context is `webgl2`. That assumption has survived every session so far and is
 the one thing never checked.
+
+## SOLVED (the canvas), and what remains
+
+**Root cause of "no WebGL anywhere": the canvas was mounted inside
+`SmoothScroll`.** Lenis wraps its children in a transformed container, and a
+`position: fixed` element inside a transformed ancestor positions against that
+ancestor rather than the viewport — so the canvas was laid out somewhere it
+could never composite.
+
+Proved by a hard-coded box as a direct child of `<Canvas>`: invisible through
+`frameloop="always"`, through removing PostProcessing, and through two camera
+strategies — visible the instant the canvas moved out of the Lenis wrapper.
+
+**The hero shader now renders.** Every scene had been drawing correctly all
+along, into a surface that was not on screen.
+
+### The gallery is a separate bug
+
+With the canvas fixed, the hero renders and the gallery still does not. That
+rules out everything shared between them: the canvas, `View`, `Scene`, the
+device tier, and the orthographic camera (the hero uses the same one — removing
+it from the gallery was a wrong turn and has been reverted).
+
+What differs between the two:
+
+| | Hero | Gallery |
+|---|---|---|
+| Tracking element | the `<section>`, ~92vh | `[data-grid-root]`, **1542px — taller than the viewport** |
+| Planes | one, viewport-sized | twelve, positioned from rects |
+| Camera frustum | `size` (the View's own) | `bounds` (the measured DOM box) |
+
+**Leading suspect: the View is taller than the viewport.** drei's `View`
+scissors the canvas to the tracked element's rect. A canvas is viewport-sized,
+so a scissor box 1542px tall against a 900px canvas may clip to nothing or land
+off-screen. The hero's is ~viewport height and works.
+
+Next test: shrink `[data-grid-root]` to a fixed `h-[500px]` temporarily. If
+planes appear, the fix is to track a viewport-sized element and position tiles
+relative to scroll, rather than tracking the whole grid.
+
