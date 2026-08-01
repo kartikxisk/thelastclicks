@@ -41,12 +41,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           Skip to content
         </a>
 
+        {/* Outside SmoothScroll on purpose: Lenis wraps its children, and a
+            position:fixed element inside a transformed ancestor positions
+            against that ancestor rather than the viewport. */}
+        <CanvasMount />
+
         <SmoothScroll>
-          {/* One WebGL context for the whole site. Mounted in the layout,
-              above the <Activity> boundary Cache Components wraps routes in,
-              so navigation reuses the context, its compiled shaders and its
-              GPU-resident textures instead of tearing them down. */}
-          <CanvasMount />
           <RouteTransition />
           <Cursor />
           <Nav settings={settings} services={services.data} industries={industries.data} />
