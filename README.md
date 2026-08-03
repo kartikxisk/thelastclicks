@@ -65,28 +65,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Frontend (Next.js)
+## This project
 
-The public site is being rebuilt as a Next.js 16 app in `web/`, served by Node
-alongside Laravel. **It is not yet wired to nginx — Blade still serves
-production.**
+Blade front end, Filament admin at `/admin`, PHP 8.4 (use `./bin/php`).
 
 ```bash
-npm run dev --prefix web   # starts the Laravel API and Next together
+composer dev   # serve + queue:listen + pail + vite
 ```
 
-That starts both, because every route reads from `/api/v1` and Next on its own
-only produces a connection error. Use `dev:web` if the API is already running
-elsewhere.
-
-First run in a new environment needs both of these once:
+Two seeders are not part of `db:seed` and are worth running once per
+environment:
 
 ```bash
 php artisan db:seed --class=PageSeoSeeder      # page titles/descriptions
 php artisan db:seed --class=HeroSlidesSeeder   # homepage hero
 ```
 
-- Deploy: [docs/deploy/nextjs.md](docs/deploy/nextjs.md)
-- API contract: [docs/api-v1.md](docs/api-v1.md)
+- Working notes for agents: [CLAUDE.md](CLAUDE.md)
+- Deploy: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
 - Motion rules: [docs/motion-spec.md](docs/motion-spec.md)
-- Known bug: [docs/webgl-gallery-debug.md](docs/webgl-gallery-debug.md)

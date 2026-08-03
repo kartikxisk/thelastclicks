@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasMediaItems;
-use App\Models\Concerns\TouchesFrontend;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -13,7 +12,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Work extends Model implements HasMedia
 {
-    use HasMediaItems, HasSlug, InteractsWithMedia, TouchesFrontend;
+    use HasMediaItems, HasSlug, InteractsWithMedia;
 
     protected $fillable = [
         'title', 'slug', 'summary', 'client', 'category', 'crafts', 'credits',
@@ -146,15 +145,5 @@ class Work extends Model implements HasMedia
         }
 
         return null;
-    }
-
-    /**
-     * The homepage collage embeds works, so a rename has to drop it too.
-     *
-     * @return list<string>
-     */
-    public function frontendCacheTags(): array
-    {
-        return ['works', 'works:'.$this->slug, 'pages:home'];
     }
 }

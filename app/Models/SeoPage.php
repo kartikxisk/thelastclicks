@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,8 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SeoPage extends Model
 {
-    use TouchesFrontend;
-
     protected $fillable = [
         'page_url', 'label',
         'title', 'meta_description', 'meta_keywords',
@@ -84,15 +81,5 @@ class SeoPage extends Model
             $this->noindex ? 'noindex' : 'index',
             $this->nofollow ? 'nofollow' : 'follow',
         ]);
-    }
-
-    /**
-     * Metadata touches every route, so an edit drops the lot.
-     *
-     * @return list<string>
-     */
-    public function frontendCacheTags(): array
-    {
-        return ['settings', 'pages:home', 'pages:about', 'pages:contact', 'works', 'services', 'industries', 'posts'];
     }
 }

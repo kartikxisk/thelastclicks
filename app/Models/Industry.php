@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasMediaItems;
-use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Database\Factories\IndustryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +16,7 @@ use Spatie\Sluggable\SlugOptions;
 class Industry extends Model implements HasMedia
 {
     /** @use HasFactory<IndustryFactory> */
-    use HasFactory, HasMediaItems, HasSlug, InteractsWithMedia, TouchesFrontend;
+    use HasFactory, HasMediaItems, HasSlug, InteractsWithMedia;
 
     protected $fillable = ['slug', 'title', 'summary', 'image_url', 'body', 'order'];
 
@@ -63,15 +62,5 @@ class Industry extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('hero')
             ?: (MediaUrl::onMediaDisk($this->image_url) ?? $this->firstMediaItemCover());
-    }
-
-    /**
-     * The homepage deck embeds industries.
-     *
-     * @return list<string>
-     */
-    public function frontendCacheTags(): array
-    {
-        return ['industries', 'pages:home'];
     }
 }

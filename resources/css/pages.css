@@ -5951,8 +5951,13 @@ main > section { overflow-x: clip; }
   opacity: 0.4;
   transform: scale(0.978);
 }
-.scenebg { transition: filter 0.5s linear; }
-.scene.is-leaving .scenebg { filter: blur(6px); }
+/* The backdrop defocuses by fading, not by blurring. Moving the blur off the
+   scene and onto the backdrop (above) fixed the worst of it, but a blur over a
+   viewport-sized box whose contents animate is still re-rastered every frame:
+   measured 46.1ms -> 35.6ms mean frame time on an Intel UHD 630 from deleting
+   this one declaration. Opacity is a compositor property and costs nothing. */
+.scenebg { transition: opacity 0.5s linear; }
+.scene.is-leaving .scenebg { opacity: 0.14; }
 
 /* Layer promotion is worth it while an element is animating and a waste after —
    16 permanently-promoted layers per page is memory for nothing. */
@@ -5978,9 +5983,16 @@ main > section { overflow-x: clip; }
 main > section > * { position: relative; z-index: 1; }
 main > section > .scenebg { z-index: 0; }
 /* Parked while the scene is off screen — a dozen looping backdrops running at
-   once on a long page is pure battery for something nobody is looking at. */
+   once on a long page is pure battery for something nobody is looking at.
+   Gated on `is-live` (actually intersecting), not `is-near` (intersecting plus
+   a 20% margin): `is-near` kept roughly three backdrops looping at any moment,
+   and every looping backdrop re-rasters its viewport-sized surface each frame
+   whether or not a pixel of it is on screen. */
 .scenebg * { animation-play-state: paused; }
-.scene.is-near .scenebg * { animation-play-state: running; }
+.scene.is-live .scenebg * { animation-play-state: running; }
+/* Held still for the duration of a scroll — see the note in scene.js. `none`,
+   not `paused`: pausing leaves the render surface live and saves almost nothing. */
+.is-scrolling .scenebg * { animation: none; }
 
 /* --- Edit: timeline, clips, keyframes, waveform, playhead --- */
 .scenebg__tracks { position: absolute; inset: 18% 0 auto 0; display: grid; gap: 22px; }
@@ -6117,8 +6129,10 @@ main > section > .scenebg { z-index: 0; }
   position: absolute;
   left: var(--x); top: var(--y);
   width: var(--s); height: var(--s);
-  background: radial-gradient(circle, rgba(255,255,255,0.16), rgba(255,255,255,0.03) 58%, transparent 70%);
-  filter: blur(1px);
+  /* Softness comes from the gradient's own falloff, not a filter. blur(1px) on
+     21 permanently-animating spans forced a filter pass per span per frame for
+     an edge treatment the gradient stops reproduce for free. */
+  background: radial-gradient(circle, rgba(255,255,255,0.16), rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.02) 62%, transparent 78%);
   animation: scene-bokeh 15s var(--ease) infinite alternate;
   animation-delay: calc(var(--d) * -1);
 }
@@ -6140,7 +6154,11 @@ main > section > .scenebg { z-index: 0; }
 
 /* --- Grain, shared by every variant --- */
 .scenebg__grain {
-  position: absolute; inset: -50%;
+  /* The bleed only has to cover the drift below, which peaks at 3% of this
+     element's own size. `inset: -50%` made the element twice the backdrop in
+     each axis — 4x the area of tiled fractal noise to raster, per backdrop,
+     every time the loop steps. -8% covers the same drift for a quarter of it. */
+  position: absolute; inset: -8%;
   opacity: 0.16;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: scene-grain 0.7s steps(4) infinite;
@@ -6220,7 +6238,7 @@ main > section > .scenebg { z-index: 0; }
   .scenebg * { animation: none !important; }
   [data-parallax] { transform: none !important; }
   .scene.is-leaving { opacity: 1; filter: none; transform: none; }
-  .scene.is-leaving .scenebg { filter: none; }
+  .scene.is-leaving .scenebg { opacity: 0.18; }
   .scene, .scenebg { transition: none; }
   .scenebg { opacity: 0.18; }
 }

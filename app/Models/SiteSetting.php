@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\TouchesFrontend;
 use App\Support\MediaUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 
 class SiteSetting extends Model
 {
-    use TouchesFrontend;
-
     protected $primaryKey = 'key';
 
     public $incrementing = false;
@@ -116,15 +113,5 @@ class SiteSetting extends Model
         $path = static::get("page_image_{$key}");
 
         return is_string($path) ? MediaUrl::onUploadDisk($path) : null;
-    }
-
-    /**
-     * Settings back the nav and footer on every route, which the frontend caches under one tag.
-     *
-     * @return list<string>
-     */
-    public function frontendCacheTags(): array
-    {
-        return ['settings'];
     }
 }

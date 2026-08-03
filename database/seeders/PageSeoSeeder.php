@@ -17,9 +17,7 @@ use Illuminate\Database\Seeder;
  *
  *     php artisan db:seed --class=PageSeoSeeder
  *
- * Required before the Next.js frontend serves those routes: it reads metadata
- * from this table only, so without these rows every non-service page ships
- * with no title. Idempotent, so re-running never clobbers an admin edit.
+ * Idempotent, so re-running never clobbers an admin edit.
  */
 class PageSeoSeeder extends Seeder
 {

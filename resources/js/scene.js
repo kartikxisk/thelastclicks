@@ -49,6 +49,15 @@ export function initScenes() {
   }, { rootMargin: '20% 0px' });
   scenes.forEach((s) => nearIO.observe(s));
 
+  // `is-live` is the tighter gate that actually starts the backdrop loops. The
+  // 20% margin above exists so --p is already correct by the time a scene
+  // reaches the fold; running the animations that early costs a full re-raster
+  // per frame for a backdrop still below the viewport, so they wait for this.
+  const liveIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => e.target.classList.toggle('is-live', e.isIntersecting));
+  }, { rootMargin: '0px' });
+  scenes.forEach((s) => liveIO.observe(s));
+
   /* -------------------- Scroll-linked progress -------------------- */
   // --p runs -1 (scene below the fold) .. 0 (centred) .. 1 (scene above it).
   // Parallax and depth layers read it straight out of CSS.
@@ -72,6 +81,25 @@ export function initScenes() {
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop(); else if (near.size) start();
   });
+
+  /* -------------------- Freeze backdrops while scrolling -------------------- */
+  // A backdrop that animates cannot be cached: its mask + opacity put the whole
+  // viewport-sized box on one render surface, so a single looping child forces
+  // that surface to re-raster every frame. Measured on an Intel UHD 630, that is
+  // the entire difference between 30fps and 60fps while scrolling — a static
+  // backdrop costs the same as no backdrop at all.
+  //
+  // So the loops stop for the duration of the scroll and resume once it settles.
+  // It has to be `animation: none` rather than `animation-play-state: paused`:
+  // a paused animation keeps the surface live and saves almost nothing (32.3ms
+  // vs 20.5ms per frame). The keyframes all carry large negative delays, so they
+  // come back staggered rather than in lockstep.
+  let scrollIdle = 0;
+  addEventListener('scroll', () => {
+    document.documentElement.classList.add('is-scrolling');
+    clearTimeout(scrollIdle);
+    scrollIdle = setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 180);
+  }, { passive: true });
 
   /* -------------------- Button ripple -------------------- */
   // Struck from the actual pointer position, so it reads as the press landing

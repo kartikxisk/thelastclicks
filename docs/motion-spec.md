@@ -1,19 +1,21 @@
 # Motion specification
 
-The rules the frontend's animation obeys, and why each one exists.
+The rules the front end's animation obeys, and why each one exists.
 
-Supersedes `plans/001`–`plans/015`, which diagnosed these problems against the
-Blade implementation. Those files are kept under `docs/archive/blade-motion-plans/`
-because they record the reasoning, and the reasoning outlives the code it was
-written about.
-
-Where a rule below says "ported", the fix landed in the Next application; where
-it says "obsolete", the Blade construct it corrected does not exist here.
+Supersedes `plans/001`–`plans/015`, which diagnosed these problems one at a
+time. Those files are kept under `docs/archive/blade-motion-plans/` because they
+record the reasoning, and the reasoning outlives the code it was written about.
+The trailing `*(nnn)*` on each rule points back at the plan that found it.
 
 ## Tokens
 
-Declared once in `web/src/styles/motion.css` and `web/src/styles/tokens.css`.
-Never inline a duration or a curve — a timing change should be one edit.
+The three easing curves are declared once, on `:root` in
+`resources/css/core.css`. The duration scale below is the intended vocabulary
+but is **not** declared there yet — durations are still inlined per rule, which
+is exactly what 011 objected to. Adding `--dur-fast/base/slow` to `core.css` and
+migrating callers is outstanding work.
+
+Never inline a curve — a timing change should be one edit.
 
 | Token | Value | Use |
 |---|---|---|
@@ -24,7 +26,7 @@ Never inline a duration or a curve — a timing change should be one edit.
 | `--ease-2` | `cubic-bezier(0.65, 0, 0.35, 1)` | Symmetric, for things that leave and return |
 | `--ease-3` | `cubic-bezier(0.85, 0, 0.15, 1)` | Sharp both ends, for wipes and curtains |
 
-*Ported from 011, which found duplicate curves and no duration scale at all.*
+*From 011, which found duplicate curves and no duration scale at all.*
 
 ## Rules
 
@@ -41,8 +43,9 @@ Hovers, progress bars and tiles animate `transform` and `opacity` only. Animatin
 on a grid that means recalculating every sibling. The visible motion is
 identical; the cost is not. *(005)*
 
-Asserted by an end-to-end test: hovering a work tile must not change its
-bounding box.
+Was asserted by an end-to-end test (hovering a work tile must not change its
+bounding box). That suite lived in the deleted `web/` app; the rule now rests on
+review alone, and is worth re-asserting if a browser test harness returns.
 
 ### Collapsibles use `grid-template-rows`, not `max-height`
 
@@ -59,8 +62,9 @@ Held permanently it forces a compositor layer per element and exhausts GPU
 memory on a long page. Set it when an animation begins, clear it in the
 completion callback. *(007)*
 
-Asserted: after scrolling the homepage, at most a handful of elements may carry
-a non-`auto` `will-change`.
+The bar the deleted e2e suite held it to, still the right one: after scrolling
+the homepage, at most a handful of elements may carry a non-`auto`
+`will-change`.
 
 ### Reduced motion is gentler, not zero
 
@@ -69,7 +73,7 @@ spatial cues that make navigation legible — a panel that snaps into place read
 as a bug, not as an accommodation. *(008)*
 
 Genuine exceptions, where the motion *is* the thing being objected to, opt out
-entirely: Lenis momentum scroll, the route wipe, and all six WebGL moments.
+entirely: momentum scroll and the route wipe.
 
 ### Nothing polls
 
@@ -78,8 +82,9 @@ frame, with the threshold measured once and on resize. The Blade version polled
 every 100ms, which could lag a fast scroll by a tenth of a second and forced a
 layout read ten times a second forever. *(009, 003)*
 
-The same rule governs WebGL: `frameloop="demand"`, and scenes call
-`invalidate()` only while something is actually animating.
+The same rule governs the rAF loops in `core.js` and `scene.js`: they do work
+only while something is actually animating or near the viewport, never on a
+permanent timer. *(003)*
 
 ### Nothing scales from zero
 
@@ -105,9 +110,9 @@ specifically so the scrollbar keeps telling the truth. *(002)*
 Filtering the work grid animates rather than replacing the set in one frame.
 *(013)*
 
-Partly obsolete: filtering is now a server-rendered navigation rather than
-client state, so the route wipe covers the change. The rule stands for any
-future in-place filtering.
+Live: `/portfolio` renders every published work once and the category/craft
+chips filter client-side, so the transition is the only thing telling the user
+the set changed.
 
 ### Wizard steps move in the direction of travel
 
@@ -117,8 +122,9 @@ the mental model. *(015)*
 Currently obsolete: the quote form is a single page rather than a wizard. Revive
 this rule if it is ever split into steps.
 
-## What is not covered here
+## Where the code is
 
-WebGL scene motion — displacement, curvature, depth scrub — lives with each
-scene in `web/src/webgl/scenes/`. It follows the same easing and reduced-motion
-rules, but its parameters are visual decisions rather than system tokens.
+`resources/css/core.css` holds the tokens and the shared chrome's motion;
+`resources/js/core.js` owns scroll-linked work (parallax, magnetics, cursor) and
+`resources/js/scene.js` decides only *when* a section reveals — the reveals
+themselves are CSS transitions keyed off `.is-in`.

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\TouchesFrontend;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,7 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class HeroSlide extends Model implements HasMedia
 {
-    use InteractsWithMedia, TouchesFrontend;
+    use InteractsWithMedia;
 
     protected $fillable = ['label', 'order', 'is_active'];
 
@@ -67,15 +66,5 @@ class HeroSlide extends Model implements HasMedia
     public function previewUrl(): ?string
     {
         return $this->isVideo() ? $this->posterUrl() : $this->assetUrl();
-    }
-
-    /**
-     * Hero slides appear on the homepage only.
-     *
-     * @return list<string>
-     */
-    public function frontendCacheTags(): array
-    {
-        return ['pages:home'];
     }
 }

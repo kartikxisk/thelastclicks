@@ -12,9 +12,6 @@ class StoreQuoteRequest extends FormRequest
      * map — changing a label here rewrites what is already saved on existing
      * quotes, so treat these strings as data, not copy.
      *
-     * Consumed by the Blade quote form and by the /api/v1/pages/contact
-     * endpoint, so both offer the same options.
-     *
      * @var list<string>
      */
     public const BUDGET_RANGES = [

@@ -62,7 +62,6 @@
             <label for="f-budget">Budget</label>
             <select id="f-budget" name="budget" @error('budget') aria-invalid="true" aria-describedby="f-budget-err" @enderror>
                 <option value="" {{ old('budget') === null || old('budget') === '' ? 'selected' : '' }}>Select a range</option>
-                {{-- Shared with /api/v1/pages/contact so both forms offer the same bands. --}}
                 @foreach (\App\Http\Requests\StoreQuoteRequest::BUDGET_RANGES as $range)
                     <option {{ old('budget') == $range ? 'selected' : '' }}>{{ $range }}</option>
                 @endforeach
