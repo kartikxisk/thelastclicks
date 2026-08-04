@@ -180,9 +180,9 @@ window.TLC = (function(){
             <section class="quote__panel-step quote__success" data-panel="4">
               <div class="quote__check"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="28"/><path d="M20 33 L29 42 L46 24" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <h3>Brief received.</h3>
-              <p>Thanks <span data-out="name">friend</span> — we'll be in touch within 4 working hours at <span data-out="email">your inbox</span>. In the meantime, peek at the reel.</p>
+              <p>Thanks <span data-out="name">friend</span> — we'll be in touch within 4 working hours at <span data-out="email">your inbox</span>. In the meantime, peek at the portfolio.</p>
               <div class="quote__success-actions">
-                <a class="btn" href="/services/photography"><span>See the reel</span><span class="arr"></span></a>
+                <a class="btn" href="/portfolio"><span>See the portfolio</span><span class="arr"></span></a>
                 <button type="button" class="btn btn--ghost" data-quote-close><span>Close</span></button>
               </div>
             </section>
@@ -473,7 +473,9 @@ window.TLC = (function(){
           if (emailOut && data.email) emailOut.textContent = data.email;
         } else {
           if (nav) nav.style.display = '';
-          if (nextLabel) nextLabel.textContent = step === 3 ? 'Send brief' : 'Continue →';
+          // Label only — the arrow lives in its own .quote__next-arr span so it
+          // can slide on hover. Baking one into this string rendered "Continue → →".
+          if (nextLabel) nextLabel.textContent = step === 3 ? 'Send brief' : 'Continue';
         }
       }
       quote.querySelectorAll('.quote__chips').forEach(group => {

@@ -56,8 +56,12 @@ class PermissionsSeeder extends Seeder
         $superAdmin->syncPermissions($all);
 
         // Editor: CRUD on content resources (post, portfolio, service, industry,
-        // category, tag, testimonial, work, client).
-        $editorResources = 'post|service|industry|category|tag|testimonial|work|client';
+        // category, tag, testimonial, work, client, hero slide).
+        // `hero::slide` is shield's name for HeroSlide. Without it the Homepage
+        // Hero resource exists but is invisible to every role except Super-admin,
+        // which reads as "the upload screen isn't there" rather than as a
+        // permission problem.
+        $editorResources = 'post|service|industry|category|tag|testimonial|work|client|hero::slide';
         $editor->syncPermissions(array_filter($all, fn ($p) => preg_match('/_('.$editorResources.')$/', $p) === 1
             || preg_match('/_any_('.$editorResources.')$/', $p) === 1
         ));

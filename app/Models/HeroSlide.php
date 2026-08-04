@@ -11,9 +11,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 /**
  * One homepage hero background — a still or a film, uploaded in the admin.
  *
- * With no active slides the hero falls back to the bundled CDN reel, so a fresh
- * install still renders. One slide behaves exactly like the old single-reel hero;
- * two or more cross-fade.
+ * With no active slides the hero renders no background at all — there is no
+ * bundled fallback reel, so an empty admin shows an empty hero rather than
+ * footage the editor cannot locate or replace. One slide behaves exactly like
+ * the old single-reel hero; two or more cross-fade.
  */
 class HeroSlide extends Model implements HasMedia
 {
@@ -48,9 +49,29 @@ class HeroSlide extends Model implements HasMedia
         return $this->asset()?->getUrl();
     }
 
+    /** Extensions treated as film when the mime type is inconclusive. */
+    private const VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov', 'm4v'];
+
     public function isVideo(): bool
     {
-        return str_starts_with((string) $this->asset()?->mime_type, 'video/');
+        $asset = $this->asset();
+
+        if ($asset === null) {
+            return false;
+        }
+
+        if (str_starts_with((string) $asset->mime_type, 'video/')) {
+            return true;
+        }
+
+        // Mime sniffing is not always conclusive: an upload that arrives without
+        // a Content-Type, or through a proxy that flattens it, is stored as
+        // application/octet-stream. Trusting the mime alone would then render an
+        // <img> pointing at an mp4 — the same broken frame posterUrl() guards
+        // against. The extension is the tiebreaker.
+        $extension = strtolower(pathinfo((string) $asset->file_name, PATHINFO_EXTENSION));
+
+        return in_array($extension, self::VIDEO_EXTENSIONS, true);
     }
 
     /**

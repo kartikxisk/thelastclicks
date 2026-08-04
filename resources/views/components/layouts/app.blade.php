@@ -55,12 +55,15 @@
     <meta name="twitter:description" content="{{ $seoOgDescription }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{-- Only what actually renders: Outfit supersedes Sora/Inter in core.css, and no rule uses
-         weight 300 or 900. Dropping them removes 12 unused font files from the critical path. --}}
-    {{-- One typeface site-wide. Full weight range so filled and outlined both read well. --}}
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    {{-- Three registers, per DESIGN-BRUTALIST.md §3: Archivo Black carries every
+         headline, JetBrains Mono carries the whole micro register and body copy.
+         Outfit stays loaded at two weights only — long-form article prose is the
+         one place brutalist.css stands the monospace body down, and dropping the
+         family entirely would leave that text on a system fallback. --}}
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
     {{-- chrome.js MUST load before core.js: chrome injects the shared HTML (nav/preloader/quote/cursor), then core.js wires behaviour onto it. --}}
-    @vite(['resources/css/core.css','resources/css/pages.css','resources/js/chrome.js','resources/js/core.js'])
+    {{-- brutalist.css last: it overrides tokens that core.css re-declares at its own tail. --}}
+    @vite(['resources/css/core.css','resources/css/pages.css','resources/css/brutalist.css','resources/js/chrome.js','resources/js/core.js'])
     {{ $head ?? '' }}
 </head>
 <body>

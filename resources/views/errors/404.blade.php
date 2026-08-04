@@ -31,7 +31,7 @@
         <p>This page didn't make the cut. Here are a few worth a watch.</p>
         <div class="nf__buttons">
             <a class="btn btn--red" href="{{ url('/') }}" data-magnetic data-cursor="HOME">Back to home <span class="arr"></span></a>
-            <a class="btn btn--ghost" href="{{ url('/') }}" data-cursor="VIEW">See the reel <span class="arr"></span></a>
+            <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">See the portfolio <span class="arr"></span></a>
         </div>
         <div class="nf__links">
             <a class="nf__link" href="{{ url('/services/photography') }}"><span>Our craft</span><strong>Services</strong></a>

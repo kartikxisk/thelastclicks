@@ -27,7 +27,11 @@ class HeroSlideResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
-    protected static ?string $navigationLabel = 'Homepage Hero';
+    protected static ?string $navigationLabel = 'Hero';
+
+    protected static ?string $modelLabel = 'hero slide';
+
+    protected static ?string $pluralModelLabel = 'hero slides';
 
     public static function form(Form $form): Form
     {

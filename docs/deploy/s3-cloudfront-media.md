@@ -26,8 +26,9 @@
 1. Deploy code; `composer install`.
 2. `php artisan migrate && php artisan config:clear && php artisan db:seed`.
    Migrate drops the retired portfolio tables (`drop_portfolio_feature`).
-3. Verify: the homepage hero reel (`public/videos/hero-reel.mp4`) and service
-   pages serve their media; spot-check a video plays.
+3. Verify: service pages serve their media; spot-check a video plays. The
+   homepage hero is admin-managed with no bundled fallback, so it is blank until
+   Hero Slides has an active row — that is correct, not a media failure.
 4. `php artisan responsecache:clear`.
 
 > Portfolio revamp (same release): no data entry required — trust sections stay

@@ -1,0 +1,347 @@
+/* ============================================================
+   TheLastClicks — Tactical Telemetry layer
+   Implements DESIGN-BRUTALIST.md over the existing stylesheets.
+
+   Loaded LAST, after core.css and pages.css, so it wins the cascade —
+   including over the "TASTE SKILL OVERRIDES" block at the tail of core.css,
+   which re-declares the font tokens and would otherwise beat us.
+
+   This is a layer, not a rewrite. Almost everything below works by
+   redefining tokens the other 7,600 lines already consume: core.css and
+   pages.css reference `var(--f-display)` 117 times and `var(--f-mono)` 107
+   times and never hardcode a family, so swapping two tokens converts the
+   whole site's typography. Delete the @vite entry for this file and the
+   editorial system returns intact.
+   ============================================================ */
+
+:root {
+  /* ---------- Typography registers (DESIGN-BRUTALIST §3) ---------- */
+
+  /* Macro. Neo-grotesque, one weight, renders black. */
+  --f-display: 'Archivo Black', 'Helvetica Neue', 'Arial Black', sans-serif;
+
+  /* Micro. Every label, nav item, stat, timestamp and button in the site
+     already asks for --f-mono, so this single line is the whole §3.2
+     conversion. */
+  --f-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* §3.2 is explicit: if it is not a macro headline, it is monospace. Body
+     copy included — mono dominance is the archetype, not a garnish. Archivo
+     Black cannot serve here (it is a single display weight; 16px prose in it
+     is unreadable), and long-form article prose is exempted further down. */
+  --f-body: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* §3.3 wants a serif only when it is halftoned or dithered, and bans it
+     undegraded. The sole consumer (.quote__title em) has no dither filter,
+     so it resolves to the display stack: no serif beats a clean serif. */
+  --f-serif: var(--f-display);
+
+  /* ---------- Substrate (§2) ---------- */
+  --ink-2: #121212;      /* Panel — was #111111 */
+  --paper: #eaeaea;      /* White Phosphor — was warm #f4f3ef */
+  --paper-dim: #c6c6c6;  /* neutral counterpart of the old #c7c5be, same luminance */
+
+  /* --ink #0a0a0a, --ink-3 #161616, --line #262626, --red #e80f03 already
+     match the archetype exactly and are left alone. */
+
+  /* Signal Green. Exactly one consumer: the capture-state indicator.
+     Never a success colour, never a link, never body text. */
+  --green: #4af626;
+
+  /* ---------- Motion (§7) ---------- */
+  --dur-swap: 120ms;
+  --dur-enter: 200ms;
+  /* Machinery actuates, it does not glide. --ease-3 is sharp at both ends. */
+  --ease-machine: cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+/* ============================================================
+   §3.1 Macro typography
+   ============================================================ */
+
+h1, h2, h3,
+.hero__title, .section__title, .cta-strip__title, .feat__title,
+.belief__title, .timeline-x__title, .svp-hero h1, .case-hero h1,
+.curtain__mark span, .marquee__item {
+  font-family: var(--f-display);
+  font-weight: 400;              /* Archivo Black ships one weight */
+  text-transform: uppercase;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+/* Archivo Black has no light weights, so anything that leaned on 300–500 to
+   look quiet now needs the size to do that work instead. */
+h3, .feat__title, .belief__title { letter-spacing: -0.03em; }
+
+.hero__title {
+  /* Back to the editorial scale this file had raised to 9vw / 11rem. Archivo
+     Black sets much wider than the Outfit it replaced, so the same px value
+     covers more line, and the headline was wrapping to four lines and pushing
+     the CTAs down the viewport. §3.1 wants presence, not overflow.
+
+     The floor is 2.5rem, not 2rem: below ~430px the vw term is far under the
+     floor, so the floor alone sets mobile. At 2rem the headline was smaller
+     than the CTA block was tall and the buttons out-weighed it. */
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+/* pages.css:234 hardcodes `.hero { color: #f4f3ef }` instead of reading the
+   token, so the hero alone stayed on the old warm paper while every other
+   surface moved to White Phosphor. */
+.hero { color: var(--paper); }
+
+/* Headline sits on the floor of the hero rather than floating in the middle
+   of it. `margin: auto` centred the block; keeping auto only on top pushes it
+   down while the flex column still absorbs the slack above. */
+.hero__center {
+  margin-block: auto 0;
+  padding-bottom: clamp(24px, 4vh, 56px);
+}
+
+/* <em> is left to the site's existing global outline treatment at
+   pages.css:5839, which already fills `-webkit-text-fill-color: transparent`
+   with a 1.5px stroke and carries `color: inherit !important`. That device
+   predates this layer and suits the archetype — outlined type reads as a
+   registration mark — so overriding it to red here would be a dead rule: the
+   !important wins and nothing would change. Only the hover timing is retuned,
+   from the editorial 400ms glide to the §7 swap. */
+em {
+  transition:
+    -webkit-text-fill-color var(--dur-swap) var(--ease-machine),
+    -webkit-text-stroke-color var(--dur-swap) var(--ease-machine);
+}
+
+/* Outlined type survives — it reads as a registration mark here. */
+.hero__title .stroke,
+.marquee__item.is-outline {
+  -webkit-text-stroke: 1.5px var(--paper-dim);
+  color: transparent;
+}
+
+/* ============================================================
+   §3.2 Micro register — uppercase, tracked, tabular
+   ============================================================ */
+
+[class*='__label'], [class*='__kicker'], [class*='__meta'],
+.meta-label, .eyebrow, .cats__chip, .quote__chip,
+nav a, .nav__cta, .btn, button, label,
+th, .stat__label, .sect__eyebrow {
+  font-family: var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+/* Columns must align and counters must not jitter. */
+[class*='__num'], [class*='__stat'], .meta-stat, [data-count],
+[data-scramble-count], .preloader__counter, .cal__month,
+td, th, time, data, samp, output, kbd {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Telemetry carried in the DOM, not only in the CSS (§5). */
+data, samp, output, kbd, time {
+  font-family: var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* §4: the micro register does not shrink on mobile — drop columns instead. */
+@media (max-width: 767px) {
+  [class*='__label'], .meta-label, .eyebrow { font-size: 0.625rem; }
+}
+
+/* ============================================================
+   §6 Texture — three static layers. None of them animate: a drifting
+   scanline is a vestibular hazard and reads as a broken screen rather
+   than an old one. One grain layer for the document, never per-component —
+   each instance is a full-viewport composited layer.
+   ============================================================ */
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* Above page content, below every interactive overlay. The lightbox in
+     particular must stay grain-free: it exists to show the photography, and
+     §6 keeps the portfolio itself clean. */
+  z-index: var(--z-texture);
+}
+
+/* CRT scanlines */
+body::before {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.10) 2px 4px
+  );
+}
+
+/* Mechanical noise. feTurbulence inlined as a data URI so the grain costs no
+   extra request and cannot 404 into a flat page. */
+body::after {
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* No overlay z-index override here. An earlier version of this file raised
+   .curtain/.quote/.menu/.preloader to 9999 to clear the texture — which
+   silently DEMOTED them, since the real stack starts at 10000, and dropped
+   the quote modal below the cookie banner. The texture sits under all of
+   them by token instead. */
+
+/* ============================================================
+   §5 Components
+   ============================================================ */
+
+/* Buttons: hard inversion at 120ms, not a 500ms panel wipe. */
+.btn {
+  border-radius: 0;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background-color var(--dur-swap) var(--ease-machine),
+    color var(--dur-swap) var(--ease-machine),
+    border-color var(--dur-swap) var(--ease-machine);
+}
+/* Kill the wiping panel — §7 bans the glide. */
+.btn::before { display: none; }
+
+.btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+.btn--red {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper);
+  /* §2 bans soft shadows; the editorial system's tinted red glow goes. */
+  box-shadow: none;
+}
+.btn--red:hover {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* The arrow's two-glyph slide is a glide. One glyph, no travel. */
+.btn .arr::after { display: none; }
+.btn:hover .arr::before { transform: none; }
+
+@media (max-width: 620px) {
+  /* Desktop padding on a phone made the CTAs read heavier than the headline
+     they sit under. Trimmed, but the block stays above the 44px touch target:
+     11px caps at line-height 1 plus 2 x 15px is 45px. */
+  .btn {
+    padding: 15px 20px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* Inputs (§5) */
+input, textarea, select {
+  border-radius: 0;
+  background: var(--ink-3);
+  border: 1px solid var(--line);
+  font-family: var(--f-mono);
+  letter-spacing: 0.05em;
+}
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 0; }
+
+/* Capture-state indicator — the single Signal Green element in the system. */
+.rec-state { font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.1em; }
+.rec-state[data-state='live'] { color: var(--green); }
+.rec-state[data-state='idle'] { color: var(--muted); }
+
+/* Warning stripe — at most once per screen. */
+.stripe {
+  height: 8px;
+  background: repeating-linear-gradient(45deg, var(--red) 0 12px, var(--ink) 12px 24px);
+}
+
+/* Barcode corner texture. */
+.barcode {
+  height: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--paper-dim) 0 1px, transparent 1px 3px,
+    var(--paper-dim) 3px 5px, transparent 5px 6px,
+    var(--paper-dim) 6px 7px, transparent 7px 11px
+  );
+}
+
+/* Crosshair registration at grid intersections. */
+.crosshair { font-family: var(--f-mono); font-size: 0.75rem; color: var(--line); line-height: 1; }
+
+/* Stamp string — real values only, never randomised decoration. */
+.stamp {
+  font-family: var(--f-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Determinist grid lines (§4): the gap becomes the hairline, so shared edges
+   never double into 2px the way per-element borders do. */
+.compartments { display: grid; gap: 1px; background: var(--line); }
+.compartments > * { background: var(--ink); }
+
+/* Loading: a flat block, never a shimmer sweep or a spinner. */
+.skeleton {
+  background: var(--ink-3);
+  border: 1px solid var(--line);
+  animation: none;
+}
+
+/* ============================================================
+   §7 Motion — retune the shared chrome the editorial system tuned long.
+   Layout properties stay untouched: transform and opacity only.
+   ============================================================ */
+
+.svc { transition: color var(--dur-swap) var(--ease-machine); }
+.svc::before { transition: opacity var(--dur-enter) var(--ease-machine); transform: none; }
+.svc:hover::before { transform: none; }
+
+.reveal, .split-word > span {
+  transition-duration: var(--dur-enter);
+  transition-timing-function: var(--ease-machine);
+}
+
+.hero__slide { transition: opacity var(--dur-enter) var(--ease-machine); }
+
+/* Nothing scales from zero and nothing overshoots (§7). */
+.spotlight::before { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Gentler, not zero — ~100ms. The texture layers are static, so they stay. */
+  :root { --dur-swap: 100ms; --dur-enter: 100ms; }
+}
+
+/* ============================================================
+   §8 Anti-patterns
+
+   No global `* { border-radius: 0 }` guard: every radius in core.css and
+   pages.css is already 0, so the rule would be dead weight bought with a
+   universal !important that any future exception has to fight.
+
+   Long-form prose is the one place the monospace body is stood down. A
+   1,200-word article set in JetBrains Mono is a reading cost the archetype
+   does not pay for; the surrounding chrome stays mono, the article does not.
+   ============================================================ */
+
+.post__body, .post__body p, .post__body li,
+.prose, .prose p, .prose li {
+  font-family: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.7;
+}

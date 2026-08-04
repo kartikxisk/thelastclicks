@@ -43,3 +43,17 @@ it('seeds shield permissions for the Testimonial resource', function () {
         expect(Permission::where('name', $p)->exists())->toBeTrue();
     }
 });
+
+it('lets an Editor reach the Homepage Hero resource', function () {
+    // The resource and its policy both existed while the permission was never
+    // handed to Editor, so the nav item was invisible to everyone but
+    // Super-admin — indistinguishable from the module not being built.
+    $this->seed();
+
+    $editor = Role::findByName('Editor');
+
+    foreach (['view_any_hero::slide', 'create_hero::slide', 'update_hero::slide', 'delete_hero::slide'] as $p) {
+        expect(Permission::where('name', $p)->exists())->toBeTrue()
+            ->and($editor->hasPermissionTo($p))->toBeTrue();
+    }
+});

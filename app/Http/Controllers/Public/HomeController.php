@@ -31,9 +31,10 @@ class HomeController extends Controller
      */
     protected function featuredWorks(): Collection
     {
-        // The homepage renders these as a collage, which needs enough tiles to
-        // actually cluster — six leaves a sparse row with nothing overlapping.
-        $take = 15;
+        // The homepage renders these as an index whose column spans cycle every
+        // six tiles. A multiple of six is what makes every row sum to 12; 15 left
+        // a single tile stranded on the last row with seven columns empty.
+        $take = 12;
 
         $base = fn () => Work::published()->with(['media', 'mediaItems.media']);
 
@@ -41,7 +42,7 @@ class HomeController extends Controller
             ->orderBy('order')->orderByDesc('id')->take($take)->get();
 
         // Top up with recent works when too few are flagged featured, so the
-        // collage never collapses back to a thin line.
+        // index keeps its full row rhythm.
         if ($featured->count() >= $take) {
             return $featured;
         }

@@ -5,7 +5,7 @@
    ============================================================ */
 
 import { initWorkLightbox } from './work-lightbox';
-import { initWorkGlobe } from './work-globe';
+import { initWorkMarquee } from './work-marquee';
 import { initScenes } from './scene';
 
 (() => {
@@ -261,10 +261,10 @@ import { initScenes } from './scene';
   /* -------------------- Work lightbox -------------------- */
   initWorkLightbox();
 
-  /* -------------------- Work globe -------------------- */
-  // Runs after the lightbox so the tiles already carry their click handlers by
-  // the time the globe re-parents them into the 3D scene.
-  initWorkGlobe();
+  /* -------------------- Work marquee -------------------- */
+  // After the lightbox, so the tiles already carry their click handlers by the
+  // time the strip starts moving.
+  initWorkMarquee();
 
   /* -------------------- Scene engine -------------------- */
   initScenes();

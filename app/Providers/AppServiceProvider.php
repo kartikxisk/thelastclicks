@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Client;
+use App\Models\HeroSlide;
 use App\Models\Industry;
 use App\Models\MediaItem;
 use App\Models\Post;
@@ -55,5 +56,10 @@ class AppServiceProvider extends ServiceProvider
         // doesn't dirty its parent model, so the parent observer alone isn't enough.
         Client::observe(ClearsResponseCacheObserver::class);
         Media::observe(ClearsResponseCacheObserver::class);
+
+        // Hero slides too: the Media observer above catches the upload, but
+        // toggling a slide off, reordering, or deleting a row never touches a
+        // media record, so the homepage would keep serving the cached hero.
+        HeroSlide::observe(ClearsResponseCacheObserver::class);
     }
 }

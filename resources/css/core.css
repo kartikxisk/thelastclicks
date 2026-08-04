@@ -30,6 +30,20 @@
   --ease-2: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-3: cubic-bezier(0.85, 0, 0.15, 1);
 
+  /* Overlay stacking order, declared once. These were eight magic numbers
+     spread across three files, kept in sync only by a comment on .wlb listing
+     what it had to beat. A layer added without reading that comment lands in
+     the wrong place — which is exactly how the texture layer first shipped
+     demoting the quote modal below the cookie banner. */
+  --z-nav: 100;
+  --z-texture: 9000;
+  --z-curtain: 10000;
+  --z-cookies: 10400;
+  --z-quote: 10500;
+  --z-preloader: 11000;
+  --z-skip: 12000;
+  --z-lightbox: 13000;
+
   --maxw: 1560px;
   --pad-x: clamp(20px, 4vw, 56px);
   /* Single vertical rhythm for every section block — one value site-wide. */
@@ -85,7 +99,7 @@ img, video { max-width: 100%; display: block; }
 .curtain {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: var(--z-curtain);
   pointer-events: none;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -142,7 +156,7 @@ img, video { max-width: 100%; display: block; }
   position: fixed;
   inset: 0;
   background: var(--ink);
-  z-index: 11000;
+  z-index: var(--z-preloader);
   display: grid;
   place-items: center;
   transition: transform 0.9s var(--ease-3) 0.2s;
@@ -296,7 +310,7 @@ img, video { max-width: 100%; display: block; }
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 100;
+  z-index: var(--z-nav);
   padding: 24px 0;
   background: rgba(10,10,10,0.55);
   backdrop-filter: blur(14px) saturate(140%);
@@ -1258,7 +1272,7 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { outline: non
 .skip-link {
   position: fixed;
   top: 12px; left: 12px;
-  z-index: 12000;
+  z-index: var(--z-skip);
   padding: 12px 20px;
   background: var(--red);
   color: #fff;
@@ -1330,7 +1344,11 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { outline: non
 }
 
 /* Smoother hover transitions on service rows */
-.svc { transition: padding 0.55s var(--ease-spring), color 0.4s var(--ease), background 0.4s var(--ease); }
+/* Colour only. Transitioning `padding` here reflowed the whole service list on
+   every hover frame, and it contradicted the row's own design: the hover wash is
+   a scaled ::before precisely so the title never shifts sideways. `background`
+   was dead too — the row's background never changes, the ::before does. */
+.svc { transition: color 0.4s var(--ease); }
 
 /* Subtle inner border on quote modal panel — refraction signal */
 .quote__panel {

@@ -225,8 +225,8 @@
 
     <!-- OUR WORK -->
     @if ($featuredWorks->isNotEmpty())
-    {{-- Scene 06 · Work — the globe is the focal point, so it arrives through an
-         iris: the aperture opening onto the work. Backdrop matches. --}}
+    {{-- Scene 06 · Work — a looping strip of the archive. Previews play
+         muted inline; hover stops the strip, a click opens the work. Backdrop matches. --}}
     <section class="section" data-screen-label="07 Work">
         <x-scene-bg type="photo" />
         <x-container>
@@ -236,10 +236,10 @@
                     <h2 class="section__title" data-split>Our <em>work.</em></h2>
                 </div>
             </div>
-            <x-work-globe :items="$featuredWorks" lightbox-label="Selected work" />
-            {{-- The onward link closes the scene: you spin the globe first, then
+            <x-work-marquee :items="$featuredWorks" lightbox-label="Selected work" />
+            {{-- The onward link closes the scene: you watch the strip first, then
                  you're offered the full archive. --}}
-            <div class="work-globe__cta" data-anim="rise">
+            <div class="work-marquee__cta" data-anim="rise">
                 <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">View portfolio <span class="arr"></span></a>
             </div>
         </x-container>

@@ -7,6 +7,9 @@ export default defineConfig({
             input: [
                 'resources/css/core.css',
                 'resources/css/pages.css',
+                // Must stay last of the three: brutalist.css overrides tokens
+                // that core.css re-declares at its own tail.
+                'resources/css/brutalist.css',
                 'resources/js/core.js',
                 'resources/js/chrome.js',
                 'resources/css/filament/admin/theme.css',

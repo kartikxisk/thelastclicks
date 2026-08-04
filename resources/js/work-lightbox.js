@@ -35,6 +35,7 @@ export function initWorkLightbox() {
       el.src = item.url;
       el.controls = true;
       el.playsInline = true;
+      el.autoplay = true;
     } else {
       el = document.createElement('img');
       el.src = item.url;
@@ -44,6 +45,22 @@ export function initWorkLightbox() {
     }
     stage.appendChild(el);
     caption.textContent = item.caption || '';
+
+    // Both entry points into render() are a click (opening a tile, or prev /
+    // next), so playback is inside a user gesture and sound is allowed. Safari
+    // still refuses unmuted autoplay in cases Chrome permits, so a rejection
+    // retries muted rather than leaving the viewer on a frozen first frame.
+    // Controls are on, so the sound is one click away.
+    if (el.tagName === 'VIDEO') {
+      const started = el.play();
+      if (started && typeof started.catch === 'function') {
+        started.catch(() => {
+          el.muted = true;
+          const retry = el.play();
+          if (retry && typeof retry.catch === 'function') retry.catch(() => {});
+        });
+      }
+    }
   }
 
   function open(payload, start = 0) {
@@ -73,10 +90,15 @@ export function initWorkLightbox() {
 
   tiles.forEach((tile) => {
     tile.addEventListener('click', () => {
-      // Gallery tiles carry a shared payload + their own index so the lightbox
-      // opens on the clicked item; Portfolio tiles omit the index and start at 0.
+      // The payload may sit on the tile or on an ancestor. A strip of tiles that
+      // all share one payload puts it on the container and gives each tile only
+      // its offset — otherwise every tile opens a one-item carousel and next/prev
+      // wrap straight back to the item already on screen, which reads as broken.
+      // closest() returns the tile itself when it carries its own payload, so
+      // single-payload tiles elsewhere are unaffected.
+      const holder = tile.closest('[data-work-media]') || tile;
       const start = Number.parseInt(tile.dataset.workIndex || '0', 10);
-      try { open(JSON.parse(tile.dataset.workMedia || '[]'), start); } catch (e) { /* malformed payload: ignore */ }
+      try { open(JSON.parse(holder.dataset.workMedia || '[]'), start); } catch (e) { /* malformed payload: ignore */ }
     });
   });
 
