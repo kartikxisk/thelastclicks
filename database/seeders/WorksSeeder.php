@@ -58,16 +58,22 @@ class WorksSeeder extends Seeder
                 continue;
             }
 
+            // Create-only, deliberately. This runs from db:seed, which runs on
+            // every deploy, and works are admin-managed content rather than seed
+            // content — updateOrCreate here would silently overwrite an editor's
+            // changes and delete their media items on the next release. A fresh
+            // database gets the whole archive; an existing record is left to
+            // whoever owns it. Use `app:export-works` and a manual import when
+            // you deliberately want one environment to match another.
+            if (Work::where('slug', $slug)->exists()) {
+                continue;
+            }
+
             /** @var Work $work */
-            $work = Work::updateOrCreate(['slug' => $slug], $attributes);
+            $work = Work::create($attributes);
             $works++;
 
             $media += $this->attach($work, $row['media'] ?? []);
-
-            // Replaced wholesale rather than merged: the fixture is the source of
-            // truth for ordering, and matching child rows individually would need
-            // an identity they do not carry.
-            $work->mediaItems()->each(fn (MediaItem $item) => $item->delete());
 
             foreach ($row['media_items'] ?? [] as $itemRow) {
                 /** @var MediaItem $item */

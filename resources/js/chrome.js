@@ -204,21 +204,28 @@ window.TLC = (function(){
      83 lines of hand-rolled vector that read as an illustration rather than an
      instrument, and sat wrong against a monospace, hard-edged system.
 
-     DESIGN-BRUTALIST.md §5 asks a loader to be a monospace character-cycle or a
-     block-fill bar, never a spinner or a shimmer. This is both.
+     There is exactly one progress indicator, and it is the wordmark. Each
+     character resolves out of noise as real load progress passes its position,
+     so the sweep of settled characters across the word IS the fill — a separate
+     bar underneath it was a second loader saying the same thing twice.
 
-     The wordmark is not a decorative scramble on a timer — each character
-     resolves as real load progress passes its position, so the animation is
-     reporting state rather than performing. core.js drives it from the same rAF
-     that already owned the progress value. Reduced-motion users never see any of
-     it; the preloader is display:none for them. */
+     The readout under it is SMPTE timecode at 24fps, the counter every edit
+     suite in the building already shows, with the capture dot beside it. It
+     reports genuinely elapsed load time rather than a decorative number: §8
+     bans invented telemetry, so the frames field is real frames.
+
+     DESIGN-BRUTALIST.md §5 asks a loader to be a monospace character-cycle,
+     never a spinner or a shimmer. core.js drives this from the same rAF that
+     already owned the progress value, so it reports state rather than
+     performing. Reduced-motion users never see it; the preloader is
+     display:none for them. */
   function bootReadoutHTML() {
     return `
     <div class="pboot">
       <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks">THELASTCLICKS</div>
-      <div class="pboot__meter" aria-hidden="true">
-        <span class="pboot__blocks" data-pboot-blocks><i></i><b></b></span>
-        <span class="pboot__pct" data-pboot-pct>000</span>
+      <div class="pboot__tc" aria-hidden="true">
+        <span class="pboot__rec" data-pboot-rec></span>
+        <span class="pboot__code" data-pboot-code>00:00:00:00</span>
       </div>
     </div>`;
   }
@@ -235,7 +242,6 @@ window.TLC = (function(){
     <div class="preloader" role="status" aria-label="Loading">
       <div class="preloader__inner">
         ${bootReadoutHTML()}
-        <div class="preloader__bar"></div>
       </div>
     </div>
     <div class="scrollbar"><div class="scrollbar__fill"></div></div>

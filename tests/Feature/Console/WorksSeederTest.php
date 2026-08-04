@@ -62,6 +62,23 @@ it('is idempotent — a second run neither duplicates works nor media', function
         ->and(MediaItem::count())->toBeGreaterThan(0);
 });
 
+it('never overwrites a work that already exists', function () {
+    // This seeder runs from db:seed, which runs on every deploy. Works are
+    // admin-managed content, so a re-run must not undo an editor's changes —
+    // updateOrCreate here would silently revert every title and delete every
+    // media item they had rearranged.
+    $this->seed(WorksSeeder::class);
+
+    $work = Work::firstOrFail();
+    $work->update(['title' => 'Edited In The Admin']);
+    $itemsBefore = $work->mediaItems()->count();
+
+    $this->seed(WorksSeeder::class);
+
+    expect($work->fresh()->title)->toBe('Edited In The Admin')
+        ->and($work->fresh()->mediaItems()->count())->toBe($itemsBefore);
+});
+
 it('does nothing when the fixture is absent', function () {
     // A fresh clone that has not run app:export-works must not fatal mid-seed.
     $real = database_path('seeders/data/works.json');

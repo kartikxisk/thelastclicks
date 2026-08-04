@@ -331,7 +331,6 @@ import { initScenes } from './scene';
 
   /* -------------------- Preloader -------------------- */
   const pre = document.querySelector('.preloader');
-  const preBar = document.querySelector('.preloader__bar');
   if (pre) {
     // Hard failsafe: regardless of rAF/timing, kill the preloader after 1.8s.
     const hardKill = setTimeout(() => {
@@ -340,57 +339,83 @@ import { initScenes } from './scene';
         setTimeout(() => pre.remove(), 1000);
       }
     }, 1800);
-    // Boot readout. Each wordmark character resolves as progress passes its
-    // position, so the scramble reports load state instead of running on its own
-    // timer — nothing here animates independently of the value below.
+    // The wordmark is the only progress indicator. Each character resolves out
+    // of noise as progress passes its position, so the sweep of settled letters
+    // across the word is the fill itself.
     const markEl = document.querySelector('[data-pboot-mark]');
-    const blocksEl = document.querySelector('[data-pboot-blocks]');
-    const pctEl = document.querySelector('[data-pboot-pct]');
+    const codeEl = document.querySelector('[data-pboot-code]');
     const word = markEl ? markEl.textContent.trim() : '';
     const NOISE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/\\';
-    const CELLS = 24;
+    const FPS = 24;
 
-    const paint = (t) => {
-      if (markEl && word) {
-        const settled = Math.floor(t * word.length);
-        let out = '';
-        for (let i = 0; i < word.length; i++) {
-          out += i < settled ? word[i] : NOISE[(Math.random() * NOISE.length) | 0];
-        }
-        markEl.textContent = out;
-      }
-      if (blocksEl) {
-        const filled = Math.round(t * CELLS);
-        // Two runs, not one string: the remaining cells are structure, not a
-        // dimmer accent, so they carry the rule colour rather than red.
-        blocksEl.firstElementChild.textContent = '█'.repeat(filled);
-        blocksEl.lastElementChild.textContent = '░'.repeat(CELLS - filled);
-      }
-      if (pctEl) pctEl.textContent = String(Math.round(t * 100)).padStart(3, '0');
+    // SMPTE timecode from genuinely elapsed milliseconds. The frames field is
+    // real frames at 24fps, not a decorative counter — §8 bans invented
+    // telemetry, and a studio's own audience would spot a fake one.
+    const timecode = (ms) => {
+      const frames = Math.floor((ms / 1000) * FPS);
+      const pad = (n) => String(n).padStart(2, '0');
+
+      return [
+        pad(Math.floor(frames / (FPS * 3600))),
+        pad(Math.floor(frames / (FPS * 60)) % 60),
+        pad(Math.floor(frames / FPS) % 60),
+        pad(frames % FPS),
+      ].join(':');
     };
 
-    if (preBar) {
+    // One span per character, built once. Rewriting textContent every frame
+    // would re-layout the whole word ~60 times a second; swapping the text of a
+    // fixed set of equal-width mono cells does not move anything.
+    let cells = [];
+    if (markEl && word) {
+      markEl.textContent = '';
+      cells = [...word].map((ch) => {
+        const span = document.createElement('span');
+        span.className = 'pboot__ch';
+        span.dataset.ch = ch;
+        span.textContent = ch;
+        markEl.appendChild(span);
+        return span;
+      });
+    }
+
+    const paint = (t, elapsed) => {
+      const settled = Math.round(t * cells.length);
+      for (let i = 0; i < cells.length; i++) {
+        const on = i < settled;
+        const cell = cells[i];
+        cell.textContent = on ? cell.dataset.ch : NOISE[(Math.random() * NOISE.length) | 0];
+        // toggle() with a boolean is a no-op when the state already matches, so
+        // settled characters stop being touched once they land.
+        cell.classList.toggle('is-on', on);
+      }
+      if (codeEl) codeEl.textContent = timecode(elapsed);
+    };
+
+    if (cells.length) {
       const dur = 1100;
       const start = performance.now();
-      function step(now) {
+      const step = (now) => {
         // Clamped at both ends. rAF hands back the frame's start timestamp, which
         // can precede the performance.now() captured just above it, so the first
-        // frame's t is often slightly negative. The bar hid that — a negative
-        // scaleX just clamps — but the block meter cannot repeat() a negative.
-        const t = Math.min(1, Math.max(0, (now - start) / dur));
-        preBar.style.setProperty('--p', t);
-        paint(t);
-        if (t < 1) requestAnimationFrame(step);
-        else {
-          // Land on the real wordmark rather than whatever the last frame rounded to.
-          paint(1);
-          clearTimeout(hardKill);
-          setTimeout(() => {
-            pre.classList.add('is-done');
-            setTimeout(() => pre.remove(), 1000);
-          }, 150);
+        // frame's t is often slightly negative — and a negative settled count
+        // would leave the whole word scrambling backwards.
+        const elapsed = Math.max(0, now - start);
+        const t = Math.min(1, elapsed / dur);
+        paint(t, elapsed);
+        if (t < 1) {
+          requestAnimationFrame(step);
+
+          return;
         }
-      }
+        // Land on the real wordmark rather than whatever the last frame rounded to.
+        paint(1, elapsed);
+        clearTimeout(hardKill);
+        setTimeout(() => {
+          pre.classList.add('is-done');
+          setTimeout(() => pre.remove(), 1000);
+        }, 150);
+      };
       requestAnimationFrame(step);
     }
   }
