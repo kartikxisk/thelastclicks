@@ -34,7 +34,18 @@ class SiteSetting extends Model
         '9 / 16' => 'Vertical 9:16 — reels',
     ];
 
-    public const DEFAULT_WORK_TILE_RATIO = '4 / 3';
+    /**
+     * Vertical, to match the homepage strip the tiles actually live in.
+     *
+     * This is a code default rather than a seeded row on purpose: seeding it
+     * would overwrite an editor's choice on every deploy, the same trap
+     * WorksSeeder avoids. An environment that has never touched the setting
+     * gets 9:16; one where somebody picked a ratio in Site Settings keeps it.
+     *
+     * It was 4 / 3, which is why production rendered wide tiles while local —
+     * where the setting had been changed by hand — rendered vertical ones.
+     */
+    public const DEFAULT_WORK_TILE_RATIO = '9 / 16';
 
     /** Bundled clip used when no CTA background video has been uploaded. */
     public const DEFAULT_CTA_VIDEO = '/videos/bg-footer.mp4';
