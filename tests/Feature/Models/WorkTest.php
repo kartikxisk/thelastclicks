@@ -4,6 +4,7 @@ use App\Models\MediaItem;
 use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -93,4 +94,34 @@ it('deletes child media rows and their media records with the work', function ()
 
     expect(MediaItem::count())->toBe(0)
         ->and(Media::count())->toBe(0);
+});
+
+it('survives a crafts column holding a bare string', function () {
+    // Production hit exactly this: the `array` cast reflects what is stored, so
+    // JSON of "wedding" rather than ["wedding"] decodes to a PHP string and
+    // array_filter() fatalled. The portfolio page renders every published work,
+    // so one malformed row 500'd the whole page.
+    $work = Work::create(['title' => 'Bare Craft', 'is_published' => true]);
+    DB::table('works')->where('id', $work->id)->update(['crafts' => json_encode('wedding')]);
+
+    $fresh = $work->fresh();
+
+    expect($fresh->crafts)->toBeString()
+        ->and($fresh->craftSlugs())->toBeArray()
+        ->and($fresh->craftLabels())->toBeArray();
+});
+
+it('survives a credits column holding a bare string', function () {
+    $work = Work::create(['title' => 'Bare Credit', 'is_published' => true]);
+    DB::table('works')->where('id', $work->id)->update(['credits' => json_encode('someone')]);
+
+    expect($work->fresh()->creditRows())->toBe([]);
+});
+
+it('keeps a valid crafts array working', function () {
+    $slug = array_key_first(Work::CRAFTS);
+    $work = Work::create(['title' => 'Good Craft', 'is_published' => true, 'crafts' => [$slug, 'not-a-real-craft']]);
+
+    // Unknown slugs are still dropped — the guard must not smuggle them through.
+    expect($work->fresh()->craftSlugs())->toBe([$slug]);
 });

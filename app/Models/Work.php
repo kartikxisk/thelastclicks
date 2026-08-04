@@ -98,9 +98,34 @@ class Work extends Model implements HasMedia
     public function craftSlugs(): array
     {
         return array_values(array_filter(
-            $this->crafts ?? [],
-            fn ($slug) => isset(self::CRAFTS[$slug])
+            self::asRows($this->crafts),
+            fn ($slug) => is_string($slug) && isset(self::CRAFTS[$slug])
         ));
+    }
+
+    /**
+     * Coerce a JSON-cast column to an array.
+     *
+     * The `array` cast reflects whatever is stored, and a row whose JSON is a
+     * bare scalar ("wedding" rather than ["wedding"]) decodes to a string. The
+     * old `?? []` only guarded null, so array_filter() fatalled on it and one
+     * malformed row took the entire portfolio page down with a 500 — the page
+     * renders every published work, so a single bad record is enough.
+     *
+     * @return array<array-key, mixed>
+     */
+    protected static function asRows(mixed $value): array
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        // A scalar is a single entry that lost its wrapper, not garbage.
+        return match (true) {
+            $value === null, $value === '' => [],
+            is_scalar($value) => [$value],
+            default => [],
+        };
     }
 
     /** @return list<string> */
@@ -119,8 +144,12 @@ class Work extends Model implements HasMedia
     {
         return array_values(array_filter(
             array_map(
-                fn ($row) => ['role' => trim((string) ($row['role'] ?? '')), 'name' => trim((string) ($row['name'] ?? ''))],
-                $this->credits ?? []
+                // is_array guard for the same reason as craftSlugs(): a scalar
+                // that lost its wrapper would otherwise be indexed as a string.
+                fn ($row) => is_array($row)
+                    ? ['role' => trim((string) ($row['role'] ?? '')), 'name' => trim((string) ($row['name'] ?? ''))]
+                    : ['role' => '', 'name' => ''],
+                self::asRows($this->credits)
             ),
             fn ($row) => $row['role'] !== '' && $row['name'] !== ''
         ));
