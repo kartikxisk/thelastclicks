@@ -29,10 +29,16 @@ final class MediaSnapshot
      */
     public static function export(HasMedia&Model $model): array
     {
-        // getMedia() rather than the ->media relation: the relation is declared
-        // by the trait, not the HasMedia interface, so the intersection type
-        // does not carry it.
-        return $model->getMedia()
+        // Queried rather than read off the relation or getMedia(). The `media`
+        // relation is declared by the trait, not the HasMedia interface, so the
+        // intersection type does not carry it — and getMedia() defaults to the
+        // 'default' collection, which silently exported nothing for a hero image
+        // filed under 'hero'. This is collection-agnostic by construction.
+        return Media::query()
+            ->where('model_type', $model->getMorphClass())
+            ->where('model_id', $model->getKey())
+            ->orderBy('id')
+            ->get()
             ->map(fn (Media $m) => [
                 'id' => $m->id,
                 'collection_name' => $m->collection_name,

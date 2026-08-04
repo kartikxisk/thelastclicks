@@ -21,15 +21,25 @@ class DatabaseSeeder extends Seeder
             SeoPagesSeeder::class,
         ]);
 
-        // The work archive, so `migrate:fresh --seed` rebuilds a real portfolio
-        // instead of an empty one with the uploads stranded on S3.
+        // Uploads that belong to rows the seeders above recreate. Kept separate
+        // because they are medialibrary rows, which those seeders know nothing
+        // about — without these a rebuilt database comes up with the content
+        // present and its imagery blank, while the files sit untouched on S3.
         //
         // Skipped under testing: the feature suite asserts against the handful
-        // of works its own tests create, and dropping 83 fixtures into every
+        // of records its own tests create, and dropping 83 works into every
         // RefreshDatabase run would rewrite those expectations and slow the
         // suite for no benefit.
+        //
+        // Hero slides are deliberately absent. The only ones that ever existed
+        // were copied from featured Work by HeroSlidesSeeder, which is not part
+        // of db:seed; the hero is admin-managed and should come up empty until
+        // somebody uploads to it.
         if (! app()->environment('testing')) {
-            $this->call(WorksSeeder::class);
+            $this->call([
+                WorksSeeder::class,
+                ServiceMediaSeeder::class,
+            ]);
         }
     }
 }

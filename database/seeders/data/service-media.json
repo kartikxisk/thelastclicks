@@ -1,0 +1,22 @@
+[
+    {
+        "slug": "editing",
+        "media": [
+            {
+                "id": 1,
+                "collection_name": "hero",
+                "name": "c-1188751",
+                "file_name": "editing-timeline.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 302092,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    }
+]
