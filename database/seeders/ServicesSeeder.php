@@ -12,12 +12,17 @@ class ServicesSeeder extends Seeder
         // "talent" is the crew/team page (/crew), not a service — removed here.
         // Weddings, social content and creative direction are no longer offered as
         // standalone services; the studio sells photography, videography and
-        // post-production (the USP) only.
+        // editing (the USP) only.
+        //
+        // 'post-production' is in the retire list because the service was renamed
+        // to Editing and routes/web.php already 301s the old URL. The seeder kept
+        // creating the old slug, so every db:seed resurrected it as a fourth
+        // service sitting behind a redirect.
         // Hydrate then delete through Eloquent (not a Builder delete) so the
         // `deleting` event fires — Service uses Spatie's InteractsWithMedia
         // directly, which hooks `deleting` to clean up its media/S3 files; a
         // Builder ->delete() bypasses that and leaks the hero/gallery files.
-        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction'])->get()->each->delete();
+        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction', 'post-production'])->get()->each->delete();
 
         $services = [
             'videography' => [
@@ -94,7 +99,7 @@ class ServicesSeeder extends Seeder
                 ],
                 'cta' => ['title' => 'Light one product.<br>Or light <em>the whole campaign.</em>', 'copy' => 'Brief us on the shoot. We\'ll come back with a treatment, timeline, and budget within 4 working hours.', 'prefill' => 'Product shoot'],
             ],
-            'post-production' => [
+            'editing' => [
                 'hero_headline' => 'Post that <em>carries</em><br>the brand.',
                 'hero_meta' => [
                     ['label' => 'Discipline', 'value' => 'Post Production · 01'],
@@ -134,21 +139,21 @@ class ServicesSeeder extends Seeder
         ];
 
         $heroCopy = [
-            'post-production' => 'Our signature — edit, colour, sound, finishing. Post-only briefs welcome.',
+            'editing' => 'Our signature — edit, colour, sound, finishing. Post-only briefs welcome.',
             'videography' => 'Brand films, commercials, documentaries.',
             'photography' => 'Editorial, lifestyle, product, portrait.',
         ];
         $titles = [
-            'post-production' => 'Post Production',
+            'editing' => 'Editing',
             'videography' => 'Videography',
             'photography' => 'Photography',
         ];
         // Post-production is the studio's USP — it leads everywhere services are listed.
-        $order = ['post-production', 'videography', 'photography'];
+        $order = ['editing', 'videography', 'photography'];
         // Discipline "mix of work" percentages — descending, sums to 100. Drives the
         // portfolio bars (.pf-disc__c label + --p fill), mirroring the design.
         $share = [
-            'post-production' => 40,
+            'editing' => 40,
             'videography' => 35,
             'photography' => 25,
         ];
@@ -156,7 +161,7 @@ class ServicesSeeder extends Seeder
         // the services list has a hover preview out of the box. An admin upload to the
         // 'hero' media collection wins over these — see Service::heroUrl().
         $heroUrl = [
-            'post-production' => 'industries/brands-agencies.jpg',
+            'editing' => 'industries/brands-agencies.jpg',
             'videography' => 'industries/nightlife-entertainment.jpg',
             'photography' => 'industries/fashion-creators.jpg',
         ];

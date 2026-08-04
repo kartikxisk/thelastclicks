@@ -8,7 +8,7 @@ beforeEach(fn () => $this->seed());
 it('renders each seeded service page', function (string $slug) {
     $this->get("/services/{$slug}")->assertOk()->assertSeeText(ucwords(str_replace('-', ' ', $slug)));
 })->with([
-    'videography', 'photography', 'post-production',
+    'videography', 'photography', 'editing',
 ]);
 
 it('redirects retired service slugs permanently', function (string $old, string $new) {
@@ -17,8 +17,11 @@ it('redirects retired service slugs permanently', function (string $old, string 
         ->assertRedirect("/services/{$new}");
 })->with([
     ['weddings', 'videography'],
-    ['social-content', 'post-production'],
-    ['creative-direction', 'post-production'],
+    // Post Production was renamed to Editing and its slug moved with it, so the
+    // old URL redirects like any other retired service.
+    ['post-production', 'editing'],
+    ['social-content', 'editing'],
+    ['creative-direction', 'editing'],
 ]);
 
 it('returns 404 for unknown service slug', function () {
