@@ -200,93 +200,26 @@ window.TLC = (function(){
     </div>`;
   }
 
-  /* Exploded-view camera that assembles itself while the page loads. Inline SVG
-     rather than an image or a 3D model: nothing to fetch, no CDN, works offline,
-     and every part is a node CSS can drive on its own. Each piece starts off its
-     mark and converges — the animation is defined entirely in core.css so this
-     stays markup. Reduced-motion users never see it; the preloader is
-     display:none for them. */
-  function cameraRigHTML() {
+  /* Boot readout. Replaced an exploded-view SVG camera that assembled itself:
+     83 lines of hand-rolled vector that read as an illustration rather than an
+     instrument, and sat wrong against a monospace, hard-edged system.
+
+     DESIGN-BRUTALIST.md §5 asks a loader to be a monospace character-cycle or a
+     block-fill bar, never a spinner or a shimmer. This is both.
+
+     The wordmark is not a decorative scramble on a timer — each character
+     resolves as real load progress passes its position, so the animation is
+     reporting state rather than performing. core.js drives it from the same rAF
+     that already owned the progress value. Reduced-motion users never see any of
+     it; the preloader is display:none for them. */
+  function bootReadoutHTML() {
     return `
-    <div class="prig" aria-hidden="true">
-      <svg class="prig__svg" viewBox="0 0 260 170" fill="none" xmlns="http://www.w3.org/2000/svg"
-           stroke-linecap="round" stroke-linejoin="round">
-        <!-- rear screen + articulating hinge + control cluster, from the right -->
-        <g class="prig__p prig__p--board">
-          <rect x="178" y="54" width="54" height="44" rx="3" stroke="currentColor" stroke-width="2"/>
-          <rect x="183" y="59" width="34" height="34" rx="1.5" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-          <path d="M178 62v28" stroke="currentColor" stroke-width="3" opacity=".7"/>
-          <circle cx="225" cy="66" r="4.5" stroke="currentColor" stroke-width="1.4" opacity=".65"/>
-          <circle cx="225" cy="66" r="1.2" fill="currentColor" opacity=".65"/>
-          <path d="M222 82h6M222 88h6" stroke="currentColor" stroke-width="1.4" opacity=".5"/>
-        </g>
-        <!-- sensor + mount contacts, sits behind the mount -->
-        <g class="prig__p prig__p--sensor">
-          <rect x="119" y="70" width="28" height="20" rx="1.5" stroke="currentColor" stroke-width="1.6" opacity=".8"/>
-          <path d="M119 74h-4M119 86h-4M147 74h4M147 86h4" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
-        </g>
-        <!-- top plate: mode dial, shutter, front dial, hotshoe -->
-        <g class="prig__p prig__p--top">
-          <path d="M96 40h66a3 3 0 0 1 3 3v7H96z" stroke="currentColor" stroke-width="2"/>
-          <!-- hotshoe with contact rail -->
-          <path d="M116 28h22v12h-22z" stroke="currentColor" stroke-width="2"/>
-          <path d="M120 33h14" stroke="currentColor" stroke-width="1.2" opacity=".6"/>
-          <!-- mode dial, knurled -->
-          <circle cx="153" cy="33" r="7.5" stroke="currentColor" stroke-width="2"/>
-          <path d="M153 25.5v3M153 37.5v3M145.5 33h3M157.5 33h3" stroke="currentColor" stroke-width="1.2" opacity=".7"/>
-          <!-- shutter release + front dial -->
-          <circle cx="104" cy="36" r="4" stroke="currentColor" stroke-width="1.8"/>
-          <circle cx="104" cy="36" r="1.6" fill="currentColor" opacity=".8"/>
-        </g>
-        <!-- EVF hump with eyecup -->
-        <g class="prig__p prig__p--finder">
-          <path d="M168 28h24a4 4 0 0 1 4 4v12h-32V32a4 4 0 0 1 4-4z" stroke="currentColor" stroke-width="2"/>
-          <ellipse cx="180" cy="24" rx="11" ry="5" stroke="currentColor" stroke-width="1.6" opacity=".75"/>
-        </g>
-        <!-- body: the anchor. contoured shell, mount ring, card door, lugs -->
-        <g class="prig__p prig__p--body">
-          <path d="M95 50h72a8 8 0 0 1 8 8v48a8 8 0 0 1-8 8H95a8 8 0 0 1-8-8V58a8 8 0 0 1 8-8z" stroke="currentColor" stroke-width="2"/>
-          <circle cx="133" cy="83" r="24" stroke="currentColor" stroke-width="2"/>
-          <circle cx="133" cy="83" r="18" stroke="currentColor" stroke-width="1.3" opacity=".55"/>
-          <!-- mount index dot -->
-          <circle cx="133" cy="57" r="2.2" fill="var(--red)"/>
-          <!-- strap lugs -->
-          <path d="M87 62h-5M180 62h5" stroke="currentColor" stroke-width="2.4"/>
-          <!-- card door seam -->
-          <path d="M163 96v14" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
-        </g>
-        <!-- deep contoured grip -->
-        <g class="prig__p prig__p--grip">
-          <path d="M87 54h-9a12 12 0 0 0-12 12v34a12 12 0 0 0 12 12h9" stroke="currentColor" stroke-width="2"/>
-          <path d="M72 72v22" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-        </g>
-        <!-- lens barrel: knurled zoom + focus rings, distance scale -->
-        <g class="prig__p prig__p--barrel">
-          <path d="M34 60h53v46H34a4 4 0 0 1-4-4V64a4 4 0 0 1 4-4z" stroke="currentColor" stroke-width="2"/>
-          <path d="M46 60v46M62 60v46" stroke="currentColor" stroke-width="1.6" opacity=".6"/>
-          <path d="M49 66v6M53 66v6M57 66v6M65 94v6M69 94v6M73 94v6" stroke="currentColor" stroke-width="1" opacity=".45"/>
-          <path d="M76 68h8" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-        </g>
-        <!-- front element with highlight -->
-        <g class="prig__p prig__p--glass1">
-          <ellipse cx="27" cy="83" rx="10" ry="20" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 72a16 16 0 0 0 0 22" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-        </g>
-        <!-- hood / rear element -->
-        <g class="prig__p prig__p--glass2">
-          <ellipse cx="13" cy="83" rx="8" ry="15" stroke="currentColor" stroke-width="2" opacity=".75"/>
-        </g>
-        <!-- loose hardware -->
-        <g class="prig__p prig__p--screws" opacity=".7">
-          <circle cx="100" cy="46" r="2" fill="currentColor"/>
-          <circle cx="172" cy="108" r="2" fill="currentColor"/>
-          <circle cx="82" cy="120" r="2" fill="currentColor"/>
-          <circle cx="200" cy="58" r="2" fill="currentColor"/>
-          <circle cx="60" cy="52" r="1.6" fill="currentColor"/>
-        </g>
-        <!-- shutter blink, fires once the body has seated -->
-        <circle class="prig__flash" cx="133" cy="83" r="7" fill="var(--red)"/>
-      </svg>
+    <div class="pboot">
+      <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks">THELASTCLICKS</div>
+      <div class="pboot__meter" aria-hidden="true">
+        <span class="pboot__blocks" data-pboot-blocks><i></i><b></b></span>
+        <span class="pboot__pct" data-pboot-pct>000</span>
+      </div>
     </div>`;
   }
 
@@ -297,9 +230,11 @@ window.TLC = (function(){
       <div class="curtain__panel"></div><div class="curtain__panel"></div><div class="curtain__panel"></div>
       <div class="curtain__mark"><span>TLC.</span></div>
     </div>
-    <div class="preloader">
+    <!-- role=status so the overlay announces itself; the churning counter is
+         aria-hidden inside so it does not spam a screen reader. -->
+    <div class="preloader" role="status" aria-label="Loading">
       <div class="preloader__inner">
-        ${cameraRigHTML()}
+        ${bootReadoutHTML()}
         <div class="preloader__bar"></div>
       </div>
     </div>

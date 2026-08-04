@@ -340,14 +340,50 @@ import { initScenes } from './scene';
         setTimeout(() => pre.remove(), 1000);
       }
     }, 1800);
+    // Boot readout. Each wordmark character resolves as progress passes its
+    // position, so the scramble reports load state instead of running on its own
+    // timer — nothing here animates independently of the value below.
+    const markEl = document.querySelector('[data-pboot-mark]');
+    const blocksEl = document.querySelector('[data-pboot-blocks]');
+    const pctEl = document.querySelector('[data-pboot-pct]');
+    const word = markEl ? markEl.textContent.trim() : '';
+    const NOISE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/\\';
+    const CELLS = 24;
+
+    const paint = (t) => {
+      if (markEl && word) {
+        const settled = Math.floor(t * word.length);
+        let out = '';
+        for (let i = 0; i < word.length; i++) {
+          out += i < settled ? word[i] : NOISE[(Math.random() * NOISE.length) | 0];
+        }
+        markEl.textContent = out;
+      }
+      if (blocksEl) {
+        const filled = Math.round(t * CELLS);
+        // Two runs, not one string: the remaining cells are structure, not a
+        // dimmer accent, so they carry the rule colour rather than red.
+        blocksEl.firstElementChild.textContent = '█'.repeat(filled);
+        blocksEl.lastElementChild.textContent = '░'.repeat(CELLS - filled);
+      }
+      if (pctEl) pctEl.textContent = String(Math.round(t * 100)).padStart(3, '0');
+    };
+
     if (preBar) {
       const dur = 1100;
       const start = performance.now();
       function step(now) {
-        const t = Math.min(1, (now - start) / dur);
+        // Clamped at both ends. rAF hands back the frame's start timestamp, which
+        // can precede the performance.now() captured just above it, so the first
+        // frame's t is often slightly negative. The bar hid that — a negative
+        // scaleX just clamps — but the block meter cannot repeat() a negative.
+        const t = Math.min(1, Math.max(0, (now - start) / dur));
         preBar.style.setProperty('--p', t);
+        paint(t);
         if (t < 1) requestAnimationFrame(step);
         else {
+          // Land on the real wordmark rather than whatever the last frame rounded to.
+          paint(1);
           clearTimeout(hardKill);
           setTimeout(() => {
             pre.classList.add('is-done');
