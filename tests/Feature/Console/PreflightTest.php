@@ -3,8 +3,14 @@
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
-    // A reachable media disk, so each test isolates the setting it cares about.
-    config(['media-library.disk_name' => 's3']);
+    // A reachable media disk WITH a public base URL, so each test isolates the
+    // setting it cares about. Faking the disk alone is not a healthy baseline:
+    // reachable and displayable are different things, and the url is what turns
+    // a stored key into something a browser can load.
+    config([
+        'media-library.disk_name' => 's3',
+        'filesystems.disks.s3.url' => 'https://cdn.thelastclicks.com',
+    ]);
     Storage::fake('s3');
 });
 
@@ -53,6 +59,35 @@ it('fails when the media disk cannot be reached', function () {
     asProduction(['media-library.disk_name' => 'does-not-exist']);
 
     $this->artisan('app:preflight')->assertExitCode(1);
+});
+
+it('fails when the media disk has no public url', function () {
+    // The disk is reachable, so checkMediaDisk() is happy — but with no url
+    // MediaUrl falls through to a direct bucket URL that 403s on a private
+    // bucket. This is the "images work locally, not on prod" shape: AWS_URL is
+    // set on the machine that works and missing on the one that does not.
+    asProduction(['filesystems.disks.s3.url' => null]);
+
+    $this->artisan('app:preflight')
+        ->expectsOutputToContain('do not serve this build publicly')
+        ->assertExitCode(1);
+});
+
+it('fails when the media disk url is not absolute', function () {
+    asProduction(['filesystems.disks.s3.url' => '/uploads']);
+
+    $this->artisan('app:preflight')->assertExitCode(1);
+});
+
+it('accepts the public disk without a configured url', function () {
+    // Served from the app origin, so there is nothing to configure. Asserted on
+    // this check's own output rather than the exit code: two other production
+    // checks fail in the test environment for unrelated reasons, so an exit-code
+    // assertion here would be testing those instead of this.
+    asProduction(['media-library.disk_name' => 'public']);
+
+    $this->artisan('app:preflight')
+        ->expectsOutputToContain('served from the app origin');
 });
 
 it('only warns about a local APP_URL outside production', function () {

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'google_analytics' => [
+        // Falls back to the studio's property so a deploy that forgets the env
+        // var still measures. Set GA_MEASUREMENT_ID to point a staging or
+        // client environment somewhere else.
+        'id' => env('GA_MEASUREMENT_ID', 'G-LHT5WBY4MR'),
+    ],
+
 ];

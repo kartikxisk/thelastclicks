@@ -32,6 +32,7 @@ class Preflight extends Command
         $this->checkDebug($isProduction);
         $this->checkRuntimeWritable($isProduction);
         $this->checkMediaDisk();
+        $this->checkMediaUrl();
         $this->checkQueue($isProduction);
 
         $this->newLine();
@@ -254,6 +255,44 @@ class Preflight extends Command
             // Uploads (client logos, industry media, work galleries) all land here.
             $this->fail_('Media disk', "{$disk} unreachable: ".$e->getMessage());
         }
+    }
+
+    /**
+     * The media disk being reachable is not the same as media being displayable.
+     *
+     * Credentials alone satisfy checkMediaDisk(), so a bucket with no AWS_URL
+     * passes it while every image on the site silently breaks: MediaUrl falls
+     * through to Storage::disk()->url(), which returns a direct bucket URL that
+     * 403s on a private bucket, and resolves the s3 driver on every page that
+     * shows media — the PortableVisibilityConverter crash the disk config warns
+     * about. Locally AWS_URL is usually set and prod is where it goes missing,
+     * which is exactly the "works on my machine" shape this is here to name.
+     */
+    protected function checkMediaUrl(): void
+    {
+        $disk = (string) config('media-library.disk_name', 'public');
+
+        if ($disk === 'public') {
+            $this->pass('Media URL', 'public disk — served from the app origin');
+
+            return;
+        }
+
+        $base = config("filesystems.disks.{$disk}.url");
+
+        if (! is_string($base) || trim($base) === '') {
+            $this->fail_('Media URL', "No url configured for the '{$disk}' disk (AWS_URL). Images will resolve to direct bucket URLs and 404/403.");
+
+            return;
+        }
+
+        if (! preg_match('~^https?://~i', $base)) {
+            $this->fail_('Media URL', "Disk '{$disk}' url is not absolute: {$base}");
+
+            return;
+        }
+
+        $this->pass('Media URL', $base);
     }
 
     protected function checkQueue(bool $isProduction): void

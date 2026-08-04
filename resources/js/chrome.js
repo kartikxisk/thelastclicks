@@ -569,7 +569,16 @@ window.TLC = (function(){
       cookies.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-cookies]');
         if (!btn) return;
-        localStorage.setItem('tlc-cookies', btn.dataset.cookies);
+        const choice = btn.dataset.cookies;
+        localStorage.setItem('tlc-cookies', choice);
+        // The choice has to reach the analytics tag or the banner is decoration:
+        // it was stored and never read, so "Only essential" changed nothing.
+        // Consent Mode starts denied in the layout; this is the only grant.
+        if (typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', {
+            analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
+          });
+        }
         cookies.classList.remove('is-open');
         cookies.setAttribute('aria-hidden','true');
       });
