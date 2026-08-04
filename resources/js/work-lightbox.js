@@ -35,7 +35,12 @@ export function initWorkLightbox() {
       el.src = item.url;
       el.controls = true;
       el.playsInline = true;
-      el.autoplay = true;
+      // Deliberately NOT autoplay. The attribute makes the browser attempt
+      // playback on insertion, judged against the autoplay policy without the
+      // click that opened the lightbox counting for it — so it was refused, and
+      // the fallback below muted the video for good. The explicit play() call
+      // runs inside the gesture, where sound is allowed.
+      el.muted = false;
     } else {
       el = document.createElement('img');
       el.src = item.url;
@@ -47,10 +52,12 @@ export function initWorkLightbox() {
     caption.textContent = item.caption || '';
 
     // Both entry points into render() are a click (opening a tile, or prev /
-    // next), so playback is inside a user gesture and sound is allowed. Safari
-    // still refuses unmuted autoplay in cases Chrome permits, so a rejection
-    // retries muted rather than leaving the viewer on a frozen first frame.
-    // Controls are on, so the sound is one click away.
+    // next), so this runs inside a user gesture and plays with sound.
+    //
+    // The muted retry is a genuine last resort, not the normal path: a platform
+    // that refuses sound here would otherwise leave the viewer looking at a
+    // frozen first frame. Controls are on, so sound is one click away when it
+    // does fire.
     if (el.tagName === 'VIDEO') {
       const started = el.play();
       if (started && typeof started.catch === 'function') {
