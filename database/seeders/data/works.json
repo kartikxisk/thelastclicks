@@ -1,0 +1,4593 @@
+[
+    {
+        "attributes": {
+            "title": "Northlight Launch Film",
+            "slug": "dev-northlight-launch-film",
+            "summary": "Placeholder summary for Northlight Launch Film. Development data \u2014 safe to delete.",
+            "client": "Northlight",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Mumbai",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 0,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Northlight Launch Film \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Northlight Launch Film \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Meridian Brand Campaign",
+            "slug": "dev-meridian-brand-campaign",
+            "summary": "Placeholder summary for Meridian Brand Campaign. Development data \u2014 safe to delete.",
+            "client": "Meridian Group",
+            "category": "commercial",
+            "crafts": "[\"colour\", \"vfx\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "New Delhi",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 1,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Meridian Brand Campaign \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Meridian Brand Campaign \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Meridian Brand Campaign \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Aurora Motors Reveal",
+            "slug": "dev-aurora-motors-reveal",
+            "summary": "Placeholder summary for Aurora Motors Reveal. Development data \u2014 safe to delete.",
+            "client": "Aurora Motors",
+            "category": "corporate",
+            "crafts": "[\"sound\", \"motion\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Bengaluru",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 2,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Aurora Motors Reveal \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Aurora Motors Reveal \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Saffron House Wedding",
+            "slug": "dev-saffron-house-wedding",
+            "summary": "Placeholder summary for Saffron House Wedding. Development data \u2014 safe to delete.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"vfx\", \"retouch\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Goa",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 3,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Saffron House Wedding \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Saffron House Wedding \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Saffron House Wedding \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Vertex Annual Summit",
+            "slug": "dev-vertex-annual-summit",
+            "summary": "Placeholder summary for Vertex Annual Summit. Development data \u2014 safe to delete.",
+            "client": "Vertex Industries",
+            "category": "product",
+            "crafts": "[\"motion\", \"edit\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Jaipur",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 4,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Vertex Annual Summit \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Vertex Annual Summit \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Halcyon Product Story",
+            "slug": "dev-halcyon-product-story",
+            "summary": "Placeholder summary for Halcyon Product Story. Development data \u2014 safe to delete.",
+            "client": "Halcyon",
+            "category": "event",
+            "crafts": "[\"retouch\", \"colour\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Hyderabad",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 5,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Halcyon Product Story \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Halcyon Product Story \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Halcyon Product Story \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Ember & Oak Editorial",
+            "slug": "dev-ember-oak-editorial",
+            "summary": "Placeholder summary for Ember & Oak Editorial. Development data \u2014 safe to delete.",
+            "client": "Ember & Oak",
+            "category": "editorial",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Chennai",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 6,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Ember & Oak Editorial \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Ember & Oak Editorial \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Bluewave Music Video",
+            "slug": "dev-bluewave-music-video",
+            "summary": "Placeholder summary for Bluewave Music Video. Development data \u2014 safe to delete.",
+            "client": "Bluewave Records",
+            "category": "music-video",
+            "crafts": "[\"colour\", \"vfx\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Udaipur",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 7,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Bluewave Music Video \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Bluewave Music Video \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Bluewave Music Video \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Copperfield Corporate Reel",
+            "slug": "dev-copperfield-corporate-reel",
+            "summary": "Placeholder summary for Copperfield Corporate Reel. Development data \u2014 safe to delete.",
+            "client": "Copperfield",
+            "category": "brand-film",
+            "crafts": "[\"sound\", \"motion\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Pune",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 8,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Copperfield Corporate Reel \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Copperfield Corporate Reel \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Lantern Festival Coverage",
+            "slug": "dev-lantern-festival-coverage",
+            "summary": "Placeholder summary for Lantern Festival Coverage. Development data \u2014 safe to delete.",
+            "client": "City of Lanterns",
+            "category": "commercial",
+            "crafts": "[\"vfx\", \"retouch\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Kolkata",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 9,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Lantern Festival Coverage \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Lantern Festival Coverage \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Lantern Festival Coverage \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Ironclad Defence Feature",
+            "slug": "dev-ironclad-defence-feature",
+            "summary": "Placeholder summary for Ironclad Defence Feature. Development data \u2014 safe to delete.",
+            "client": "Ministry of Defence",
+            "category": "corporate",
+            "crafts": "[\"motion\", \"edit\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Mumbai",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 10,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Ironclad Defence Feature \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Ironclad Defence Feature \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Sable Interiors Tour",
+            "slug": "dev-sable-interiors-tour",
+            "summary": "Placeholder summary for Sable Interiors Tour. Development data \u2014 safe to delete.",
+            "client": "Sable Studio",
+            "category": "wedding",
+            "crafts": "[\"retouch\", \"colour\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "New Delhi",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 11,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Sable Interiors Tour \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Sable Interiors Tour \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Sable Interiors Tour \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Quill Publishing Portrait",
+            "slug": "dev-quill-publishing-portrait",
+            "summary": "Placeholder summary for Quill Publishing Portrait. Development data \u2014 safe to delete.",
+            "client": "Northlight",
+            "category": "product",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Bengaluru",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 12,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Quill Publishing Portrait \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Quill Publishing Portrait \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Monsoon Collection Lookbook",
+            "slug": "dev-monsoon-collection-lookbook",
+            "summary": "Placeholder summary for Monsoon Collection Lookbook. Development data \u2014 safe to delete.",
+            "client": "Meridian Group",
+            "category": "event",
+            "crafts": "[\"colour\", \"vfx\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Goa",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 13,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Monsoon Collection Lookbook \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Monsoon Collection Lookbook \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Monsoon Collection Lookbook \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Granite Group Report",
+            "slug": "dev-granite-group-report",
+            "summary": "Placeholder summary for Granite Group Report. Development data \u2014 safe to delete.",
+            "client": "Aurora Motors",
+            "category": "editorial",
+            "crafts": "[\"sound\", \"motion\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Jaipur",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 14,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Granite Group Report \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Granite Group Report \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Willow Lane Ceremony",
+            "slug": "dev-willow-lane-ceremony",
+            "summary": "Placeholder summary for Willow Lane Ceremony. Development data \u2014 safe to delete.",
+            "client": "Private Client",
+            "category": "music-video",
+            "crafts": "[\"vfx\", \"retouch\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Hyderabad",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 15,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Willow Lane Ceremony \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Willow Lane Ceremony \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Willow Lane Ceremony \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Nightshift Club Sessions",
+            "slug": "dev-nightshift-club-sessions",
+            "summary": "Placeholder summary for Nightshift Club Sessions. Development data \u2014 safe to delete.",
+            "client": "Vertex Industries",
+            "category": "brand-film",
+            "crafts": "[\"motion\", \"edit\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Chennai",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 16,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Nightshift Club Sessions \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Nightshift Club Sessions \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Terra Firma Documentary",
+            "slug": "dev-terra-firma-documentary",
+            "summary": "Placeholder summary for Terra Firma Documentary. Development data \u2014 safe to delete.",
+            "client": "Halcyon",
+            "category": "commercial",
+            "crafts": "[\"retouch\", \"colour\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Udaipur",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 17,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Terra Firma Documentary \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Terra Firma Documentary \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Terra Firma Documentary \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Cobalt Watches Commercial",
+            "slug": "dev-cobalt-watches-commercial",
+            "summary": "Placeholder summary for Cobalt Watches Commercial. Development data \u2014 safe to delete.",
+            "client": "Ember & Oak",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Pune",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 18,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Cobalt Watches Commercial \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Cobalt Watches Commercial \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Harbour City Timelapse",
+            "slug": "dev-harbour-city-timelapse",
+            "summary": "Placeholder summary for Harbour City Timelapse. Development data \u2014 safe to delete.",
+            "client": "Bluewave Records",
+            "category": "wedding",
+            "crafts": "[\"colour\", \"vfx\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Kolkata",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 19,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Harbour City Timelapse \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Harbour City Timelapse \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Harbour City Timelapse \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Palladium Gala",
+            "slug": "dev-palladium-gala",
+            "summary": "Placeholder summary for Palladium Gala. Development data \u2014 safe to delete.",
+            "client": "Copperfield",
+            "category": "product",
+            "crafts": "[\"sound\", \"motion\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Mumbai",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 20,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Palladium Gala \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Palladium Gala \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Fern & Fig Restaurant Film",
+            "slug": "dev-fern-fig-restaurant-film",
+            "summary": "Placeholder summary for Fern & Fig Restaurant Film. Development data \u2014 safe to delete.",
+            "client": "City of Lanterns",
+            "category": "event",
+            "crafts": "[\"vfx\", \"retouch\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "New Delhi",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 21,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Fern & Fig Restaurant Film \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Fern & Fig Restaurant Film \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Fern & Fig Restaurant Film \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Skyline Realty Walkthrough",
+            "slug": "dev-skyline-realty-walkthrough",
+            "summary": "Placeholder summary for Skyline Realty Walkthrough. Development data \u2014 safe to delete.",
+            "client": "Ministry of Defence",
+            "category": "editorial",
+            "crafts": "[\"motion\", \"edit\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Bengaluru",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 22,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=R6MlUcmOul8",
+                    "caption": "Skyline Realty Walkthrough \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Skyline Realty Walkthrough \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Vanta Sportswear Spot",
+            "slug": "dev-vanta-sportswear-spot",
+            "summary": "Placeholder summary for Vanta Sportswear Spot. Development data \u2014 safe to delete.",
+            "client": "Sable Studio",
+            "category": "music-video",
+            "crafts": "[\"retouch\", \"colour\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Goa",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 23,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=TLkA0RELQ1g",
+                    "caption": "Vanta Sportswear Spot \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Vanta Sportswear Spot \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Vanta Sportswear Spot \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Solstice Retreat Story",
+            "slug": "dev-solstice-retreat-story",
+            "summary": "Placeholder summary for Solstice Retreat Story. Development data \u2014 safe to delete.",
+            "client": "Northlight",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Jaipur",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 24,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=Y-rmzh0PI3c",
+                    "caption": "Solstice Retreat Story \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Solstice Retreat Story \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Kestrel Aviation Feature",
+            "slug": "dev-kestrel-aviation-feature",
+            "summary": "Placeholder summary for Kestrel Aviation Feature. Development data \u2014 safe to delete.",
+            "client": "Meridian Group",
+            "category": "commercial",
+            "crafts": "[\"colour\", \"vfx\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Hyderabad",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 25,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=WhWc3b3KhnY",
+                    "caption": "Kestrel Aviation Feature \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Kestrel Aviation Feature \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Kestrel Aviation Feature \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Marble Arch Fashion Week",
+            "slug": "dev-marble-arch-fashion-week",
+            "summary": "Placeholder summary for Marble Arch Fashion Week. Development data \u2014 safe to delete.",
+            "client": "Aurora Motors",
+            "category": "corporate",
+            "crafts": "[\"sound\", \"motion\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Chennai",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2024",
+            "order": 26,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=mN0zPOpADL4",
+                    "caption": "Marble Arch Fashion Week \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Marble Arch Fashion Week \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Driftwood Coastal Series",
+            "slug": "dev-driftwood-coastal-series",
+            "summary": "Placeholder summary for Driftwood Coastal Series. Development data \u2014 safe to delete.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"vfx\", \"retouch\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Udaipur",
+            "agency": "In-house",
+            "preview_video_url": null,
+            "year": "2023",
+            "order": 27,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=UXqq0ZvbOnk",
+                    "caption": "Driftwood Coastal Series \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Driftwood Coastal Series \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Driftwood Coastal Series \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Union Square Activation",
+            "slug": "dev-union-square-activation",
+            "summary": "Placeholder summary for Union Square Activation. Development data \u2014 safe to delete.",
+            "client": "Vertex Industries",
+            "category": "product",
+            "crafts": "[\"motion\", \"edit\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Pune",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2026",
+            "order": 28,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=pKmSdY56VtY",
+                    "caption": "Union Square Activation \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Union Square Activation \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Zenith Tech Keynote",
+            "slug": "dev-zenith-tech-keynote",
+            "summary": "Placeholder summary for Zenith Tech Keynote. Development data \u2014 safe to delete.",
+            "client": "Halcyon",
+            "category": "event",
+            "crafts": "[\"retouch\", \"colour\"]",
+            "credits": "[{\"name\": \"A. Placeholder\", \"role\": \"Director\"}, {\"name\": \"B. Placeholder\", \"role\": \"DOP\"}]",
+            "location": "Kolkata",
+            "agency": null,
+            "preview_video_url": null,
+            "year": "2025",
+            "order": 29,
+            "is_published": 0,
+            "is_featured": 0
+        },
+        "media": [],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=lqiN98z6Dak",
+                    "caption": "Zenith Tech Keynote \u2014 frame 1",
+                    "order": 0
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=YE7VzlLtp-4",
+                    "caption": "Zenith Tech Keynote \u2014 frame 2",
+                    "order": 1
+                },
+                "media": []
+            },
+            {
+                "attributes": {
+                    "type": "youtube",
+                    "youtube_url": "https://www.youtube.com/watch?v=eRsGyueVLvQ",
+                    "caption": "Zenith Tech Keynote \u2014 frame 3",
+                    "order": 2
+                },
+                "media": []
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Event Anchor Reel",
+            "slug": "anchor-anchor-revised-karna-hai",
+            "summary": "Event Anchoring \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-anchor-revised-karna-hai.mp4",
+            "year": "2026",
+            "order": 30,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 2,
+                "collection_name": "cover",
+                "name": "anchor-anchor-revised-karna-hai",
+                "file_name": "anchor-anchor-revised-karna-hai.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 301020,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Event Anchor Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 3,
+                        "collection_name": "file",
+                        "name": "anchor-anchor-revised-karna-hai",
+                        "file_name": "anchor-anchor-revised-karna-hai.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 38119034,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Engagement Anchor Reel",
+            "slug": "anchor-engagement-final-1",
+            "summary": "Event Anchoring \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-engagement-final-1.mp4",
+            "year": "2026",
+            "order": 31,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 4,
+                "collection_name": "cover",
+                "name": "anchor-engagement-final-1",
+                "file_name": "anchor-engagement-final-1.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 230754,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Engagement Anchor Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 5,
+                        "collection_name": "file",
+                        "name": "anchor-engagement-final-1",
+                        "file_name": "anchor-engagement-final-1.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 47138555,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Haldi Ceremony Reel",
+            "slug": "anchor-haldi-reel-draft",
+            "summary": "Event Anchoring \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-haldi-reel-draft.mp4",
+            "year": "2026",
+            "order": 32,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 6,
+                "collection_name": "cover",
+                "name": "anchor-haldi-reel-draft",
+                "file_name": "anchor-haldi-reel-draft.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 220806,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Haldi Ceremony Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 7,
+                        "collection_name": "file",
+                        "name": "anchor-haldi-reel-draft",
+                        "file_name": "anchor-haldi-reel-draft.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 49680460,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Kiran \u2014 Anchor Showreel",
+            "slug": "anchor-kiran-draft-04",
+            "summary": "Event Anchoring \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/anchor-kiran-draft-04.mp4",
+            "year": "2026",
+            "order": 33,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 8,
+                "collection_name": "cover",
+                "name": "anchor-kiran-draft-04",
+                "file_name": "anchor-kiran-draft-04.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 163280,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Kiran \u2014 Anchor Showreel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 9,
+                        "collection_name": "file",
+                        "name": "anchor-kiran-draft-04",
+                        "file_name": "anchor-kiran-draft-04.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 41889324,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Birthday Film",
+            "slug": "birthday-birthday-edit",
+            "summary": "Birthday & Celebration \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-birthday-edit.mp4",
+            "year": "2026",
+            "order": 34,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 10,
+                "collection_name": "cover",
+                "name": "birthday-birthday-edit",
+                "file_name": "birthday-birthday-edit.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 177564,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Birthday Film",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 11,
+                        "collection_name": "file",
+                        "name": "birthday-birthday-edit",
+                        "file_name": "birthday-birthday-edit.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 56329130,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Birthday Celebration",
+            "slug": "birthday-birthday",
+            "summary": "Birthday & Celebration \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-birthday.mp4",
+            "year": "2026",
+            "order": 35,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 12,
+                "collection_name": "cover",
+                "name": "birthday-birthday",
+                "file_name": "birthday-birthday.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 185498,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Birthday Celebration",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 13,
+                        "collection_name": "file",
+                        "name": "birthday-birthday",
+                        "file_name": "birthday-birthday.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 47013984,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Birthday Reel",
+            "slug": "birthday-reel-bday",
+            "summary": "Birthday & Celebration \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-reel-bday.mp4",
+            "year": "2026",
+            "order": 36,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 14,
+                "collection_name": "cover",
+                "name": "birthday-reel-bday",
+                "file_name": "birthday-reel-bday.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 76255,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Birthday Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 15,
+                        "collection_name": "file",
+                        "name": "birthday-reel-bday",
+                        "file_name": "birthday-reel-bday.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 58167366,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Ruhaan's Birthday",
+            "slug": "birthday-ruhaan-bdy",
+            "summary": "Birthday & Celebration \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/birthday-ruhaan-bdy.mp4",
+            "year": "2026",
+            "order": 37,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 16,
+                "collection_name": "cover",
+                "name": "birthday-ruhaan-bdy",
+                "file_name": "birthday-ruhaan-bdy.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 113712,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Ruhaan's Birthday",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 17,
+                        "collection_name": "file",
+                        "name": "birthday-ruhaan-bdy",
+                        "file_name": "birthday-ruhaan-bdy.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 22691483,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Mercedes-Benz",
+            "slug": "brands-mercedes-2-out",
+            "summary": "Automobile & Luxury \u2014 shot, cut and graded in-house.",
+            "client": "Mercedes-Benz",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-mercedes-2-out.mp4",
+            "year": "2026",
+            "order": 38,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 18,
+                "collection_name": "cover",
+                "name": "brands-mercedes-2-out",
+                "file_name": "brands-mercedes-2-out.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 268428,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Mercedes-Benz",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 19,
+                        "collection_name": "file",
+                        "name": "brands-mercedes-2-out",
+                        "file_name": "brands-mercedes-2-out.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 25353633,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Range Rover \u00d7 Godawan",
+            "slug": "brands-range-rover-godwan-diageo",
+            "summary": "Automobile & Luxury \u2014 shot, cut and graded in-house.",
+            "client": "Range Rover",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-range-rover-godwan-diageo.mp4",
+            "year": "2026",
+            "order": 39,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 20,
+                "collection_name": "cover",
+                "name": "brands-range-rover-godwan-diageo",
+                "file_name": "brands-range-rover-godwan-diageo.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 121811,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Range Rover \u00d7 Godawan",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 21,
+                        "collection_name": "file",
+                        "name": "brands-range-rover-godwan-diageo",
+                        "file_name": "brands-range-rover-godwan-diageo.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 18979779,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "The Singleton",
+            "slug": "brands-the-singleton-final",
+            "summary": "Automobile & Luxury \u2014 shot, cut and graded in-house.",
+            "client": "The Singleton",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/brands-the-singleton-final.mp4",
+            "year": "2026",
+            "order": 40,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 22,
+                "collection_name": "cover",
+                "name": "brands-the-singleton-final",
+                "file_name": "brands-the-singleton-final.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 139461,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "The Singleton",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 23,
+                        "collection_name": "file",
+                        "name": "brands-the-singleton-final",
+                        "file_name": "brands-the-singleton-final.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 21199087,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Galaziio, Delhi",
+            "slug": "clubbing-bar-galaziio-delhi",
+            "summary": "Nightlife & Bars \u2014 shot, cut and graded in-house.",
+            "client": "Galaziio",
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-galaziio-delhi.mp4",
+            "year": "2026",
+            "order": 41,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 24,
+                "collection_name": "cover",
+                "name": "clubbing-bar-galaziio-delhi",
+                "file_name": "clubbing-bar-galaziio-delhi.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 72749,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Galaziio, Delhi",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 25,
+                        "collection_name": "file",
+                        "name": "clubbing-bar-galaziio-delhi",
+                        "file_name": "clubbing-bar-galaziio-delhi.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 19555723,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "MM Nightclub",
+            "slug": "clubbing-bar-mm-reel",
+            "summary": "Nightlife & Bars \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-mm-reel.mp4",
+            "year": "2026",
+            "order": 42,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 26,
+                "collection_name": "cover",
+                "name": "clubbing-bar-mm-reel",
+                "file_name": "clubbing-bar-mm-reel.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 63708,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "MM Nightclub",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 27,
+                        "collection_name": "file",
+                        "name": "clubbing-bar-mm-reel",
+                        "file_name": "clubbing-bar-mm-reel.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 16602068,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Roma Band, Live",
+            "slug": "clubbing-bar-roma-band-v2",
+            "summary": "Nightlife & Bars \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-roma-band-v2.mp4",
+            "year": "2026",
+            "order": 43,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 28,
+                "collection_name": "cover",
+                "name": "clubbing-bar-roma-band-v2",
+                "file_name": "clubbing-bar-roma-band-v2.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 128317,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Roma Band, Live",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 29,
+                        "collection_name": "file",
+                        "name": "clubbing-bar-roma-band-v2",
+                        "file_name": "clubbing-bar-roma-band-v2.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 16520115,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Club Night",
+            "slug": "clubbing-bar-clubbing",
+            "summary": "Nightlife & Bars \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/clubbing-bar-clubbing.mp4",
+            "year": "2026",
+            "order": 44,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 30,
+                "collection_name": "cover",
+                "name": "clubbing-bar-clubbing",
+                "file_name": "clubbing-bar-clubbing.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 84993,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Club Night",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 31,
+                        "collection_name": "file",
+                        "name": "clubbing-bar-clubbing",
+                        "file_name": "clubbing-bar-clubbing.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 24476197,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Javed Ali, Live",
+            "slug": "concert-artist-javed-ali-draft-02",
+            "summary": "Concerts & Artists \u2014 shot, cut and graded in-house.",
+            "client": "Javed Ali",
+            "category": "music-video",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/concert-artist-javed-ali-draft-02.mp4",
+            "year": "2026",
+            "order": 45,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 32,
+                "collection_name": "cover",
+                "name": "concert-artist-javed-ali-draft-02",
+                "file_name": "concert-artist-javed-ali-draft-02.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 123787,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Javed Ali, Live",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 33,
+                        "collection_name": "file",
+                        "name": "concert-artist-javed-ali-draft-02",
+                        "file_name": "concert-artist-javed-ali-draft-02.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 28004807,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Molecule",
+            "slug": "concert-artist-molecule-final-copy",
+            "summary": "Concerts & Artists \u2014 shot, cut and graded in-house.",
+            "client": "Molecule",
+            "category": "music-video",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/concert-artist-molecule-final-copy.mp4",
+            "year": "2026",
+            "order": 46,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 34,
+                "collection_name": "cover",
+                "name": "concert-artist-molecule-final-copy",
+                "file_name": "concert-artist-molecule-final-copy.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 171317,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Molecule",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 35,
+                        "collection_name": "file",
+                        "name": "concert-artist-molecule-final-copy",
+                        "file_name": "concert-artist-molecule-final-copy.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 26340185,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Decor Film I",
+            "slug": "decor-shoots-deco-1st",
+            "summary": "Decor & Set Design \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-deco-1st.mp4",
+            "year": "2026",
+            "order": 47,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 36,
+                "collection_name": "cover",
+                "name": "decor-shoots-deco-1st",
+                "file_name": "decor-shoots-deco-1st.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 226210,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Decor Film I",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 37,
+                        "collection_name": "file",
+                        "name": "decor-shoots-deco-1st",
+                        "file_name": "decor-shoots-deco-1st.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 22161293,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Decor Film II",
+            "slug": "decor-shoots-deco-2nd",
+            "summary": "Decor & Set Design \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-deco-2nd.mp4",
+            "year": "2026",
+            "order": 48,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 38,
+                "collection_name": "cover",
+                "name": "decor-shoots-deco-2nd",
+                "file_name": "decor-shoots-deco-2nd.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 360296,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Decor Film II",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 39,
+                        "collection_name": "file",
+                        "name": "decor-shoots-deco-2nd",
+                        "file_name": "decor-shoots-deco-2nd.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 17397149,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Decor Reel",
+            "slug": "decor-shoots-decore-reels",
+            "summary": "Decor & Set Design \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/decor-shoots-decore-reels.mp4",
+            "year": "2026",
+            "order": 49,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 40,
+                "collection_name": "cover",
+                "name": "decor-shoots-decore-reels",
+                "file_name": "decor-shoots-decore-reels.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 242619,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Decor Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 41,
+                        "collection_name": "file",
+                        "name": "decor-shoots-decore-reels",
+                        "file_name": "decor-shoots-decore-reels.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 9435065,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Aarayans by Reet",
+            "slug": "designer-aarayans-by-reet",
+            "summary": "Fashion & Designers \u2014 shot, cut and graded in-house.",
+            "client": "Aarayans by Reet",
+            "category": "editorial",
+            "crafts": "[\"edit\", \"colour\", \"retouch\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/designer-aarayans-by-reet.mp4",
+            "year": "2026",
+            "order": 50,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 42,
+                "collection_name": "cover",
+                "name": "designer-aarayans-by-reet",
+                "file_name": "designer-aarayans-by-reet.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 160531,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Aarayans by Reet",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 43,
+                        "collection_name": "file",
+                        "name": "designer-aarayans-by-reet",
+                        "file_name": "designer-aarayans-by-reet.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 11800481,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Karena & Lakshay \u2014 Engagement",
+            "slug": "engagement-karena-and-lakshay-engagement",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/engagement-karena-and-lakshay-engagement.mp4",
+            "year": "2026",
+            "order": 51,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 44,
+                "collection_name": "cover",
+                "name": "engagement-karena-and-lakshay-engagement",
+                "file_name": "engagement-karena-and-lakshay-engagement.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 102861,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Karena & Lakshay \u2014 Engagement",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 45,
+                        "collection_name": "file",
+                        "name": "engagement-karena-and-lakshay-engagement",
+                        "file_name": "engagement-karena-and-lakshay-engagement.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 25844082,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Johnnie Walker, Udaipur",
+            "slug": "fashion-show-jhonee-walker-udaipur-2026",
+            "summary": "Fashion & Designers \u2014 shot, cut and graded in-house.",
+            "client": "Johnnie Walker",
+            "category": "editorial",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/fashion-show-jhonee-walker-udaipur-2026.mp4",
+            "year": "2026",
+            "order": 52,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 46,
+                "collection_name": "cover",
+                "name": "fashion-show-jhonee-walker-udaipur-2026",
+                "file_name": "fashion-show-jhonee-walker-udaipur-2026.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 154044,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Johnnie Walker, Udaipur",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 47,
+                        "collection_name": "file",
+                        "name": "fashion-show-jhonee-walker-udaipur-2026",
+                        "file_name": "fashion-show-jhonee-walker-udaipur-2026.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 22593511,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Lohri",
+            "slug": "festival-lohri-edit",
+            "summary": "Festivals \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "event",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/festival-lohri-edit.mp4",
+            "year": "2026",
+            "order": 53,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 48,
+                "collection_name": "cover",
+                "name": "festival-lohri-edit",
+                "file_name": "festival-lohri-edit.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 168171,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Lohri",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 49,
+                        "collection_name": "file",
+                        "name": "festival-lohri-edit",
+                        "file_name": "festival-lohri-edit.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 34294434,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Motion Graphics Reel",
+            "slug": "motion-graphic-motion-graphics",
+            "summary": "Motion Graphics \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "brand-film",
+            "crafts": "[\"motion\", \"vfx\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/motion-graphic-motion-graphics.mp4",
+            "year": "2026",
+            "order": 53,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 110,
+                "collection_name": "cover",
+                "name": "tlc-import-dgjerts5vumr92MLgXK",
+                "file_name": "motion-graphic-motion-graphics.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 129584,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Motion Graphics Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 111,
+                        "collection_name": "file",
+                        "name": "tlc-import-pt1sp9uks3173nlNUnz",
+                        "file_name": "motion-graphic-motion-graphics.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 984528,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Black Dog \u00d7 CSD, INS",
+            "slug": "ins-navy-csd-diageo-black-dog-ins",
+            "summary": "Defence & Institutional \u2014 shot, cut and graded in-house.",
+            "client": "Black Dog",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-csd-diageo-black-dog-ins.mp4",
+            "year": "2026",
+            "order": 54,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 50,
+                "collection_name": "cover",
+                "name": "ins-navy-csd-diageo-black-dog-ins",
+                "file_name": "ins-navy-csd-diageo-black-dog-ins.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 168885,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Black Dog \u00d7 CSD, INS",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 51,
+                        "collection_name": "file",
+                        "name": "ins-navy-csd-diageo-black-dog-ins",
+                        "file_name": "ins-navy-csd-diageo-black-dog-ins.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 28410529,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Dandiya Night, INS Navy",
+            "slug": "ins-navy-dandia-night-story-ins-navy-2025",
+            "summary": "Defence & Institutional \u2014 shot, cut and graded in-house.",
+            "client": "INS Navy",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-dandia-night-story-ins-navy-2025.mp4",
+            "year": "2025",
+            "order": 55,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 52,
+                "collection_name": "cover",
+                "name": "ins-navy-dandia-night-story-ins-navy-2025",
+                "file_name": "ins-navy-dandia-night-story-ins-navy-2025.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 127653,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Dandiya Night, INS Navy",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 53,
+                        "collection_name": "file",
+                        "name": "ins-navy-dandia-night-story-ins-navy-2025",
+                        "file_name": "ins-navy-dandia-night-story-ins-navy-2025.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 55122969,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Hawein Night, INS Navy",
+            "slug": "ins-navy-hawein-night-2025",
+            "summary": "Defence & Institutional \u2014 shot, cut and graded in-house.",
+            "client": "INS Navy",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-hawein-night-2025.mp4",
+            "year": "2025",
+            "order": 56,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 54,
+                "collection_name": "cover",
+                "name": "ins-navy-hawein-night-2025",
+                "file_name": "ins-navy-hawein-night-2025.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 276602,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Hawein Night, INS Navy",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 55,
+                        "collection_name": "file",
+                        "name": "ins-navy-hawein-night-2025",
+                        "file_name": "ins-navy-hawein-night-2025.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 62385414,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Navy Event Film",
+            "slug": "ins-navy-navy-event-final",
+            "summary": "Defence & Institutional \u2014 shot, cut and graded in-house.",
+            "client": "INS Navy",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/ins-navy-navy-event-final.mp4",
+            "year": "2026",
+            "order": 57,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 56,
+                "collection_name": "cover",
+                "name": "ins-navy-navy-event-final",
+                "file_name": "ins-navy-navy-event-final.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 172900,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Navy Event Film",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 57,
+                        "collection_name": "file",
+                        "name": "ins-navy-navy-event-final",
+                        "file_name": "ins-navy-navy-event-final.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 49279268,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Real Estate Creator Reel",
+            "slug": "influnancer-real-state1-3",
+            "summary": "Creators & Influencers \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "editorial",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/influnancer-real-state1-3.mp4",
+            "year": "2026",
+            "order": 58,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 58,
+                "collection_name": "cover",
+                "name": "influnancer-real-state1-3",
+                "file_name": "influnancer-real-state1-3.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 179894,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Real Estate Creator Reel",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 59,
+                        "collection_name": "file",
+                        "name": "influnancer-real-state1-3",
+                        "file_name": "influnancer-real-state1-3.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 17219423,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Ramboll Office",
+            "slug": "interior-shoots-ramboll-interior",
+            "summary": "Spaces & Interiors \u2014 shot, cut and graded in-house.",
+            "client": "Ramboll",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-ramboll-interior.mp4",
+            "year": "2026",
+            "order": 59,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 60,
+                "collection_name": "cover",
+                "name": "interior-shoots-ramboll-interior",
+                "file_name": "interior-shoots-ramboll-interior.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 91910,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Ramboll Office",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 61,
+                        "collection_name": "file",
+                        "name": "interior-shoots-ramboll-interior",
+                        "file_name": "interior-shoots-ramboll-interior.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 32106399,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "TaskUs, Gurugram",
+            "slug": "interior-shoots-taskus-gurugram-interior",
+            "summary": "Spaces & Interiors \u2014 shot, cut and graded in-house.",
+            "client": "TaskUs",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-taskus-gurugram-interior.mp4",
+            "year": "2026",
+            "order": 60,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 62,
+                "collection_name": "cover",
+                "name": "interior-shoots-taskus-gurugram-interior",
+                "file_name": "interior-shoots-taskus-gurugram-interior.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 302382,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "TaskUs, Gurugram",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 63,
+                        "collection_name": "file",
+                        "name": "interior-shoots-taskus-gurugram-interior",
+                        "file_name": "interior-shoots-taskus-gurugram-interior.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 25765613,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Asha Ram & Sons",
+            "slug": "interior-shoots-asha-ram-sons-pvt-ltd",
+            "summary": "Spaces & Interiors \u2014 shot, cut and graded in-house.",
+            "client": "Asha Ram & Sons",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-asha-ram-sons-pvt-ltd.mp4",
+            "year": "2026",
+            "order": 61,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 64,
+                "collection_name": "cover",
+                "name": "interior-shoots-asha-ram-sons-pvt-ltd",
+                "file_name": "interior-shoots-asha-ram-sons-pvt-ltd.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 276553,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Asha Ram & Sons",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 65,
+                        "collection_name": "file",
+                        "name": "interior-shoots-asha-ram-sons-pvt-ltd",
+                        "file_name": "interior-shoots-asha-ram-sons-pvt-ltd.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 10509261,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Stallion Universal",
+            "slug": "interior-shoots-stallion-universal-interior",
+            "summary": "Spaces & Interiors \u2014 shot, cut and graded in-house.",
+            "client": "Stallion Universal",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/interior-shoots-stallion-universal-interior.mp4",
+            "year": "2026",
+            "order": 62,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 66,
+                "collection_name": "cover",
+                "name": "interior-shoots-stallion-universal-interior",
+                "file_name": "interior-shoots-stallion-universal-interior.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 126396,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Stallion Universal",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 67,
+                        "collection_name": "file",
+                        "name": "interior-shoots-stallion-universal-interior",
+                        "file_name": "interior-shoots-stallion-universal-interior.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 39710645,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Godawan \u00d7 Johnnie Walker",
+            "slug": "liquor-industry-godawan-jonnie-walker",
+            "summary": "Lifestyle & Beverage \u2014 shot, cut and graded in-house.",
+            "client": "Godawan",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-godawan-jonnie-walker.mp4",
+            "year": "2026",
+            "order": 63,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 68,
+                "collection_name": "cover",
+                "name": "liquor-industry-godawan-jonnie-walker",
+                "file_name": "liquor-industry-godawan-jonnie-walker.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 26367,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Godawan \u00d7 Johnnie Walker",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 69,
+                        "collection_name": "file",
+                        "name": "liquor-industry-godawan-jonnie-walker",
+                        "file_name": "liquor-industry-godawan-jonnie-walker.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 19948207,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Don Julio, Jaipur",
+            "slug": "liquor-industry-donjulio-jaipur",
+            "summary": "Lifestyle & Beverage \u2014 shot, cut and graded in-house.",
+            "client": "Don Julio",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-donjulio-jaipur.mp4",
+            "year": "2026",
+            "order": 64,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 70,
+                "collection_name": "cover",
+                "name": "liquor-industry-donjulio-jaipur",
+                "file_name": "liquor-industry-donjulio-jaipur.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 61514,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Don Julio, Jaipur",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 71,
+                        "collection_name": "file",
+                        "name": "liquor-industry-donjulio-jaipur",
+                        "file_name": "liquor-industry-donjulio-jaipur.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 20167052,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Tanqueray",
+            "slug": "liquor-industry-tanqueray",
+            "summary": "Lifestyle & Beverage \u2014 shot, cut and graded in-house.",
+            "client": "Tanqueray",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-tanqueray.mp4",
+            "year": "2026",
+            "order": 65,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 72,
+                "collection_name": "cover",
+                "name": "liquor-industry-tanqueray",
+                "file_name": "liquor-industry-tanqueray.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 262952,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Tanqueray",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 73,
+                        "collection_name": "file",
+                        "name": "liquor-industry-tanqueray",
+                        "file_name": "liquor-industry-tanqueray.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 22156923,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Chivas \u2014 Raise the Bar",
+            "slug": "liquor-industry-chivas-raise-the-bar",
+            "summary": "Lifestyle & Beverage \u2014 shot, cut and graded in-house.",
+            "client": "Chivas Regal",
+            "category": "commercial",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/liquor-industry-chivas-raise-the-bar.mp4",
+            "year": "2026",
+            "order": 66,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 74,
+                "collection_name": "cover",
+                "name": "liquor-industry-chivas-raise-the-bar",
+                "file_name": "liquor-industry-chivas-raise-the-bar.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 105212,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Chivas \u2014 Raise the Bar",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 75,
+                        "collection_name": "file",
+                        "name": "liquor-industry-chivas-raise-the-bar",
+                        "file_name": "liquor-industry-chivas-raise-the-bar.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 22019061,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Podcast B-roll",
+            "slug": "podcast-b-roll-new-project-3-6f64237",
+            "summary": "Podcast & Long-form \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "corporate",
+            "crafts": "[\"edit\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/podcast-b-roll-new-project-3-6f64237.mp4",
+            "year": "2026",
+            "order": 67,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 76,
+                "collection_name": "cover",
+                "name": "podcast-b-roll-new-project-3-6f64237",
+                "file_name": "podcast-b-roll-new-project-3-6f64237.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 92765,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Podcast B-roll",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 77,
+                        "collection_name": "file",
+                        "name": "podcast-b-roll-new-project-3-6f64237",
+                        "file_name": "podcast-b-roll-new-project-3-6f64237.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 23797099,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Pramod & Pooja \u2014 Pre-wedding",
+            "slug": "prewedding-pramod-pooja-pre-wedding",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/prewedding-pramod-pooja-pre-wedding.mp4",
+            "year": "2026",
+            "order": 68,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 78,
+                "collection_name": "cover",
+                "name": "prewedding-pramod-pooja-pre-wedding",
+                "file_name": "prewedding-pramod-pooja-pre-wedding.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 107994,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Pramod & Pooja \u2014 Pre-wedding",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 79,
+                        "collection_name": "file",
+                        "name": "prewedding-pramod-pooja-pre-wedding",
+                        "file_name": "prewedding-pramod-pooja-pre-wedding.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 121260076,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Amiri Store Launch",
+            "slug": "store-brand-launch-amiri-sample",
+            "summary": "Store & Brand Launch \u2014 shot, cut and graded in-house.",
+            "client": "Amiri",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-amiri-sample.mp4",
+            "year": "2026",
+            "order": 69,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 80,
+                "collection_name": "cover",
+                "name": "store-brand-launch-amiri-sample",
+                "file_name": "store-brand-launch-amiri-sample.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 169274,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Amiri Store Launch",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 81,
+                        "collection_name": "file",
+                        "name": "store-brand-launch-amiri-sample",
+                        "file_name": "store-brand-launch-amiri-sample.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 21870339,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Lalit Dalmia",
+            "slug": "store-brand-launch-lalit-dalmia-reel",
+            "summary": "Store & Brand Launch \u2014 shot, cut and graded in-house.",
+            "client": "Lalit Dalmia",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-lalit-dalmia-reel.mp4",
+            "year": "2026",
+            "order": 70,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 82,
+                "collection_name": "cover",
+                "name": "store-brand-launch-lalit-dalmia-reel",
+                "file_name": "store-brand-launch-lalit-dalmia-reel.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 248220,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Lalit Dalmia",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 83,
+                        "collection_name": "file",
+                        "name": "store-brand-launch-lalit-dalmia-reel",
+                        "file_name": "store-brand-launch-lalit-dalmia-reel.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 10433110,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Mepta Golf",
+            "slug": "store-brand-launch-mepta-golf",
+            "summary": "Store & Brand Launch \u2014 shot, cut and graded in-house.",
+            "client": "Mepta Golf",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-mepta-golf.mp4",
+            "year": "2026",
+            "order": 71,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 84,
+                "collection_name": "cover",
+                "name": "store-brand-launch-mepta-golf",
+                "file_name": "store-brand-launch-mepta-golf.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 359003,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Mepta Golf",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 85,
+                        "collection_name": "file",
+                        "name": "store-brand-launch-mepta-golf",
+                        "file_name": "store-brand-launch-mepta-golf.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 35876484,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Priv\u00e9",
+            "slug": "store-brand-launch-prive-3",
+            "summary": "Store & Brand Launch \u2014 shot, cut and graded in-house.",
+            "client": "Priv\u00e9",
+            "category": "brand-film",
+            "crafts": "[\"edit\", \"colour\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/store-brand-launch-prive-3.mp4",
+            "year": "2026",
+            "order": 72,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 86,
+                "collection_name": "cover",
+                "name": "store-brand-launch-prive-3",
+                "file_name": "store-brand-launch-prive-3.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 210529,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Priv\u00e9",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 87,
+                        "collection_name": "file",
+                        "name": "store-brand-launch-prive-3",
+                        "file_name": "store-brand-launch-prive-3.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 36790648,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Wedding Film",
+            "slug": "wedding-wedding",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-wedding.mp4",
+            "year": "2026",
+            "order": 73,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 88,
+                "collection_name": "cover",
+                "name": "wedding-wedding",
+                "file_name": "wedding-wedding.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 175916,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Wedding Film",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 89,
+                        "collection_name": "file",
+                        "name": "wedding-wedding",
+                        "file_name": "wedding-wedding.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 36705123,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Ankush \u2014 Wedding Film",
+            "slug": "wedding-ankush-wedding",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-ankush-wedding.mp4",
+            "year": "2026",
+            "order": 74,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 90,
+                "collection_name": "cover",
+                "name": "wedding-ankush-wedding",
+                "file_name": "wedding-ankush-wedding.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 106931,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Ankush \u2014 Wedding Film",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 91,
+                        "collection_name": "file",
+                        "name": "wedding-ankush-wedding",
+                        "file_name": "wedding-ankush-wedding.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 57813816,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Anushka & Antus \u2014 Wedding Film",
+            "slug": "wedding-anushka-antus-main-video",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-anushka-antus-main-video.mp4",
+            "year": "2026",
+            "order": 75,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 92,
+                "collection_name": "cover",
+                "name": "wedding-anushka-antus-main-video",
+                "file_name": "wedding-anushka-antus-main-video.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 213030,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Anushka & Antus \u2014 Wedding Film",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 93,
+                        "collection_name": "file",
+                        "name": "wedding-anushka-antus-main-video",
+                        "file_name": "wedding-anushka-antus-main-video.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 27911295,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Roka Highlights",
+            "slug": "wedding-roka-hl-4",
+            "summary": "Weddings & Celebrations \u2014 shot, cut and graded in-house.",
+            "client": "Private Client",
+            "category": "wedding",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/wedding-roka-hl-4.mp4",
+            "year": "2026",
+            "order": 76,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 94,
+                "collection_name": "cover",
+                "name": "wedding-roka-hl-4",
+                "file_name": "wedding-roka-hl-4.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 302948,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Roka Highlights",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 95,
+                        "collection_name": "file",
+                        "name": "wedding-roka-hl-4",
+                        "file_name": "wedding-roka-hl-4.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 72897226,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "E-Summit",
+            "slug": "corporate-e-summit",
+            "summary": "Corporate & Enterprise \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-e-summit.mp4",
+            "year": "2026",
+            "order": 77,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 96,
+                "collection_name": "cover",
+                "name": "corporate-e-summit",
+                "file_name": "corporate-e-summit.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 98076,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "E-Summit",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 97,
+                        "collection_name": "file",
+                        "name": "corporate-e-summit",
+                        "file_name": "corporate-e-summit.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 39501358,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Centrum, Lucknow",
+            "slug": "corporate-lucknow-centrum",
+            "summary": "Corporate & Enterprise \u2014 shot, cut and graded in-house.",
+            "client": "Centrum",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-lucknow-centrum.mp4",
+            "year": "2026",
+            "order": 78,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 98,
+                "collection_name": "cover",
+                "name": "corporate-lucknow-centrum",
+                "file_name": "corporate-lucknow-centrum.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 161855,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Centrum, Lucknow",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 99,
+                        "collection_name": "file",
+                        "name": "corporate-lucknow-centrum",
+                        "file_name": "corporate-lucknow-centrum.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 20844562,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Rahul Dravid \u2014 Teaser",
+            "slug": "corporate-rahul-dravid-teaser",
+            "summary": "Corporate & Enterprise \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-rahul-dravid-teaser.mp4",
+            "year": "2026",
+            "order": 79,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 100,
+                "collection_name": "cover",
+                "name": "corporate-rahul-dravid-teaser",
+                "file_name": "corporate-rahul-dravid-teaser.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 172755,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Rahul Dravid \u2014 Teaser",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 101,
+                        "collection_name": "file",
+                        "name": "corporate-rahul-dravid-teaser",
+                        "file_name": "corporate-rahul-dravid-teaser.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 71411261,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Salesforce, Bengaluru",
+            "slug": "corporate-salesforce-blr-video",
+            "summary": "Corporate & Enterprise \u2014 shot, cut and graded in-house.",
+            "client": "Salesforce",
+            "category": "corporate",
+            "crafts": "[\"edit\", \"colour\", \"sound\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/corporate-salesforce-blr-video.mp4",
+            "year": "2026",
+            "order": 80,
+            "is_published": 1,
+            "is_featured": 0
+        },
+        "media": [
+            {
+                "id": 102,
+                "collection_name": "cover",
+                "name": "corporate-salesforce-blr-video",
+                "file_name": "corporate-salesforce-blr-video.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 188475,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Salesforce, Bengaluru",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 103,
+                        "collection_name": "file",
+                        "name": "corporate-salesforce-blr-video",
+                        "file_name": "corporate-salesforce-blr-video.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 50375616,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "attributes": {
+            "title": "Diwali Offer \u2014 Motion",
+            "slug": "motion-graphic-piyush-diwali-offer",
+            "summary": "Motion Graphics \u2014 shot, cut and graded in-house.",
+            "client": null,
+            "category": "brand-film",
+            "crafts": "[\"motion\", \"vfx\"]",
+            "credits": null,
+            "location": null,
+            "agency": null,
+            "preview_video_url": "https://d47sbsiyondmu.cloudfront.net/portfolio/previews/motion-graphic-piyush-diwali-offer.mp4",
+            "year": "2026",
+            "order": 81,
+            "is_published": 1,
+            "is_featured": 1
+        },
+        "media": [
+            {
+                "id": 104,
+                "collection_name": "cover",
+                "name": "motion-graphic-piyush-diwali-offer",
+                "file_name": "motion-graphic-piyush-diwali-offer.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 122454,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "video",
+                    "youtube_url": null,
+                    "caption": "Diwali Offer \u2014 Motion",
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 105,
+                        "collection_name": "file",
+                        "name": "motion-graphic-piyush-diwali-offer",
+                        "file_name": "motion-graphic-piyush-diwali-offer.mp4",
+                        "mime_type": "video/mp4",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 25164929,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    }
+]
