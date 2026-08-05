@@ -142,16 +142,6 @@
                 </div>
             @endif
 
-            {{-- The cards themselves open the wizard pre-filled with an industry;
-                 this is the way in for someone whose work does not fit one of
-                 them. Real /contact href so it survives JS being off. --}}
-            <div class="i3d__cta">
-                <a class="btn btn--red" href="{{ url('/contact') }}"
-                   data-quote-trigger data-magnetic data-cursor="LET'S TALK">
-                    Start a project <span class="arr"></span>
-                </a>
-            </div>
-
             <p class="sr-only" aria-live="polite" data-i3d-status></p>
         </div>
     </section>

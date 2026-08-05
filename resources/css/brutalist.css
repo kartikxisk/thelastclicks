@@ -126,14 +126,6 @@ h3, .feat__title, .belief__title { letter-spacing: -0.03em; }
   user-select: none;
 }
 
-/* Sits under the deck, offering the way in for work that fits none of the
-   cards above. */
-.i3d__cta {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(24px, 3vw, 40px);
-}
-
 /* Full-height sections are capped in rem.
    100svh alone means a 1440px-tall display gets a 1440px hero, and the content
    inside it does not grow to match — it just floats in a widening pool of empty
