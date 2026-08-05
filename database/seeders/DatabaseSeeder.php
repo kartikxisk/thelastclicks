@@ -31,14 +31,17 @@ class DatabaseSeeder extends Seeder
         // RefreshDatabase run would rewrite those expectations and slow the
         // suite for no benefit.
         //
-        // Hero slides are deliberately absent. The only ones that ever existed
-        // were copied from featured Work by HeroSlidesSeeder, which is not part
-        // of db:seed; the hero is admin-managed and should come up empty until
-        // somebody uploads to it.
+        // HeroSlidesFixtureSeeder replays the hero that exists, rather than
+        // HeroSlidesSeeder, which derives one from featured Work and stays out
+        // of db:seed. hero.blade.php renders no background at all without an
+        // active slide — correct behaviour, but a poor way to launch a rebuilt
+        // site. All three are create-only, so an editor's work is never undone
+        // by a deploy.
         if (! app()->environment('testing')) {
             $this->call([
                 WorksSeeder::class,
                 ServiceMediaSeeder::class,
+                HeroSlidesFixtureSeeder::class,
             ]);
         }
     }
