@@ -121,6 +121,23 @@ em {
   color: transparent;
 }
 
+/* The hero headline carries two outlined words by two different mechanisms: an
+   <em> ("moments,") picked up by the global rule in pages.css, and a .stroke
+   ("creating") that had no hover at all — so half the headline lit up and half
+   did not. This gives .stroke the same behaviour.
+   -webkit-text-fill-color rather than `color`, because only the fill property
+   transitions; `color: transparent` would snap. */
+.hero__title .stroke {
+  -webkit-text-fill-color: transparent;
+  transition:
+    -webkit-text-fill-color var(--dur-swap) var(--ease-machine),
+    -webkit-text-stroke-color var(--dur-swap) var(--ease-machine);
+}
+.hero__title .stroke:hover {
+  -webkit-text-fill-color: var(--red);
+  -webkit-text-stroke-color: var(--red);
+}
+
 /* ============================================================
    §3.2 Micro register — uppercase, tracked, tabular
    ============================================================ */
