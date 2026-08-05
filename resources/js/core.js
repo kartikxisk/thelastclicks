@@ -343,25 +343,11 @@ import { initScenes } from './scene';
     // of noise as progress passes its position, so the sweep of settled letters
     // across the word is the fill itself.
     const markEl = document.querySelector('[data-pboot-mark]');
-    const codeEl = document.querySelector('[data-pboot-code]');
+    const logoEl = document.querySelector('[data-pboot-logo]');
     const word = markEl ? markEl.textContent.trim() : '';
-    const NOISE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/\\';
-    const FPS = 24;
-
-    // SMPTE timecode from genuinely elapsed milliseconds. The frames field is
-    // real frames at 24fps, not a decorative counter — §8 bans invented
-    // telemetry, and a studio's own audience would spot a fake one.
-    const timecode = (ms) => {
-      const frames = Math.floor((ms / 1000) * FPS);
-      const pad = (n) => String(n).padStart(2, '0');
-
-      return [
-        pad(Math.floor(frames / (FPS * 3600))),
-        pad(Math.floor(frames / (FPS * 60)) % 60),
-        pad(Math.floor(frames / FPS) % 60),
-        pad(frames % FPS),
-      ].join(':');
-    };
+    // Letters only. The charset used to include #%&/\ and the unresolved half of
+    // the word read as line noise rather than as letters that had not landed yet.
+    const NOISE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     // One span per character, built once. Rewriting textContent every frame
     // would re-layout the whole word ~60 times a second; swapping the text of a
@@ -379,7 +365,40 @@ import { initScenes } from './scene';
       });
     }
 
-    const paint = (t, elapsed) => {
+    // Fly the oversized logo into the slot the real nav logo occupies, so the
+    // mark the visitor watched while waiting becomes the mark that is there when
+    // they arrive. Both rects are measured rather than assumed — a guessed offset
+    // lands wrong the moment the viewport or the logo's aspect changes.
+    const handOffLogo = () => {
+      const target = document.querySelector('.nav__brand-img');
+
+      if (!logoEl || !target || reduce) {
+        return;
+      }
+
+      const from = logoEl.getBoundingClientRect();
+      const to = target.getBoundingClientRect();
+
+      if (!from.width || !to.width) {
+        return;
+      }
+
+      const scale = to.width / from.width;
+      const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+      const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+
+      // Promoted only for the duration of the flight, then dropped — a permanent
+      // compositor layer on a node about to be removed is pure cost.
+      logoEl.style.willChange = 'transform';
+      logoEl.classList.add('is-flying');
+      logoEl.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(${scale})`;
+
+      logoEl.addEventListener('transitionend', () => {
+        logoEl.style.willChange = '';
+      }, { once: true });
+    };
+
+    const paint = (t) => {
       const settled = Math.round(t * cells.length);
       for (let i = 0; i < cells.length; i++) {
         const on = i < settled;
@@ -389,7 +408,6 @@ import { initScenes } from './scene';
         // settled characters stop being touched once they land.
         cell.classList.toggle('is-on', on);
       }
-      if (codeEl) codeEl.textContent = timecode(elapsed);
     };
 
     if (cells.length) {
@@ -400,20 +418,26 @@ import { initScenes } from './scene';
         // can precede the performance.now() captured just above it, so the first
         // frame's t is often slightly negative — and a negative settled count
         // would leave the whole word scrambling backwards.
-        const elapsed = Math.max(0, now - start);
-        const t = Math.min(1, elapsed / dur);
-        paint(t, elapsed);
+        const t = Math.min(1, Math.max(0, (now - start) / dur));
+        paint(t);
         if (t < 1) {
           requestAnimationFrame(step);
 
           return;
         }
         // Land on the real wordmark rather than whatever the last frame rounded to.
-        paint(1, elapsed);
+        paint(1);
         clearTimeout(hardKill);
         setTimeout(() => {
-          pre.classList.add('is-done');
-          setTimeout(() => pre.remove(), 1000);
+          // Logo leaves first and the panel follows, so the mark reads as
+          // travelling to the nav rather than being wiped away with everything
+          // else. The 620ms below matches the flight in core.css.
+          handOffLogo();
+          pre.classList.add('is-leaving');
+          setTimeout(() => {
+            pre.classList.add('is-done');
+            setTimeout(() => pre.remove(), 1000);
+          }, 620);
         }, 150);
       };
       requestAnimationFrame(step);

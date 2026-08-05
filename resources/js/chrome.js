@@ -209,10 +209,15 @@ window.TLC = (function(){
      so the sweep of settled characters across the word IS the fill — a separate
      bar underneath it was a second loader saying the same thing twice.
 
-     The readout under it is SMPTE timecode at 24fps, the counter every edit
-     suite in the building already shows, with the capture dot beside it. It
-     reports genuinely elapsed load time rather than a decorative number: §8
-     bans invented telemetry, so the frames field is real frames.
+     Above it, the brand logo — oversized here, then flown into its slot in the
+     nav as the overlay leaves, so the mark the visitor stared at while waiting
+     becomes the mark that is there when they arrive. core.js measures the real
+     nav logo and animates between the two rects, which is why the landing is
+     exact at any viewport rather than a guessed offset.
+
+     A timecode readout and then an aperture both sat here first. Both were the
+     wrong kind of clever: invented instrumentation, when the studio already has
+     a mark worth showing.
 
      DESIGN-BRUTALIST.md §5 asks a loader to be a monospace character-cycle,
      never a spinner or a shimmer. core.js drives this from the same rAF that
@@ -220,13 +225,18 @@ window.TLC = (function(){
      performing. Reduced-motion users never see it; the preloader is
      display:none for them. */
   function bootReadoutHTML() {
+    // No logo uploaded means no logo here either — same rule as the nav. The
+    // wordmark alone still carries the load in that case.
+    const logo = BRAND_LOGO
+        ? `<div class="pboot__logo" data-pboot-logo aria-hidden="true">
+             <img src="${BRAND_LOGO}" alt="">
+           </div>`
+        : '';
+
     return `
     <div class="pboot">
+      ${logo}
       <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks">THELASTCLICKS</div>
-      <div class="pboot__tc" aria-hidden="true">
-        <span class="pboot__rec" data-pboot-rec></span>
-        <span class="pboot__code" data-pboot-code>00:00:00:00</span>
-      </div>
     </div>`;
   }
 

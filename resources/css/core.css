@@ -172,24 +172,60 @@ img, video { max-width: 100%; display: block; }
    where the system wants an instrument, and 83 lines of hand-rolled vector for
    something on screen 1.1s.
 
-   ONE progress indicator, and it is the wordmark. Characters resolve out of
-   noise as load progress passes them, so the sweep of settled letters is the
-   fill — a bar underneath was a second loader saying the same thing twice.
-   core.js paints from the rAF that already owned the progress value, so nothing
-   here runs on its own clock. */
+   The brand mark, oversized, over a wordmark that resolves out of noise as load
+   progress passes each character — the letters ARE the progress bar. When the
+   overlay leaves, core.js measures the real nav logo and flies this one into it,
+   so the mark somebody stared at while waiting is the mark that is there when
+   they arrive.
+
+   A progress bar sat here once (a second loader saying the same thing twice), a
+   timecode after that (a figure nobody reads), an aperture after that (invented
+   instrumentation). All gone: the studio already has a mark worth showing. */
 .pboot {
   display: grid;
-  gap: 20px;
   justify-items: center;
-  text-align: center;
+  gap: clamp(24px, 3.4vw, 44px);
+  position: relative;
+  z-index: 1;
 }
+
+/* ---- Brand mark ---- */
+.pboot__logo {
+  width: clamp(96px, 15vw, 190px);
+  /* transform-origin centre so the flight's scale pulls toward the middle of the
+     mark, which is what keeps it tracking the nav slot instead of drifting. */
+  transform-origin: 50% 50%;
+}
+.pboot__logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* One slow breath while waiting. Transform only, and it stops the moment the
+     flight class lands so the two never fight over the same property. */
+  .pboot__logo { animation: pboot-breathe 3.2s var(--ease-soft, ease-in-out) infinite; }
+}
+@keyframes pboot-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+/* The flight. core.js writes the transform inline from measured rects; this only
+   supplies the timing, and cancels the breathing so the inline transform wins
+   outright rather than being overwritten by the next keyframe tick. */
+.pboot__logo.is-flying {
+  animation: none;
+  transition: transform 0.62s var(--ease-3);
+}
+
+/* ---- Wordmark ---- */
 .pboot__mark {
   font-family: var(--f-mono);
-  font-size: clamp(18px, 3.4vw, 40px);
-  letter-spacing: 0.3em;
+  font-size: clamp(16px, 2.8vw, 34px);
+  letter-spacing: 0.26em;
   line-height: 1;
   /* Absorbs the trailing letter-space so the word stays optically centred. */
-  text-indent: 0.3em;
+  text-indent: 0.26em;
   white-space: nowrap;
 }
 /* Unresolved characters sit at the rule colour and settled ones step up to full
@@ -205,36 +241,43 @@ img, video { max-width: 100%; display: block; }
 /* The character that just landed carries the accent for one step, so the eye can
    follow the edge rather than having to compare two greys. */
 .pboot__ch.is-on + .pboot__ch:not(.is-on) { color: var(--red); }
-/* SMPTE timecode, the counter every edit suite in the building already shows.
-   Real elapsed frames at 24fps, not a decorative number. */
-.pboot__tc {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--f-mono);
-  font-size: clamp(10px, 1vw, 11px);
-  letter-spacing: 0.22em;
-  color: var(--muted-2);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum';
-}
-/* The one place DESIGN-BRUTALIST §2 sanctions Signal Green: a capture-state
-   indicator. It is lit while the site is actually acquiring and goes out with
-   the overlay, so it reports a real state rather than decorating one. */
-.pboot__rec {
-  width: 6px;
-  height: 6px;
-  background: var(--green, #4af626);
-  flex: 0 0 auto;
-}
-.pboot__code { display: inline-block; }
 
-.preloader__label {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
+/* The wordmark clears out while the logo is still travelling, so the mark is
+   alone on screen for the last beat instead of dragging the type along with it. */
+.preloader.is-leaving .pboot__mark {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+}
+
+/* ---- Background ----
+   A measurement grid behind the whole thing, drifting one cell over the load.
+   Hairlines on the rule colour, so it reads as the ground the instrument sits on
+   rather than as scenery. Transform only: the gradient is painted once and the
+   layer is moved, never re-rasterised. */
+.preloader::before {
+  content: '';
+  position: absolute;
+  /* Oversized so the drift never exposes an edge. */
+  inset: -60px;
+  background-image:
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    linear-gradient(0deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.32;
+  pointer-events: none;
+  /* Masked to a soft pool around the centre so the grid does not fight the
+     wordmark for attention at the edges of a wide screen. */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 62%);
+  transition: opacity 0.4s var(--ease);
+}
+.preloader.is-leaving::before { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .preloader::before { animation: pboot-grid 6s linear infinite; }
+}
+@keyframes pboot-grid {
+  to { transform: translate3d(60px, 60px, 0); }
 }
 
 /* ---------- Layout ---------- */
