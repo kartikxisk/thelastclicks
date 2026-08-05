@@ -18,7 +18,7 @@ it('renders published works and hides drafts', function () {
     Work::create(['title' => 'Public Reel', 'is_published' => true]);
     Work::create(['title' => 'Secret Reel', 'is_published' => false]);
 
-    $this->get('/our-works')
+    $this->get('/portfolio')
         ->assertOk()
         ->assertSee('Public Reel')
         ->assertDontSee('Secret Reel');
@@ -29,7 +29,7 @@ it('renders a masonry grid and a clickable tile carrying its media payload', fun
     $item = $work->mediaItems()->create(['type' => 'image', 'order' => 1]);
     $item->addMedia(UploadedFile::fake()->image('a.jpg'))->toMediaCollection('file');
 
-    $response = $this->get('/our-works')->assertOk();
+    $response = $this->get('/portfolio')->assertOk();
 
     $response->assertSee('data-work-grid', false)
         ->assertSee('data-work-tile', false)
@@ -39,14 +39,14 @@ it('renders a masonry grid and a clickable tile carrying its media payload', fun
 it('renders a work without media as a non-interactive tile', function () {
     Work::create(['title' => 'No Media Yet']);
 
-    $this->get('/our-works')
+    $this->get('/portfolio')
         ->assertOk()
         ->assertSee('No Media Yet')
         ->assertDontSee('data-work-tile', false);
 });
 
 it('skips the work section entirely when there are no published works', function () {
-    $this->get('/our-works')
+    $this->get('/portfolio')
         ->assertOk()
         ->assertDontSee('data-work-grid', false);
 });
@@ -54,12 +54,12 @@ it('skips the work section entirely when there are no published works', function
 it('reflects newly added work media on the next request', function () {
     $work = Work::create(['title' => 'Live Update', 'is_published' => true]);
 
-    $this->get('/our-works')->assertOk();
+    $this->get('/portfolio')->assertOk();
 
     $item = $work->mediaItems()->create(['type' => 'image', 'order' => 1]);
     $item->addMedia(UploadedFile::fake()->image('new.jpg'))->toMediaCollection('file');
 
-    $this->get('/our-works')
+    $this->get('/portfolio')
         ->assertOk()
         ->assertSee($item->fresh()->getFirstMediaUrl('file'), false);
 });

@@ -81,7 +81,10 @@ window.TLC = (function(){
           </div>
         </div>
         <div class="foot__copy">
-          <span>© 2026 TheLastClicks — All rights reserved</span>
+          <!-- Computed, not written: the year was hardcoded here and would have
+               read 2026 for the whole of 2027. The Blade footer is the one that
+               normally renders; this only appears on a page without it. -->
+          <span>© 2021–${new Date().getFullYear()} TheLastClicks — All rights reserved</span>
           <span class="foot__legal">
             <a href="/privacy-policy">Privacy</a>
             <a href="/cookie-policy">Cookies</a>

@@ -35,7 +35,15 @@
 
     <div class="foot__meta">
       <div class="foot__intro">
-        <span class="foot__status"><span class="foot__pulse"></span> Available for new projects</span>
+        {{-- A real link to /contact, so it still works with JS off; the delegated
+             [data-quote-trigger] handler intercepts it and opens the wizard.
+             Same pattern as the industry cards on the homepage. It read as a
+             status label but is the most willing-to-be-clicked line on the page. --}}
+        <a class="foot__status" href="{{ url('/contact') }}"
+           data-quote-trigger data-cursor="LET'S TALK"
+           aria-label="Available for new projects — start a project">
+          <span class="foot__pulse" aria-hidden="true"></span> Available for new projects
+        </a>
         <p>Cinematic photography &amp; videography, finished by the in-house post-production that sets us apart.</p>
         @if (count($socials))
         <div class="foot__socials">
@@ -70,7 +78,9 @@
     </div>
 
     <div class="foot__copy">
-      <span>© {{ date('Y') }} TheLastClicks — All rights reserved</span>
+      {{-- Range, not a single year: 2021 is when the studio started, and the end
+           is computed so it never needs touching again. --}}
+      <span>© 2021–{{ date('Y') }} TheLastClicks — All rights reserved</span>
       <span class="foot__legal">
         <a href="{{ url('/privacy-policy') }}">Privacy</a>
         <a href="{{ url('/cookie-policy') }}">Cookies</a>

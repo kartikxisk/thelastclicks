@@ -10,9 +10,41 @@
         'bento' => 'work-grid--bento',
         default => '',
     };
+
+    // One flat payload for the whole grid, plus the offset each tile starts at.
+    // Per-tile payloads carried only that tile's own media — usually a single
+    // item — so the lightbox's next/prev wrapped modulo 1 straight back to what
+    // was already on screen and read as broken. Browsing the grid is what a
+    // viewer expects from a grid.
+    //
+    // Linked tiles are skipped: they navigate to a detail page rather than
+    // opening the lightbox, so they are not part of its sequence.
+    $stripMedia = [];
+    $stripOffsets = [];
+
+    foreach ($items as $i => $stripItem) {
+        if ($link && $link($stripItem)) {
+            continue;
+        }
+
+        $itemMedia = $stripItem->mediaPayload();
+
+        if (empty($itemMedia)) {
+            continue;
+        }
+
+        $stripOffsets[$i] = count($stripMedia);
+
+        foreach ($itemMedia as $entry) {
+            $stripMedia[] = $entry;
+        }
+    }
 @endphp
 
-<div class="work-grid {{ $layoutClass }}" data-work-grid data-stagger>
+{{-- The payload lives here once rather than on every tile: 53 copies of the same
+     JSON is real weight in the HTML, and each tile only needs its offset. --}}
+<div class="work-grid {{ $layoutClass }}" data-work-grid data-stagger
+     @if ($stripMedia) data-work-media='@json($stripMedia)' @endif>
     @foreach ($items as $item)
         @php
             $cover = $item->coverUrl();
@@ -46,7 +78,7 @@
             @elseif ($payload)
                 type="button"
                 data-work-tile
-                data-work-media='@json($payload)'
+                data-work-index="{{ $stripOffsets[$loop->index] ?? 0 }}"
                 aria-label="View {{ $item->title }}"
             @endif
         >

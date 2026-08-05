@@ -101,6 +101,20 @@ h3, .feat__title, .belief__title { letter-spacing: -0.03em; }
   padding-bottom: clamp(24px, 4vh, 56px);
 }
 
+/* Full-height sections are capped in rem.
+   100svh alone means a 1440px-tall display gets a 1440px hero, and the content
+   inside it does not grow to match — it just floats in a widening pool of empty
+   space, and everything below the fold gets pushed further away for nothing.
+   min() keeps the viewport behaviour on ordinary and short screens, where
+   filling the fold is the point, and stops paying for height past ~53rem where
+   it stops buying anything. Both declarations stay: the first is the fallback
+   for browsers without svh. */
+.hero,
+.hero--ed {
+  min-height: 100vh;
+  min-height: min(100svh, 53rem);
+}
+
 /* <em> is left to the site's existing global outline treatment at
    pages.css:5839, which already fills `-webkit-text-fill-color: transparent`
    with a 1.5px stroke and carries `color: inherit !important`. That device

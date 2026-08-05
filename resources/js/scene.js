@@ -94,11 +94,59 @@ export function initScenes() {
   // a paused animation keeps the surface live and saves almost nothing (32.3ms
   // vs 20.5ms per frame). The keyframes all carry large negative delays, so they
   // come back staggered rather than in lockstep.
+  // ...but `animation: none` destroys the timeline, so on resume every loop
+  // restarts from its own frame zero. With a scroll every few seconds that reads
+  // as the backdrop stuttering back to the beginning over and over rather than
+  // looping. The fix is to carry the phase across the gap: total running time is
+  // accumulated while the page is still, and on resume each element gets a
+  // negative animation-delay of that much, so the loop picks up where it was.
+  //
+  // Costs two passes per scroll burst, not per frame, so the 60fps win above
+  // survives intact.
   let scrollIdle = 0;
+  let running = true;
+  let runStart = performance.now();
+  let elapsed = 0;
+
+  /** Shift every backdrop loop back by the time the page has been running. */
+  const resumePhase = () => {
+    document.querySelectorAll('.scene .scenebg *').forEach((el) => {
+      // The authored delay is what staggers the loops against each other, so it
+      // is captured once and always kept as the base — reading it back later
+      // would return the already-shifted value and the stagger would drift
+      // further on every resume.
+      if (el.dataset.baseDelay === undefined) {
+        el.dataset.baseDelay = getComputedStyle(el).animationDelay;
+      }
+
+      const base = el.dataset.baseDelay;
+
+      if (base === '' || base === 'none') {
+        return;
+      }
+
+      // An element can carry several animations, each with its own delay.
+      el.style.animationDelay = base
+        .split(',')
+        .map((d) => `calc(${d.trim()} - ${Math.round(elapsed)}ms)`)
+        .join(', ');
+    });
+  };
+
   addEventListener('scroll', () => {
+    if (running) {
+      elapsed += performance.now() - runStart;
+      running = false;
+    }
+
     document.documentElement.classList.add('is-scrolling');
     clearTimeout(scrollIdle);
-    scrollIdle = setTimeout(() => document.documentElement.classList.remove('is-scrolling'), 180);
+    scrollIdle = setTimeout(() => {
+      resumePhase();
+      document.documentElement.classList.remove('is-scrolling');
+      runStart = performance.now();
+      running = true;
+    }, 180);
   }, { passive: true });
 
   /* -------------------- Button ripple -------------------- */
