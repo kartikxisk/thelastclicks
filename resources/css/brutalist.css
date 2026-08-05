@@ -101,6 +101,39 @@ h3, .feat__title, .belief__title { letter-spacing: -0.03em; }
   padding-bottom: clamp(24px, 4vh, 56px);
 }
 
+/* ---------- Industries coverflow: make the drag actually reachable ----------
+   The deck has had pointer-drag in core.js all along, but pressing a card put
+   the browser into a native image drag instead: the pointer went to the drag
+   ghost and the deck never saw a move. Selection made it worse — a slow drag
+   highlighted the titles rather than turning the deck. */
+.i3d__stage {
+  /* Horizontal intent belongs to the deck, vertical to the page, so a swipe
+     turns cards without trapping the scroll. */
+  touch-action: pan-y;
+  cursor: grab;
+}
+.i3d__stage:active { cursor: grabbing; }
+.i3d__card {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.i3d__card img {
+  /* The card owns the gesture: with the image transparent to pointer events
+     there is nothing left to start a native drag from. */
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Sits under the deck, offering the way in for work that fits none of the
+   cards above. */
+.i3d__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
 /* Full-height sections are capped in rem.
    100svh alone means a 1440px-tall display gets a 1440px hero, and the content
    inside it does not grow to match — it just floats in a widening pool of empty

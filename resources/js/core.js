@@ -882,6 +882,11 @@ import { initScenes } from './scene';
         const fromCentre = e.detail === 0 ? card.classList.contains('is-centre') : pressedFromCentre;
         if (fromCentre) return;
         e.preventDefault();
+        // ...and stop it here. preventDefault alone only cancels the navigation;
+        // the delegated [data-quote-trigger] listener on document still fired, so
+        // bringing a side card round also threw the quote wizard open on top of
+        // the deck the visitor was still looking through.
+        e.stopPropagation();
         goTo(n);
       });
       // Tabbing to an off-centre card brings it round, so keyboard focus and
@@ -900,6 +905,10 @@ import { initScenes } from './scene';
     stage.addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
       down = true; startX = e.clientX; moved = 0; settled = 0;
+      // Capture, so a drag that wanders off the deck keeps sending moves here
+      // instead of dying the moment the pointer crosses the edge. This is also
+      // what makes pointerleave the wrong place to end a drag.
+      try { stage.setPointerCapture(e.pointerId); } catch { /* no capture: fall back to the window */ }
     });
     stage.addEventListener('pointermove', e => {
       if (!down) return;
@@ -910,10 +919,16 @@ import { initScenes } from './scene';
       const steps = Math.trunc(dx / 90);
       if (steps !== settled) { go(settled - steps); settled = steps; }
     });
-    const endDrag = () => { down = false; };
+    const endDrag = (e) => {
+      down = false;
+      if (e && e.pointerId !== undefined && stage.hasPointerCapture?.(e.pointerId)) {
+        stage.releasePointerCapture(e.pointerId);
+      }
+    };
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
-    stage.addEventListener('pointerleave', endDrag);
+    // No pointerleave: with capture held the pointer legitimately travels outside
+    // the deck mid-drag, and ending there cut every drag short at the edge.
     // Swallow the click that ends a drag so a card doesn't also navigate.
     stage.addEventListener('click', e => {
       if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; }
