@@ -1012,10 +1012,17 @@ main > section:has(.clients) {
   to { transform: translateX(-50%); }
 }
 
-/* Hover stops it so a tile can actually be looked at. :focus-within covers the
-   keyboard equivalent — tabbing to a tile that then scrolls away is a trap. */
+/* Hover stops it so a tile can actually be looked at, and :has(:focus-visible)
+   covers the keyboard equivalent — tabbing to a tile that then scrolls away is a
+   trap.
+
+   :focus-visible, NOT :focus-within. The lightbox returns focus to the tile it
+   was opened from when it closes, so :focus-within left the strip frozen for
+   good after a single click: it read as the marquee stopping at the end.
+   :focus-visible only matches keyboard-driven focus, so a mouse click handing
+   focus back does not pause anything. */
 .wmq:hover .wmq__track,
-.wmq:focus-within .wmq__track,
+.wmq:has(:focus-visible) .wmq__track,
 .wmq.is-paused .wmq__track { animation-play-state: paused; }
 
 .wmq__item {

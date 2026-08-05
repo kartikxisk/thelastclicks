@@ -22,6 +22,7 @@ class Deploy extends Command
         {--skip-npm : Skip npm ci + npm run build}
         {--skip-seed : Skip db:seed}
         {--skip-media : Skip the logo/video/industry media imports}
+        {--skip-cdn : Do not invalidate the CloudFront distribution}
         {--skip-permissions : Do not chown/chmod storage + bootstrap/cache}
         {--web-user= : Owner for the runtime-writable dirs (auto-detected otherwise)}
         {--maintenance : Put the site in maintenance mode for the duration}
@@ -132,6 +133,16 @@ class Deploy extends Command
 
         $steps[] = ['label' => 'Generate sitemap', 'cmd' => [$php, 'artisan', 'sitemap:generate'], 'timeout' => 300];
 
+        // After the asset build and the media imports, because it exists to clear
+        // whatever those just replaced. Skipping it is how a corrected video kept
+        // serving its stale preview from the edge for hours after origin was
+        // right. The command exits 0 when no distribution is configured, and
+        // warns rather than fails if the API call errors — the code and database
+        // are already live by this point.
+        if (! $this->option('skip-cdn')) {
+            $steps[] = ['label' => 'Invalidate CDN', 'cmd' => [$php, 'artisan', 'app:invalidate-cdn'], 'timeout' => 300];
+        }
+
         // Permissions come LAST of the mutating steps, not next to deploy:refresh.
         // Every artisan step above writes storage/logs/laravel.log as whoever runs the
         // deploy, so chowning earlier just gets undone by the steps that follow it —
@@ -195,9 +206,22 @@ class Deploy extends Command
             return null;
         }
 
-        // aaPanel/BT installs run as `www`; Ubuntu/Forge as `www-data`.
+        // Ask the process table who is actually serving, rather than guessing by
+        // name. Both `www` and `www-data` exist on plenty of boxes — aaPanel
+        // installs serve as `www` while a leftover Debian package supplies a
+        // `www-data` account — so a name lookup in a fixed order silently chowns
+        // storage to a user that never touches it, and the site 500s on a deploy
+        // that reported success.
+        if ($detected = $this->webServerUser()) {
+            return $detected;
+        }
+
+        // Nothing serving right now (a first deploy, or a stopped pool), so fall
+        // back to whichever account exists.
         foreach (['www-data', 'www'] as $candidate) {
             if (function_exists('posix_getpwnam') && posix_getpwnam($candidate) !== false) {
+                $this->components->warn("No running web process found; assuming '{$candidate}'. Pass --web-user=<name> if that is wrong.");
+
                 return $candidate;
             }
         }
@@ -205,6 +229,44 @@ class Deploy extends Command
         $this->components->warn('Could not detect the web user — skipping chown. Pass --web-user=<name> to set it.');
 
         return null;
+    }
+
+    /** The non-root user running php-fpm, nginx or apache, if one is up. */
+    private function webServerUser(): ?string
+    {
+        $ps = @shell_exec('ps -eo user:32,comm 2>/dev/null');
+
+        if (! is_string($ps) || $ps === '') {
+            return null;
+        }
+
+        $counts = [];
+
+        foreach (explode("\n", $ps) as $line) {
+            $parts = preg_split('/\s+/', trim($line), 2);
+
+            if (count($parts) !== 2) {
+                continue;
+            }
+
+            [$user, $comm] = $parts;
+
+            if ($user === 'root' || $user === '' || ! preg_match('/(php-fpm|php_fpm|nginx|apache2|httpd)/i', $comm)) {
+                continue;
+            }
+
+            // Most worker processes wins — masters run as root and are skipped
+            // above, so this lands on the pool user.
+            $counts[$user] = ($counts[$user] ?? 0) + 1;
+        }
+
+        if ($counts === []) {
+            return null;
+        }
+
+        arsort($counts);
+
+        return (string) array_key_first($counts);
     }
 
     /** @param array{label: string, cmd: list<string>, timeout: int} $step */

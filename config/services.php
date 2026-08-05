@@ -35,6 +35,17 @@ return [
         ],
     ],
 
+    'cloudfront' => [
+        // The distribution in front of the media disk. Uploading to S3 is only
+        // half of publishing: the CDN keeps serving what it cached until this is
+        // invalidated, which is how a repaired video went on playing the old
+        // 6-second preview long after origin was correct.
+        //
+        // Unset simply skips invalidation, so an environment without a CDN
+        // deploys normally.
+        'distribution_id' => env('CLOUDFRONT_DISTRIBUTION_ID', 'E3ONXFHQD9D5OY'),
+    ],
+
     'google_analytics' => [
         // Falls back to the studio's property so a deploy that forgets the env
         // var still measures. Set GA_MEASUREMENT_ID to point a staging or
