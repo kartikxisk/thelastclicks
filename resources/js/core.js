@@ -332,13 +332,17 @@ import { initScenes } from './scene';
   /* -------------------- Preloader -------------------- */
   const pre = document.querySelector('.preloader');
   if (pre) {
-    // Hard failsafe: regardless of rAF/timing, kill the preloader after 1.8s.
+    // Hard failsafe: regardless of rAF/timing, kill the preloader after 3.4s.
+    // Has to clear the whole sequence below (reveal + hand-off pause + flight =
+    // ~2970ms) or the failsafe fires mid-animation and the shutter never
+    // finishes opening — which is exactly what a 1.8s value did once the reveal
+    // was lengthened past it.
     const hardKill = setTimeout(() => {
       if (pre.isConnected) {
         pre.classList.add('is-done');
         setTimeout(() => pre.remove(), 1000);
       }
-    }, 1800);
+    }, 3400);
     // The wordmark is the only progress indicator. Each character resolves out
     // of noise as progress passes its position, so the sweep of settled letters
     // across the word is the fill itself.
@@ -424,7 +428,12 @@ import { initScenes } from './scene';
     };
 
     if (cells.length) {
-      const dur = 1100;
+      // Doubled from 1100. The shutter is the whole point of this screen and at
+      // 1100ms the blades were open before the eye had found them — the mark
+      // appeared to be there from the start rather than to have come through the
+      // aperture. Raising this means raising hardKill above, which is the failsafe
+      // that would otherwise cut the reveal off partway.
+      const dur = 2200;
       const start = performance.now();
       const step = (now) => {
         // Clamped at both ends. rAF hands back the frame's start timestamp, which

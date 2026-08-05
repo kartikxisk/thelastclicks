@@ -198,14 +198,34 @@ img, video { max-width: 100%; display: block; }
      inherit it, so declaring a local --p on either would shadow this and freeze
      that half of the reveal. */
   --p: 0;
+  /* The housing. Same circle as .pap's own clip, so the mark is bounded by the
+     aperture it is coming through — without this the logo simply scaled up in
+     open space and the shutter was a ring drawn around it rather than the thing
+     it emerged from. overflow:hidden would clip to the square box and give the
+     mark corners the aperture does not have. */
+  clip-path: circle(47% at 50% 50%);
 }
+/* ...but the mark has to leave through the front door. The flight to the nav
+   happens outside this circle, so the housing has to stop existing the moment
+   the logo starts travelling or it would be erased on its way out. */
+.preloader.is-leaving .pboot__stage { clip-path: none; }
 .pboot__logo {
   /* Inset so the mark sits inside the rim rather than under it. */
   width: 72%;
   transform-origin: 50% 50%;
-  /* Rises into the opening aperture: core.js writes --p, so the reveal and the
-     blades are driven by the same value. */
-  transform: scale(calc(0.86 + (var(--p, 0) * 0.14)));
+  /* Rises THROUGH the opening aperture: starts low and small, so the clip above
+     is holding back a mark that is actually travelling. Scaling alone read as a
+     logo growing in place behind a ring. core.js writes --p, so the reveal and
+     the blades are driven by the same value. */
+  /* Travel and start-scale are a pair, and the ceiling on them is the blades:
+     they only cover out to r=45% of the stage, while the housing clips at 47%,
+     so a mark pushed too far down reappears in the 2% ring the blades never
+     reach. At 38%/0.68 the logo's bottom edge sat 124px from centre against 97px
+     of blade, and a sliver of it showed under a shutter that was supposed to be
+     shut. A deeper start scale buys the same travel inside the coverage. */
+  transform:
+    translateY(calc((1 - var(--p, 0)) * 30%))
+    scale(calc(0.6 + (var(--p, 0) * 0.4)));
 }
 .pboot__logo img {
   width: 100%;
@@ -231,9 +251,13 @@ img, video { max-width: 100%; display: block; }
 }
 .pap__blades { transform-origin: 60px 60px; }
 .pap__blade {
-  /* The page colour, not a tint: closed, the blades have to hide the mark
-     completely or the reveal has nothing to reveal. */
-  fill: var(--ink);
+  /* A step up from the page colour, not the page colour itself. At --ink the
+     blades were the same value as the panel behind them, so a closed shutter was
+     an empty circle and the only thing that read as metal was the 0.6 stroke.
+     --ink-4 is still dark enough to hide the mark completely — which it must, or
+     the reveal has nothing to reveal — while being visibly a plate rather than a
+     hole. */
+  fill: var(--ink-4);
   stroke: var(--line);
   stroke-width: 0.6;
   transform-origin: 60px 60px;

@@ -356,8 +356,8 @@
 }
 .svc {
   display: grid;
-  /* index · title · preview plate · arrow */
-  grid-template-columns: auto 1fr auto auto;
+  /* index · title · arrow */
+  grid-template-columns: auto 1fr auto;
   gap: clamp(20px, 2.4vw, 32px);
   align-items: center;
   /* Side padding does two jobs: it keeps the index off the red hover edge, which
@@ -366,34 +366,44 @@
      overflow:hidden (via [data-sheen]), so a flush arrow lost its right border
      to the clip the moment it moved. */
   padding: clamp(22px, 2.2vw, 30px) 14px;
-  /* The plate is the tallest thing in the row, so the row reserves its height
-     up front. Without this the rows would resize as artwork loads. */
-  min-height: clamp(104px, 11vw, 140px);
+  /* Height is what makes the full-bleed artwork legible. At the old 34px padding
+     a row was about 13:1 and `cover` crushed a photograph into a thin band; this
+     brings it to roughly 7:1, which is a letterboxed still rather than a slice. */
+  min-height: clamp(120px, 13vw, 172px);
   border-bottom: 1px solid var(--line);
   position: relative;
   cursor: pointer;
 }
-/* Hover fills the row as a flat panel; the artwork lives in .svc__plate.
-   It used to bleed edge to edge behind the title, but a row is roughly 13:1 and
-   `cover` at that ratio crops a photograph down to a thin horizontal band — the
-   editing still, being a screenshot of a timeline, came out unreadable and read
-   as a broken image rather than a preview. */
+/* Each row reveals its own service artwork on hover, bled across the whole row.
+   The image sits under a left-weighted scrim so the title and the index keep
+   their contrast no matter what the photograph is doing behind them. --svc-bg is
+   set per row in the markup; rows without artwork fall back to a plain dark
+   panel so hover still gives feedback. */
 .svc::before {
   content: '';
   position: absolute;
   /* inset:0, not a negative bleed — .svc is overflow:hidden, so anything outside
      the row was being clipped anyway and only produced a hard edge. */
   inset: 0;
-  background: var(--ink-2);
+  background-image:
+    /* Even wash: dark enough on the left for the title to hold contrast, but it
+       stops climbing to near-black so the photograph reads across the whole row
+       instead of only appearing in the right-hand third. */
+    linear-gradient(90deg, rgba(10,10,10,0.86) 0%, rgba(10,10,10,0.7) 38%, rgba(10,10,10,0.55) 100%),
+    var(--svc-bg, linear-gradient(var(--ink-3), var(--ink-3)));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   /* The row's leading edge lights red. An inset shadow rather than a border so
      nothing in the row shifts sideways when it appears. */
   box-shadow: inset 3px 0 0 var(--red);
   opacity: 0;
-  transition: opacity 0.45s var(--ease);
+  transform: scale(1.04);
+  transition: opacity 0.45s var(--ease), transform 0.8s var(--ease);
   z-index: -1;
 }
 .svc:hover, .svc:focus-visible { color: #fff; }
-.svc:hover::before, .svc:focus-visible::before { opacity: 1; }
+.svc:hover::before, .svc:focus-visible::before { opacity: 1; transform: scale(1); }
 /* Pure white, not a translucent tint — 55% white on red is 2.1:1 and unreadable. */
 .svc:hover .svc__desc { color: #fff; }
 /* The box travels, the glyph turns. Rotating the 44px box instead spun it into
@@ -414,24 +424,6 @@
   transition: color 0.4s var(--ease);
 }
 .svc:hover .svc__idx, .svc:focus-visible .svc__idx { color: var(--red); }
-
-/* The row's artwork, at an aspect it survives. 16:9 crops a photograph the way
-   a contact sheet does; the row's own 13:1 did not. */
-.svc__plate {
-  grid-column: 3;
-  height: clamp(54px, 5.6vw, 84px);
-  aspect-ratio: 16 / 9;
-  background-image: var(--svc-bg, none);
-  background-color: var(--ink-3);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  opacity: 0;
-  transform: scale(0.94);
-  transition: opacity 0.4s var(--ease), transform 0.55s var(--ease);
-}
-.svc:hover .svc__plate, .svc:focus-visible .svc__plate { opacity: 1; transform: scale(1); }
 
 .svc__title {
   grid-column: 2;
@@ -454,7 +446,7 @@
   transition: color 0.4s var(--ease);
 }
 .svc__arr {
-  grid-column: 4;
+  grid-column: 3;
   width: 44px; height: 44px;
   border: 1px solid var(--line);
   border-radius: 0;
@@ -465,18 +457,13 @@
 .svc__arr svg { width: 14px; height: 14px; transition: transform 0.5s var(--ease); }
 
 @media (max-width: 980px) {
-  /* No plate below this width: it would take a third of the row and the title
-     is what the row is for. The index rail stays — it costs almost nothing. */
   .svc {
-    grid-template-columns: auto 1fr auto;
     gap: 18px;
     /* Keeps the 14px side inset — the red hover edge and the arrow's travel both
        still need it here. */
     padding: 24px 14px;
-    min-height: 0;
+    min-height: clamp(96px, 20vw, 130px);
   }
-  .svc__plate { display: none; }
-  .svc__arr { grid-column: 3; }
   .svc__desc { display: none; }
 }
 
@@ -3153,12 +3140,17 @@ main > section:has(.clients) {
   position: relative;
 }
 
-/* LEFT — pinned column */
+/* LEFT — pinned column.
+   Both numbers are proportions of the scene, not of the viewport. They were 14vh
+   and 72vh, which stayed in step with a 100vh scene only for as long as the
+   scene was 100vh; now that it is capped the pin has to be measured against the
+   thing it is pinned inside, or the column runs past the bottom of its scene on
+   a tall screen. */
 .sproc__sticky {
   position: sticky;
-  top: 14vh;
+  top: calc(var(--sproc-scene) * 0.14);
   align-self: start;
-  height: 72vh;
+  height: calc(var(--sproc-scene) * 0.72);
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   gap: 24px;
@@ -3333,7 +3325,10 @@ main > section:has(.clients) {
 }
 .sproc__scene {
   position: relative;
-  height: 100vh;
+  /* Same cap as --scene-min, for the same reason: a scroll-scene that is a full
+     1500px tall on a big monitor is mostly empty room around one centred image,
+     and it makes the sequence take twice the scrolling to say the same thing. */
+  height: var(--sproc-scene);
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -5530,7 +5525,21 @@ main > section:has(.clients) {
      them; zeroed because the panel overlap they existed for is gone. */
   --stack-r: 0px;
   --stack-gap: 0px;
-  --scene-min: 100svh;
+  /* Capped in rem, not left at a bare 100svh. A scene is meant to frame its
+     content, and on a tall desktop screen 100svh stopped doing that: a section
+     whose content is ~600px tall was being stretched to 1500px, so the eyebrow,
+     the title and the deck floated in the middle of a screen of dead space with
+     nothing holding them together. The cap is the height past which more room
+     stops helping; below it the scene still fills whatever screen it gets.
+     100vh first as the fallback for browsers that cannot parse svh — they drop
+     the second declaration and keep this one. */
+  --scene-min: 100vh;
+  --scene-min: min(100svh, 46rem);
+  /* The service pages' scroll-scenes, capped on the same principle. Separate
+     from --scene-min because a scene here is a fixed height that drives a
+     sticky pin, not a floor a section may grow past. */
+  --sproc-scene: 100vh;
+  --sproc-scene: min(100svh, 46rem);
 }
 
 /* One background for the whole site. Every section is transparent over it, so

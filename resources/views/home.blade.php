@@ -162,16 +162,13 @@
             </div>
             <div class="services__list" data-stagger>
                 @foreach ($services as $service)
-                    {{-- Each row previews itself on hover, in a plate at 16:9. The
-                         artwork used to be the row's own background, but a row is
-                         about 13:1 and covering one crops a photograph to an
-                         unreadable band. --}}
+                    {{-- The row's own artwork becomes its hover background, so each
+                         service previews itself in place. --}}
                     <a class="svc" href="{{ url('/services/'.$service->slug) }}"
                        @if ($service->heroUrl()) style="--svc-bg:url('{{ $service->heroUrl() }}')" @endif
                        data-anim="curtain" data-sheen data-cursor="EXPLORE">
                         <span class="svc__idx" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="svc__title">{{ $service->title }}</h3>
-                        <span class="svc__plate" aria-hidden="true"></span>
                         <span class="svc__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
                     </a>
                 @endforeach
