@@ -42,6 +42,14 @@ class DatabaseSeeder extends Seeder
                 WorksSeeder::class,
                 ServiceMediaSeeder::class,
                 HeroSlidesFixtureSeeder::class,
+                // Titles and descriptions for the eleven non-service routes.
+                // Was run-once-by-hand, which meant a rebuilt site launched with
+                // no <title> or description on its homepage, about, portfolio or
+                // contact pages until somebody remembered the command. The
+                // testing guard above is what keeps it out of the suite: those
+                // tests create their own rows for '/' and '/about' and assert
+                // the no-row fallback path, which pre-seeded rows would break.
+                PageSeoSeeder::class,
             ]);
         }
     }

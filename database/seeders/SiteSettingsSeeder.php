@@ -19,7 +19,10 @@ class SiteSettingsSeeder extends Seeder
         ]);
         SiteSetting::set('seo_default_title', 'TheLastClicks — Cinematic photography & film production');
         SiteSetting::set('seo_default_description', 'Cinematic photography, brand films and post-production for premium teams.');
-        SiteSetting::set('seo_default_og_image', '');
+        // The backstop share image. It was seeded empty, so any page without its
+        // own row shared with no preview at all — a bare link on every social
+        // platform and in every chat app.
+        $this->setIfMissing('seo_default_og_image', 'headers/gear-camera-dark.jpg');
         // Matches the "within 4 working hours" promise on the public pages.
         SiteSetting::set('lead_sla_hours', Quote::DEFAULT_SLA_HOURS);
 
@@ -40,10 +43,16 @@ class SiteSettingsSeeder extends Seeder
         $this->setIfMissing('page_image_works', 'headers/gear-lens-red.jpg');
     }
 
-    /** Seed a value only when the key has never been set. */
+    /**
+     * Seed a value only when the key holds nothing.
+     *
+     * Blank counts as missing, not as a choice. Every caller is a storage path
+     * or URL, and seo_default_og_image in particular already existed as an empty
+     * string — an existence check alone would have left it that way forever.
+     */
     protected function setIfMissing(string $key, mixed $value): void
     {
-        if (SiteSetting::where('key', $key)->exists()) {
+        if (filled(SiteSetting::get($key))) {
             return;
         }
 

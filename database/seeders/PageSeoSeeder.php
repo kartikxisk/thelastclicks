@@ -9,11 +9,14 @@ use Illuminate\Database\Seeder;
  * One-time content migration: titles and descriptions for the eleven public
  * routes that were carrying them as hardcoded attributes in Blade templates.
  *
- * Deliberately NOT called from DatabaseSeeder. It is a migration of existing
- * production copy, not fixture data — and the SEO test suite asserts on routes
- * having no row until a test creates one, which seeding these would break.
+ * Now called from DatabaseSeeder, outside the testing environment. Leaving it
+ * to a remembered one-off meant a rebuilt site launched with no <title> and no
+ * description on its homepage, about, portfolio and contact pages — the eleven
+ * routes with the most search value on the site. The testing guard is what the
+ * original note was really about: ManageSeoTest creates its own rows for '/'
+ * and '/about' and asserts the no-row fallback, so pre-seeded rows break it.
  *
- * Run once per environment:
+ * Can still be run on its own:
  *
  *     php artisan db:seed --class=PageSeoSeeder
  *
@@ -29,66 +32,77 @@ class PageSeoSeeder extends Seeder
                 'label' => 'Home',
                 'title' => 'TheLastClicks — Cinematic photography & film production',
                 'meta_description' => 'Cinematic photography, brand films and post-production for premium teams across India — trusted by global enterprise brands, automotive names and national institutions.',
+                'og_image_path' => 'headers/gear-camera-dark.jpg',
             ],
             [
                 'page_url' => '/about',
                 'label' => 'About',
                 'title' => 'About TheLastClicks — Cinematic Film & Photography Studio',
                 'meta_description' => 'A photography and film production studio at the intersection of cinema, brand and craft. Five years, 1,000+ events and 20+ cities across India and counting.',
+                'og_image_path' => 'headers/about-crew.jpg',
             ],
             [
                 'page_url' => '/portfolio',
                 'label' => 'Portfolio',
                 'title' => 'Portfolio — Film & Photography | TheLastClicks',
                 'meta_description' => 'Selected films and photography from TheLastClicks — brand campaigns, corporate productions, automotive shoots, launches and weddings across 20+ Indian cities.',
+                'og_image_path' => 'headers/portfolio-set.jpg',
             ],
             [
                 'page_url' => '/industries',
                 'label' => 'Industries',
                 'title' => 'Industries — Brand, Auto & Wedding Film | TheLastClicks',
                 'meta_description' => 'Fashion, hospitality, beauty, weddings, automotive, corporate and nightlife — the sectors TheLastClicks produces photography and film for across India.',
+                'og_image_path' => 'headers/industries-conference.jpg',
             ],
             [
                 'page_url' => '/blog',
                 'label' => 'Journal',
                 'title' => 'Journal — Film Craft & Production Notes | TheLastClicks',
                 'meta_description' => 'Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month.',
+                'og_image_path' => 'headers/journal-studio.jpg',
             ],
             [
                 'page_url' => '/contact',
                 'label' => 'Contact',
                 'title' => 'Contact TheLastClicks — Start a Film or Photography Project',
                 'meta_description' => 'Bring us a brief for photography, videography or post-production and we will reply within 4 working hours. Crews and studios covering 20+ cities across India.',
+                'og_image_path' => 'headers/contact-crew.jpg',
             ],
             [
                 'page_url' => '/privacy-policy',
                 'label' => 'Privacy Policy',
                 'title' => 'Privacy Policy — How We Handle Your Data | TheLastClicks',
                 'meta_description' => 'How TheLastClicks collects, uses, stores and protects personal data submitted through our website, enquiry forms and production work across India.',
+                'og_image_path' => 'headers/gear-lens-red.jpg',
             ],
             [
                 'page_url' => '/terms-of-service',
                 'label' => 'Terms of Service',
                 'title' => 'Terms of Service — Booking & Usage Terms | TheLastClicks',
                 'meta_description' => 'The terms governing TheLastClicks photography and film production services, this website, bookings, deliverables, licensing and image usage rights.',
+                'og_image_path' => 'headers/gear-lens-red.jpg',
             ],
             [
                 'page_url' => '/cookie-policy',
                 'label' => 'Cookie Policy',
                 'title' => 'Cookie Policy — Cookies We Use | TheLastClicks',
                 'meta_description' => 'The cookies and similar technologies TheLastClicks uses on this website, what each one does, and how to block or delete them in your browser.',
+                'og_image_path' => 'headers/gear-lens-red.jpg',
             ],
             [
                 'page_url' => '/disclaimer',
                 'label' => 'Disclaimer',
                 'title' => 'Disclaimer — Site & Portfolio Notice | TheLastClicks',
                 'meta_description' => 'General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on the TheLastClicks website.',
+                'og_image_path' => 'headers/gear-lens-red.jpg',
             ],
             [
                 'page_url' => '/thank-you',
                 'label' => 'Thank you',
                 'title' => 'Brief received — TheLastClicks',
                 'meta_description' => 'Thanks for your brief — we will be in touch within 4 working hours.',
+                'og_image_path' => 'headers/contact-celebration.jpg',
             ],
         ];
 
