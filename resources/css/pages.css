@@ -356,49 +356,85 @@
 }
 .svc {
   display: grid;
-  grid-template-columns: 1fr auto;
+  /* index · title · preview plate · arrow */
+  grid-template-columns: auto 1fr auto auto;
   gap: clamp(20px, 2.4vw, 32px);
   align-items: center;
-  padding: 34px 0;
+  /* Side padding does two jobs: it keeps the index off the red hover edge, which
+     is drawn at the row's own left edge and would otherwise sit under the
+     digits, and it leaves the arrow somewhere to travel on hover — .svc is
+     overflow:hidden (via [data-sheen]), so a flush arrow lost its right border
+     to the clip the moment it moved. */
+  padding: clamp(22px, 2.2vw, 30px) 14px;
+  /* The plate is the tallest thing in the row, so the row reserves its height
+     up front. Without this the rows would resize as artwork loads. */
+  min-height: clamp(104px, 11vw, 140px);
   border-bottom: 1px solid var(--line);
   position: relative;
   cursor: pointer;
 }
-/* The red wash bleeds past the row instead of the row re-padding itself —
-   keeps the title from jumping sideways on hover. */
-/* Each row reveals its own service artwork on hover instead of a flat red wash.
-   The image sits under a left-weighted scrim so the title and number keep their
-   contrast no matter what the photograph is doing behind them. --svc-bg is set
-   per row in the markup; rows without artwork fall back to a plain dark panel so
-   hover still gives feedback. */
+/* Hover fills the row as a flat panel; the artwork lives in .svc__plate.
+   It used to bleed edge to edge behind the title, but a row is roughly 13:1 and
+   `cover` at that ratio crops a photograph down to a thin horizontal band — the
+   editing still, being a screenshot of a timeline, came out unreadable and read
+   as a broken image rather than a preview. */
 .svc::before {
   content: '';
   position: absolute;
   /* inset:0, not a negative bleed — .svc is overflow:hidden, so anything outside
      the row was being clipped anyway and only produced a hard edge. */
   inset: 0;
-  background-image:
-    /* Even wash: dark enough on the left for the title to hold contrast, but it
-       stops climbing to near-black so the photograph reads across the whole row
-       instead of only appearing in the right-hand third. */
-    linear-gradient(90deg, rgba(10,10,10,0.86) 0%, rgba(10,10,10,0.7) 38%, rgba(10,10,10,0.55) 100%),
-    var(--svc-bg, linear-gradient(var(--ink-3), var(--ink-3)));
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--ink-2);
+  /* The row's leading edge lights red. An inset shadow rather than a border so
+     nothing in the row shifts sideways when it appears. */
+  box-shadow: inset 3px 0 0 var(--red);
   opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 0.45s var(--ease), transform 0.8s var(--ease);
+  transition: opacity 0.45s var(--ease);
   z-index: -1;
 }
 .svc:hover, .svc:focus-visible { color: #fff; }
-.svc:hover::before, .svc:focus-visible::before { opacity: 1; transform: scale(1); }
+.svc:hover::before, .svc:focus-visible::before { opacity: 1; }
 /* Pure white, not a translucent tint — 55% white on red is 2.1:1 and unreadable. */
 .svc:hover .svc__desc { color: #fff; }
-.svc:hover .svc__arr, .svc:focus-visible .svc__arr { transform: translateX(6px) rotate(-45deg); border-color: #fff; }
+/* The box travels, the glyph turns. Rotating the 44px box instead spun it into
+   a diamond whose corners the row's overflow:hidden then sliced off. */
+.svc:hover .svc__arr, .svc:focus-visible .svc__arr { transform: translateX(6px); border-color: #fff; }
+.svc:hover .svc__arr svg, .svc:focus-visible .svc__arr svg { transform: rotate(45deg); }
 .svc:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
 
+/* Index rail. Mono and small against the display-weight title — the scale
+   contrast is the point, not the number itself. */
+.svc__idx {
+  grid-column: 1;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--paper-dim);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.4s var(--ease);
+}
+.svc:hover .svc__idx, .svc:focus-visible .svc__idx { color: var(--red); }
+
+/* The row's artwork, at an aspect it survives. 16:9 crops a photograph the way
+   a contact sheet does; the row's own 13:1 did not. */
+.svc__plate {
+  grid-column: 3;
+  height: clamp(54px, 5.6vw, 84px);
+  aspect-ratio: 16 / 9;
+  background-image: var(--svc-bg, none);
+  background-color: var(--ink-3);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.4s var(--ease), transform 0.55s var(--ease);
+}
+.svc:hover .svc__plate, .svc:focus-visible .svc__plate { opacity: 1; transform: scale(1); }
+
 .svc__title {
+  grid-column: 2;
   font-family: var(--f-display);
   font-weight: 500;
   font-size: clamp(24px, 2.7vw, 38px);
@@ -418,6 +454,7 @@
   transition: color 0.4s var(--ease);
 }
 .svc__arr {
+  grid-column: 4;
   width: 44px; height: 44px;
   border: 1px solid var(--line);
   border-radius: 0;
@@ -425,10 +462,21 @@
   transition: transform 0.5s var(--ease), border-color 0.4s var(--ease);
   justify-self: end;
 }
-.svc__arr svg { width: 14px; height: 14px; }
+.svc__arr svg { width: 14px; height: 14px; transition: transform 0.5s var(--ease); }
 
 @media (max-width: 980px) {
-  .svc { grid-template-columns: 1fr auto; gap: 18px; padding: 28px 0; }
+  /* No plate below this width: it would take a third of the row and the title
+     is what the row is for. The index rail stays — it costs almost nothing. */
+  .svc {
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    /* Keeps the 14px side inset — the red hover edge and the arrow's travel both
+       still need it here. */
+    padding: 24px 14px;
+    min-height: 0;
+  }
+  .svc__plate { display: none; }
+  .svc__arr { grid-column: 3; }
   .svc__desc { display: none; }
 }
 
@@ -4718,23 +4766,11 @@ main > section:has(.clients) {
   transform: scale(1);
 }
 
-/* ---------- Service row revamp: indent line + arrow gravity ---------- */
-.svc {
-  position: relative;
-}
-.svc::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 0;
-  height: 1px;
-  background: var(--red);
-  transform: translateY(-50%);
-  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-}
-.svc:hover::after { width: 80px; }
+/* The service row's red indent line used to live here, on .svc::after. It never
+   rendered: [data-sheen]::after further down this file matches .svc at the same
+   specificity and wins on order, so the sheen gradient replaced it. The red edge
+   is now an inset shadow on .svc::before, which nothing else competes for — and
+   it no longer animates `width`, which docs/motion-spec.md bans. */
 
 /* ---------- Belief progress rail (scroll-linked) ---------- */
 .beliefs { position: relative; }
@@ -5808,16 +5844,160 @@ main > section.strip {
      lives with the tokens now, so adding a layer no longer means finding and
      updating this comment. */
   position: fixed; inset: 0; z-index: var(--z-lightbox);
-  display: grid; grid-template-columns: 64px 1fr 64px; align-items: center;
-  /* The auditorium. Near-opaque rather than 0.92: any page bleeding through
-     reads as a modal over a website, which is the opposite of sitting in a
-     dark room looking at a screen. */
-  background: rgba(4,4,4,0.975);
+  /* One measurement drives the whole room: the wing is both the grid's side
+     column and the width of the drape painted over it, so the curtains stop
+     exactly where the picture starts at every viewport. */
+  --wlb-wing: clamp(56px, 9vw, 150px);
+  /* How much floor the seats occupy. The grid pads by it so the picture centres
+     in the room ABOVE the audience rather than behind them. */
+  --wlb-floor: clamp(78px, 15vh, 150px);
+  display: grid;
+  grid-template-columns: var(--wlb-wing) 1fr var(--wlb-wing);
+  align-items: center;
+  padding-bottom: var(--wlb-floor);
+  /* The auditorium. Fully opaque, not the 0.975 this used to be: once the room
+     has walls, anything showing through them is a page behind a curtain. At
+     0.975 the nav and the page headline were both still legible across the
+     drapes, which killed the illusion outright. The vignette takes the corners
+     down to black so the room recedes instead of ending at the viewport. */
+  background:
+    radial-gradient(120% 90% at 50% 42%, transparent 30%, rgba(0,0,0,0.8) 100%),
+    #050505;
+}
+/* The speaker stacks either side of the screen. A cinema is a room, not just a
+   picture — the masking and the spill give you the screen, and these give you
+   the walls it is mounted on. Perforated grille cloth, drawn as a dot matrix at
+   an opacity that survives beside a bright frame without ever competing with
+   it: at rest they read as texture, and you only resolve them as speakers once
+   you look away from the picture. Pseudo-elements rather than markup because
+   they are decoration in the strict sense — a screen reader has nothing to gain
+   from them, and the dialog already carries its label. */
+.wlb::before,
+.wlb::after {
+  content: '';
+  position: absolute;
+  /* Centred on the picture, not on the viewport — the floor padding moved the
+     screen up and the speakers flank the screen, not the room. */
+  top: calc((100% - var(--wlb-floor)) / 2);
+  transform: translateY(-50%);
+  width: clamp(24px, 2.6vw, 46px);
+  height: min(42vh, 24rem);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.11) 1px, transparent 1.3px);
+  background-size: 7px 7px;
+  background-color: rgba(0, 0, 0, 0.55);
+  /* The cabinet edge. One hairline, no fill — the grille is the whole object. */
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  /* Above the drape they are bolted to, below the picture. */
+  z-index: 1;
+  pointer-events: none;
+}
+.wlb::before { left: clamp(8px, 1.1vw, 22px); }
+.wlb::after { right: clamp(8px, 1.1vw, 22px); }
+
+/* ---- The house ---- */
+.wlb__house { position: absolute; inset: 0; pointer-events: none; }
+/* The light the screen throws back into the room. It lands on the drapes, which
+   is the whole reason the drapes are worth drawing — a curtain in a dark room
+   is only visible because something is lit in front of it. Sits above the
+   curtains and below the picture. */
+.wlb__house::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(66% 52% at 50% calc((100% - var(--wlb-floor)) / 2),
+    rgba(255, 240, 214, 0.13), transparent 72%);
+  z-index: 1;
+}
+
+/* Velvet, drawn the only way this design system can draw velvet: hard vertical
+   pleats at irregular widths. A soft gradient would read as a blur; uneven hard
+   edges read as folded cloth. Deep oxblood rather than --red, which at #e80f03
+   would be a lit surface in a room where nothing is lit but the screen. */
+.wlb__drape {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--wlb-wing);
+  background-color: #140605;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(0,0,0,0.78) 0 5px,
+    rgba(104,13,9,0.46) 5px 13px,
+    rgba(0,0,0,0.66) 13px 19px,
+    rgba(63,8,6,0.52) 19px 27px);
+  z-index: 0;
+}
+/* Each drape fades out toward the screen so the cloth ends in shadow rather
+   than at a ruled line down the side of the picture. */
+.wlb__drape--l {
+  left: 0;
+  -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 42%, transparent 100%);
+}
+.wlb__drape--r {
+  right: 0;
+  -webkit-mask-image: linear-gradient(270deg, #000 42%, transparent 100%);
+  mask-image: linear-gradient(270deg, #000 42%, transparent 100%);
+}
+
+/* The valance across the top of the proscenium. Same cloth, turned through 90°,
+   and short — it is a header, not a fourth wall. */
+.wlb__valance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(30px, 5.5vh, 74px);
+  background-color: #140605;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(0,0,0,0.78) 0 7px,
+    rgba(104,13,9,0.4) 7px 17px,
+    rgba(0,0,0,0.66) 17px 25px,
+    rgba(63,8,6,0.48) 25px 35px);
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent 100%);
+  z-index: 0;
+}
+
+/* The audience. This is the cue that actually says "cinema" — you are looking
+   at the screen over the backs of the seats in front of you, so they are the
+   one part of the room drawn IN FRONT of the picture. Two rows: the near one
+   solid black and large, the far one smaller, lighter and offset by half a
+   seat, which is what gives the floor its depth. */
+.wlb__seats {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--wlb-floor);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 64'%3E%3Cpath d='M13 64V29c0-11 7-18 18-18h38c11 0 18 7 18 18v35z' fill='%23000'/%3E%3Crect y='46' width='15' height='18' fill='%23000'/%3E%3Crect x='85' y='46' width='15' height='18' fill='%23000'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 64'%3E%3Cpath d='M13 64V29c0-11 7-18 18-18h38c11 0 18 7 18 18v35z' fill='%23111111'/%3E%3Crect y='46' width='15' height='18' fill='%23111111'/%3E%3Crect x='85' y='46' width='15' height='18' fill='%23111111'/%3E%3C/svg%3E");
+  background-repeat: repeat-x, repeat-x;
+  background-position: left bottom, calc(50% + 34px) calc(100% - 38%);
+  background-size: auto 100%, auto 62%;
+  z-index: 2;
+}
+
+/* A phone held in the hand is not a room. The drapes and the valance would eat
+   a third of a small screen for atmosphere, so below this the picture gets the
+   space and only the seats stay — one row, shallow, still enough to place you
+   in the audience. */
+@media (max-width: 760px) {
+  .wlb { --wlb-floor: clamp(46px, 9vh, 74px); }
+  .wlb::before, .wlb::after,
+  .wlb__drape, .wlb__valance { display: none; }
+  .wlb__seats {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 64'%3E%3Cpath d='M13 64V29c0-11 7-18 18-18h38c11 0 18 7 18 18v35z' fill='%23000'/%3E%3Crect y='46' width='15' height='18' fill='%23000'/%3E%3Crect x='85' y='46' width='15' height='18' fill='%23000'/%3E%3C/svg%3E");
+    background-position: left bottom;
+    background-size: auto 100%;
+  }
 }
 .wlb[hidden] { display: none; }
-.wlb__stage { display: grid; place-items: center; max-height: 82vh; position: relative; }
+/* Between the drapes (0) and the seats (2). The picture hangs on the back wall
+   and the audience is in front of it. */
+.wlb__stage { display: grid; place-items: center; max-height: 70vh; position: relative; z-index: 1; }
 .wlb__stage img, .wlb__stage video, .wlb__stage iframe {
-  max-width: 100%; max-height: 82vh; width: auto; height: auto;
+  max-width: 100%; max-height: 70vh; width: auto; height: auto;
   /* Screen masking: real cinemas frame the image in matte black borders sized
      to the aspect being shown, and the picture sits inside them. Scales with
      the viewport so it stays a frame rather than becoming a hairline on a big
@@ -5832,18 +6012,25 @@ main > section.strip {
        as a cinema rather than as a black box on a black page. */
     0 0 13vmin 3vmin rgba(255,242,220,0.055);
 }
-.wlb__stage iframe { width: min(90vw, 1200px); aspect-ratio: 16/9; height: auto; }
+/* Bounded by the wings, not the viewport: a 90vw iframe reached under the
+   drapes and the curtain cut a strip off the picture. */
+.wlb__stage iframe { width: min(100%, 1200px); aspect-ratio: 16/9; height: auto; }
 .wlb__nav, .wlb__close {
   background: transparent; border: 0; color: #fff; font-size: 34px; line-height: 1; cursor: pointer;
+  position: relative; z-index: 4;
 }
 .wlb__close { position: absolute; top: 22px; right: 26px; font-size: 30px; }
-/* Reads as the subtitle line under the screen rather than a modal caption. */
+/* Reads as the subtitle line under the screen rather than a modal caption, so
+   it sits on the screen's side of the seats — above the floor, not buried in
+   the front row. */
 .wlb__caption {
-  position: absolute; left: 0; right: 0; bottom: 22px; text-align: center;
+  position: absolute; left: 0; right: 0; text-align: center;
+  bottom: calc(var(--wlb-floor) + 14px);
   font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.22em;
   text-transform: uppercase; color: rgba(255,255,255,0.6);
+  z-index: 3;
 }
-@media (max-width: 600px) { .wlb { grid-template-columns: 40px 1fr 40px; } }
+@media (max-width: 600px) { .wlb { --wlb-wing: 40px; } }
 
 /* ============================================================
    One typeface, two variants: filled text + OUTLINED emphasis.
