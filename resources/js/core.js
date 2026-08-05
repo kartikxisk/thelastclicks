@@ -344,6 +344,7 @@ import { initScenes } from './scene';
     // across the word is the fill itself.
     const markEl = document.querySelector('[data-pboot-mark]');
     const logoEl = document.querySelector('[data-pboot-logo]');
+    const stageEl = document.querySelector('.pboot__stage');
     const word = markEl ? markEl.textContent.trim() : '';
     // Letters only. The charset used to include #%&/\ and the unresolved half of
     // the word read as line noise rather than as letters that had not landed yet.
@@ -378,12 +379,20 @@ import { initScenes } from './scene';
 
       const from = logoEl.getBoundingClientRect();
       const to = target.getBoundingClientRect();
+      // Layout width, NOT the rect: the mark already carries a progress-driven
+      // scale, and the flight's transform REPLACES that rather than multiplying
+      // it. Measuring the scaled rect made the ratio compound and the landing
+      // came in ~8% wide. offsetWidth is the untransformed box, so this is right
+      // whatever the reveal happened to leave --p at.
+      const base = logoEl.offsetWidth;
 
-      if (!from.width || !to.width) {
+      if (!base || !to.width) {
         return;
       }
 
-      const scale = to.width / from.width;
+      const scale = to.width / base;
+      // Scaling about the centre does not move the centre, so the current visual
+      // centre and the layout centre are the same point — this stays correct.
       const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
       const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
 
@@ -399,6 +408,10 @@ import { initScenes } from './scene';
     };
 
     const paint = (t) => {
+      // Written on the stage so the shutter blades AND the mark scaling inside
+      // them read the same number. Two elements, one source of truth.
+      if (stageEl) stageEl.style.setProperty('--p', t.toFixed(4));
+
       const settled = Math.round(t * cells.length);
       for (let i = 0; i < cells.length; i++) {
         const on = i < settled;

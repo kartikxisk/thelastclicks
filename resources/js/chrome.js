@@ -209,15 +209,15 @@ window.TLC = (function(){
      so the sweep of settled characters across the word IS the fill — a separate
      bar underneath it was a second loader saying the same thing twice.
 
-     Above it, the brand logo — oversized here, then flown into its slot in the
-     nav as the overlay leaves, so the mark the visitor stared at while waiting
-     becomes the mark that is there when they arrive. core.js measures the real
-     nav logo and animates between the two rects, which is why the landing is
-     exact at any viewport rather than a guessed offset.
+     Above it, a shutter: six blades that start closed over the brand mark and
+     open on that same value, so the logo is revealed rather than merely shown.
+     When the overlay leaves, the mark flies into its slot in the nav — core.js
+     measures the real nav logo and animates between the two rects, so the
+     landing is exact at any viewport rather than a guessed offset.
 
-     A timecode readout and then an aperture both sat here first. Both were the
-     wrong kind of clever: invented instrumentation, when the studio already has
-     a mark worth showing.
+     The blades are geometry, not artwork: one wedge repeated at 60° by CSS
+     rotation. An earlier version of this put a timecode here instead, which was
+     a figure nobody reads standing in front of a brand that has a mark.
 
      DESIGN-BRUTALIST.md §5 asks a loader to be a monospace character-cycle,
      never a spinner or a shimmer. core.js drives this from the same rAF that
@@ -225,17 +225,28 @@ window.TLC = (function(){
      performing. Reduced-motion users never see it; the preloader is
      display:none for them. */
   function bootReadoutHTML() {
-    // No logo uploaded means no logo here either — same rule as the nav. The
-    // wordmark alone still carries the load in that case.
-    const logo = BRAND_LOGO
-        ? `<div class="pboot__logo" data-pboot-logo aria-hidden="true">
-             <img src="${BRAND_LOGO}" alt="">
+    // Six blades on 60° centres, each a wedge from the middle to the rim, filled
+    // in the page colour so that closed they occlude the mark completely. core.js
+    // opens them from the same progress value that resolves the wordmark.
+    const blades = Array.from({ length: 6 }, (_, i) => `
+      <path class="pap__blade" style="--i:${i}"
+            d="M60 60 L60 6 A54 54 0 0 1 106.8 33 Z"/>`).join('');
+
+    // No logo uploaded means no shutter either — there would be nothing behind
+    // it. Same rule as the nav: absent means render nothing, never a fallback.
+    const stage = BRAND_LOGO
+        ? `<div class="pboot__stage" aria-hidden="true">
+             <div class="pboot__logo" data-pboot-logo><img src="${BRAND_LOGO}" alt=""></div>
+             <svg class="pap" viewBox="0 0 120 120" data-pboot-iris>
+               <g class="pap__blades">${blades}</g>
+               <circle class="pap__rim" cx="60" cy="60" r="54"/>
+             </svg>
            </div>`
         : '';
 
     return `
     <div class="pboot">
-      ${logo}
+      ${stage}
       <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks">THELASTCLICKS</div>
     </div>`;
   }

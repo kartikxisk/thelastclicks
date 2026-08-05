@@ -172,15 +172,13 @@ img, video { max-width: 100%; display: block; }
    where the system wants an instrument, and 83 lines of hand-rolled vector for
    something on screen 1.1s.
 
-   The brand mark, oversized, over a wordmark that resolves out of noise as load
-   progress passes each character — the letters ARE the progress bar. When the
-   overlay leaves, core.js measures the real nav logo and flies this one into it,
-   so the mark somebody stared at while waiting is the mark that is there when
-   they arrive.
+   A shutter opens over the brand mark while a wordmark resolves out of noise —
+   the blades and the letters are two readings of ONE number, painted by core.js
+   from the rAF that already owned load progress, so they cannot disagree. When
+   the overlay leaves, the mark flies into the nav slot it is about to occupy.
 
-   A progress bar sat here once (a second loader saying the same thing twice), a
-   timecode after that (a figure nobody reads), an aperture after that (invented
-   instrumentation). All gone: the studio already has a mark worth showing. */
+   A progress bar sat here once (a second loader saying the same thing twice) and
+   a timecode after that (a figure nobody reads). Both gone. */
 .pboot {
   display: grid;
   justify-items: center;
@@ -189,32 +187,73 @@ img, video { max-width: 100%; display: block; }
   z-index: 1;
 }
 
-/* ---- Brand mark ---- */
+/* ---- Shutter over the mark ---- */
+.pboot__stage {
+  position: relative;
+  width: clamp(120px, 17vw, 216px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  /* core.js writes progress here, once. Both the blades and the mark inside them
+     inherit it, so declaring a local --p on either would shadow this and freeze
+     that half of the reveal. */
+  --p: 0;
+}
 .pboot__logo {
-  width: clamp(96px, 15vw, 190px);
-  /* transform-origin centre so the flight's scale pulls toward the middle of the
-     mark, which is what keeps it tracking the nav slot instead of drifting. */
+  /* Inset so the mark sits inside the rim rather than under it. */
+  width: 72%;
   transform-origin: 50% 50%;
+  /* Rises into the opening aperture: core.js writes --p, so the reveal and the
+     blades are driven by the same value. */
+  transform: scale(calc(0.86 + (var(--p, 0) * 0.14)));
 }
 .pboot__logo img {
   width: 100%;
   height: auto;
   display: block;
 }
-@media (prefers-reduced-motion: no-preference) {
-  /* One slow breath while waiting. Transform only, and it stops the moment the
-     flight class lands so the two never fight over the same property. */
-  .pboot__logo { animation: pboot-breathe 3.2s var(--ease-soft, ease-in-out) infinite; }
+
+.pap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Blades retract into the housing rather than flying off as loose wedges.
+     The rim is r=54 in a 120 viewBox, so 47% clips just outside it: the ring
+     still draws, and anything that travels past it is simply gone. */
+  clip-path: circle(47% at 50% 50%);
 }
-@keyframes pboot-breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+.pap__rim {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
 }
-/* The flight. core.js writes the transform inline from measured rects; this only
-   supplies the timing, and cancels the breathing so the inline transform wins
-   outright rather than being overwritten by the next keyframe tick. */
+.pap__blades { transform-origin: 60px 60px; }
+.pap__blade {
+  /* The page colour, not a tint: closed, the blades have to hide the mark
+     completely or the reveal has nothing to reveal. */
+  fill: var(--ink);
+  stroke: var(--line);
+  stroke-width: 0.6;
+  transform-origin: 60px 60px;
+  /* Each blade sits 60° from the last, then swings and slides clear of the
+     centre as progress runs. At --p:1 they are past the rim. */
+  transform:
+    rotate(calc(var(--i) * 60deg))
+    rotate(calc(var(--p) * 46deg))
+    translate(calc(var(--p) * 62px), 0);
+}
+
+/* The shutter is scaffolding for the reveal, so it goes before the mark travels
+   — otherwise the blades fly to the nav too. */
+.preloader.is-leaving .pap {
+  opacity: 0;
+  transition: opacity 0.24s var(--ease);
+}
+/* The flight itself. core.js writes the transform inline from measured rects;
+   this only supplies the timing. */
 .pboot__logo.is-flying {
-  animation: none;
   transition: transform 0.62s var(--ease-3);
 }
 
@@ -242,8 +281,8 @@ img, video { max-width: 100%; display: block; }
    follow the edge rather than having to compare two greys. */
 .pboot__ch.is-on + .pboot__ch:not(.is-on) { color: var(--red); }
 
-/* The wordmark clears out while the logo is still travelling, so the mark is
-   alone on screen for the last beat instead of dragging the type along with it. */
+/* The wordmark clears while the mark is still travelling, so the logo is alone
+   on screen for the last beat instead of dragging the type along with it. */
 .preloader.is-leaving .pboot__mark {
   opacity: 0;
   transform: translateY(8px);
@@ -278,6 +317,12 @@ img, video { max-width: 100%; display: block; }
 }
 @keyframes pboot-grid {
   to { transform: translate3d(60px, 60px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No shutter theatre: the mark is simply there. */
+  .pap { display: none; }
+  .pboot__logo { transform: none; }
 }
 
 /* ---------- Layout ---------- */
