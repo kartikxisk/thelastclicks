@@ -24,7 +24,10 @@
     // in that case no logo is rendered anywhere, by design.
     $brandLogo = \App\Models\SiteSetting::brandLogoUrl();
     // Final fallback keeps every share card imaged — admin can override in Site Settings → SEO.
-    $seoImage = $seo?->ogImage() ?: ($ogImage ?: (\App\Models\SiteSetting::get('seo_default_og_image') ?: $brandLogo));
+    // defaultOgImageUrl(), NOT get(): the stored value is an upload key, and
+    // emitting it raw gave every share card a relative path that no crawler or
+    // social platform can resolve from its own servers.
+    $seoImage = $seo?->ogImage() ?: ($ogImage ?: (\App\Models\SiteSetting::defaultOgImageUrl() ?: $brandLogo));
     $seoRobots = $seo?->robotsContent();
     $seoOgTitle = $seo?->og_title ?: $seoTitle;
     $seoOgDescription = $seo?->og_description ?: $seoDescription;

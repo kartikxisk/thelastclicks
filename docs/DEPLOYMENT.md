@@ -106,7 +106,11 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    npm ci                              # exact lockfile install (see registry note below)
    npm run build
    php artisan deploy:refresh          # optimize:clear + optimize + storage:link + responsecache:clear + filament:optimize
-   chown -R www:www storage bootstrap/cache && chmod -R 775 storage bootstrap/cache   # web user must own the runtime-writable dirs
+   # web user must own the runtime-writable dirs. Dirs and files are chmodded
+   # separately — see "Never chmod -R 775" below for why -R breaks the next pull.
+   chown -R www:www storage bootstrap/cache
+   find storage bootstrap/cache -type d -exec chmod 2775 {} +
+   find storage bootstrap/cache -type f -exec chmod 664 {} +
    php artisan clients:import-legacy
    php artisan videos:import
    php artisan industries:import
@@ -174,7 +178,9 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    writes to — the deploy script hands them to the web user:
 
    ```bash
-   chown -R www:www storage bootstrap/cache && chmod -R 775 storage bootstrap/cache
+   chown -R www:www storage bootstrap/cache
+   find storage bootstrap/cache -type d -exec chmod 2775 {} +
+   find storage bootstrap/cache -type f -exec chmod 664 {} +
    ```
 
    Confirm the web user before trusting `www` —
@@ -210,13 +216,31 @@ Recommended: Laravel Forge or Ploi on a VPS (DigitalOcean / Hetzner). Nginx + PH
    644. Cleanest habit regardless: run artisan as the web user, `sudo -u www php artisan …`.
 
    `app:preflight` fails the deploy on this, so it can no longer pass while the
-   site 500s. In production it resolves the web user (`www-data`, then `www`,
-   or `APP_WEB_USER`) and checks the owner/group/mode bits of `storage/logs`,
-   `storage/framework/{views,cache,sessions}` and `bootstrap/cache` against *that*
-   account — not `is_writable()`, which reports true for the root or deploy user
+   site 500s. In production it checks the owner/group/mode bits of `storage/logs`,
+   `storage/framework/{views,cache,sessions}` and `bootstrap/cache` against the
+   web user — not `is_writable()`, which reports true for the root or deploy user
    running the check and so misses the failure entirely. Outside production it
    falls back to a plain writability check, since local PHP is served by the same
    account that owns the checkout.
+
+   **Which account it checks against, and the false positive it used to cause.**
+   Resolution order is: `APP_WEB_USER` if set, else the owner of `storage/logs`
+   when that owner is a recognisable web account (`www-data`, `www`, `nginx`,
+   `apache`, `httpd`), else the first of those names that exists on the box.
+
+   It previously used only that last rule, and it aborted a healthy deploy on an
+   aaPanel/BT server: PHP-FPM ran as `www`, storage was correctly owned `www:www`,
+   but Ubuntu also ships a `www-data` account, so preflight measured the dirs
+   against `www-data`, found them unwritable by it, and told the operator to
+   `chown` away the ownership that was already right. Ownership is now the
+   evidence, since the deploy is what sets it.
+
+   If a host serves as something outside that list, set `APP_WEB_USER` in `.env`
+   and it wins over everything. Confirm the real account before trusting a guess:
+
+   ```bash
+   ps aux | grep -E 'php-fpm|nginx' | grep -v root | awk '{print $1}' | sort -u
+   ```
 
    **npm — `E404 … npm.pkg.github.com/<public-package>`.** The server's global
    `~/.npmrc` points the registry at GitHub Packages (which needs auth and does

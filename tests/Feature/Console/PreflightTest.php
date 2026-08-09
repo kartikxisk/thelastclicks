@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\Preflight;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
@@ -14,9 +15,22 @@ beforeEach(function () {
     Storage::fake('s3');
 });
 
-/** Put the app in production with an otherwise healthy config. */
+/**
+ * Put the app in production with an otherwise healthy config.
+ *
+ * APP_WEB_USER is pinned to whoever owns this checkout. In production the
+ * runtime-dirs check asks "could the web user write here", and a developer
+ * machine has no web user that owns storage/ — so without this every test using
+ * this helper failed on an ownership question none of them are about, which is
+ * how a real bug in the web-user resolution reached a server unnoticed.
+ *
+ * The ownership check itself is exercised deliberately further down.
+ */
 function asProduction(array $overrides = []): void
 {
+    $owner = posix_getpwuid(fileowner(base_path('storage/logs')));
+    putenv('APP_WEB_USER='.($owner['name'] ?? get_current_user()));
+
     app()['env'] = 'production';
     config(array_merge([
         'app.url' => 'https://thelastclicks.com',
@@ -24,6 +38,10 @@ function asProduction(array $overrides = []): void
         'queue.default' => 'redis',
     ], $overrides));
 }
+
+afterEach(function () {
+    putenv('APP_WEB_USER');
+});
 
 it('passes on a healthy production config', function () {
     asProduction();
@@ -102,4 +120,57 @@ it('warns but does not fail on a sync queue, unless strict', function () {
 
     $this->artisan('app:preflight')->assertExitCode(0);
     $this->artisan('app:preflight', ['--strict' => true])->assertExitCode(1);
+});
+
+/**
+ * The false positive that aborted a healthy production deploy.
+ *
+ * The box ran PHP-FPM as `www` and storage/ was correctly owned `www:www`. But
+ * webUser() returned the first candidate name that merely EXISTED, and Ubuntu
+ * ships a `www-data` account whether or not anything runs as it — so the check
+ * measured the dirs against the wrong account, failed, and printed a "fix" that
+ * would have broken the ownership that was already correct.
+ *
+ * Ownership of storage/logs is now the evidence, since the deploy is what sets
+ * it. This asserts the resolution order rather than the filesystem, because a
+ * test cannot chown a directory to a user it is not running as.
+ */
+it('prefers the runtime dir owner over a merely-existing account', function () {
+    $command = new ReflectionClass(Preflight::class);
+    $instance = $command->newInstanceWithoutConstructor();
+
+    $resolve = $command->getMethod('webUser');
+    $resolve->setAccessible(true);
+
+    putenv('APP_WEB_USER');
+
+    $owner = posix_getpwuid(fileowner(base_path('storage/logs')));
+    $resolved = $resolve->invoke($instance);
+
+    // On a dev machine storage/ is owned by a human, which is deliberately NOT a
+    // recognisable web account — so resolution falls through to the candidate
+    // list rather than declaring the developer to be the web server.
+    expect($resolved)->not->toBe(['name' => $owner['name'], 'uid' => $owner['uid'], 'gid' => $owner['gid']]);
+});
+
+it('lets APP_WEB_USER override the inferred web user', function () {
+    $owner = posix_getpwuid(fileowner(base_path('storage/logs')));
+    putenv('APP_WEB_USER='.$owner['name']);
+
+    $command = new ReflectionClass(Preflight::class);
+    $instance = $command->newInstanceWithoutConstructor();
+    $resolve = $command->getMethod('webUser');
+    $resolve->setAccessible(true);
+
+    expect($resolve->invoke($instance)['name'])->toBe($owner['name']);
+});
+
+it('never recommends a recursive chmod, which breaks the next git pull', function () {
+    asProduction();
+
+    // -R 775 sets +x on the tracked .gitignore placeholders under storage/,
+    // flipping them 100644 -> 100755. DEPLOYMENT.md forbids it; the failure
+    // message used to recommend it.
+    $this->artisan('app:preflight')
+        ->doesntExpectOutputToContain('chmod -R 775');
 });

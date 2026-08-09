@@ -148,10 +148,16 @@ class SiteSettingsPage extends Page implements HasForms
                         ->schema([
                             Forms\Components\TextInput::make('seo_default_title'),
                             Forms\Components\Textarea::make('seo_default_description')->rows(3),
+                            // No ->url() rule. This field holds EITHER a pasted
+                            // absolute URL or an upload key on the media disk
+                            // ('headers/gear-camera-dark.jpg' is what the seeder
+                            // puts there), and MediaUrl resolves both. The rule
+                            // rejected the seeded key, so the whole Site Settings
+                            // form failed validation on load and nothing on it
+                            // could be saved — including fields nobody had touched.
                             Forms\Components\TextInput::make('seo_default_og_image')
-                                ->label('Default social share image URL')
-                                ->helperText('Fallback OG/Twitter image (1200×630 recommended) used when a page has none.')
-                                ->url(),
+                                ->label('Default social share image')
+                                ->helperText('Fallback OG/Twitter image (1200×630 recommended) used when a page has none. A full https:// URL, or a path on the media disk.'),
                         ]),
                     Forms\Components\Tabs\Tab::make('Page images')
                         ->schema([

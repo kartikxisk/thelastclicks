@@ -102,6 +102,24 @@ class SiteSetting extends Model
     }
 
     /**
+     * Fallback share image, resolved to something a crawler can actually fetch.
+     *
+     * The stored value is an upload key ('headers/gear-camera-dark.jpg'), and the
+     * layout was emitting it raw — so every og:image and twitter:image on the
+     * site carried a relative path. Social platforms and crawlers fetch that URL
+     * from their own servers, where a relative path resolves against nothing, so
+     * the share card silently had no image anywhere. MediaUrl also passes a
+     * pasted absolute URL through untouched, which is the other thing this field
+     * legitimately holds.
+     */
+    public static function defaultOgImageUrl(): ?string
+    {
+        $path = static::get('seo_default_og_image');
+
+        return is_string($path) ? MediaUrl::onUploadDisk($path) : null;
+    }
+
+    /**
      * The dark-ink logo, for light backgrounds.
      *
      * brand_logo is the light-on-transparent mark the public site needs — every

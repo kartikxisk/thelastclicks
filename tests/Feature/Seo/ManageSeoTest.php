@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\SeoPage;
+use App\Models\SiteSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 
@@ -139,4 +140,31 @@ it('works for a dynamic blog post path', function () {
     $this->get('/blog/'.$post->slug)
         ->assertOk()
         ->assertSee('<title>Post SEO Override ZZZ</title>', false);
+});
+
+/**
+ * og:image must be absolute. Social platforms and crawlers fetch it from their
+ * own servers, where a relative path resolves against nothing — so a bare
+ * upload key means the share card has no image, everywhere, silently.
+ *
+ * The default is stored as a media-disk key ('headers/gear-camera-dark.jpg'),
+ * and the layout was emitting it raw.
+ */
+it('always emits an absolute og:image, even from a stored upload key', function () {
+    SiteSetting::set('seo_default_og_image', 'headers/gear-camera-dark.jpg');
+
+    $html = $this->get('/about')->assertOk()->getContent();
+
+    preg_match('~<meta property="og:image" content="([^"]*)"~', $html, $m);
+
+    expect($m[1] ?? '')->toStartWith('http')
+        ->and($m[1] ?? '')->not->toBe('headers/gear-camera-dark.jpg');
+});
+
+it('passes a pasted absolute share-image URL through untouched', function () {
+    SiteSetting::set('seo_default_og_image', 'https://cdn.example.com/card.jpg');
+
+    $this->get('/about')
+        ->assertOk()
+        ->assertSee('<meta property="og:image" content="https://cdn.example.com/card.jpg">', false);
 });
