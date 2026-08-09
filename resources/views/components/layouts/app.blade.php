@@ -11,7 +11,15 @@
     $seo = \App\Models\SeoPage::forPath();
     $seoTitle = $seo?->title ?: ($title ?? \App\Models\SiteSetting::get('seo_default_title', config('app.name')));
     $seoDescription = $seo?->meta_description ?: ($description ?? \App\Models\SiteSetting::get('seo_default_description', ''));
-    $seoCanonical = $seo?->canonical_url ?: $canonical;
+    // An admin-set canonical is honoured EXACTLY as typed — cross-domain canonicals
+    // are a legitimate thing to want (syndicated copy pointing home), and rewriting
+    // one onto our own host would silently defeat the reason someone set it.
+    //
+    // Everything else goes through AppUrl::canonical(), because everything else is
+    // derived from the request: both url() and url()->current() take their host
+    // from the incoming Host header, which is how www and apex each ended up
+    // emitting a canonical pointing at themselves.
+    $seoCanonical = $seo?->canonical_url ?: \App\Support\AppUrl::canonical($canonical);
     // Admin-managed brand mark (Site Settings → Branding). Null when nothing is uploaded —
     // in that case no logo is rendered anywhere, by design.
     $brandLogo = \App\Models\SiteSetting::brandLogoUrl();
@@ -30,7 +38,7 @@
     <meta name="description" content="{{ $seoDescription }}">
     @if ($seo?->meta_keywords) <meta name="keywords" content="{{ $seo->meta_keywords }}"> @endif
     @if ($seoRobots) <meta name="robots" content="{{ $seoRobots }}"> @endif
-    <link rel="canonical" href="{{ $seoCanonical ?: url()->current() }}">
+    <link rel="canonical" href="{{ $seoCanonical }}">
     {{-- Admin-managed (Site Settings → Branding); falls back to the bundled favicon.
          No type attribute: an uploaded icon may be PNG, SVG or ICO. --}}
     @php $favicon = \App\Models\SiteSetting::faviconUrl(); @endphp
@@ -45,7 +53,7 @@
     <meta name="cta-video" content="{{ \App\Models\SiteSetting::ctaVideoUrl() }}">
     <meta property="og:title" content="{{ $seoOgTitle }}">
     <meta property="og:description" content="{{ $seoOgDescription }}">
-    <meta property="og:url" content="{{ $seoCanonical ?: url()->current() }}">
+    <meta property="og:url" content="{{ $seoCanonical }}">
     @if ($seoImage)
     <meta property="og:image" content="{{ $seoImage }}">
     <meta name="twitter:image" content="{{ $seoImage }}">
@@ -55,15 +63,25 @@
     <meta name="twitter:description" content="{{ $seoOgDescription }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {{-- Three registers, per DESIGN-BRUTALIST.md §3: Archivo Black carries every
-         headline, JetBrains Mono carries the whole micro register and body copy.
-         Outfit stays loaded at two weights only — long-form article prose is the
-         one place brutalist.css stands the monospace body down, and dropping the
-         family entirely would leave that text on a system fallback. --}}
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    {{-- One typeface, site-wide: Jost. Chosen to sit with the brand mark, which is
+         a monoline geometric wordmark with circular bowls — Archivo Black (wide,
+         black, grotesque) and JetBrains Mono fought it on every axis.
+
+         Weights are exactly the six core.css and pages.css declare. 900 is not
+         among them; requesting it only adds a file nothing renders.
+
+         The italic axis is NOT optional decoration: .hero__title em,
+         .belief__title em, .svc__title em and .section__title em all set
+         `font-style: italic`. Without ital here the browser fakes the slant by
+         shearing the roman, which on a light geometric face reads as a
+         rendering fault rather than an accent.
+
+         brutalist.css is still on disk but no longer built. Re-adding its @vite
+         entry means re-adding Archivo Black and JetBrains Mono here too, or its
+         headlines silently fall back to a system face. --}}
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     {{-- chrome.js MUST load before core.js: chrome injects the shared HTML (nav/preloader/quote/cursor), then core.js wires behaviour onto it. --}}
-    {{-- brutalist.css last: it overrides tokens that core.css re-declares at its own tail. --}}
-    @vite(['resources/css/core.css','resources/css/pages.css','resources/css/brutalist.css','resources/js/chrome.js','resources/js/core.js'])
+    @vite(['resources/css/core.css','resources/css/pages.css','resources/js/chrome.js','resources/js/core.js'])
 
     @php $gaId = config('services.google_analytics.id'); @endphp
     @if ($gaId && ! app()->environment('local', 'testing'))

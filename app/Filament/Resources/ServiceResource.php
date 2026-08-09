@@ -72,6 +72,20 @@ class ServiceResource extends Resource
                             Textarea::make('cta.copy')->label('Copy')->rows(2),
                             TextInput::make('cta.prefill')->label('Prefill'),
                         ]),
+                    // Headings for the two blocks whose wording differs per service
+                    // (brief -> delivery vs moodboard -> master vs ingest -> export).
+                    // Leave a field empty and the page falls back to the default
+                    // string in services/show.blade.php.
+                    Fieldset::make('Section headings')
+                        ->columns(1)
+                        ->schema([
+                            TextInput::make('sections.flow.title')->label('Flow heading')
+                                ->helperText('Inline <em> renders as the accent. Uppercased by the design.'),
+                            Textarea::make('sections.flow.lead')->label('Flow lead')->rows(2),
+                            TextInput::make('sections.kit.title')->label('Arsenal heading')
+                                ->helperText('Inline <em> renders as the accent. Uppercased by the design.'),
+                            Textarea::make('sections.kit.lead')->label('Arsenal lead')->rows(2),
+                        ]),
                     Repeater::make('hero_meta')
                         ->label('Hero meta')
                         ->columnSpanFull()

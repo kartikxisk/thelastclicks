@@ -34,13 +34,10 @@
       <div class="disc__grid" data-stagger>
         <div class="disc__lead" data-anim="curtain">
           <span class="section__eyebrow">Our story</span>
-          <h2 class="section__title" data-split>Built on the <em>discipline</em> of premium brands.</h2>
+          <h2 class="section__title" data-split>Beyond the lens: <em>a promise of discipline.</em></h2>
           <div class="disc__copy">
-            <p>Brands choose us because we deliver trust, not just footage. Every shoot — wedding, commercial, or corporate — is run with the same discipline: show up prepared, protect the brief, deliver work that holds up under scrutiny.</p>
-            <p>That discipline is why our client list spans far beyond weddings and product launches — we've delivered for some of the country's most demanding organisations, from <strong>national institutions and defence forces</strong> to <strong>global enterprise brands</strong> and leading automotive names.</p>
-            <p>We don't chase &ldquo;good enough.&rdquo; Every project is a chance to be better than the last one — sharper frames, tighter edits, stronger stories.</p>
+            <p>We are built on the discipline of premium brands. We treat every shoot as a chance to outdo our last — showing up prepared and delivering work that holds up under the highest scrutiny. That unwavering standard is why our portfolio spans far beyond product launches, earning the trust of <strong>national institutions</strong> and <strong>global enterprises</strong> alike.</p>
           </div>
-          <p class="disc__kicker reveal" data-delay="2">Not a vendor — a long-term partner that scales with your story.</p>
 
           <div class="disc__stats" data-stagger>
             <div class="disc__stat" data-anim="mask-up">
@@ -72,10 +69,10 @@
         <div><span class="section__eyebrow">Principles</span><h2 class="section__title" data-split>How we <em>operate</em></h2></div>
       </div>
       <div class="proc" data-stagger>
-        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">01<span>BRIEF</span></div><h3>Story before spectacle</h3><p>We listen first — understanding your brand and where craft can push it further — then build the story before we shoot a single frame.</p></div>
-        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">02<span>CRAFT</span></div><h3>Brand-grade post</h3><p>In-house grading and finishing — never outsourced.</p></div>
-        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">03<span>SCALE</span></div><h3>Crews that flex</h3><p>One operator or thirty — same standard, same lead.</p></div>
-        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">04<span>TRUST</span></div><h3>Compliance by default</h3><p>Premium &amp; regulated brand guidelines understood deeply.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">01<span>FOCUS</span></div><h3>Narrative first</h3><p>Beautiful imagery is empty without a story. We dive deep into your vision to build the blueprint before the cameras roll.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">02<span>CRAFT</span></div><h3>Studio-grade finishing</h3><p>True cinematic quality is forged in post-production. Our in-house editing and colour grading ensure uncompromising visual fidelity.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">03<span>SCALE</span></div><h3>Agile production</h3><p>From intimate single-operator shoots to massive multi-camera sets, our aesthetic and operational discipline remain steadfast.</p></div>
+        <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">04<span>TRUST</span></div><h3>Absolute alignment</h3><p>We integrate seamlessly. Every deliverable is designed to be fully compliant and perfectly aligned with your established brand guidelines.</p></div>
       </div>
     </x-container>
   </section>
@@ -88,33 +85,33 @@
         <div class="timeline-x__sticky" data-anim="slide-l">
           <span class="label">The journey</span>
           <h3>Five years, <em>one obsession.</em></h3>
-          <p>One borrowed lens to a 60-person studio across 20+ cities — earned by saying no to briefs that didn't fit.</p>
+          <p>From a single borrowed lens to a 60-person operation spanning 20+ cities. We built this scale not by taking every job, but by refusing to compromise on our standard.</p>
         </div>
         <div class="timeline-x__rail" data-stagger>
           <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2018</div>
             <div class="timeline-x__title">Started with <em>one camera.</em></div>
-            <div class="timeline-x__desc">Founded in Noida as a 2-person wedding-film crew — first gig a 100-guest hometown engagement, and we still know the family.</div>
+            <div class="timeline-x__desc">Founded in Noida as a two-person crew. Our first project was an intimate hometown engagement; today, that same dedication to the client remains our foundation.</div>
           </div>
           <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2020</div>
-            <div class="timeline-x__title">First brand film.</div>
-            <div class="timeline-x__desc">Lockdown forced a pivot — within 90 days, our first corporate brand film: a regional FMCG launch still in their library.</div>
+            <div class="timeline-x__title">The <em>corporate pivot.</em></div>
+            <div class="timeline-x__desc">A global lockdown forced an evolution. Within 90 days, we delivered our first corporate brand film for a regional FMCG client — a campaign still in active use today.</div>
           </div>
           <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2022</div>
-            <div class="timeline-x__title">In-house <em>post pipeline.</em></div>
-            <div class="timeline-x__desc">Stopped outsourcing grade — built a full DaVinci pipeline with ACES color management. Quality jumped overnight.</div>
+            <div class="timeline-x__title">In-house <em>mastery.</em></div>
+            <div class="timeline-x__desc">We stopped outsourcing our finish. By building a complete DaVinci pipeline with ACES colour management, we took absolute control of our cinematic quality.</div>
           </div>
           <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2024</div>
-            <div class="timeline-x__title">Premium beverage partner.</div>
-            <div class="timeline-x__desc">First Fortune-500 partner — working with regulated brands reshaped how we approach every brief.</div>
+            <div class="timeline-x__title">Enterprise <em>trust.</em></div>
+            <div class="timeline-x__desc">Secured our first Fortune 500 partner. Delivering for heavily regulated, premium beverage brands permanently elevated our approach to production and compliance.</div>
           </div>
           <div class="timeline-x__item scene-stop" data-anim="slide-r">
             <div class="timeline-x__year">2026</div>
-            <div class="timeline-x__title"><em>1,000+</em> events in.</div>
-            <div class="timeline-x__desc">Crew of 60+ across 20+ cities, booked into 2026 — same standard, scaled.</div>
+            <div class="timeline-x__title"><em>1,000+</em> deployments.</div>
+            <div class="timeline-x__desc">A crew of 60+ operating nationwide. The footprint has scaled massively, but our rigorous operational standard remains exactly the same.</div>
           </div>
         </div>
       </div>
@@ -128,9 +125,9 @@
       <div class="cities__grid">
       <div class="cities__aside">
         <div class="cities__head">
-          <span class="section__eyebrow" data-scramble>Where we shoot</span>
-          <h2 class="section__title" data-split>20+ cities, <em>one team.</em></h2>
-          <p class="section__lead" data-anim="rise">A live trace of where our crews have worked — every red pulse a shoot, a screening, a brand we've shipped for.</p>
+          <span class="section__eyebrow" data-scramble>Our presence</span>
+          <h2 class="section__title" data-split>20+ cities. 1,000+ productions. <em>One unbroken standard.</em></h2>
+          <p class="section__lead" data-anim="rise">From metro hubs to remote locations — a live trace of our national footprint. Every red pulse represents a set we've run, a narrative we've captured, and a brand we've delivered for.</p>
         </div>
       </div>
       <div class="cities__map" data-anim="iris">

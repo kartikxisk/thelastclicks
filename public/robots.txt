@@ -1,4 +1,46 @@
 # https://thelastclicks.com/robots.txt
+
+# ---------------------------------------------------------------------------
+# AI crawlers.
+#
+# Deliberately ALLOWED, and written out rather than left to the wildcard so the
+# decision is on the record instead of being an omission someone later reads as
+# an oversight.
+#
+# The reasoning: this is a studio that sells on reputation, and being quoted by
+# an assistant that a client is asking "who shoots brand films in Delhi NCR" is
+# the modern version of being recommended. Blocking these buys privacy the site
+# does not need — every page here is public marketing copy.
+#
+# Two distinctions worth knowing before changing any of this:
+#   - Google-Extended controls Gemini TRAINING only. It has no effect on Google
+#     Search or on AI Overviews, both of which use Googlebot. Blocking it does
+#     not remove the site from AI Overviews.
+#   - GPTBot is OpenAI's training crawler. Blocking it does NOT stop ChatGPT
+#     citing this site, which it does live via ChatGPT-User.
+#
+# To opt out of model training while staying citable, set Disallow: / for
+# GPTBot, Google-Extended, ClaudeBot, Bytespider and CCBot, and leave
+# ChatGPT-User and PerplexityBot allowed.
+# ---------------------------------------------------------------------------
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 User-agent: *
 Allow: /
 Disallow: /admin

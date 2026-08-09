@@ -7,6 +7,8 @@
 import { initWorkLightbox } from './work-lightbox';
 import { initWorkMarquee } from './work-marquee';
 import { initScenes } from './scene';
+import { initServicesAccordion } from './services-accordion';
+import { initReveals } from './reveals';
 
 (() => {
   const root = document.documentElement;
@@ -98,12 +100,15 @@ import { initScenes } from './scene';
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px -2% 0px' });
-  document.querySelectorAll('.reveal, .split, .clip-reveal, [data-anim]').forEach(el => io.observe(el));
+  // [data-anim] is deliberately absent: reveals.js owns it now, via motion.dev.
+  // Observing it here too would race — whichever fired first would add .is-in and
+  // the other would animate from an already-final state.
+  document.querySelectorAll('.reveal, .split, .clip-reveal').forEach(el => io.observe(el));
 
   // Failsafe — brute-force activate anything visible (or near it) in case IO is slow to fire on load.
   function forceRevealVisible() {
     const vh = window.innerHeight;
-    document.querySelectorAll('.reveal:not(.is-in), .split:not(.is-in), .clip-reveal:not(.is-in), [data-anim]:not(.is-in)').forEach(el => {
+    document.querySelectorAll('.reveal:not(.is-in), .split:not(.is-in), .clip-reveal:not(.is-in)').forEach(el => {
       const r = el.getBoundingClientRect();
       // In view, or approaching: play the reveal.
       // Already scrolled past (bottom above the viewport): reveal it outright —
@@ -266,8 +271,15 @@ import { initScenes } from './scene';
   // time the strip starts moving.
   initWorkMarquee();
 
+  /* -------------------- Services hover accordion -------------------- */
+  initServicesAccordion();
+
   /* -------------------- Scene engine -------------------- */
   initScenes();
+
+  /* -------------------- Section reveals (motion.dev) -------------------- */
+  // After initScenes(), which writes the --i stagger index the reveals read.
+  initReveals();
 
   /* -------------------- YouTube poster fallback -------------------- */
   // maxresdefault is the only 16:9 poster (hqdefault is 4:3 with black bars
@@ -873,31 +885,20 @@ import { initScenes } from './scene';
     next && next.addEventListener('click', () => go(1));
     dots.forEach((dot, n) => dot.addEventListener('click', () => goTo(n)));
 
-    // A click on a side card rotates the deck to it rather than navigating —
-    // following a link you can barely see is never what was meant. The centre
-    // card is a plain link and is left alone.
+    // EVERY card opens the modal on click, centre or not. This used to swallow
+    // the click on a side card and merely rotate the deck to it, on the reasoning
+    // that following a link you can barely see is never what was meant — so a
+    // visitor had to click a card twice to get anywhere, and the first click gave
+    // no modal at all. The deck can still be browsed with the arrows, the dots,
+    // drag/swipe and the arrow keys, so nothing is lost by letting the click
+    // through.
+    //
+    // The card is a real <a href="/contact"> carrying [data-quote-trigger], and
+    // the delegated listener on document is what opens the wizard prefilled with
+    // this industry. So the whole job here is to bring the clicked card round
+    // first and then get out of the way — no preventDefault, no stopPropagation.
     cards.forEach((card, n) => {
-      // Whether this card was the centre one when the press STARTED. Focus fires
-      // before click and rotates the card into the centre, so checking the class
-      // inside the click handler would always say "centre" and let a side-card
-      // click navigate — the opposite of what's intended.
-      let pressedFromCentre = false;
-      card.addEventListener('pointerdown', () => {
-        pressedFromCentre = card.classList.contains('is-centre');
-      });
-      card.addEventListener('click', e => {
-        // Keyboard activation has no preceding pointerdown; fall back to the
-        // live class, which is correct there because focus already centred it.
-        const fromCentre = e.detail === 0 ? card.classList.contains('is-centre') : pressedFromCentre;
-        if (fromCentre) return;
-        e.preventDefault();
-        // ...and stop it here. preventDefault alone only cancels the navigation;
-        // the delegated [data-quote-trigger] listener on document still fired, so
-        // bringing a side card round also threw the quote wizard open on top of
-        // the deck the visitor was still looking through.
-        e.stopPropagation();
-        goTo(n);
-      });
+      card.addEventListener('click', () => { goTo(n); });
       // Tabbing to an off-centre card brings it round, so keyboard focus and
       // what's legible on screen never disagree.
       card.addEventListener('focus', () => { if (!card.classList.contains('is-centre')) goTo(n); });

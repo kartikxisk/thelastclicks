@@ -102,6 +102,27 @@ class SiteSetting extends Model
     }
 
     /**
+     * The dark-ink logo, for light backgrounds.
+     *
+     * brand_logo is the light-on-transparent mark the public site needs — every
+     * surface out there is --ink. This is the same mark drawn in black, for the
+     * places that are NOT dark: the admin panel in light mode, and anything
+     * printed or embedded on white.
+     *
+     * Falls back to brand_logo rather than to null. One logo showing in the wrong
+     * colour is recoverable; the admin panel losing its logo entirely because only
+     * one variant was uploaded is a worse failure, and the fallback means a studio
+     * that only ever uploads one file still gets a working site.
+     */
+    public static function brandLogoDarkUrl(): ?string
+    {
+        $path = static::get('brand_logo_dark');
+
+        return (is_string($path) ? MediaUrl::onUploadDisk($path) : null)
+            ?: static::brandLogoUrl();
+    }
+
+    /**
      * Favicon URL, also used as the Apple touch icon.
      *
      * Unlike the brand logo this always resolves: an absent favicon just gets the

@@ -24,30 +24,47 @@
         $galleryUrls = $service->galleryUrls();
         $gallerySpans = ['g--7', 'g--5', 'g--4', 'g--8'];
         $cta = $service->cta ?? [];
+        // Per-service headings for the blocks below. Every read falls back to the
+        // string that used to be hardcoded there, so a service with no `sections`
+        // row renders exactly as this page did before the column existed.
+        $sections = $service->sections ?? [];
     @endphp
 
-    {{-- 01 HERO --}}
-    <section class="pp-hero" data-screen-label="01 Hero">
-        <div class="pp-hero__crumb">
+    {{-- 01 HEADER — the same full-bleed media header every other top-level page
+         uses, so a service no longer opens on a different shape to /about or
+         /portfolio. The photograph fills the header and the crumb, title,
+         standfirst and spec strip sit on top of it; the old layout stacked a
+         heading block above a 2.6:1 letterbox crop, which read as a page with a
+         picture under it rather than a page that opens on one.
+
+         No hero_meta spec strip: "Typical scope — Per project" and "Timeline —
+         1–3 weeks" are not things a buyer can act on, and Phases below states the
+         real timeline per stage. The data is still on the model and still editable
+         in the admin, so restoring the strip is just re-adding the <dl>. --}}
+    <section class="page-header page-header--media" data-screen-label="01 Header"
+             @if ($heroImg) style="--ph-bg:url('{{ $heroImg }}')" @endif>
+        <div class="page-header__crumb">
             <a href="{{ url('/') }}">Home</a>
             <span>/</span>
             <a href="{{ url('/#services') }}">Services</a>
             <span>/</span>
             <span>{{ $service->title }}</span>
         </div>
-        <div class="pp-hero__row">
-            <h1 data-split>{!! $service->hero_headline ?: e($service->title) !!}</h1>
-        </div>
-        {{-- Hero meta strip retired: "Typical scope — Per project" and "Timeline — 1–3 weeks"
-             said nothing a buyer could act on, and the Phases section below gives the real
-             timeline per stage. The hero_meta data is still on the model, so restoring this
-             is just un-commenting it. --}}
-        @if ($heroImg)
-            <div class="pp-hero__cover" data-anim="curtain" data-zoom>
-                <img src="{{ $heroImg }}" alt="{{ $service->title }}" decoding="async">
-            </div>
-        @endif
+        <h1 data-split>{!! $service->hero_headline ?: e($service->title) !!}</h1>
     </section>
+
+    {{-- 02 STANDFIRST — the positioning statement, on the page rather than over
+         the photograph. hero_copy used to reach only the <meta> description and the
+         JSON-LD; putting it in the header made it visible but left it competing
+         with the image for contrast and capped at the header's measure. Out here
+         it gets its own band, its own measure and no scrim to fight. --}}
+    @if ($service->hero_copy)
+        <section class="pp-intro" data-screen-label="02 Standfirst">
+            <x-container>
+                <p class="pp-intro__copy" data-anim="rise">{{ $service->hero_copy }}</p>
+            </x-container>
+        </section>
+    @endif
 
     {{-- BODY (rich content from admin) --}}
     @if ($service->body)
@@ -75,13 +92,30 @@
                 <div class="services__head">
                     <div>
                         <span class="section__eyebrow" data-scramble>The flow</span>
-                        <h2 class="section__title" data-split>From brief <em>to delivery.</em></h2>
+                        <h2 class="section__title" data-split>{!! $sections['flow']['title'] ?? 'From brief <em>to delivery.</em>' !!}</h2>
                     </div>
-                    <p class="section__lead" data-anim="rise">Every phase: an owner, a deliverable, a review gate. No drift.</p>
+                    <p class="section__lead" data-anim="rise">{{ $sections['flow']['lead'] ?? 'Every phase: an owner, a deliverable, a review gate. No drift.' }}</p>
                 </div>
                 <div class="pp-phases">
                     @foreach ($service->phases as $ph)
-                        <article class="pp-phase scene-stop" data-anim="curtain" data-sheen><div class="pp-phase__num">{{ $ph['num'] ?? '' }}</div><div class="pp-phase__body"><h3>{{ $ph['title'] ?? '' }}</h3><p>{{ $ph['desc'] ?? '' }}</p></div><div class="pp-phase__time">{{ $ph['time'] ?? '' }}</div></article>
+                        {{-- Three columns: index, the stage and its duration, then
+                             the description. The duration used to sit in its own
+                             fixed column hard against the right edge, half a screen
+                             from the stage it belongs to; it reads as a spec of the
+                             stage, so it is now stated with it. --}}
+                        {{-- skew-in, not curtain: the phases are a sequence, and a
+                             slight shear settling out as each row lands reads as
+                             steps arriving rather than five identical wipes. --}}
+                        <article class="pp-phase scene-stop" data-anim="skew-in" data-sheen>
+                            <div class="pp-phase__num">{{ $ph['num'] ?? '' }}</div>
+                            <div class="pp-phase__head">
+                                <h3>{{ $ph['title'] ?? '' }}</h3>
+                                @if (!empty($ph['time']))
+                                    <span class="pp-phase__time">{{ $ph['time'] }}</span>
+                                @endif
+                            </div>
+                            <p class="pp-phase__desc">{{ $ph['desc'] ?? '' }}</p>
+                        </article>
                     @endforeach
                 </div>
             </x-container>
@@ -115,14 +149,27 @@
             <x-container>
                 <div class="services__head">
                     <div>
-                        <span class="section__eyebrow" data-scramble>Tools we trust</span>
-                        <h2 class="section__title" data-split>Cinema-grade <em>by default.</em></h2>
+                        <span class="section__eyebrow" data-scramble>Our arsenal</span>
+                        <h2 class="section__title" data-split>{!! $sections['kit']['title'] ?? 'Cinema-grade <em>by default.</em>' !!}</h2>
                     </div>
-                    <p class="section__lead" data-anim="slide-l">Our shortlist — extended per-brief when a project needs a specific look.</p>
+                    <p class="section__lead" data-anim="slide-l">{{ $sections['kit']['lead'] ?? 'Our shortlist — extended per-brief when a project needs a specific look.' }}</p>
                 </div>
                 <div class="pp-kit__grid" data-stagger>
                     @foreach ($service->kit as $i => $k)
-                        <div class="pp-kit__card" data-anim="rotate-in" data-lift><span class="pp-kit__cat">{{ $k['title'] ?? '' }}</span><p>{{ implode(' · ', $k['items'] ?? []) }}</p></div>
+                        {{-- A real list, not a middot-joined run. Kit is scanned for
+                             one name at a time ("do they shoot ARRI?"), and a single
+                             wrapped paragraph makes the reader parse the whole card
+                             to answer that. --}}
+                        {{-- Cards get the overshoot spring; the old rotate-in tipped
+                             them off-axis, which fought the hard-edged grid. --}}
+                        <div class="pp-kit__card" data-anim="pop" data-lift>
+                            <span class="pp-kit__cat">{{ $k['title'] ?? '' }}</span>
+                            <ul class="pp-kit__list">
+                                @foreach ($k['items'] ?? [] as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endforeach
                 </div>
             </x-container>
@@ -136,8 +183,8 @@
             <x-container>
                 <div class="services__head">
                     <div>
-                        <span class="section__eyebrow" data-scramble>Quick answers</span>
-                        <h2 class="section__title" data-split>Things people <em>ask.</em></h2>
+                        <span class="section__eyebrow" data-scramble>Operational protocols</span>
+                        <h2 class="section__title" data-split>Capabilities <em>&amp; compliance.</em></h2>
                     </div>
                 </div>
                 <div class="acc" data-acc data-stagger>
@@ -159,7 +206,20 @@
     <section class="cta-strip">
         <x-scene-bg type="photo" />
         <x-container data-stagger>
-            <h2 class="cta-strip__title" data-split data-anim="mask-up">{!! $cta['title'] ?? 'Start with a brief.<br>Or start with <em>a question.</em>' !!}</h2>
+            {{-- One wrapper, because .cta-strip > .container is a two-column flex
+                 row: title on the left, action on the right. Adding the eyebrow and
+                 the copy as further children of it would have made four columns and
+                 stranded the button. --}}
+            <div class="cta-strip__lead">
+                <span class="section__eyebrow" data-scramble>Commissions</span>
+                <h2 class="cta-strip__title" data-split data-anim="mask-up">{!! $cta['title'] ?? 'Start with a brief.<br>Or start with <em>a question.</em>' !!}</h2>
+                {{-- cta.copy has been seeded and admin-editable all along but nothing
+                     ever printed it, so the response-time promise the studio makes on
+                     every other page was missing from the one that asks for the brief. --}}
+                @if (!empty($cta['copy']))
+                    <p class="cta-strip__copy" data-anim="rise">{{ $cta['copy'] }}</p>
+                @endif
+            </div>
             <div class="cta-strip__row" data-anim="rise">
                 <a class="btn btn--red" href="#quote" data-quote-trigger data-quote-prefill="{{ $cta['prefill'] ?? $service->title }}" data-magnetic data-cursor="START">Start a brief <span class="arr"></span></a>
             </div>

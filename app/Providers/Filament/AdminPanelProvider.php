@@ -37,7 +37,12 @@ class AdminPanelProvider extends PanelProvider
             ->darkMode(true)
             ->defaultThemeMode(ThemeMode::Dark)
             ->brandName('TheLastClicks')
-            ->brandLogo(SiteSetting::brandLogoUrl())
+            // The panel can be either theme, so it gets both marks: the dark-ink
+            // one for light mode, the light one for dark. Passing the light mark to
+            // both (which is what a single ->brandLogo() call did) left it invisible
+            // for anyone who switched the panel to light.
+            ->brandLogo(SiteSetting::brandLogoDarkUrl())
+            ->darkModeBrandLogo(SiteSetting::brandLogoUrl())
             ->favicon(SiteSetting::faviconUrl())
             ->renderHook(
                 PanelsRenderHook::HEAD_END,

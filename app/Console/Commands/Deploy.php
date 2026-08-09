@@ -132,6 +132,10 @@ class Deploy extends Command
         }
 
         $steps[] = ['label' => 'Generate sitemap', 'cmd' => [$php, 'artisan', 'sitemap:generate'], 'timeout' => 300];
+        // Immediately after the sitemap, because it reads the file that step just
+        // wrote. No-ops without INDEXNOW_KEY, so it is safe to leave in the script
+        // whether or not the environment has opted in.
+        $steps[] = ['label' => 'Submit URLs to IndexNow', 'cmd' => [$php, 'artisan', 'indexnow:submit'], 'timeout' => 120];
 
         // After the asset build and the media imports, because it exists to clear
         // whatever those just replaced. Skipping it is how a corrected video kept

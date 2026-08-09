@@ -47,6 +47,7 @@ class SiteSettingsPage extends Page implements HasForms
             'seo_default_description' => SiteSetting::get('seo_default_description'),
             'seo_default_og_image' => SiteSetting::get('seo_default_og_image'),
             'brand_logo' => SiteSetting::get('brand_logo'),
+            'brand_logo_dark' => SiteSetting::get('brand_logo_dark'),
             'favicon' => SiteSetting::get('favicon'),
             'lead_sla_hours' => SiteSetting::get('lead_sla_hours', Quote::DEFAULT_SLA_HOURS),
             'page_image_about' => SiteSetting::get('page_image_about'),
@@ -111,7 +112,22 @@ class SiteSettingsPage extends Page implements HasForms
                                 // size. CloudFront sends no access-control-* headers, so the
                                 // browser blocks it and FilePond hangs on "Waiting for size".
                                 ->fetchFileInformation(false)
-                                ->helperText('Shown in the header, preloader and quote modal. Transparent PNG or SVG works best. Leave empty and no logo is shown anywhere.'),
+                                ->helperText('The LIGHT mark, for dark backgrounds — the whole public site. Shown in the header, preloader and quote modal. Transparent PNG or SVG works best. Leave empty and no logo is shown anywhere.'),
+
+                            Forms\Components\Placeholder::make('current_brand_logo_dark')
+                                ->label('Currently live (dark-ink)')
+                                ->content(fn (): string => SiteSetting::brandLogoDarkUrl() ?: 'No dark-ink logo set'),
+                            Forms\Components\Toggle::make('remove_brand_logo_dark')
+                                ->label('Remove the dark-ink logo')
+                                ->helperText('Leave off to keep the existing file. Uploading a new one replaces it.')
+                                ->default(false),
+                            Forms\Components\FileUpload::make('brand_logo_dark')
+                                ->label('Brand logo — dark ink')
+                                ->image()
+                                ->directory('branding')
+                                ->visibility('private')
+                                ->fetchFileInformation(false)
+                                ->helperText('The same mark in BLACK, for light backgrounds: the admin panel in light mode, print, anything embedded on white. Falls back to the light mark when empty.'),
 
                             Forms\Components\Placeholder::make('current_favicon')
                                 ->label('Current favicon')
@@ -213,6 +229,7 @@ class SiteSettingsPage extends Page implements HasForms
         SiteSetting::set('lead_sla_hours', max(1, (int) ($data['lead_sla_hours'] ?? Quote::DEFAULT_SLA_HOURS)));
 
         $this->storeUpload('brand_logo', $data['brand_logo'] ?? '', (bool) ($data['remove_brand_logo'] ?? false));
+        $this->storeUpload('brand_logo_dark', $data['brand_logo_dark'] ?? '', (bool) ($data['remove_brand_logo_dark'] ?? false));
         $this->storeUpload('favicon', $data['favicon'] ?? '', (bool) ($data['remove_favicon'] ?? false));
 
         // Guard the ratio: an unknown value would emit invalid CSS and collapse

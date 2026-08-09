@@ -10,9 +10,42 @@
             $orgSameAs = array_values(array_filter((array) (\App\Models\SiteSetting::get('socials') ?? [])));
             $orgEmail = \App\Models\SiteSetting::get('contact_email');
             $orgPhone = \App\Models\SiteSetting::get('contact_phone');
+
+            // Postal address, entirely admin-supplied. NOTHING is hardcoded here on
+            // purpose: a guessed street or locality becomes an inconsistent citation
+            // the moment it meets a real directory listing, and inconsistent NAP is
+            // worse for local ranking than no NAP at all. Set these under Site
+            // Settings and the LocalBusiness node below starts emitting.
+            $addrLocality = \App\Models\SiteSetting::get('address_locality');
+            $orgAddress = $addrLocality ? array_filter([
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => \App\Models\SiteSetting::get('address_street'),
+                'addressLocality' => $addrLocality,
+                'addressRegion'   => \App\Models\SiteSetting::get('address_region'),
+                'postalCode'      => \App\Models\SiteSetting::get('address_postal_code'),
+                'addressCountry'  => \App\Models\SiteSetting::get('address_country') ?: 'IN',
+            ]) : null;
+
+            // ProfessionalService only once there is an address to anchor it: a
+            // LocalBusiness with no location is the one thing Google's own docs
+            // single out as invalid. Without it the Organization node below still
+            // carries the brand, which is what a service-area studio needs anyway.
+            $orgType = $orgAddress ? ['Organization', 'ProfessionalService'] : 'Organization';
         @endphp
+        {{-- WebSite node, separate from the brand. It is what makes the site itself
+             an entity Google can attach a name to in results, and it is the correct
+             home for site-level identity rather than bolting it onto Organization. --}}
+        <x-json-ld :data="[
+            '@type' => 'WebSite',
+            'name'  => 'TheLastClicks',
+            'url'   => url('/'),
+            'publisher' => ['@id' => url('/').'#organization'],
+            'inLanguage' => 'en-IN',
+        ]" />
         <x-json-ld :data="array_filter([
-            '@type'        => 'Organization',
+            '@type'        => $orgType,
+            '@id'          => url('/').'#organization',
+            'address'      => $orgAddress,
             'name'         => 'TheLastClicks',
             'url'          => url('/'),
             {{-- Schema needs a logo to be eligible for rich results, so this one keeps an
@@ -46,17 +79,30 @@
     <section class="section disc" data-screen-label="02 Discipline">
         <x-scene-bg type="camera" />
         <x-container>
-            <div class="disc__grid" data-stagger>
+            {{-- Title left, description right, bottom-aligned so the paragraph sits
+                 on the title's last line rather than up beside the eyebrow.
+
+                 .disc__head rather than .disc__grid: the grid rule belongs to the
+                 About page, whose story copy is three paragraphs and wants a
+                 different measure and a top alignment. --}}
+            <div class="disc__head" data-stagger>
                 <div class="disc__lead" data-anim="curtain">
-                    <span class="section__eyebrow reveal">Why TheLastClicks</span>
-                    <h2 class="section__title" data-split>Built on the discipline of <em>premium brands.</em></h2>
-                    <p class="disc__kicker reveal">Not a vendor — a long-term partner that scales with your story.</p>
+                    <span class="section__eyebrow reveal">Who we are</span>
+                    <h2 class="section__title" data-split>Beyond the lens: <em>a promise of discipline.</em></h2>
                 </div>
                 <div class="disc__copy" data-anim="slide-r">
-                    <p>Brands choose us because we deliver trust, not just footage. Every shoot — wedding, brand, commercial, or corporate — is run with the same discipline: show up prepared, protect the brief, deliver work that holds up under scrutiny.</p>
-                    <p>That discipline is why our client list spans far beyond weddings and product launches — we've delivered for some of the country's most demanding organisations, from <strong>national institutions and defence forces</strong> to <strong>global enterprise brands</strong> and leading automotive names.</p>
-                    <p>We don't chase "good enough." Every project is a chance to be better than the last one — sharper frames, tighter edits, stronger stories.</p>
+                    <p>We are built on the discipline of premium brands. By showing up prepared and refusing to compromise, our work earns the trust of <strong>national institutions</strong> and <strong>global enterprises</strong> alike.</p>
                 </div>
+            </div>
+
+            {{-- The same four principles the About page expands on, cut to one line
+                 each. Reuses .proc rather than a homepage-only variant, so a change
+                 to the card treatment lands on both pages at once. --}}
+            <div class="proc" data-stagger>
+                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">01<span>FOCUS</span></div><h3>Narrative first</h3><p>Imagery is empty without a story. We build the blueprint before the cameras roll.</p></div>
+                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">02<span>CRAFT</span></div><h3>Studio-grade finish</h3><p>True quality is forged in post. Our in-house grading ensures uncompromising fidelity.</p></div>
+                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">03<span>SCALE</span></div><h3>Agile production</h3><p>From single-operator to massive multi-camera sets, our aesthetic remains steadfast.</p></div>
+                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">04<span>TRUST</span></div><h3>Absolute alignment</h3><p>We integrate seamlessly, ensuring deliverables are fully compliant with your guidelines.</p></div>
             </div>
 
             <div class="disc__stats" data-stagger>
@@ -84,7 +130,7 @@
         <x-scene-bg type="grid" />
         <x-container>
             <div class="services__head" data-stagger>
-                <div data-anim="mask-up">
+                <div data-anim="flip-up">
                     <span class="section__eyebrow">Industries</span>
                     <h2 class="section__title" data-split>What we <em>cover.</em></h2>
                 </div>
@@ -160,14 +206,13 @@
                     <h2 class="section__title" data-split>What <em>we do</em></h2>
                 </div>
             </div>
-            <div class="services__list" data-stagger>
+            <div class="services__list" data-stagger data-svc-accordion>
                 @foreach ($services as $service)
                     {{-- The row's own artwork becomes its hover background, so each
                          service previews itself in place. --}}
                     <a class="svc" href="{{ url('/services/'.$service->slug) }}"
                        @if ($service->heroUrl()) style="--svc-bg:url('{{ $service->heroUrl() }}')" @endif
                        data-anim="curtain" data-sheen data-cursor="EXPLORE">
-                        <span class="svc__idx" aria-hidden="true">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <h3 class="svc__title">{{ $service->title }}</h3>
                         <span class="svc__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
                     </a>
@@ -178,54 +223,57 @@
 
     <!-- TESTIMONIALS -->
     @if ($testimonials->isNotEmpty())
-    {{-- Stacked deck: every testimonial is a real card in the pile, so advancing
-         retargets each card's transition from wherever it currently sits rather
-         than restarting an animation. The two cards behind the active one are
-         the next two testimonials, drawn as outlines. --}}
-    <section class="tdeck" data-screen-label="06 Testimonials" data-tdeck>
+    {{-- Heading left, quotes drifting vertically on the right. The two rails run
+         in opposite directions so the pair reads as movement rather than as one
+         block sliding; the second is a straight repeat of the same quotes, which
+         is why it is aria-hidden in full — it exists to fill the right-hand
+         column, not to add content. --}}
+    <section class="section" data-screen-label="06 Testimonials">
         {{-- Scene 05 · Testimonials — words, not craft, so the backdrop drops to
-             the quiet aperture and the deck resolves out of blur, like a lens
-             pulling focus onto the speaker. --}}
+             the quiet aperture. --}}
         <x-scene-bg type="photo" />
-        <x-container style="margin-bottom:48px" data-stagger>
-            <span class="section__eyebrow" data-scramble data-anim="rise">Client Stories</span>
-            <h2 class="section__title" data-split data-anim="mask-up">What our <em>clients say</em></h2>
-        </x-container>
+        <x-container>
+            <div class="tmq" data-anim="rise">
+                {{-- Sticky, so the heading holds while the quotes travel past it. --}}
+                <div class="tmq__aside">
+                    <span class="section__eyebrow" data-scramble>Client stories</span>
+                    <h2 class="section__title" data-split>What <em>people say</em></h2>
+                    <p class="tmq__lead">Work we were trusted with, described by the people who trusted us with it.</p>
+                </div>
 
-        <div class="tdeck__stage">
-            @if ($testimonials->count() > 1)
-                <button type="button" class="tdeck__arr tdeck__arr--prev" data-tdeck-prev aria-label="Previous testimonial">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-                </button>
-            @endif
-
-            <div class="tdeck__deck" data-anim="blur-focus"
-                 tabindex="0"
-                 role="group"
-                 aria-roledescription="carousel"
-                 aria-label="Client testimonials">
-                @foreach ($testimonials as $t)
-                    <article class="tdeck__card" data-tdeck-card
-                             role="group"
-                             aria-roledescription="slide"
-                             aria-label="Testimonial {{ $loop->iteration }} of {{ $testimonials->count() }}">
-                        <p class="tdeck__quote">{{ $t->quote }}</p>
-                        <p class="tdeck__who">
-                            {{ $t->client_name }}@if ($t->role_company), {{ $t->role_company }}@endif
-                        </p>
-                    </article>
-                @endforeach
+                <div class="tmq__rails">
+                    @foreach ([false, true] as $isSecondRail)
+                        {{-- Each rail renders the set twice and travels -50%, so the
+                             seam lands exactly where it started — the same trick
+                             .marquee uses, turned on its side. Rendering the FULL set
+                             per rail rather than splitting it between them guarantees
+                             the track is always taller than the viewport it scrolls
+                             in, whatever number of testimonials the admin publishes. --}}
+                        <ul class="tmq__rail @if ($isSecondRail) tmq__rail--down @endif"
+                            aria-hidden="{{ $isSecondRail ? 'true' : 'false' }}">
+                            @foreach ([false, true] as $isDuplicate)
+                                @foreach ($testimonials as $t)
+                                    {{-- Attribute always emitted: the @if form that only
+                                         added it on the duplicate pass silently rendered
+                                         nothing, announcing every quote twice. --}}
+                                    <li class="tmq__item" aria-hidden="{{ $isDuplicate ? 'true' : 'false' }}">
+                                        <figure class="tmq__card">
+                                            <blockquote class="tmq__quote">{{ $t->quote }}</blockquote>
+                                            <figcaption class="tmq__who">
+                                                <span class="tmq__name">{{ $t->client_name }}</span>
+                                                @if ($t->role_company)
+                                                    <span class="tmq__role">{{ $t->role_company }}</span>
+                                                @endif
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                @endforeach
+                            @endforeach
+                        </ul>
+                    @endforeach
+                </div>
             </div>
-
-            @if ($testimonials->count() > 1)
-                <button type="button" class="tdeck__arr tdeck__arr--next" data-tdeck-next aria-label="Next testimonial">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
-            @endif
-        </div>
-
-        {{-- Announces the swap to screen readers; the visual change alone is silent. --}}
-        <p class="sr-only" aria-live="polite" data-tdeck-status></p>
+        </x-container>
     </section>
     @endif
 
@@ -237,7 +285,7 @@
         <x-scene-bg type="photo" />
         <x-container>
             <div class="services__head" data-stagger>
-                <div data-anim="mask-up">
+                <div data-anim="curtain">
                     <span class="section__eyebrow" data-scramble>Portfolio</span>
                     <h2 class="section__title" data-split>Our <em>work.</em></h2>
                 </div>

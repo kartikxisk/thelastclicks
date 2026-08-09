@@ -54,6 +54,19 @@ Route::middleware('cacheResponse')->group(function () {
     Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 });
 
+// IndexNow ownership proof. Served from a route rather than a file in public/ so
+// the key lives in .env with every other environment secret-shaped value, and
+// rotating it needs no deploy. Outside the cacheResponse group deliberately: it
+// is not a page, and a cached copy of a rotated key would keep failing
+// validation long after the key changed.
+Route::get('/{key}.txt', function (string $key) {
+    $configured = (string) config('services.indexnow.key');
+
+    abort_if($configured === '' || ! hash_equals($configured, $key), 404);
+
+    return response($configured, 200, ['Content-Type' => 'text/plain']);
+})->where('key', '[A-Fa-f0-9]{8,128}')->name('indexnow.key');
+
 // Mutations NOT cached:
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');

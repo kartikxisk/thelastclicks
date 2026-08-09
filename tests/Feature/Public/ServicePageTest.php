@@ -5,10 +5,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 beforeEach(fn () => $this->seed());
 
-it('renders each seeded service page', function (string $slug) {
-    $this->get("/services/{$slug}")->assertOk()->assertSeeText(ucwords(str_replace('-', ' ', $slug)));
+// Title is asserted from a table rather than derived from the slug: the two part
+// company once a service is renamed without moving its published URL, which is
+// exactly what happened when Editing became Post Production at /services/editing.
+it('renders each seeded service page', function (string $slug, string $title) {
+    $this->get("/services/{$slug}")->assertOk()->assertSeeText($title);
 })->with([
-    'videography', 'photography', 'editing',
+    ['videography', 'Videography'],
+    ['photography', 'Photography'],
+    ['editing', 'Post Production'],
 ]);
 
 it('redirects retired service slugs permanently', function (string $old, string $new) {
@@ -17,8 +22,9 @@ it('redirects retired service slugs permanently', function (string $old, string 
         ->assertRedirect("/services/{$new}");
 })->with([
     ['weddings', 'videography'],
-    // Post Production was renamed to Editing and its slug moved with it, so the
-    // old URL redirects like any other retired service.
+    // The service is called Post Production again, but /services/editing is the
+    // address it has been published at and the slug does not follow the title —
+    // so this redirect still runs in this direction, and must keep doing so.
     ['post-production', 'editing'],
     ['social-content', 'editing'],
     ['creative-direction', 'editing'],

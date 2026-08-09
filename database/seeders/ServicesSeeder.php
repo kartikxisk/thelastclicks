@@ -26,7 +26,7 @@ class ServicesSeeder extends Seeder
 
         $services = [
             'videography' => [
-                'hero_headline' => 'Films that <em>move</em><br>things.',
+                'hero_headline' => 'Motion with <em>a mandate.</em>',
                 'hero_meta' => [
                     ['label' => 'Discipline', 'value' => 'Videography · 02'],
                     ['label' => 'Format', 'value' => 'Film + edit'],
@@ -41,11 +41,11 @@ class ServicesSeeder extends Seeder
                     ['title' => 'Platform-tuned', 'desc' => 'Hero film + 9:16, 1:1, 16:9 cuts; subtitles + localisation passes on request.'],
                 ],
                 'phases' => [
-                    ['num' => '01', 'title' => 'Treatment', 'desc' => 'Director-written, visualised with references and shot grammar — the film in miniature.', 'time' => 'Day 1–5'],
-                    ['num' => '02', 'title' => 'Pre-pro', 'desc' => 'Casting, locations, schedule, kit list, art direction. Call sheet locked.', 'time' => 'Day 6–10'],
-                    ['num' => '03', 'title' => 'Production', 'desc' => 'Full-crew shoot, on-set monitoring, daily rushes by 9 PM.', 'time' => 'Shoot days'],
-                    ['num' => '04', 'title' => 'Edit', 'desc' => 'Paper edit → rough cut → fine cut, three structured feedback rounds.', 'time' => '+10 days'],
-                    ['num' => '05', 'title' => 'Finish', 'desc' => 'ACES grade, sound design, masters in every platform spec.', 'time' => '+5 days'],
+                    ['num' => '01', 'title' => 'Treatment', 'desc' => 'Director-written and heavily researched. Visualised with distinct references and shot grammar — the entire film architected before a single camera is packed.', 'time' => 'Day 1–5'],
+                    ['num' => '02', 'title' => 'Pre-pro', 'desc' => 'Logistics locked. Casting, location scouting, scheduling, art direction and kit lists are finalised. The call sheet is strictly enforced.', 'time' => 'Day 6–10'],
+                    ['num' => '03', 'title' => 'Production', 'desc' => 'Our crews deploy. Absolute set discipline, live on-set monitoring, and daily rushes delivered by 9 PM.', 'time' => 'Shoot days'],
+                    ['num' => '04', 'title' => 'Edit', 'desc' => 'A highly structured post pipeline. Paper edit → rough cut → fine cut, managed through three consolidated feedback rounds.', 'time' => '+10 days'],
+                    ['num' => '05', 'title' => 'Finish', 'desc' => 'The final polish. ACES colour grading, broadcast-compliant sound design, and masters rendered for every specific platform requirement.', 'time' => '+5 days'],
                 ],
                 // Galleries are uploaded through the admin — nothing is seeded.
                 'gallery_urls' => [],
@@ -56,14 +56,18 @@ class ServicesSeeder extends Seeder
                 ],
                 'featured_slug' => 'atlas',
                 'faqs' => [
-                    ['q' => 'Do you handle music licensing?', 'a' => 'Yes — every package includes a fully-cleared music track. Original scores from our composer collective are available as an add-on.'],
-                    ['q' => 'What cameras and lenses do you shoot on?', 'a' => 'ARRI Alexa Mini, RED Komodo X, Sony FX6 — paired with Cooke S4 or Sigma Cine primes. The kit is matched to the brief, not the other way around.'],
-                    ['q' => 'Can you handle live event coverage as well?', 'a' => 'Yes — we run dedicated event units with 2–6 cameras and a producer. Same-day recap reels included.'],
+                    ['q' => 'Music licensing & scores', 'a' => 'Full clearance is standard. Every deliverable includes a fully licensed, broadcast-safe track. Custom, original scores from our composer collective are available for premium campaigns.'],
+                    ['q' => 'Camera & lens deployment', 'a' => 'We shoot on ARRI, RED and Sony cinema lines, paired with Cooke or Sigma Cine primes. We do not use a standard kit; the gear is rigorously matched to the exact requirements of your brief.'],
+                    ['q' => 'Live event & broadcast coverage', 'a' => 'Yes. We deploy dedicated, agile event units featuring 2–6 cameras and an on-site producer. Same-day recap reels and live feeds are executed flawlessly.'],
                 ],
-                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Tell us what the film has to do. We\'ll share a treatment and quote within 4 working hours.', 'prefill' => 'Brand commercial'],
+                'sections' => [
+                    'flow' => ['title' => 'From brief <em>to delivery.</em> No drift.', 'lead' => 'Every phase: an owner, a deliverable, a strict review gate.'],
+                    'kit' => ['title' => 'Cinema-grade <em>by default.</em>', 'lead' => 'We do not compromise on our technical pipeline. This is our baseline roster — scaled and adapted whenever a brief demands a highly specific aesthetic.'],
+                ],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Brand commercial'],
             ],
             'photography' => [
-                'hero_headline' => 'Photography,<br><em>brand-grade.</em>',
+                'hero_headline' => 'Narrative stills.<br><em>Precision capture.</em>',
                 'hero_meta' => [
                     ['label' => 'Discipline', 'value' => 'Photography · 03'],
                     ['label' => 'Format', 'value' => 'Stills + retouch'],
@@ -78,29 +82,33 @@ class ServicesSeeder extends Seeder
                     ['title' => 'Two-year archive', 'desc' => 'Searchable cloud archive, RAWs on request, re-export any spec at no re-fee.'],
                 ],
                 'phases' => [
-                    ['num' => '01', 'title' => 'Look', 'desc' => 'Pre-shoot creative — treatment, mood-board, shot list, props/styling brief.', 'time' => 'Day 0–2'],
-                    ['num' => '02', 'title' => 'Capture', 'desc' => 'Director-led shoot with crew, lighting, AD, BTS. Reviewed on set, never in post.', 'time' => 'Shoot days'],
-                    ['num' => '03', 'title' => 'Edit', 'desc' => 'Editor-tight selects. Reviewed with you before retouch begins.', 'time' => '+2 days'],
-                    ['num' => '04', 'title' => 'Retouch', 'desc' => 'Brand-grade color + skin + product retouch. Two structured review cycles.', 'time' => '+5 days'],
-                    ['num' => '05', 'title' => 'Deliver', 'desc' => 'Print masters, web masters, social cuts. Archive activated. Project closed.', 'time' => '+1 day'],
+                    ['num' => '01', 'title' => 'Creative direction', 'desc' => 'Visual strategy locked. We develop comprehensive mood boards, lighting diagrams and shot lists to align perfectly with your campaign goals.', 'time' => 'Day 1–3'],
+                    ['num' => '02', 'title' => 'Pre-pro', 'desc' => 'Logistics secured. Location scouting, casting, art direction and exact technical kit lists are finalised before stepping on set.', 'time' => 'Day 4–7'],
+                    ['num' => '03', 'title' => 'The shoot', 'desc' => 'Our units deploy. Absolute set discipline, tethered live-monitoring for instant client feedback, and rigorous adherence to the shot list.', 'time' => 'Shoot days'],
+                    ['num' => '04', 'title' => 'Selection', 'desc' => 'Curated contact sheets delivered. We provide a streamlined, secure review process for your team to make final selects without the friction.', 'time' => '+3 days'],
+                    ['num' => '05', 'title' => 'Retouching', 'desc' => 'Studio-grade finishing. High-end skin retouching, colour matching to exact brand hex codes, and final delivery in both print and web-ready formats.', 'time' => '+5 days'],
                 ],
                 // Galleries are uploaded through the admin — nothing is seeded.
                 'gallery_urls' => [],
                 'kit' => [
-                    ['title' => 'Camera bodies', 'items' => ['Hasselblad H6D-100c', 'Sony A7R V', 'Sony A1', 'Capture One']],
-                    ['title' => 'Lenses', 'items' => ['Sigma Art primes', 'Sony GM', 'Tilt-shift 50mm', 'Macro 90mm']],
-                    ['title' => 'Lighting', 'items' => ['Profoto strobes', 'Aputure constant', 'Bowens softboxes']],
+                    ['title' => 'Bodies', 'items' => ['Medium format systems', 'Sony A7R V', 'Canon EOS R5', 'Full-frame high-res']],
+                    ['title' => 'Lenses', 'items' => ['G-Master primes', 'L-Series primes', 'Specialised tilt-shift for architecture']],
+                    ['title' => 'Lighting', 'items' => ['Profoto studio strobes', 'Aputure continuous lighting']],
                 ],
                 'featured_slug' => 'editorial',
                 'faqs' => [
-                    ['q' => 'Do you license the photos to the brand?', 'a' => 'Yes — default 3-year worldwide usage license on all delivered stills. Extensions and buyouts are easy to negotiate per project.'],
-                    ['q' => 'Can we re-use a previous shoot\'s style?', 'a' => 'Absolutely — we save your project look profile and reapply it on new shoots so consecutive campaigns stay visually consistent.'],
-                    ['q' => 'Do you shoot tabletop / product?', 'a' => 'Yes. Macro setups, motion-controlled tabletop and product stills are all handled in-house.'],
+                    ['q' => 'Commercial & industrial capabilities', 'a' => 'Yes. We are equipped and trained to shoot in highly regulated environments, including manufacturing floors, corporate headquarters and multi-day industrial site visits.'],
+                    ['q' => 'Do you provide full usage rights?', 'a' => 'Every commercial package comes with clear, comprehensive licensing agreements. You get the rights you need to scale your campaign without unexpected royalties.'],
+                    ['q' => 'Can you handle high-volume corporate headshots?', 'a' => 'Yes. We deploy mobile studio setups directly to your corporate offices, ensuring absolute lighting consistency across hundreds of employees.'],
                 ],
-                'cta' => ['title' => 'Light one product.<br>Or light <em>the whole campaign.</em>', 'copy' => 'Brief us on the shoot. We\'ll come back with a treatment, timeline, and budget within 4 working hours.', 'prefill' => 'Product shoot'],
+                'sections' => [
+                    'flow' => ['title' => 'From moodboard <em>to master.</em> No drift.', 'lead' => 'Every phase: an owner, a deliverable, a strict review gate.'],
+                    'kit' => ['title' => 'High-resolution <em>by default.</em>', 'lead' => 'We deploy premium glass and high-megapixel sensors to ensure your assets hold up everywhere — from digital feeds to national billboards.'],
+                ],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Product shoot'],
             ],
             'editing' => [
-                'hero_headline' => 'Post that <em>carries</em><br>the brand.',
+                'hero_headline' => 'Studio-grade <em>finishing.</em>',
                 'hero_meta' => [
                     ['label' => 'Discipline', 'value' => 'Post Production · 01'],
                     ['label' => 'Format', 'value' => 'Post-only or full'],
@@ -115,36 +123,45 @@ class ServicesSeeder extends Seeder
                     ['title' => 'Sound in-house', 'desc' => 'Spot effects, ambience, music mix — finished under the same roof as the picture.'],
                 ],
                 'phases' => [
-                    ['num' => '01', 'title' => 'Look', 'desc' => 'Reference grading on stills before the shoot. Brand LUT locked.', 'time' => 'Pre-shoot'],
-                    ['num' => '02', 'title' => 'Conform', 'desc' => 'Multi-cam sync, scene cuts, prep for grade.', 'time' => 'Day 1–2'],
-                    ['num' => '03', 'title' => 'Grade', 'desc' => 'Primary + secondary in DaVinci, scene-balance, ACES managed.', 'time' => 'Day 3–7'],
-                    ['num' => '04', 'title' => 'Sound', 'desc' => 'Spot effects, ambience, mix. Original score on request.', 'time' => 'Day 5–9'],
-                    ['num' => '05', 'title' => 'Master', 'desc' => 'Per-platform exports, IMF if required, archive activated.', 'time' => 'Day 10+'],
+                    ['num' => '01', 'title' => 'Ingest & sync', 'desc' => 'Data wrangling and security. Footage is backed up to redundant servers, multi-cam angles are synced, and proxies are generated.', 'time' => 'Day 1'],
+                    ['num' => '02', 'title' => 'Offline edit', 'desc' => 'The narrative assembly. We cut for pacing, rhythm and story structure. Delivered as a rough cut for your initial structural approval.', 'time' => 'Day 2–7'],
+                    ['num' => '03', 'title' => 'Online & VFX', 'desc' => 'The cleanup phase. Picture lock is achieved. Motion graphics, titling and any necessary plate cleanups are integrated seamlessly.', 'time' => 'Day 8–10'],
+                    ['num' => '04', 'title' => 'Colour & sound', 'desc' => 'The final polish. ACES colour grading for cinematic depth, paired with broadcast-compliant audio mixing and sound design.', 'time' => 'Day 11–13'],
+                    ['num' => '05', 'title' => 'Mastering', 'desc' => 'Rendered for deployment. We deliver exact platform specs (16:9, 9:16, 4:5), ensuring pristine compression for web, broadcast and internal archives.', 'time' => 'Day 14'],
                 ],
                 // Galleries are uploaded through the admin — nothing is seeded.
                 'gallery_urls' => [],
                 'kit' => [
-                    ['title' => 'Grade', 'items' => ['DaVinci Resolve Studio', 'ACES', 'brand LUT library', 'calibrated reference monitors']],
-                    ['title' => 'Edit & sound', 'items' => ['Avid Media Composer', 'Adobe Premiere', 'Pro Tools', 'Sound Devices']],
-                    ['title' => 'Mastering', 'items' => ['Per-platform IMF', 'Rec. 709', 'DCI-P3', 'HDR-ready masters']],
+                    ['title' => 'The edit', 'items' => ['Adobe Creative Cloud Pro Suite', 'Premiere Pro', 'After Effects']],
+                    ['title' => 'The grade', 'items' => ['DaVinci Resolve Studio', 'ACES pipeline', 'Calibrated reference monitors']],
+                    ['title' => 'The sound', 'items' => ['Pro Tools', 'Audition', 'Broadcast-compliant metering']],
                 ],
                 'featured_slug' => 'reel',
                 'faqs' => [
-                    ['q' => 'Do you take on post for someone else\'s footage?', 'a' => 'Yes — post-only briefs are common. We just need clean rushes and a brief.'],
-                    ['q' => 'What\'s your turnaround on a 60-second cut?', 'a' => 'Typically 5–7 working days from picture-lock to mastered delivery.'],
-                    ['q' => 'Do you handle subtitle and localisation?', 'a' => 'Yes — multilingual subtitles and full localisation passes are an add-on.'],
+                    ['q' => 'Do you edit outside footage?', 'a' => 'Yes. If you have an existing archive or footage shot by another agency, our post-production team can ingest, colour-match and cut it to meet our studio standards.'],
+                    ['q' => 'How do revision rounds work?', 'a' => 'No endless back-and-forth. We use frame-accurate, timecoded review links. Every project includes three structured feedback rounds: rough cut, fine cut and final polish.'],
+                    ['q' => 'How long do you archive project files?', 'a' => 'We maintain active, redundant backups of all raw footage and project files for a standard minimum window, ensuring you can request alternate cuts or updates months down the line.'],
                 ],
-                'cta' => ['title' => 'Send us your footage.<br>Or send us <em>the whole mess.</em>', 'copy' => 'Send your footage or your brief. We\'ll review and quote a finish plan within 4 working hours.', 'prefill' => 'Post-production only'],
+                'sections' => [
+                    'flow' => ['title' => 'From ingest <em>to export.</em> No drift.', 'lead' => 'A highly structured, secure pipeline built for scale and speed.'],
+                    'kit' => ['title' => 'The post-production <em>stack.</em>', 'lead' => 'Our editing bays are powered by industry-standard software and calibrated hardware to guarantee absolute colour and audio accuracy.'],
+                ],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Post-production only'],
             ],
         ];
 
         $heroCopy = [
-            'editing' => 'Our signature — edit, colour, sound, finishing. Post-only briefs welcome.',
-            'videography' => 'Brand films, commercials, documentaries.',
-            'photography' => 'Editorial, lifestyle, product, portrait.',
+            'editing' => 'True cinematic quality is forged behind closed doors. We refuse to outsource our finish. By keeping our entire post-production pipeline in-house, we maintain absolute control over the final aesthetic, ensuring zero friction and uncompromising visual fidelity.',
+            'videography' => 'Scalable cinematic production built on absolute set discipline. From agile documentary units to heavily controlled, multi-camera commercial sets, we protect the narrative and deliver footage designed for a studio-grade finish.',
+            'photography' => 'We do not just capture images; we architect them. From high-stakes commercial advertising to industrial documentation and corporate archives, every frame is meticulously composed to command attention and align flawlessly with your brand\'s identity.',
         ];
+        // The 'editing' KEY is the slug, and the slug is a published address —
+        // Service::getSlugOptions() deliberately refuses to regenerate it from a
+        // renamed title for exactly this reason. So the service is displayed as
+        // "Post Production" while /services/editing keeps serving it, and the
+        // /services/post-production 301 in routes/web.php stays pointing here.
         $titles = [
-            'editing' => 'Editing',
+            'editing' => 'Post Production',
             'videography' => 'Videography',
             'photography' => 'Photography',
         ];

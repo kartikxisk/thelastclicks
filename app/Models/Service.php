@@ -18,7 +18,7 @@ class Service extends Model implements HasMedia
 
     protected $fillable = [
         'slug', 'title', 'hero_copy', 'hero_headline', 'hero_meta', 'proof',
-        'pillars', 'phases', 'kit', 'faqs', 'cta', 'tags', 'gallery_urls',
+        'pillars', 'phases', 'kit', 'faqs', 'sections', 'cta', 'tags', 'gallery_urls',
         'hero_url', 'featured_slug', 'body', 'order', 'share',
     ];
 
@@ -29,6 +29,7 @@ class Service extends Model implements HasMedia
         'phases' => 'array',
         'kit' => 'array',
         'faqs' => 'array',
+        'sections' => 'array',
         'cta' => 'array',
         'tags' => 'array',
         'gallery_urls' => 'array',

@@ -107,9 +107,9 @@ window.TLC = (function(){
         <aside class="quote__aside">
           <div class="quote__brand">${brandImg()}</div>
           <div class="quote__head">
-            <div class="quote__eyebrow">Start a project</div>
-            <h2 class="quote__title">Let's make<br><em>something real.</em></h2>
-            <p class="quote__lead">Tell us a bit about your project. We'll respond within 4 working hours with next steps and a tailored estimate.</p>
+            <div class="quote__eyebrow">Get a quote</div>
+            <h2 class="quote__title">Submit your<br><em>brief.</em></h2>
+            <p class="quote__lead">Detail your project scope below. Our production team will review your requirements and respond within 4 working hours to initiate the next phase.</p>
           </div>
           <div class="quote__steps">
             <div class="quote__step is-on" data-step="1"><span>01</span> Project</div>
@@ -231,6 +231,17 @@ window.TLC = (function(){
     // Six blades on 60° centres, each a wedge from the middle to the rim, filled
     // in the page colour so that closed they occlude the mark completely. core.js
     // opens them from the same progress value that resolves the wordmark.
+    //
+    // The blades are clipped to #pap-housing, r=53.5 — the rim's INNER edge
+    // (r=54, stroke 1). They used to inherit .pap's circle(47%) = r=56.4, so an
+    // opening blade was severed in open space ~2 units outside the ring rather
+    // than sliding behind it, and the shutter read as drawn instead of
+    // mechanical. The rim is emitted after the group so the ring paints over the
+    // cut and the seam IS the housing.
+    //
+    // clipPathUnits="userSpaceOnUse" is load-bearing: a percentage radius on a
+    // <g> resolves against that group's own bounding box, and the blades' bbox
+    // grows as they travel — the clip would open along with them.
     const blades = Array.from({ length: 6 }, (_, i) => `
       <path class="pap__blade" style="--i:${i}"
             d="M60 60 L60 6 A54 54 0 0 1 106.8 33 Z"/>`).join('');
@@ -241,7 +252,12 @@ window.TLC = (function(){
         ? `<div class="pboot__stage" aria-hidden="true">
              <div class="pboot__logo" data-pboot-logo><img src="${BRAND_LOGO}" alt=""></div>
              <svg class="pap" viewBox="0 0 120 120" data-pboot-iris>
-               <g class="pap__blades">${blades}</g>
+               <defs>
+                 <clipPath id="pap-housing" clipPathUnits="userSpaceOnUse">
+                   <circle cx="60" cy="60" r="53.5"/>
+                 </clipPath>
+               </defs>
+               <g class="pap__blades" clip-path="url(#pap-housing)">${blades}</g>
                <circle class="pap__rim" cx="60" cy="60" r="54"/>
              </svg>
            </div>`

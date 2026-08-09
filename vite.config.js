@@ -7,9 +7,11 @@ export default defineConfig({
             input: [
                 'resources/css/core.css',
                 'resources/css/pages.css',
-                // Must stay last of the three: brutalist.css overrides tokens
-                // that core.css re-declares at its own tail.
-                'resources/css/brutalist.css',
+                // brutalist.css is deliberately NOT built. It is kept on disk as a
+                // complete typographic layer (Archivo Black + JetBrains Mono) that
+                // works purely by redefining --f-* tokens, so re-listing it here —
+                // after pages.css, which it overrides — turns it back on. Its fonts
+                // must be re-added to the layout's <link> at the same time.
                 'resources/js/core.js',
                 'resources/js/chrome.js',
                 'resources/css/filament/admin/theme.css',

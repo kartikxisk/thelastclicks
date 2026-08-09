@@ -53,4 +53,14 @@ return [
         'id' => env('GA_MEASUREMENT_ID', 'G-LHT5WBY4MR'),
     ],
 
+    /*
+     * IndexNow (Bing, Yandex, Naver, Seznam — not Google). The key is any
+     * 8-128 character hex string; it is not a secret, it is a proof of domain
+     * ownership, and the same value must be served at /<key>.txt. Leave empty
+     * to disable submission entirely.
+     */
+    'indexnow' => [
+        'key' => env('INDEXNOW_KEY', ''),
+    ],
+
 ];

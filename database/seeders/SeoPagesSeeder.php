@@ -51,8 +51,10 @@ class SeoPagesSeeder extends Seeder
                 'og_image_path' => 'headers/gear-camera-dark.jpg',
             ],
             [
+                // The service is displayed as "Post Production"; the URL stays
+                // /services/editing because it is already published there.
                 'page_url' => '/services/editing',
-                'label' => 'Editing service',
+                'label' => 'Post Production service',
                 'title' => 'Video Post-Production & Colour Grading | TheLastClicks',
                 'meta_description' => 'Offline edit, DaVinci colour grading, sound and conform — finished in-house, never outsourced. Post-only projects welcome, footage from any camera.',
                 'og_image_path' => 'headers/gear-lens-red.jpg',
