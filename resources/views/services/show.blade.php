@@ -9,7 +9,7 @@
             '@type'       => 'Service',
             'name'        => $service->title,
             'description' => $service->hero_copy,
-            'provider'    => ['@type' => 'Organization', 'name' => 'TheLastClicks', 'url' => url('/')],
+            'provider'    => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'url' => url('/')],
             'areaServed'  => 'IN',
             'url'         => url('/services/'.$service->slug),
         ]" />
@@ -135,7 +135,14 @@
                 </div>
                 <div class="pp-gallery" data-stagger>
                     @foreach ($galleryUrls as $i => $url)
-                        <div class="pp-g {{ $gallerySpans[$i % count($gallerySpans)] }} scene-stop" data-anim="iris" data-zoom><img src="{{ $url }}" alt="" {{ $i > 1 ? 'loading=lazy' : '' }} decoding="async"></div>
+                        {{-- The one genuinely unlabelled image on the site: unlike the
+                             work tiles and industry cards, these frames sit in a bare
+                             div with no aria-label and no visible caption, so an empty
+                             alt left them invisible to both screen readers and image
+                             search. For a studio that sells photographs, image search is
+                             not a side channel. Indexed per frame so the four are not
+                             four identical strings. --}}
+                        <div class="pp-g {{ $gallerySpans[$i % count($gallerySpans)] }} scene-stop" data-anim="iris" data-zoom><img src="{{ $url }}" alt="{{ $service->title }} work by TheLastClicks — frame {{ $i + 1 }}" {{ $i > 1 ? 'loading=lazy' : '' }} decoding="async"></div>
                     @endforeach
                 </div>
             </x-container>

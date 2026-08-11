@@ -11,47 +11,45 @@ it('industry index lists seeded industries', function () {
     $this->get('/industries')->assertOk()->assertSee('Fashion');
 });
 
-it('renders an industry detail page for a valid slug', function () {
+// Industry detail pages were retired: routes/web.php 301s /industries/{slug} to
+// the index, and a tile now opens the quote wizard pre-filled with its industry.
+// These four tests asserted the detail page still rendered, which is why they
+// failed on a route that had deliberately become a redirect.
+
+it('redirects a retired industry detail page to the index', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 
     $this->get('/industries/'.$industry->slug)
-        ->assertOk()
-        ->assertSee($industry->title);
+        ->assertStatus(301)
+        ->assertRedirect('/industries');
 });
 
-it('returns 404 for an unknown industry slug', function () {
-    $this->get('/industries/not-a-real-industry')->assertNotFound();
+it('redirects an unknown industry slug rather than 404ing', function () {
+    // The redirect is a wildcard, so it catches slugs that never existed too.
+    // Deliberate: every old /industries/* URL lands somewhere useful.
+    $this->get('/industries/not-a-real-industry')
+        ->assertStatus(301)
+        ->assertRedirect('/industries');
 });
 
-it('labels a gallery tile with its caption and hides the decorative poster', function () {
-    $industry = Industry::orderBy('order')->firstOrFail();
-    $industry->mediaItems()->create([
-        'type' => 'youtube',
-        'order' => 1,
-        'caption' => 'Diwali brand film',
-        'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ',
-    ]);
-
-    $html = $this->get('/industries/'.$industry->slug)->assertOk()->getContent();
-
-    // Accessible name mirrors the visible caption (WCAG 2.5.3 label-in-name).
-    expect($html)->toContain('aria-label="Play — Diwali brand film"');
-});
-
-it('shows each industry title on the index, and the summary on its detail page', function () {
+it('shows every industry title on the index, and no summaries', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 
-    // The "What we cover" cards are title-only now — the summary lives on the
-    // detail page, not the grid.
+    // Title-only cards. The summary had a home on the detail page; with that
+    // gone it is admin-managed copy that no public page renders.
     $this->get('/industries')
         ->assertOk()
         ->assertSee($industry->title)
         ->assertDontSee($industry->summary);
+});
 
-    $this->get('/industries/'.$industry->slug)
+it('opens the quote wizard from an industry tile instead of a detail page', function () {
+    $industry = Industry::orderBy('order')->firstOrFail();
+
+    $this->get('/industries')
         ->assertOk()
-        ->assertSee($industry->title)
-        ->assertSee($industry->summary);
+        // href stays a real URL so the tile still works without JS.
+        ->assertSee('data-quote-prefill=\''.e($industry->title).'\'', false);
 });
 
 it('gives every seeded industry a cover so the grid is never blank', function () {
@@ -70,13 +68,13 @@ it('gives every seeded industry a cover so the grid is never blank', function ()
     );
 });
 
-it('renders each industry tile as a link to its detail page', function () {
-    $industry = Industry::orderBy('order')->firstOrFail();
-
+it('renders each industry tile as a real link, not a lightbox tile', function () {
     $response = $this->get('/industries')->assertOk();
 
-    // Industry tiles navigate to a detail page — they are anchors, not lightbox tiles.
-    $response->assertSee('href="'.url('/industries/'.$industry->slug).'"', false);
+    // Still anchors rather than lightbox tiles — that part of the contract did
+    // not change when detail pages went; only the destination did, from
+    // /industries/{slug} to the contact page carrying the prefill.
+    $response->assertSee('href="'.url('/contact').'"', false);
     expect(substr_count($response->getContent(), 'data-work-tile'))->toBe(0);
 });
 

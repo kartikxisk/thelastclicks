@@ -12,7 +12,7 @@
             '@type' => 'Blog',
             'name' => 'The TheLastClicks Journal',
             'url' => url('/blog'),
-            'publisher' => ['@type' => 'Organization', 'name' => 'TheLastClicks', 'url' => url('/')],
+            'publisher' => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'url' => url('/')],
             'blogPost' => $posts->take(10)->values()->map(fn ($post) => array_filter([
                 '@type' => 'BlogPosting',
                 'headline' => $post->title,

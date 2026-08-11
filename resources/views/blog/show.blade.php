@@ -15,7 +15,7 @@
             'datePublished'    => optional($post->published_at)->toIso8601String(),
             'dateModified'     => optional($post->updated_at)->toIso8601String(),
             'author'           => ['@type' => 'Person', 'name' => $post->author?->name ?? 'TheLastClicks'],
-            'publisher'        => ['@type' => 'Organization', 'name' => 'TheLastClicks', 'logo' => ['@type' => 'ImageObject', 'url' => \App\Models\SiteSetting::brandLogoUrl() ?: asset('apple-touch-icon.png')]],
+            'publisher'        => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'logo' => ['@type' => 'ImageObject', 'url' => \App\Models\SiteSetting::brandLogoUrl() ?: asset('apple-touch-icon.png')]],
             'mainEntityOfPage' => url('/blog/'.$post->slug),
         ]" />
         <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [

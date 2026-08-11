@@ -1,6 +1,6 @@
 <x-layouts.app
-    title="TheLastClicks — Cinematic photography & film production"
-    description="Cinematic photography, brand films and post-production for premium teams across India — trusted by global enterprise brands, automotive names and national institutions."
+    title="Photography, Videography &amp; Editing Agency | The Last Clicks (TLC)"
+    description="Photography, videography and post-production agency in Noida, serving brands across Delhi NCR and India — brand films, corporate shoots and in-house editing."
     :canonical="url('/')"
 >
     <x-slot name="head">
@@ -37,7 +37,8 @@
              home for site-level identity rather than bolting it onto Organization. --}}
         <x-json-ld :data="[
             '@type' => 'WebSite',
-            'name'  => 'TheLastClicks',
+            'name'  => \App\Support\Brand::NAME,
+            'alternateName' => \App\Support\Brand::ALTERNATE_NAMES,
             'url'   => url('/'),
             'publisher' => ['@id' => url('/').'#organization'],
             'inLanguage' => 'en-IN',
@@ -46,7 +47,11 @@
             '@type'        => $orgType,
             '@id'          => url('/').'#organization',
             'address'      => $orgAddress,
-            'name'         => 'TheLastClicks',
+            'name'         => \App\Support\Brand::NAME,
+            {{-- The canonical #organization node is the one Google resolves the
+                 brand against, so this is where the name variants have to live —
+                 they were only on the contact page's LocalBusiness before. --}}
+            'alternateName' => \App\Support\Brand::ALTERNATE_NAMES,
             'url'          => url('/'),
             {{-- Schema needs a logo to be eligible for rich results, so this one keeps an
                  icon fallback even when no brand logo is uploaded. Not rendered on screen. --}}

@@ -54,6 +54,10 @@
     {{-- Background clip for the closing CTA. Admin-managed; core.js reads this
          and falls back to the bundled file when nothing is uploaded. --}}
     <meta name="cta-video" content="{{ \App\Models\SiteSetting::ctaVideoUrl() }}">
+    {{-- Names the brand on every shared link rather than leaving each platform to
+         infer it from the domain. One declaration, read by everything that renders
+         a link preview. --}}
+    <meta property="og:site_name" content="{{ \App\Support\Brand::NAME }}">
     <meta property="og:title" content="{{ $seoOgTitle }}">
     <meta property="og:description" content="{{ $seoOgDescription }}">
     <meta property="og:url" content="{{ $seoCanonical }}">

@@ -55,7 +55,9 @@ class SeoPagesSeeder extends Seeder
                 // /services/editing because it is already published there.
                 'page_url' => '/services/editing',
                 'label' => 'Post Production service',
-                'title' => 'Video Post-Production & Colour Grading | TheLastClicks',
+                // The only service page that carried no location while the other two
+                // did, and "editing" is the higher-volume term people actually type.
+                'title' => 'Video Editing & Post-Production, Delhi NCR | TheLastClicks',
                 'meta_description' => 'Offline edit, DaVinci colour grading, sound and conform — finished in-house, never outsourced. Post-only projects welcome, footage from any camera.',
                 'og_image_path' => 'headers/gear-lens-red.jpg',
             ],

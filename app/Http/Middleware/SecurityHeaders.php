@@ -38,12 +38,20 @@ class SecurityHeaders
         ."font-src 'self' https://fonts.gstatic.com data:; "
         ."img-src 'self' data: https:; "
         ."media-src 'self' https:; "
-        .'frame-src https://www.youtube.com https://www.youtube-nocookie.com; '
+        // www.google.com is the Google Maps embed on /contact. It was missing, and
+        // Report-Only caught it exactly as intended — the studio map logged a
+        // violation on every visit and would have vanished the moment this policy
+        // was enforced. Closing the gap is the documented next step below, not
+        // flipping the header.
+        .'frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com; '
         ."connect-src 'self'; "
         ."base-uri 'self'; "
         ."form-action 'self'; "
-        ."frame-ancestors 'self'; "
-        .'upgrade-insecure-requests';
+        ."frame-ancestors 'self'";
+    // upgrade-insecure-requests is deliberately absent. Browsers IGNORE it in a
+    // report-only policy and say so — it logged a console error on every page
+    // load, which is noise in the one channel this policy exists to keep clean.
+    // Add it back in the same commit that renames the header to enforcing.
 
     public function handle(Request $request, Closure $next): Response
     {

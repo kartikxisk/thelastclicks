@@ -30,8 +30,12 @@ class PageSeoSeeder extends Seeder
             [
                 'page_url' => '/',
                 'label' => 'Home',
-                'title' => 'TheLastClicks — Cinematic photography & film production',
-                'meta_description' => 'Cinematic photography, brand films and post-production for premium teams across India — trusted by global enterprise brands, automotive names and national institutions.',
+                'title' => 'Photography, Videography & Editing Agency | The Last Clicks (TLC)',
+                // Names the three services, the city and the region. The previous
+                // version led with "Cinematic" and never said where the studio is,
+                // so it competed on an adjective instead of on what it sells and
+                // where — and Noida/Delhi NCR is the intent that actually converts.
+                'meta_description' => 'Photography, videography and post-production agency in Noida, serving brands across Delhi NCR and India — brand films, corporate shoots and in-house editing.',
                 'og_image_path' => 'headers/gear-camera-dark.jpg',
             ],
             [

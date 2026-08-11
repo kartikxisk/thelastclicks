@@ -8,8 +8,8 @@
       '@type'       => 'LocalBusiness',
       // Must match the Organization name on the homepage exactly — a mismatched
       // NAP weakens entity matching and local pack eligibility.
-      'name'        => 'TheLastClicks',
-      'alternateName' => 'The Last Clicks (TLC)',
+      'name'        => \App\Support\Brand::NAME,
+      'alternateName' => \App\Support\Brand::ALTERNATE_NAMES,
       'url'         => url('/'),
       'image'       => \App\Models\SiteSetting::brandLogoUrl(),
       'priceRange'  => '₹₹₹',

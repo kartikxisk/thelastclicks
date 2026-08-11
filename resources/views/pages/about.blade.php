@@ -10,7 +10,9 @@
         'url' => url('/about'),
         'mainEntity' => [
             '@type' => 'Organization',
-            'name' => 'TheLastClicks',
+            '@id' => url('/').'#organization',
+            'name' => \App\Support\Brand::NAME,
+            'alternateName' => \App\Support\Brand::ALTERNATE_NAMES,
             'url' => url('/'),
             'description' => 'A photography and film production studio working across brand, corporate, automotive and wedding film in India.',
         ],
