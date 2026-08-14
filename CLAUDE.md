@@ -97,6 +97,7 @@ Full detail in `docs/DEPLOYMENT.md`; the ones that have actually broken producti
 - `php artisan deploy` runs each step as its own subprocess on purpose (step one swaps `vendor/` under the running process).
 - `.npmrc` pins the public registry so a server whose global npmrc points at GitHub Packages can't 404 `npm ci`.
 - `PageSeoSeeder` and `HeroSlidesSeeder` are not part of `db:seed`; run each once per environment.
+- **Nothing may serve a `.js` URL from PHP.** Production nginx matches `*.js` in a static-file location whose miss path is `error_page 404 → /index.php`, and an error_page internal redirect *keeps* the 404 status — so a PHP-backed script returns the right body under a 404 and the browser refuses to execute it. That is what killed admin login: Livewire's `/livewire/livewire.min.js` route 404'd, Livewire never booted, and Filament's `wire:submit` login form fell back to a native POST to `/admin/login`, which has no POST route → 405. The deploy publishes Livewire's JS to `public/vendor/livewire/` so it is a real file; `tests/Feature/Admin/LivewireAssetsTest.php` guards it. Fix the nginx block too (`docs/DEPLOYMENT.md` → "nginx: `*.js` must not 404 through error_page").
 
 ## Repo conventions
 

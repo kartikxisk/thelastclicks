@@ -118,6 +118,22 @@ class Deploy extends Command
             $steps[] = ['label' => 'Build front-end assets', 'cmd' => ['npm', 'run', 'build'], 'timeout' => 1800];
         }
 
+        // Copies Livewire's dist/ into public/vendor/livewire so the browser loads
+        // livewire.min.js as a real file instead of through Livewire's PHP route.
+        // Production nginx serves *.js from a static-file location whose miss path is
+        // `error_page 404 -> /index.php`, and an error_page internal redirect KEEPS the
+        // 404 status — so the PHP route returned the correct JS body under a 404, the
+        // browser refused to execute it, Livewire never booted, and Filament's
+        // `wire:submit` login form fell back to a native POST to /admin/login, which has
+        // no POST route: every admin login died on "405 Method Not Allowed".
+        // Re-run on every deploy, not once: the published copy is version-pinned, and a
+        // Livewire upgrade that leaves it behind ships mismatched JS.
+        $steps[] = [
+            'label' => 'Publish Livewire assets',
+            'cmd' => [$php, 'artisan', 'livewire:publish', '--assets'],
+            'timeout' => 300,
+        ];
+
         // Rebuilds config/route/view caches AND flushes the response cache. Must come
         // after the asset build: cached HTML references the previous build hashes, so
         // every cached page 404s its CSS/JS until this runs.

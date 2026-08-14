@@ -296,6 +296,61 @@ Seeders are idempotent (`updateOrCreate` keyed by slug/name). This run
 retires the 6 placeholder industries, seeds the 7 real ones plus 22 work
 categories, and moves homepage testimonials into the database.
 
+## nginx: `*.js` must not 404 through error_page
+
+This one took the whole admin panel down: every login attempt at `/admin/login`
+answered **405 Method Not Allowed**.
+
+The chain, from the bottom up:
+
+1. The server block matches `*.js` in a static-file location whose miss path is
+   `error_page 404 → /index.php`. An nginx error_page internal redirect
+   **preserves the original status code** unless it is written `=200`. So a URL
+   that is a PHP route rather than a real file gets Laravel's body back with a
+   404 stapled to it.
+2. `/livewire/livewire.min.js` is exactly that — a route Livewire registers, not
+   a file. It returned the correct 164 KB of JS under HTTP 404. (Diagnostic
+   tell: `/livewire/livewire.min.js.map` returned 200 from the same controller,
+   because `.map` does not match the `*.js` regex and so took `location /`.)
+3. Browsers do not execute a classic `<script src>` whose response is not 2xx.
+   `window.Livewire` and `window.Alpine` stayed `undefined`.
+4. Filament's login form is `<form method="post" wire:submit="authenticate">`
+   with **no `action`**. With Livewire dead, the browser did what the markup
+   says: a native POST to the current URL.
+5. There is no `POST admin/login` route — only `GET`. Laravel threw
+   `MethodNotAllowedHttpException` → 405. Laravel ships no `errors::405` view,
+   so the user saw Symfony's bare "Oops! An Error Occurred" page.
+
+**App-side fix (shipped, no server access needed).** `php artisan deploy` now
+runs `livewire:publish --assets`, copying Livewire's `dist/` to
+`public/vendor/livewire/`. Livewire detects the published manifest and emits
+`/vendor/livewire/livewire.min.js` — a real file nginx serves itself, at 200.
+It runs on *every* deploy because the published copy is version-pinned: a
+Livewire upgrade that skips it ships mismatched JS.
+`tests/Feature/Admin/LivewireAssetsTest.php` fails if the copy goes missing or
+drifts from the installed version.
+
+**Server-side fix (still do this).** The publish only rescues Livewire; any
+other package that serves a `.js` URL from PHP hits the same wall. Either let
+the static location fall through to PHP without inventing a 404:
+
+```nginx
+location ~* \.(js|css|svg|woff2?)$ {
+    try_files $uri /index.php?$query_string;   # NOT `=404` + error_page
+}
+```
+
+or exempt the framework's own asset routes ahead of the regex block:
+
+```nginx
+location ^~ /livewire/ {
+    try_files $uri /index.php?$query_string;
+}
+```
+
+Verify with `curl -sS -o /dev/null -w '%{http_code}\n'
+https://thelastclicks.com/livewire/livewire.min.js` — it must be 200.
+
 ## Real-content release (2026-07-16)
 
 This release removes the crew and work-categories features, replaces all
