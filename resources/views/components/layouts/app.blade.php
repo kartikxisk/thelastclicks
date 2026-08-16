@@ -90,37 +90,10 @@
     {{-- chrome.js MUST load before core.js: chrome injects the shared HTML (nav/preloader/quote/cursor), then core.js wires behaviour onto it. --}}
     @vite(['resources/css/core.css','resources/css/pages.css','resources/js/chrome.js','resources/js/core.js'])
 
-    @php $gaId = config('services.google_analytics.id'); @endphp
-    @if ($gaId && ! app()->environment('local', 'testing'))
-        {{-- Google Analytics, gated by the cookie banner through Consent Mode v2.
-             analytics_storage starts denied and is only granted once the visitor
-             has actually accepted, so "Only essential" is a real choice rather
-             than a dialog that dismisses itself. chrome.js calls the matching
-             consent update when the banner is answered. --}}
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaId }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-
-            gtag('consent', 'default', {
-                ad_storage: 'denied',
-                ad_user_data: 'denied',
-                ad_personalization: 'denied',
-                analytics_storage: 'denied',
-            });
-
-            // A returning visitor who already accepted should not be asked again,
-            // and should be measured from the first paint of this page.
-            try {
-                if (localStorage.getItem('tlc-cookies') === 'accepted') {
-                    gtag('consent', 'update', { analytics_storage: 'granted' });
-                }
-            } catch (e) { /* storage blocked: stay denied */ }
-
-            gtag('js', new Date());
-            gtag('config', '{{ $gaId }}');
-        </script>
-    @endif
+    {{-- Analytics and ad tags, both cookie-banner gated. Moved out of this file so
+         GA and the Meta Pixel share one consent story instead of two; chrome.js
+         calls the matching grant for each when the banner is answered. --}}
+    <x-tracking />
 
     {{ $head ?? '' }}
 </head>

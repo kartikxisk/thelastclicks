@@ -33,7 +33,13 @@ class SecurityHeaders
      * nonce mechanism covers attributes.
      */
     private const CSP = "default-src 'self'; "
-        ."script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://static.cloudflareinsights.com; "
+        // googletagmanager serves the GA4 loader, connect.facebook.net the Meta
+        // Pixel's. Both are listed here because the tags are live in
+        // components/tracking.blade.php: a policy that omits a tag the site
+        // actually loads is a policy that breaks the site the day this header
+        // stops being Report-Only, which is the whole point of publishing it
+        // first. See connect-src below for where these two then send data.
+        ."script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://static.cloudflareinsights.com https://www.googletagmanager.com https://connect.facebook.net; "
         ."style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         ."font-src 'self' https://fonts.gstatic.com data:; "
         ."img-src 'self' data: https:; "
@@ -44,7 +50,11 @@ class SecurityHeaders
         // was enforced. Closing the gap is the documented next step below, not
         // flipping the header.
         .'frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com; '
-        ."connect-src 'self'; "
+        // Where the two tags above actually send their beacons. GA4 posts to
+        // google-analytics.com (and analytics.google.com for some regions), the
+        // Meta Pixel to facebook.com. script-src alone would load them and then
+        // block every measurement they tried to report.
+        ."connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.facebook.com; "
         ."base-uri 'self'; "
         ."form-action 'self'; "
         ."frame-ancestors 'self'";

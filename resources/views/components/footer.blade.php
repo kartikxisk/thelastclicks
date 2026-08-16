@@ -2,6 +2,9 @@
   $contactPhone = \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842');
   $contactEmail = \App\Models\SiteSetting::get('contact_email', 'info@thelastclicks.com');
   $whatsappUrl  = \App\Models\SiteSetting::get('whatsapp_url', 'https://wa.me/918770155842');
+  $addressLines = \App\Support\Nap::addressLines();
+  $mapUrl       = \App\Support\Nap::mapUrl();
+  $hoursLabel   = \App\Support\Nap::hoursLabel();
   $s = \App\Models\SiteSetting::get('socials', []);
   $socials = array_filter([
     'instagram' => $s['instagram'] ?? null,
@@ -73,6 +76,27 @@
           <a href="tel:{{ preg_replace('/[^+\d]/', '', $contactPhone) }}">{{ $contactPhone }}</a>
           <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" data-noswap>WhatsApp</a>
           <a href="{{ url('/contact') }}">Start a project</a>
+
+          {{-- The address, on every page rather than only on /contact.
+               A crawler reading any page could previously find the studio's name
+               and phone but never its city, which is two thirds of a NAP; the
+               schema carried the third but only one page in the site rendered it
+               to a human. Renders nothing until Site Settings → Location is
+               filled — an absent address beats a guessed one. --}}
+          @if ($addressLines)
+            <address class="foot__addr">
+              @if ($mapUrl)
+                <a href="{{ $mapUrl }}" target="_blank" rel="noopener" data-noswap data-cursor="MAP">
+                  {{ implode(', ', $addressLines) }} <span class="arr">↗</span>
+                </a>
+              @else
+                {{ implode(', ', $addressLines) }}
+              @endif
+            </address>
+          @endif
+          @if ($hoursLabel)
+            <span class="foot__hours">{{ $hoursLabel }}</span>
+          @endif
         </div>
       </nav>
     </div>

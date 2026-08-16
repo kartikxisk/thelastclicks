@@ -4,8 +4,21 @@
     :canonical="url('/contact')"
 >
   <x-slot name="head">
-    <x-json-ld :data="[
-      '@type'       => 'LocalBusiness',
+    {{-- PhotographStudio, not the generic LocalBusiness it used to be: schema.org
+         ships an exact subtype for this business, and the more specific type is
+         the one a parser can do something with.
+
+         Every value below now comes from Site Settings via App\Support\Nap. It was
+         all hardcoded here, which meant this page and the homepage each carried
+         their own copy of the studio's address — and the homepage's copy, being
+         admin-fed and unpopulated, was empty. One source now feeds both. --}}
+    <x-json-ld :data="array_filter([
+      '@type'       => 'PhotographStudio',
+      // Anchors this node as an entity the rest of the graph can point at, and
+      // ties it to the canonical brand node on the homepage. Without the link the
+      // two nodes are, to a parser, two unrelated businesses that share a name.
+      '@id'         => url('/').'#localbusiness',
+      'parentOrganization' => ['@id' => url('/').'#organization'],
       // Must match the Organization name on the homepage exactly — a mismatched
       // NAP weakens entity matching and local pack eligibility.
       'name'        => \App\Support\Brand::NAME,
@@ -15,30 +28,22 @@
       'priceRange'  => '₹₹₹',
       'telephone'   => \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842'),
       'email'       => \App\Models\SiteSetting::get('contact_email', 'info@thelastclicks.com'),
-      'address'     => [
-        '@type'           => 'PostalAddress',
-        'streetAddress'   => 'B-7, D-Block, Sector 26',
-        'addressLocality' => 'Noida',
-        'addressRegion'   => 'Uttar Pradesh',
-        'postalCode'      => '201301',
-        'addressCountry'  => 'IN',
-      ],
-      // Exact pin from the studio's Google Business Profile listing.
-      'geo' => [
-        '@type'     => 'GeoCoordinates',
-        'latitude'  => 28.5808331,
-        'longitude' => 77.3328251,
-      ],
-      'hasMap' => 'https://share.google/QlMQkefJfn2iRnma3',
-      'openingHours' => 'Mo-Sa 10:00-19:00',
+      'address'     => \App\Support\Nap::address(),
+      'geo'         => \App\Support\Nap::geo(),
+      'areaServed'  => \App\Support\Nap::areaServed(),
+      'hasMap'      => \App\Support\Nap::mapUrl(),
+      // openingHoursSpecification, not the old 'Mo-Sa 10:00-19:00' string: the
+      // structured form is parseable per-day and survives a studio that closes
+      // midweek, which the string could only express by being rewritten.
+      'openingHoursSpecification' => \App\Support\Nap::hours(),
       // Linking the Business Profile here is what actually ties this page to the
       // listing — a stronger signal than matching the name string exactly.
       'sameAs' => array_values(array_filter([
-        'https://share.google/QlMQkefJfn2iRnma3',
+        \App\Support\Nap::mapUrl(),
         \App\Models\SiteSetting::get('socials')['instagram'] ?? null,
         \App\Models\SiteSetting::get('socials')['youtube'] ?? null,
       ])),
-    ]" />
+    ], fn ($v) => $v !== null && $v !== [])" />
     <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
       ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
       ['@type' => 'ListItem', 'position' => 2, 'name' => 'Contact', 'item' => url('/contact')],

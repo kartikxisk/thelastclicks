@@ -60,6 +60,37 @@ class SiteSetting extends Model
             : self::DEFAULT_CTA_VIDEO;
     }
 
+    /**
+     * Meta Pixel ID, or null unless it is a plausible one.
+     *
+     * The value is interpolated into an inline <script>, so it is pattern-checked
+     * rather than trusted — the same reasoning as WORK_TILE_RATIOS above, with a
+     * worse failure mode: a pasted apostrophe breaks every script on the page,
+     * and a deliberate one is stored XSS with an admin as the author. Meta issues
+     * these as digits only, so anything else is a paste accident at best.
+     */
+    public static function metaPixelId(): ?string
+    {
+        $id = trim((string) static::get('meta_pixel_id'));
+
+        return preg_match('/^\d{6,20}$/', $id) === 1 ? $id : null;
+    }
+
+    /**
+     * GA4 measurement ID, or null unless it looks like one.
+     *
+     * Same escaping argument as metaPixelId(). GA4 IDs are "G-" plus an
+     * alphanumeric token; a Universal Analytics "UA-…" ID is deliberately
+     * rejected because those properties stopped collecting in 2024 and silently
+     * firing at one looks like working analytics while recording nothing.
+     */
+    public static function gaMeasurementId(): ?string
+    {
+        $id = strtoupper(trim((string) static::get('ga_measurement_id')));
+
+        return preg_match('/^G-[A-Z0-9]{4,20}$/', $id) === 1 ? $id : null;
+    }
+
     /** The configured tile ratio, falling back when unset or unrecognised. */
     public static function workTileRatio(): string
     {

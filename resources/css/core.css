@@ -1135,6 +1135,37 @@ img, video { max-width: 100%; display: block; }
   opacity: 1;
   transform: translateX(0);
 }
+/* Address and hours: NAP, not navigation.
+   Set quieter than the links above them and deliberately outside the
+   `.foot__col > a` marker rule (the anchor here is nested in <address>, so the
+   direct-child selector never reaches it) — a red → arrow on the studio's
+   address would read as a fourth menu item rather than as where it is. */
+.foot__addr {
+  font-style: normal;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 24ch;
+}
+.foot__addr a {
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.foot__addr a:hover { color: var(--paper-dim); }
+.foot__addr .arr {
+  display: inline-block;
+  transition: transform 0.3s var(--ease);
+}
+.foot__addr a:hover .arr { transform: translate(2px, -2px); }
+.foot__hours {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
 
 .foot__copy {
   display: flex;

@@ -26,6 +26,52 @@ class SiteSettingsSeeder extends Seeder
         // Matches the "within 4 working hours" promise on the public pages.
         SiteSetting::set('lead_sla_hours', Quote::DEFAULT_SLA_HOURS);
 
+        // Tracking IDs. setIfMissing, not set: an environment pointed at a test
+        // pixel or a client's own GA property must not be dragged back to the
+        // studio's on the next deploy.
+        //
+        // Both tags are held behind the cookie banner and neither loads in local
+        // or testing, so seeding a real ID here does not start measuring dev
+        // traffic. Blank either value in Site Settings → Tracking to stop loading
+        // that tag entirely.
+        $this->setIfMissing('meta_pixel_id', '2292935938118631');
+        // ga_measurement_id is deliberately NOT seeded. No GA4 property was
+        // supplied, an invented ID reports to nothing, and setIfMissing treats ''
+        // as missing — so seeding a blank would rewrite the row on every deploy
+        // for no gain. Unset, the tag falls back to GA_MEASUREMENT_ID via
+        // config('services.google_analytics.id'), which is how GA worked before it
+        // became a setting. Fill it in Site Settings → Tracking to override.
+
+        // Studio location, hours and service area — the NAP block.
+        //
+        // home.blade.php has always built the Organization address from these keys
+        // and refused to hardcode a fallback, on the sound reasoning that a guessed
+        // address becomes an inconsistent citation. But nothing ever set them: they
+        // were absent from this seeder AND from the settings form, so the homepage
+        // emitted no address at all while the contact page hardcoded the same values
+        // in its own LocalBusiness node. One studio, two sources of truth, and the
+        // stronger of the two nodes was the empty one. These are those values,
+        // lifted from the contact page — not guesses.
+        //
+        // setIfMissing throughout: a studio that moves updates its address in the
+        // admin, and the next deploy must not drag it back.
+        $this->setIfMissing('address_street', 'B-7, D-Block, Sector 26');
+        $this->setIfMissing('address_locality', 'Noida');
+        $this->setIfMissing('address_region', 'Uttar Pradesh');
+        $this->setIfMissing('address_postal_code', '201301');
+        $this->setIfMissing('address_country', 'IN');
+        // Exact pin from the Google Business Profile listing. Five decimals is the
+        // documented minimum; these carry seven.
+        $this->setIfMissing('geo_latitude', '28.5808331');
+        $this->setIfMissing('geo_longitude', '77.3328251');
+        $this->setIfMissing('map_url', 'https://share.google/QlMQkefJfn2iRnma3');
+        $this->setIfMissing('hours_days', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
+        $this->setIfMissing('hours_opens', '10:00');
+        $this->setIfMissing('hours_closes', '19:00');
+        // Named cities, not a Country node. "India" matches nothing a local searcher
+        // types; "Noida" and "Gurgaon" are what a local query actually resolves to.
+        $this->setIfMissing('service_areas', ['Noida', 'Delhi', 'Gurgaon', 'Ghaziabad']);
+
         // Branding and page headers. These are storage keys on the media disk,
         // not uploads owned by a model, so nothing else carries them: a rebuilt
         // database without them loses the logo and every page header while the

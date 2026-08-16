@@ -552,13 +552,21 @@ window.TLC = (function(){
         if (!btn) return;
         const choice = btn.dataset.cookies;
         localStorage.setItem('tlc-cookies', choice);
-        // The choice has to reach the analytics tag or the banner is decoration:
-        // it was stored and never read, so "Only essential" changed nothing.
-        // Consent Mode starts denied in the layout; this is the only grant.
+        // The choice has to reach every tag or the banner is decoration: it was
+        // stored and never read, so "Only essential" changed nothing. Both tags
+        // start denied in components/tracking.blade.php; this is the only grant.
+        const accepted = choice === 'accepted';
         if (typeof window.gtag === 'function') {
           window.gtag('consent', 'update', {
-            analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
+            analytics_storage: accepted ? 'granted' : 'denied',
           });
+        }
+        if (typeof window.fbq === 'function') {
+          window.fbq('consent', accepted ? 'grant' : 'revoke');
+          // The page-load PageView was suppressed by the revoke that was in
+          // force at the time, and Meta does not replay it. Without this, a
+          // visitor who accepts is not counted until they navigate.
+          if (accepted) window.fbq('track', 'PageView');
         }
         cookies.classList.remove('is-open');
         cookies.setAttribute('aria-hidden','true');

@@ -82,6 +82,8 @@ class ServiceResource extends Resource
                             TextInput::make('sections.flow.title')->label('Flow heading')
                                 ->helperText('Inline <em> renders as the accent. Uppercased by the design.'),
                             Textarea::make('sections.flow.lead')->label('Flow lead')->rows(2),
+                            TextInput::make('sections.flow.note')->label('Flow note')
+                                ->helperText('Closing line under the phases. Defaults to "Your timeline is fixed in the quote, once we know the scope."'),
                             TextInput::make('sections.kit.title')->label('Arsenal heading')
                                 ->helperText('Inline <em> renders as the accent. Uppercased by the design.'),
                             Textarea::make('sections.kit.lead')->label('Arsenal lead')->rows(2),
@@ -100,6 +102,10 @@ class ServiceResource extends Resource
                             TextInput::make('title'),
                             Textarea::make('desc')->rows(2),
                         ]),
+                    // No duration field. A per-stage figure is a commitment the studio
+                    // cannot make before it knows the scope — the same five stages run
+                    // over a single-day product shoot and a multi-unit campaign — so
+                    // the page states the sequence and leaves dates to the quote.
                     Repeater::make('phases')
                         ->columnSpanFull()
                         ->columns(2)
@@ -107,7 +113,6 @@ class ServiceResource extends Resource
                             TextInput::make('num')->label('No.'),
                             TextInput::make('title'),
                             Textarea::make('desc')->rows(2)->columnSpanFull(),
-                            TextInput::make('time'),
                         ]),
                     Repeater::make('kit')
                         ->columnSpanFull()

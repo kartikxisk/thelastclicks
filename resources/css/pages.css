@@ -4989,10 +4989,10 @@ main > section:has(.clients) {
 .pp-phase__head h3 { font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: -0.02em; line-height: 1.1; }
 .pp-phase__head h3 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
 .pp-phase__desc { color: var(--paper-dim); font-size: 14.5px; line-height: 1.6; max-width: 62ch; text-wrap: pretty; }
-/* Stated as a spec of the stage it sits under, so it needs an edge to read as a
-   value rather than as a second line of the heading. */
-.pp-phase__time { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); padding: 5px 10px; border: 1px solid var(--line); transition: color 0.4s var(--ease-soft), border-color 0.4s var(--ease-soft); }
-.pp-phase:hover .pp-phase__time { color: var(--red); border-color: rgba(232, 15, 3, 0.4); }
+/* Where the timeline lives, now that no stage claims one. Sized like the section
+   lead rather than like a phase row: it is a note about the whole flow, not a
+   sixth stage. */
+.pp-phases__note { margin-top: 26px; font-size: 14px; color: var(--muted); max-width: 52ch; }
 
 /* GALLERY */
 .pp-gallery-section { padding: 100px 0; border-top: 1px solid var(--line); }

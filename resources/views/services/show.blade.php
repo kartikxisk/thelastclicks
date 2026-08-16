@@ -98,11 +98,12 @@
                 </div>
                 <div class="pp-phases">
                     @foreach ($service->phases as $ph)
-                        {{-- Three columns: index, the stage and its duration, then
-                             the description. The duration used to sit in its own
-                             fixed column hard against the right edge, half a screen
-                             from the stage it belongs to; it reads as a spec of the
-                             stage, so it is now stated with it. --}}
+                        {{-- Index, stage, description. No duration.
+                             The stage used to state one — "Day 1–5", "+10 days" —
+                             and the studio cannot commit to a figure before it knows
+                             the scope: the same five stages run over a single-day
+                             product shoot and a multi-unit campaign. The sequence is
+                             the promise; the dates are set in the quote. --}}
                         {{-- skew-in, not curtain: the phases are a sequence, and a
                              slight shear settling out as each row lands reads as
                              steps arriving rather than five identical wipes. --}}
@@ -110,14 +111,18 @@
                             <div class="pp-phase__num">{{ $ph['num'] ?? '' }}</div>
                             <div class="pp-phase__head">
                                 <h3>{{ $ph['title'] ?? '' }}</h3>
-                                @if (!empty($ph['time']))
-                                    <span class="pp-phase__time">{{ $ph['time'] }}</span>
-                                @endif
                             </div>
                             <p class="pp-phase__desc">{{ $ph['desc'] ?? '' }}</p>
                         </article>
                     @endforeach
                 </div>
+
+                {{-- Says where the timeline actually lives, now that no stage states
+                     one. Without it the section reads as though the studio simply
+                     declines to answer "how long". --}}
+                <p class="pp-phases__note" data-anim="rise">
+                    {{ $sections['flow']['note'] ?? 'Your timeline is fixed in the quote, once we know the scope.' }}
+                </p>
             </x-container>
         </section>
     @endif

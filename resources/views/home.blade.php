@@ -15,22 +15,26 @@
             // purpose: a guessed street or locality becomes an inconsistent citation
             // the moment it meets a real directory listing, and inconsistent NAP is
             // worse for local ranking than no NAP at all. Set these under Site
-            // Settings and the LocalBusiness node below starts emitting.
-            $addrLocality = \App\Models\SiteSetting::get('address_locality');
-            $orgAddress = $addrLocality ? array_filter([
-                '@type'           => 'PostalAddress',
-                'streetAddress'   => \App\Models\SiteSetting::get('address_street'),
-                'addressLocality' => $addrLocality,
-                'addressRegion'   => \App\Models\SiteSetting::get('address_region'),
-                'postalCode'      => \App\Models\SiteSetting::get('address_postal_code'),
-                'addressCountry'  => \App\Models\SiteSetting::get('address_country') ?: 'IN',
-            ]) : null;
+            // Settings → Location and the LocalBusiness node below starts emitting.
+            //
+            // The build moved into App\Support\Nap so the contact page's node reads
+            // the same values; both used to keep their own copy, and this one — the
+            // canonical #organization node — was the copy that came out empty
+            // because nothing populated the settings it reads.
+            $orgAddress = \App\Support\Nap::address();
 
-            // ProfessionalService only once there is an address to anchor it: a
-            // LocalBusiness with no location is the one thing Google's own docs
-            // single out as invalid. Without it the Organization node below still
-            // carries the brand, which is what a service-area studio needs anyway.
-            $orgType = $orgAddress ? ['Organization', 'ProfessionalService'] : 'Organization';
+            // Plain Organization — the brand entity, and only that.
+            //
+            // This used to become ['Organization', 'ProfessionalService'] as soon as
+            // an address existed, on the reasoning that a LocalBusiness needs a
+            // location to be valid. The branch had never actually run: no address
+            // was ever set, so the type was always the bare string. Now that one is
+            // set it would run, and it should not — /contact carries a dedicated
+            // PhotographStudio node (an exact subtype, pointed back here via
+            // parentOrganization), so upgrading this node too would describe one
+            // studio as two different LocalBusinesses that happen to share a name.
+            // One precise place entity beats two competing ones.
+            $orgType = 'Organization';
         @endphp
         {{-- WebSite node, separate from the brand. It is what makes the site itself
              an entity Google can attach a name to in results, and it is the correct

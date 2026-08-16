@@ -36,6 +36,20 @@ class SiteSettingsPage extends Page implements HasForms
             'contact_email' => SiteSetting::get('contact_email'),
             'contact_phone' => SiteSetting::get('contact_phone'),
             'whatsapp_url' => SiteSetting::get('whatsapp_url'),
+            'meta_pixel_id' => SiteSetting::get('meta_pixel_id'),
+            'ga_measurement_id' => SiteSetting::get('ga_measurement_id'),
+            'address_street' => SiteSetting::get('address_street'),
+            'address_locality' => SiteSetting::get('address_locality'),
+            'address_region' => SiteSetting::get('address_region'),
+            'address_postal_code' => SiteSetting::get('address_postal_code'),
+            'address_country' => SiteSetting::get('address_country', 'IN'),
+            'geo_latitude' => SiteSetting::get('geo_latitude'),
+            'geo_longitude' => SiteSetting::get('geo_longitude'),
+            'map_url' => SiteSetting::get('map_url'),
+            'hours_days' => SiteSetting::get('hours_days', []),
+            'hours_opens' => SiteSetting::get('hours_opens'),
+            'hours_closes' => SiteSetting::get('hours_closes'),
+            'service_areas' => SiteSetting::get('service_areas', []),
             'socials_instagram' => SiteSetting::get('socials')['instagram'] ?? null,
             'socials_youtube' => SiteSetting::get('socials')['youtube'] ?? null,
             'socials_facebook' => SiteSetting::get('socials')['facebook'] ?? null,
@@ -61,6 +75,57 @@ class SiteSettingsPage extends Page implements HasForms
         ]);
     }
 
+    /** Weekday names, in the order schema.org and every human expects them. */
+    public const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    /**
+     * Studio address, pin, hours and service area.
+     *
+     * Local SEO depends on one address stated identically in every place it
+     * appears. These keys already had a consumer — home.blade.php builds the
+     * Organization address from them and deliberately hardcodes no fallback — but
+     * no producer: they were in neither the seeder nor this form, so the homepage
+     * emitted no address while the contact page hardcoded its own copy of the same
+     * values. This tab is the missing producer.
+     *
+     * Split out of form() rather than inlined: that method was already at the
+     * 150-line ceiling before this tab was added.
+     */
+    private static function locationTab(): Forms\Components\Tabs\Tab
+    {
+        return Forms\Components\Tabs\Tab::make('Location')
+            ->schema([
+                Forms\Components\TextInput::make('address_street')
+                    ->label('Street address')
+                    ->helperText('Exactly as it reads on the Google Business Profile — a variant here becomes an inconsistent citation.'),
+                Forms\Components\TextInput::make('address_locality')->label('City'),
+                Forms\Components\TextInput::make('address_region')->label('State / region'),
+                Forms\Components\TextInput::make('address_postal_code')->label('Postal code'),
+                Forms\Components\TextInput::make('address_country')
+                    ->label('Country code')
+                    ->maxLength(2)
+                    ->helperText('Two-letter ISO code, e.g. IN.'),
+                Forms\Components\TextInput::make('geo_latitude')
+                    ->label('Latitude')
+                    ->helperText('Five decimal places minimum. Copy the pin from the Business Profile.'),
+                Forms\Components\TextInput::make('geo_longitude')->label('Longitude'),
+                Forms\Components\TextInput::make('map_url')
+                    ->label('Google Maps URL')
+                    ->url()
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('hours_days')
+                    ->label('Open days')
+                    ->multiple()
+                    ->options(array_combine(self::DAYS, self::DAYS)),
+                Forms\Components\TimePicker::make('hours_opens')->label('Opens')->seconds(false),
+                Forms\Components\TimePicker::make('hours_closes')->label('Closes')->seconds(false),
+                Forms\Components\TagsInput::make('service_areas')
+                    ->label('Service areas')
+                    ->helperText('Named cities you actually serve. These become areaServed in schema — "India" matches nothing a local searcher types.')
+                    ->columnSpanFull(),
+            ]);
+    }
+
     public function form(Forms\Form $form): Forms\Form
     {
         return $form
@@ -71,6 +136,20 @@ class SiteSettingsPage extends Page implements HasForms
                             Forms\Components\TextInput::make('contact_email')->email()->required(),
                             Forms\Components\TextInput::make('contact_phone')->required(),
                             Forms\Components\TextInput::make('whatsapp_url')->url(),
+                        ]),
+                    self::locationTab(),
+                    Forms\Components\Tabs\Tab::make('Tracking')
+                        ->schema([
+                            Forms\Components\TextInput::make('meta_pixel_id')
+                                ->label('Meta Pixel ID')
+                                ->helperText('Digits only, from Events Manager. Leave blank to load no pixel at all.'),
+                            Forms\Components\TextInput::make('ga_measurement_id')
+                                ->label('GA4 measurement ID')
+                                ->helperText('Format G-XXXXXXXXXX. Overrides the GA_MEASUREMENT_ID env var; blank falls back to it.'),
+                            Forms\Components\Placeholder::make('tracking_note')
+                                ->label('')
+                                ->content('Both tags are held to the cookie banner — nothing is sent until a visitor accepts. Neither loads in local or testing, so dev traffic stays out of your reporting. An ID that is not in the expected format is ignored rather than printed into the page.')
+                                ->columnSpanFull(),
                         ]),
                     Forms\Components\Tabs\Tab::make('Socials')
                         ->schema([
@@ -220,6 +299,25 @@ class SiteSettingsPage extends Page implements HasForms
         SiteSetting::set('contact_email', $data['contact_email']);
         SiteSetting::set('contact_phone', $data['contact_phone']);
         SiteSetting::set('whatsapp_url', $data['whatsapp_url'] ?? '');
+        SiteSetting::set('meta_pixel_id', trim((string) ($data['meta_pixel_id'] ?? '')));
+        SiteSetting::set('ga_measurement_id', strtoupper(trim((string) ($data['ga_measurement_id'] ?? ''))));
+
+        // NAP. Every one of these is read by both the homepage Organization node
+        // and the contact page's LocalBusiness node, so a change here moves both
+        // at once — which is the entire point of storing them in one place.
+        foreach (['address_street', 'address_locality', 'address_region', 'address_postal_code',
+            'address_country', 'geo_latitude', 'geo_longitude', 'map_url',
+            'hours_opens', 'hours_closes'] as $key) {
+            SiteSetting::set($key, $data[$key] ?? '');
+        }
+        // Ordered by weekday rather than by click order: openingHoursSpecification
+        // is read by machines, and "Sa, Mo, Tu" is a worse answer than "Mo…Sa".
+        SiteSetting::set('hours_days', array_values(array_intersect(
+            self::DAYS,
+            (array) ($data['hours_days'] ?? [])
+        )));
+        SiteSetting::set('service_areas', array_values(array_filter((array) ($data['service_areas'] ?? []))));
+
         SiteSetting::set('socials', [
             'instagram' => $data['socials_instagram'] ?? null,
             'youtube' => $data['socials_youtube'] ?? null,
