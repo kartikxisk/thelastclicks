@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Brief received — TheLastClicks"
+    :title="\App\Support\Brand::title('Brief received')"
     description="Thanks for your brief — we will be in touch within 4 working hours."
     :canonical="url('/thank-you')"
 >

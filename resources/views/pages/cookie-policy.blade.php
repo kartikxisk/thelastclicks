@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Cookie Policy — Cookies We Use | TheLastClicks"
+    :title="\App\Support\Brand::title('Cookie Policy')"
     description="The cookies and similar technologies TheLastClicks uses on this website, what each one does, and how to block or delete them in your browser."
     :canonical="url('/cookie-policy')"
 >

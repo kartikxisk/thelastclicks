@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Disclaimer — Site & Portfolio Notice | TheLastClicks"
+    :title="\App\Support\Brand::title('Disclaimer')"
     description="General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on the TheLastClicks website."
     :canonical="url('/disclaimer')"
 >

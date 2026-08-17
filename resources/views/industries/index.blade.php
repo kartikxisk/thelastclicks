@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Industries — Brand, Auto & Wedding Film | TheLastClicks"
+    :title="\App\Support\Brand::title('Brand, Auto & Wedding Film')"
     description="Fashion, hospitality, beauty, weddings, automotive, corporate and nightlife — the sectors TheLastClicks produces photography and film for across India."
     :canonical="url('/industries')"
 >

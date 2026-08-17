@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Portfolio — Film & Photography | TheLastClicks"
+    :title="\App\Support\Brand::title('Photography & Video Portfolio')"
     description="Selected films and photography from TheLastClicks — brand campaigns, corporate productions, automotive shoots, launches and weddings across 20+ Indian cities."
     :canonical="url('/portfolio')"
 >

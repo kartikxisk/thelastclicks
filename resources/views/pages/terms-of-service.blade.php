@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Terms of Service — Booking & Usage Terms | TheLastClicks"
+    :title="\App\Support\Brand::title('Terms of Service')"
     description="The terms governing TheLastClicks photography and film production services, this website, bookings, deliverables, licensing and image usage rights."
     :canonical="url('/terms-of-service')"
 >

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SeoPage;
+use App\Support\Brand;
 use Illuminate\Database\Seeder;
 
 /**
@@ -39,14 +40,14 @@ class SeoPagesSeeder extends Seeder
             [
                 'page_url' => '/services/photography',
                 'label' => 'Photography service',
-                'title' => 'Brand & Corporate Photography in Delhi NCR | TheLastClicks',
+                'title' => Brand::title('Brand & Corporate Photography, Delhi NCR'),
                 'meta_description' => 'Editorial, product, portrait and event photography for brands and corporates across India. In-house retouching, licensed usage, and a brief-first process.',
                 'og_image_path' => 'headers/gear-lenses-red.jpg',
             ],
             [
                 'page_url' => '/services/videography',
                 'label' => 'Videography service',
-                'title' => 'Brand Film & Video Production in Delhi NCR | TheLastClicks',
+                'title' => Brand::title('Brand Film & Video Production, Delhi NCR'),
                 'meta_description' => 'Treatment-led brand films, corporate video and campaign production across India. One integrated crew from director to editor, with in-house finishing.',
                 'og_image_path' => 'headers/gear-camera-dark.jpg',
             ],
@@ -57,7 +58,7 @@ class SeoPagesSeeder extends Seeder
                 'label' => 'Post Production service',
                 // The only service page that carried no location while the other two
                 // did, and "editing" is the higher-volume term people actually type.
-                'title' => 'Video Editing & Post-Production, Delhi NCR | TheLastClicks',
+                'title' => Brand::title('Video Editing & Post-Production, Delhi NCR'),
                 'meta_description' => 'Offline edit, DaVinci colour grading, sound and conform — finished in-house, never outsourced. Post-only projects welcome, footage from any camera.',
                 'og_image_path' => 'headers/gear-lens-red.jpg',
             ],

@@ -1,5 +1,5 @@
 <x-layouts.app
-    :title="$service->title.' — TheLastClicks'"
+    :title="\App\Support\Brand::title($service->title)"
     :description="$service->hero_copy"
     :canonical="url('/services/'.$service->slug)"
     :ogImage="$service->heroUrl()"
@@ -28,6 +28,10 @@
         // string that used to be hardcoded there, so a service with no `sections`
         // row renders exactly as this page did before the column existed.
         $sections = $service->sections ?? [];
+        // Eager-loaded here rather than in the loop: the grid reads cover media
+        // per tile, and lazily resolving that is the N+1 assertQueryCount() in
+        // tests/Pest.php exists to catch.
+        $serviceWorks = $service->publishedWorks()->with('media')->get();
     @endphp
 
     {{-- 01 HEADER — the same full-bleed media header every other top-level page
@@ -127,8 +131,36 @@
         </section>
     @endif
 
-    {{-- 05 GALLERY --}}
-    @if (!empty($galleryUrls))
+    {{-- 05 SELECTED WORK — real projects when the service has any attached.
+
+         The frames gallery below is the fallback, not a second section: two media
+         grids back to back compete, and a titled project with a client on it
+         makes the case an anonymous frame cannot. A service nobody has curated
+         yet keeps rendering its frames exactly as before.
+
+         Tiles are not linked. /portfolio/{slug} is a retired route that 301s to
+         home, so linking them would walk a visitor off the page they were
+         reading — the grid opens its own lightbox instead, which is what
+         /portfolio does with the same component. --}}
+    @if ($serviceWorks->isNotEmpty())
+        <section class="pp-gallery-section" data-screen-label="04 Work">
+            <x-scene-bg type="photo" />
+            <x-container>
+                <div class="services__head">
+                    <div>
+                        <span class="section__eyebrow" data-scramble>{{ $sections['work']['lead'] ?? 'Selected work' }}</span>
+                        <h2 class="section__title" data-split>{!! $sections['work']['title'] ?? 'The <em>output.</em>' !!}</h2>
+                    </div>
+                </div>
+                <x-media-grid
+                    :items="$serviceWorks"
+                    layout="bento"
+                    :meta="fn ($work) => collect([$work->client, $work->categoryLabel()])->filter()->implode(' · ')"
+                    lightboxLabel="{{ $service->title }} work"
+                />
+            </x-container>
+        </section>
+    @elseif (!empty($galleryUrls))
         <section class="pp-gallery-section" data-screen-label="04 Gallery">
             <x-scene-bg type="photo" />
             <x-container>

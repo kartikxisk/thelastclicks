@@ -34,4 +34,29 @@ final class Brand
      * @var list<string>
      */
     public const ALTERNATE_NAMES = ['The Last Clicks', 'TLC'];
+
+    /**
+     * How the brand signs off a <title>.
+     *
+     * Spaced and parenthesised rather than the closed-up NAME: a title is read by
+     * a person scanning a results page, and it is the one place worth spelling the
+     * name the way they would say it. Carrying (TLC) here also means a search for
+     * the abbreviation has something literal to match in the strongest on-page
+     * field, which alternateName in the schema alone does not give.
+     */
+    public const TITLE_SUFFIX = 'The Last Clicks (TLC)';
+
+    /**
+     * Build a page title: a keyword-led phrase, then the brand.
+     *
+     * Every page uses this so the pattern cannot drift back into the three
+     * different shapes it had before — "About TheLastClicks — …", "Portfolio — …
+     * | TheLastClicks" and "Contact TheLastClicks — …" were all in use at once,
+     * which spends the most valuable field on the site describing the brand
+     * instead of what the page is about.
+     */
+    public static function title(string $lead): string
+    {
+        return $lead.' | '.self::TITLE_SUFFIX;
+    }
 }

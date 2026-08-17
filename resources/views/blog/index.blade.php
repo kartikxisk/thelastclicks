@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Journal — Film Craft & Production Notes | TheLastClicks"
+    :title="\App\Support\Brand::title('Film & Photography Journal')"
     description="Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month."
     :canonical="url('/blog')"
 >

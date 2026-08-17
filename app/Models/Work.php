@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasMediaItems;
+use Database\Factories\WorkFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -12,7 +15,8 @@ use Spatie\Sluggable\SlugOptions;
 
 class Work extends Model implements HasMedia
 {
-    use HasMediaItems, HasSlug, InteractsWithMedia;
+    /** @use HasFactory<WorkFactory> */
+    use HasFactory, HasMediaItems, HasSlug, InteractsWithMedia;
 
     protected $fillable = [
         'title', 'slug', 'summary', 'client', 'category', 'crafts', 'credits',
@@ -58,6 +62,22 @@ class Work extends Model implements HasMedia
         'motion' => 'Motion',
         'retouch' => 'Retouch',
     ];
+
+    /**
+     * Service pages this project appears on.
+     *
+     * The same pivot Service::works() reads, from the other end — the admin
+     * edits the link from whichever record is already open. Unfiltered on
+     * purpose: this side is only read in the admin, where a service being
+     * unpublished is not a concept and hiding rows would just make the
+     * multi-select disagree with the database.
+     *
+     * @return BelongsToMany<Service, $this>
+     */
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
+    }
 
     public function getSlugOptions(): SlugOptions
     {

@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="Privacy Policy — How We Handle Your Data | TheLastClicks"
+    :title="\App\Support\Brand::title('Privacy Policy')"
     description="How TheLastClicks collects, uses, stores and protects personal data submitted through our website, enquiry forms and production work across India."
     :canonical="url('/privacy-policy')"
 >

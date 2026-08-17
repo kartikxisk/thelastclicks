@@ -1,4 +1,4 @@
-<x-layouts.app title="Page not found — TheLastClicks" description="This page is not in our archive.">
+<x-layouts.app :title="\App\Support\Brand::title('Page not found')" description="This page is not in our archive.">
 
 <style>
   .nf { min-height: calc(100vh - 90px); display: grid; place-items: center; padding: 130px var(--pad-x) 80px; position: relative; overflow: hidden; }

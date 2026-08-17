@@ -6,6 +6,7 @@ use App\Support\MediaUrl;
 use Database\Factories\ServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -34,6 +35,40 @@ class Service extends Model implements HasMedia
         'tags' => 'array',
         'gallery_urls' => 'array',
     ];
+
+    /**
+     * Every project linked to this service, published or not.
+     *
+     * Deliberately unfiltered, and the admin multi-select binds to this one.
+     * Filament's Select::relationship() runs the relation query to load the
+     * field's current state as well as its options, so a filtered relation here
+     * would hide an attached-but-unpublished project from the form — and saving
+     * the form would then write back the reduced set, silently detaching it. The
+     * public page reads publishedWorks() instead.
+     *
+     * @return BelongsToMany<Work, $this>
+     */
+    public function works(): BelongsToMany
+    {
+        return $this->belongsToMany(Work::class);
+    }
+
+    /**
+     * Projects shown on this service's page.
+     *
+     * Published-only and ordered by the work's own `order`, so the sequence
+     * matches the portfolio and a draft cannot reach a live page by being
+     * attached here.
+     *
+     * @return BelongsToMany<Work, $this>
+     */
+    public function publishedWorks(): BelongsToMany
+    {
+        return $this->works()
+            ->where('is_published', true)
+            ->orderBy('works.order')
+            ->orderBy('works.id');
+    }
 
     public function getSlugOptions(): SlugOptions
     {

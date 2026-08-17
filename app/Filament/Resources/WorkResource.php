@@ -86,6 +86,18 @@ class WorkResource extends Resource
             Section::make()->columns(2)->schema([
                 Toggle::make('is_published')->default(true),
                 Toggle::make('is_featured')->label('Show on homepage'),
+                // The same link ServiceResource edits, from this end — a project
+                // is usually filed while it is open here, not by going back
+                // through each service it belongs to. Many-to-many because a
+                // shoot that produced both stills and a film genuinely belongs
+                // under photography and videography.
+                Select::make('services')
+                    ->label('Show on service pages')
+                    ->relationship('services', 'title')
+                    ->multiple()
+                    ->preload()
+                    ->columnSpanFull()
+                    ->helperText('Adds this project to the work grid on each service page you pick.'),
             ]),
         ]);
     }

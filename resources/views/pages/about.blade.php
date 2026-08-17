@@ -1,5 +1,5 @@
 <x-layouts.app
-    title="About TheLastClicks — Cinematic Film & Photography Studio"
+    :title="\App\Support\Brand::title('About Our Photography & Film Studio')"
     description="A photography and film production studio at the intersection of cinema, brand and craft. Five years, 1,000+ events and 20+ cities across India and counting."
     :canonical="url('/about')"
 >

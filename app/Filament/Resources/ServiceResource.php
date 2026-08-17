@@ -8,6 +8,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
@@ -57,7 +58,18 @@ class ServiceResource extends Resource
                     // URL — so no strict ->url() rule, which rejects the path form.
                     TextInput::make('hero_url')->label('Hero image path or URL')
                         ->helperText('A media-disk key (industries/x.jpg) or a full https:// URL. An uploaded hero above overrides it.'),
-                    TextInput::make('featured_slug')->label('Featured slug'),
+                    // featured_slug's input is gone. The column stays, but no view
+                    // has ever read it — it was a stringly-typed pointer at one
+                    // project, which is what the works relation below now does
+                    // properly, for many, with referential integrity.
+                    Select::make('works')
+                        ->label('Work on this page')
+                        ->relationship('works', 'title')
+                        ->multiple()
+                        ->searchable()
+                        ->preload()
+                        ->columnSpanFull()
+                        ->helperText('Projects shown in the work grid. Unpublished ones stay listed here but do not render on the page.'),
                     Fieldset::make('Proof')
                         ->columns(3)
                         ->schema([
@@ -84,6 +96,10 @@ class ServiceResource extends Resource
                             Textarea::make('sections.flow.lead')->label('Flow lead')->rows(2),
                             TextInput::make('sections.flow.note')->label('Flow note')
                                 ->helperText('Closing line under the phases. Defaults to "Your timeline is fixed in the quote, once we know the scope."'),
+                            TextInput::make('sections.work.lead')->label('Work eyebrow')
+                                ->helperText('Defaults to "Selected work".'),
+                            TextInput::make('sections.work.title')->label('Work heading')
+                                ->helperText('Inline <em> renders as the accent. Defaults to "The <em>output.</em>".'),
                             TextInput::make('sections.kit.title')->label('Arsenal heading')
                                 ->helperText('Inline <em> renders as the accent. Uppercased by the design.'),
                             Textarea::make('sections.kit.lead')->label('Arsenal lead')->rows(2),
