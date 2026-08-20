@@ -30,10 +30,16 @@ beforeEach(function () {
     $this->seed();
 });
 
-/** The homepage renders two media blocks (industries + work); isolate the work one. */
+/**
+ * The homepage renders two media blocks (industries + work); isolate the work one.
+ *
+ * Anchored on id="work", not the data-screen-label: that label carries a running
+ * scene number, so reordering the page renumbers it and this helper silently
+ * returned '' — every tile assertion below then passed against an empty string.
+ */
 function workSection(string $html): string
 {
-    $start = strpos($html, 'data-screen-label="07 Work"');
+    $start = strpos($html, 'id="work"');
 
     if ($start === false) {
         return '';

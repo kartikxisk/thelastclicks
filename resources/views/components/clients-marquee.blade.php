@@ -4,7 +4,10 @@
     // Admin-managed: each client resolves to an uploaded logo (media disk) or the
     // logo path set alongside it. Wordmarks below are the last resort so the strip
     // is never empty on a fresh install.
-    $clients = \App\Models\Client::active()->orderBy('order')->get()
+    // with('media') is load-bearing: logoUrl() calls getFirstMediaUrl(), which
+    // lazy-loads the relation once per client. Without it the strip cost one
+    // query per logo — eighteen extra on every uncached homepage render.
+    $clients = \App\Models\Client::active()->orderBy('order')->with('media')->get()
         ->map(fn ($c) => ['name' => $c->name, 'logo' => $c->logoUrl()])
         ->filter(fn ($c) => filled($c['logo']))
         ->values();

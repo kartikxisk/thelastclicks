@@ -5,7 +5,9 @@
     // rule the chrome <meta> values follow: absent means render nothing, never a
     // fallback asset, so an empty admin reads as empty rather than as someone
     // else's footage the editor can't find or replace.
-    $slides = \App\Models\HeroSlide::active()->get()
+    // with('media'): assetUrl()/posterUrl()/previewUrl() all go through
+    // getFirstMediaUrl(), so an unloaded relation costs a query per slide.
+    $slides = \App\Models\HeroSlide::active()->with('media')->get()
         ->filter(fn ($s) => filled($s->assetUrl()))
         ->values();
 

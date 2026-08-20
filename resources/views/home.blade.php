@@ -82,10 +82,41 @@
     {{-- Client-logo marquee (replaces the text marquee) --}}
     <x-clients-marquee />
 
+    <!-- OUR WORK -->
+    @if ($featuredWorks->isNotEmpty())
+    {{-- Scene 02 · Work — a looping strip of the archive. Previews play
+         muted inline; hover stops the strip, a click opens the work.
+
+         Leads the page on purpose: the studio is judged on the footage, so the
+         reel comes before the copy about how it is made. Everything below —
+         discipline, industries, services — reads as an explanation of what the
+         visitor has already seen. --}}
+    {{-- id="work" is the stable hook: HomeWorkSectionTest used to isolate this
+         block by its data-screen-label, which is a running scene number and so
+         broke the moment the section moved up the page. --}}
+    <section class="section" id="work" data-screen-label="02 Work">
+        <x-scene-bg type="photo" />
+        <x-container>
+            <div class="services__head" data-stagger>
+                <div data-anim="curtain">
+                    <span class="section__eyebrow" data-scramble>Portfolio</span>
+                    <h2 class="section__title" data-split>Our <em>work.</em></h2>
+                </div>
+            </div>
+            <x-work-marquee :items="$featuredWorks" lightbox-label="Selected work" />
+            {{-- The onward link closes the scene: you watch the strip first, then
+                 you're offered the full archive. --}}
+            <div class="work-marquee__cta" data-anim="rise">
+                <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">View portfolio <span class="arr"></span></a>
+            </div>
+        </x-container>
+    </section>
+    @endif
+
     <!-- DISCIPLINE -->
-    {{-- Scene 02 · Discipline — the studio's standards, so the backdrop is the
+    {{-- Scene 03 · Discipline — the studio's standards, so the backdrop is the
          camera language: light sweep, framing guides, focus pull. --}}
-    <section class="section disc" data-screen-label="02 Discipline">
+    <section class="section disc" data-screen-label="03 Discipline">
         <x-scene-bg type="camera" />
         <x-container>
             {{-- Title left, description right, bottom-aligned so the paragraph sits
@@ -133,9 +164,9 @@
 
     <!-- INDUSTRIES -->
     @if ($industries->isNotEmpty())
-    {{-- Scene 03 · Industries — a 3D deck already, so the backdrop stays the
+    {{-- Scene 04 · Industries — a 3D deck already, so the backdrop stays the
          neutral grid and the reveal pushes the whole deck in from depth. --}}
-    <section class="section" data-screen-label="02 Industries">
+    <section class="section" data-screen-label="04 Industries">
         <x-scene-bg type="grid" />
         <x-container>
             <div class="services__head" data-stagger>
@@ -203,10 +234,10 @@
     @endif
 
     <!-- SERVICES -->
-    {{-- Scene 04 · Services — the disciplines themselves, so the backdrop is the
+    {{-- Scene 05 · Services — the disciplines themselves, so the backdrop is the
          edit bay: timeline lanes, keyframes, playhead. Rows wipe in from the
          left one after another, like clips landing on a track. --}}
-    <section class="section services" id="services" data-screen-label="03 Services">
+    <section class="section services" id="services" data-screen-label="05 Services">
         <x-scene-bg type="edit" />
         <x-container>
             <div class="services__head" data-stagger>
@@ -238,7 +269,7 @@
          is why it is aria-hidden in full — it exists to fill the right-hand
          column, not to add content. --}}
     <section class="section" data-screen-label="06 Testimonials">
-        {{-- Scene 05 · Testimonials — words, not craft, so the backdrop drops to
+        {{-- Scene 06 · Testimonials — words, not craft, so the backdrop drops to
              the quiet aperture. --}}
         <x-scene-bg type="photo" />
         <x-container>
@@ -286,33 +317,10 @@
     </section>
     @endif
 
-    <!-- OUR WORK -->
-    @if ($featuredWorks->isNotEmpty())
-    {{-- Scene 06 · Work — a looping strip of the archive. Previews play
-         muted inline; hover stops the strip, a click opens the work. Backdrop matches. --}}
-    <section class="section" data-screen-label="07 Work">
-        <x-scene-bg type="photo" />
-        <x-container>
-            <div class="services__head" data-stagger>
-                <div data-anim="curtain">
-                    <span class="section__eyebrow" data-scramble>Portfolio</span>
-                    <h2 class="section__title" data-split>Our <em>work.</em></h2>
-                </div>
-            </div>
-            <x-work-marquee :items="$featuredWorks" lightbox-label="Selected work" />
-            {{-- The onward link closes the scene: you watch the strip first, then
-                 you're offered the full archive. --}}
-            <div class="work-marquee__cta" data-anim="rise">
-                <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">View portfolio <span class="arr"></span></a>
-            </div>
-        </x-container>
-    </section>
-    @endif
-
     <!-- CTA -->
     {{-- Scene 07 · CTA — the close. Headline rises, buttons follow, aperture
          breathing behind the red floor-glow. --}}
-    <section class="cta-strip" data-screen-label="08 CTA">
+    <section class="cta-strip" data-screen-label="07 CTA">
         <x-scene-bg type="photo" />
         <x-container data-stagger>
             <h2 class="cta-strip__title" data-split data-anim="mask-up">Work with us.<br>Or work <em>among us.</em></h2>
