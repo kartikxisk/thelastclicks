@@ -1,9 +1,9 @@
 /* Scene engine.
  *
- * Drives the full-height scene sequence: which scene is on screen, how far it
- * has travelled, when its backdrop should run, and the order its content
- * reveals in. Deliberately thin — the reveals themselves are CSS transitions
- * keyed off `.is-in`, so this only decides *when*, never *how*.
+ * Drives the decorative backdrop behind each full-height section: which scene
+ * is on screen, how far it has travelled, and when its backdrop animations
+ * should run. It no longer has anything to do with content appearing — scroll
+ * reveals were removed, so every section renders at its final state.
  *
  * Everything it writes is a class or a custom property. It never reads layout
  * inside the scroll handler beyond one getBoundingClientRect per visible scene,
@@ -17,23 +17,6 @@ export function initScenes() {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   scenes.forEach((s) => s.classList.add('scene'));
-
-  /* -------------------- Stagger order -------------------- */
-  // Children of a [data-stagger] group cascade in source order. Writing --i
-  // here rather than in CSS means the cascade survives any number of children
-  // and any reordering in the Blade template.
-  // The cascade is capped, and the step shrinks for big groups. A 30-tile
-  // portfolio grid at a flat 90ms per item would put the last tile 2.6s behind
-  // the first — long enough that it reads as broken rather than staggered.
-  const STAGGER_CAP = 9;
-  document.querySelectorAll('[data-stagger]').forEach((group) => {
-    const kids = [...group.querySelectorAll(':scope > [data-anim]')];
-    const step = kids.length > 10 ? 45 : 90;
-    kids.forEach((el, i) => {
-      el.style.setProperty('--i', String(Math.min(i, STAGGER_CAP)));
-      el.style.setProperty('--anim-step', `${step}ms`);
-    });
-  });
 
   /* -------------------- Which scenes are live -------------------- */
   // `is-near` runs the backdrop animations; anything further away is parked.
@@ -69,9 +52,9 @@ export function initScenes() {
       const centre = r.top + r.height / 2;
       const p = Math.max(-1.5, Math.min(1.5, (vh / 2 - centre) / vh));
       s.style.setProperty('--p', p.toFixed(4));
-      // A scene mostly out of frame recedes rather than cutting, so one snap
-      // reads as a dissolve into the next.
-      s.classList.toggle('is-leaving', !reduce && Math.abs(p) > 0.62);
+      // No `is-leaving` dissolve. Dropping a section that is merely off-centre
+      // to opacity 0.4 dimmed live content mid-scroll and read as a translucent
+      // overlay lying over the page rather than as a transition.
     }
     raf = requestAnimationFrame(frame);
   }

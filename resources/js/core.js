@@ -1,14 +1,23 @@
 /* ============================================================
    TheLastClicks — Core JS Engine
-   Smooth scroll · Custom cursor · Page transitions · Splits
+   Smooth scroll · Custom cursor · Page transitions
    60fps via rAF + transform/opacity only
+
+   No scroll reveals. Sections render at their final state from the first
+   paint — nothing waits for an observer to become visible. The reveal
+   system (motion.dev [data-anim], plus the .reveal/.split/.clip-reveal
+   observer that lived here) was removed deliberately: a page whose content
+   sits at opacity:0 until scrolled to reads as an overlay covering the
+   site, and every failure mode of the trigger — a slow parse, a restored
+   scroll position, a script error — left real copy permanently invisible.
+   The data-anim/data-split attributes are still in the Blade templates and
+   are inert; do not wire them back up.
    ============================================================ */
 
 import { initWorkLightbox } from './work-lightbox';
 import { initWorkMarquee } from './work-marquee';
 import { initScenes } from './scene';
 import { initServicesAccordion } from './services-accordion';
-import { initReveals } from './reveals';
 
 (() => {
   const root = document.documentElement;
@@ -91,47 +100,6 @@ import { initReveals } from './reveals';
     }
   }
 
-  /* -------------------- IntersectionObserver reveals -------------------- */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        en.target.classList.add('is-in');
-        io.unobserve(en.target);
-      }
-    });
-  }, { threshold: 0.05, rootMargin: '0px 0px -2% 0px' });
-  // [data-anim] is deliberately absent: reveals.js owns it now, via motion.dev.
-  // Observing it here too would race — whichever fired first would add .is-in and
-  // the other would animate from an already-final state.
-  document.querySelectorAll('.reveal, .split, .clip-reveal').forEach(el => io.observe(el));
-
-  // Failsafe — brute-force activate anything visible (or near it) in case IO is slow to fire on load.
-  function forceRevealVisible() {
-    const vh = window.innerHeight;
-    document.querySelectorAll('.reveal:not(.is-in), .split:not(.is-in), .clip-reveal:not(.is-in)').forEach(el => {
-      const r = el.getBoundingClientRect();
-      // In view, or approaching: play the reveal.
-      // Already scrolled past (bottom above the viewport): reveal it outright —
-      // a fast flick or a restored scroll position can carry the viewport clean
-      // over an element, and without this it stays invisible forever rather
-      // than merely un-animated.
-      if (r.bottom <= 0 || (r.bottom > 0 && r.top < vh * 1.15)) {
-        el.classList.add('is-in');
-        io.unobserve(el);
-      }
-    });
-  }
-  requestAnimationFrame(() => requestAnimationFrame(forceRevealVisible));
-  setTimeout(forceRevealVisible, 200);
-  setTimeout(forceRevealVisible, 700);
-  setTimeout(forceRevealVisible, 1500);
-  // On scroll, also catch any missed elements as a backup
-  let revealScrollFrame = 0;
-  window.addEventListener('scroll', () => {
-    cancelAnimationFrame(revealScrollFrame);
-    revealScrollFrame = requestAnimationFrame(forceRevealVisible);
-  }, { passive: true });
-
   /* -------------------- Form error summary focus -------------------- */
   // The form reloads server-side on a validation error; move focus to the
   // summary so a screen reader announces it and the fixes are one tab away.
@@ -140,44 +108,6 @@ import { initReveals } from './reveals';
     errorSummary.focus();
     errorSummary.scrollIntoView({ block: 'center' });
   }
-
-  /* -------------------- Split text (auto-wrap words) -------------------- */
-  document.querySelectorAll('[data-split]').forEach(el => {
-    if (el.dataset.splitDone) return;
-    el.dataset.splitDone = '1';
-    el.classList.add('split');
-    const html = el.innerHTML;
-    const tmp = document.createElement('div'); tmp.innerHTML = html;
-    function process(node) {
-      const out = [];
-      node.childNodes.forEach(c => {
-        if (c.nodeType === 3) {
-          const words = c.textContent.split(/(\s+)/);
-          words.forEach(w => {
-            if (/^\s+$/.test(w)) out.push(document.createTextNode(' '));
-            else if (w.length) {
-              const span = document.createElement('span');
-              span.className = 'split-word';
-              const inner = document.createElement('span');
-              inner.textContent = w;
-              span.appendChild(inner);
-              out.push(span);
-            }
-          });
-        } else if (c.nodeType === 1) {
-          const clone = c.cloneNode(false);
-          const sub = process(c);
-          sub.forEach(s => clone.appendChild(s));
-          out.push(clone);
-        }
-      });
-      return out;
-    }
-    const result = process(tmp);
-    el.innerHTML = '';
-    result.forEach(n => el.appendChild(n));
-    io.observe(el);
-  });
 
   /* -------------------- Counters -------------------- */
   const cIO = new IntersectionObserver(entries => {
@@ -276,10 +206,6 @@ import { initReveals } from './reveals';
 
   /* -------------------- Scene engine -------------------- */
   initScenes();
-
-  /* -------------------- Section reveals (motion.dev) -------------------- */
-  // After initScenes(), which writes the --i stagger index the reveals read.
-  initReveals();
 
   /* -------------------- YouTube poster fallback -------------------- */
   // maxresdefault is the only 16:9 poster (hqdefault is 4:3 with black bars
@@ -1287,61 +1213,6 @@ import { initReveals } from './reveals';
     const p = v.play();
     if (p && p.catch) p.catch(() => {});
   });
-
-  /* -------------------- Hero content reveal (scroll-locked) -------------------- */
-  // Scroll is held at the top until the overlay text has animated in; the first
-  // scroll intent triggers the reveal, and scrolling is released once it's done.
-  const heroCenter = document.querySelector('.hero__center');
-  if (heroCenter) {
-    if (reduce) {
-      heroCenter.style.setProperty('--hero-reveal', '1');
-    } else {
-      let played = false;
-      const lock = () => {
-        root.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
-        window.scrollTo(0, 0);
-      };
-      const unlock = () => {
-        root.style.overflow = '';
-        document.body.style.overflow = '';
-      };
-      const removeIntent = () => {
-        window.removeEventListener('wheel', onWheel);
-        window.removeEventListener('keydown', onKey);
-        window.removeEventListener('touchmove', onTouch);
-      };
-      function playReveal() {
-        if (played) return;
-        played = true;
-        removeIntent();
-        // rAF tween of --hero-reveal 0 → 1 with an easeOutCubic curve.
-        const dur = 1100;
-        const start = performance.now();
-        const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-        function step(now) {
-          const t = Math.min(1, (now - start) / dur);
-          heroCenter.style.setProperty('--hero-reveal', easeOutCubic(t).toFixed(4));
-          if (t < 1) requestAnimationFrame(step);
-          else unlock();
-        }
-        requestAnimationFrame(step);
-      }
-      const onWheel = (e) => { if (e.deltaY > 0) playReveal(); };
-      const onKey = (e) => {
-        if (['ArrowDown', 'PageDown', 'End', ' ', 'Spacebar'].includes(e.key)) playReveal();
-      };
-      const onTouch = () => playReveal();
-
-      lock();
-      window.addEventListener('wheel', onWheel, { passive: true });
-      window.addEventListener('keydown', onKey);
-      window.addEventListener('touchmove', onTouch, { passive: true });
-      // Fallback — reveal (and release scroll) if no scroll intent arrives, so
-      // the page can never get stuck locked.
-      setTimeout(playReveal, 4000);
-    }
-  }
 
   /* -------------------- Subtle 3D tilt on hero video tiles -------------------- */
   const heroTiles = document.querySelectorAll('.hero__bg .tile');

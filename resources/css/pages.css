@@ -121,18 +121,9 @@
   width: 100%;
   max-width: var(--maxw);
   text-shadow: 0 2px 24px rgba(20,14,12,0.35);
-  /* Hidden on load; JS locks scroll then tweens --hero-reveal 0 → 1 (GSAP)
-     when the first scroll intent arrives, releasing scroll when done. */
-  --hero-reveal: 0;
-  opacity: var(--hero-reveal);
-  transform: translateY(calc((1 - var(--hero-reveal)) * 36px));
-  will-change: opacity, transform;
-}
-/* Inner reveals stay visible — the wrapper's opacity gates the whole block */
-.hero__center .split-word > span,
-.hero__center .reveal {
-  opacity: 1 !important;
-  transform: none !important;
+  /* No --hero-reveal gate. The headline used to load at opacity 0 with the
+     page's scroll locked until the visitor tried to scroll, which meant the
+     first thing the site showed was an empty frame that would not move. */
 }
 .hero__center > div { justify-content: flex-start; }
 .hero__title {
@@ -734,49 +725,26 @@ main > section:has(.clients) {
   line-height: 1.5;
 }
 
-/* ---------- Discipline section: choreography ----------
-   Every piece is keyed off the .is-in class the existing IntersectionObserver
-   already applies, so this needs no new JS. The order is deliberate: rule,
-   headline, kicker bar, copy, divider, then the stats — the eye is walked down
-   the section rather than everything arriving at once. */
+/* ---------- Discipline section ----------
+   This was a scroll choreography keyed off .is-in — eyebrow rule, kicker bar,
+   copy, divider, then the stat dots, each starting collapsed or transparent.
+   With the reveals removed nothing adds .is-in, so every start state here is
+   now simply the state: the rules are drawn, the copy is opaque, the dots are
+   at full size. Do not reintroduce a scale(0) or opacity:0 base — with no
+   trigger left, an element that starts hidden stays hidden. */
 
-/* 1. The eyebrow's rule draws out from the left. */
+/* The eyebrow's rule and the kicker's red bar, drawn. */
 .disc .section__eyebrow::before {
-  transform: scaleX(0);
+  transform: scaleX(1);
   transform-origin: left center;
-  transition: transform 0.55s var(--ease) 0.05s;
 }
-.disc .section__eyebrow.is-in::before { transform: scaleX(1); }
-
-/* 2. The kicker's red bar wipes downward, like a marker being drawn. */
 .disc__kicker::before {
-  transform: scaleY(0);
+  transform: scaleY(1);
   transform-origin: top center;
-  transition: transform 0.5s var(--ease) 0.12s;
 }
-.disc__kicker.is-in::before { transform: scaleY(1); }
 
-/* 3. Copy arrives paragraph by paragraph rather than as one block — a 58ch
-      column landing in a single move reads as a slab. 110ms apart, inside
-      the 30-80ms..stagger band once the longer read distance is accounted for. */
-/* Scoped to containers that are actually observed. A plain .disc__copy with no
-   data-anim/.reveal never receives .is-in, so hiding its paragraphs
-   unconditionally left them invisible forever — which is what happened to the
-   About page's story copy. */
-.disc__copy[data-anim] p,
-.disc__copy.reveal p {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
-}
-.disc__copy.is-in p { opacity: 1; transform: none; }
-.disc__copy.is-in p:nth-child(1) { transition-delay: 0.04s; }
-.disc__copy.is-in p:nth-child(2) { transition-delay: 0.15s; }
-.disc__copy.is-in p:nth-child(3) { transition-delay: 0.26s; }
-.disc__copy.is-in p:nth-child(n+4) { transition-delay: 0.34s; }
-
-/* 4. The divider draws across before the numbers land beneath it. A border
-      can't be animated, so it becomes a scaled pseudo-element. */
+/* The divider above the stats. A border can't be animated, which is why it is
+   a pseudo-element; it stays one because the layout depends on it now. */
 .disc__stats { border-top: 0; position: relative; }
 .disc__stats::before {
   content: '';
@@ -784,34 +752,14 @@ main > section:has(.clients) {
   top: 0; left: 0; right: 0;
   height: 1px;
   background: var(--line);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.9s var(--ease);
 }
-.disc__stats.is-in::before { transform: scaleX(1); }
 
-/* 5. Each stat's dot pops in with a little overshoot — never from scale(0),
-      which reads as appearing from nothing. */
+/* Each stat's dot, at full size. */
 .disc__stat::before {
-  transform: scale(0.4);
-  opacity: 0;
-  transition: transform 0.5s var(--ease-spring), opacity 0.3s var(--ease);
+  transform: scale(1);
+  opacity: 1;
 }
-.disc__stat.is-in::before { transform: scale(1); opacity: 1; }
-.disc__stat.is-in:nth-child(1)::before { transition-delay: 0.30s; }
-.disc__stat.is-in:nth-child(2)::before { transition-delay: 0.40s; }
-.disc__stat.is-in:nth-child(3)::before { transition-delay: 0.50s; }
 
-@media (prefers-reduced-motion: reduce) {
-  /* The global reset only forces .reveal / .split-word / .clip-reveal back to
-     their end state — these pseudo-elements would otherwise stay collapsed at
-     scale 0 and the rules and dots would simply never appear. */
-  .disc .section__eyebrow::before,
-  .disc__kicker::before,
-  .disc__stats::before,
-  .disc__stat::before { transform: none !important; opacity: 1 !important; }
-  .disc__copy p { opacity: 1 !important; transform: none !important; }
-}
 @media (max-width: 880px) {
   /* .disc__head listed alongside .disc__grid: without it the homepage heading
      stays two-column on a phone, squeezing a 64px title into half the screen. */
@@ -1674,16 +1622,8 @@ main > section:has(.clients) {
    owns `transform` — setting one would wipe the other mid-animation. */
 .why-list li { transition: translate 0.4s var(--ease), color 0.3s var(--ease); }
 .why-list li:hover { translate: 16px 0; color: var(--red); }
-/* Items cascade in once the list reveals. */
-.why-list.reveal li { opacity: 0; transform: translateY(12px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
-.why-list.reveal.is-in li { opacity: 1; transform: none; }
-.why-list.reveal.is-in li:nth-child(1) { transition-delay: 0.1s; }
-.why-list.reveal.is-in li:nth-child(2) { transition-delay: 0.22s; }
-.why-list.reveal.is-in li:nth-child(3) { transition-delay: 0.34s; }
-.why-list.reveal.is-in li:nth-child(4) { transition-delay: 0.46s; }
-@media (prefers-reduced-motion: reduce) {
-  .why-list.reveal li { opacity: 1; transform: none; transition: none; }
-}
+/* The items used to cascade in behind .reveal/.is-in. Nothing adds those classes
+   any more, so there is no hidden start state left to cascade out of. */
 
 /* ---------- Beliefs ---------- */
 .beliefs__list {
@@ -3861,18 +3801,18 @@ main > section:has(.clients) {
   position: relative;
   padding: 0 0 48px 0;
 }
+/* The marker used to sit grey and turn red on .is-in. With the reveals gone
+   nothing sets that class, so it carries its lit state outright rather than
+   staying grey forever. */
 .timeline-x__item::before {
   content: '';
   position: absolute;
   left: -39px; top: 8px;
   width: 14px; height: 14px;
-  border: 2px solid var(--line);
+  border: 2px solid var(--red);
   border-radius: 0;
-  background: var(--ink);
-  transition: border-color 0.4s var(--ease), background 0.4s var(--ease), transform 0.4s var(--ease);
-}
-.timeline-x__item.is-in::before {
-  border-color: var(--red); background: var(--red); transform: scale(1.15);
+  background: var(--red);
+  transform: scale(1.15);
 }
 .timeline-x__year {
   font-family: var(--f-mono); font-size: 12px;
@@ -6221,69 +6161,23 @@ em:hover {
 
 /* ============================================================
    SCENE MOTION
-   A small vocabulary of reveals, one animated backdrop per craft, and the
-   micro-interaction layer. Everything keys off `.is-in`, which the existing
-   IntersectionObserver in core.js already applies — no second trigger system.
-   Only transform / opacity / filter / clip-path are animated, so nothing here
-   touches layout.
+   One animated backdrop per craft, plus the micro-interaction layer. No
+   reveals: nothing here waits on a scroll trigger to become visible, and
+   nothing dims as it leaves frame. Only transform / opacity / filter are
+   animated, so nothing here touches layout.
    ============================================================ */
 
-/* ---------- Reveal primitives: [data-anim] ---------- */
-[data-anim] {
-  will-change: transform, opacity, filter, clip-path;
-  transition:
-    opacity 0.9s var(--ease),
-    transform 1s var(--ease),
-    filter 0.9s var(--ease),
-    clip-path 1.1s var(--ease-3);
-}
-/* Stagger: the scene observer writes --i per child, so a group cascades in
-   source order (headline -> copy -> visual -> buttons -> decoration). */
-[data-anim] { transition-delay: calc(var(--i, 0) * var(--anim-step, 90ms) + var(--anim-delay, 0ms)); }
+/* Scroll reveals are gone. There is no [data-anim] start state, no transition
+   and no .is-in end state: content is at its final position from the first
+   paint. The attributes are still on the markup and are inert — reintroducing
+   an `opacity: 0` here is what made the site read as an overlay, and made every
+   missed trigger (slow parse, restored scroll position, script error) hide real
+   copy permanently.
 
-[data-anim="mask-up"]    { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(28px); }
-[data-anim="mask-down"]  { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(-24px); }
-[data-anim="curtain"]    { opacity: 0; clip-path: inset(0 100% 0 0); }
-[data-anim="curtain-r"]  { opacity: 0; clip-path: inset(0 0 0 100%); }
-[data-anim="iris"]       { opacity: 0; clip-path: circle(0% at 50% 50%); }
-[data-anim="blur-focus"] { opacity: 0; filter: blur(16px); transform: scale(1.06); }
-[data-anim="depth"]      { opacity: 0; transform: perspective(1200px) translateZ(-180px) rotateX(9deg); }
-[data-anim="depth-out"]  { opacity: 0; transform: perspective(1200px) translateZ(220px); }
-[data-anim="rotate-in"]  { opacity: 0; transform: rotate(-5deg) scale(0.9); transform-origin: 0 100%; }
-[data-anim="slide-l"]    { opacity: 0; transform: translateX(-64px); }
-[data-anim="slide-r"]    { opacity: 0; transform: translateX(64px); }
-[data-anim="scale-frame"]{ opacity: 0; transform: scale(0.86); }
-[data-anim="rise"]       { opacity: 0; transform: translateY(46px); }
-
-/* Horizontal entrance offsets widen the document until they play: an element
-   parked 64px to the right of a full-width column sticks out past the viewport,
-   and the whole page gains a sideways scroll. Clipping the section contains the
-   start state without changing the animation. */
+   This rule outlives them. It is not about entrance offsets any more — a
+   section still holds wide decorative layers (backdrops, marquees, floats) that
+   would otherwise give the whole page a sideways scroll. */
 main > section { overflow-x: clip; }
-@media (max-width: 860px) {
-  /* Tighter travel too — 64px is a big slide on a 390px screen. */
-  [data-anim="slide-l"] { transform: translateX(-28px); }
-  [data-anim="slide-r"] { transform: translateX(28px); }
-}
-
-[data-anim].is-in {
-  opacity: 1;
-  clip-path: inset(0 0 0 0);
-  filter: none;
-  transform: none;
-}
-[data-anim="iris"].is-in { clip-path: circle(85% at 50% 50%); }
-
-/* reveals.js sets .js-motion on <html> once it has taken over, and from then on
-   motion.dev owns playback. The start states above still apply — they are what
-   stops a flash of finished content before the JS parses — but the transition
-   has to go, or every reveal runs twice: once as a CSS transition into .is-in
-   and once as the animation. The class is set from JS on purpose, so a script
-   error leaves the CSS path intact rather than leaving the page at opacity 0. */
-html.js-motion [data-anim] {
-  transition: none;
-  will-change: auto;
-}
 
 /* Continuous float for decorative objects. Not a reveal — it never stops, so it
    is confined to elements that carry no information. */
@@ -6301,29 +6195,13 @@ html.js-motion [data-anim] {
 [data-parallax="deep"] { --par: 90px; }
 [data-parallax="near"] { --par: 18px; }
 
-/* Section-to-section transition: a scene recedes as it leaves frame instead of
-   cutting, so consecutive snaps read as a dissolve.
-   The blur is applied to the decorative backdrop ONLY, never to the scene. A
-   filter on the whole scene measured 15.4ms per frame on its own — one property
-   accounting for 95% of the frame budget, because it forces the entire section
-   (text, photos, the 3D globe) through an off-screen pass every frame. Opacity
-   and transform stay on the compositor and cost nothing. */
-.scene { transition: opacity 0.5s linear, transform 0.6s var(--ease); }
-.scene.is-leaving {
-  opacity: 0.4;
-  transform: scale(0.978);
-}
-/* The backdrop defocuses by fading, not by blurring. Moving the blur off the
-   scene and onto the backdrop (above) fixed the worst of it, but a blur over a
-   viewport-sized box whose contents animate is still re-rastered every frame:
-   measured 46.1ms -> 35.6ms mean frame time on an Intel UHD 630 from deleting
-   this one declaration. Opacity is a compositor property and costs nothing. */
-.scenebg { transition: opacity 0.5s linear; }
-.scene.is-leaving .scenebg { opacity: 0.14; }
-
-/* Layer promotion is worth it while an element is animating and a waste after —
-   16 permanently-promoted layers per page is memory for nothing. */
-[data-anim].is-in { will-change: auto; }
+/* No section-to-section dissolve. A scene that was merely off-centre dropped to
+   opacity 0.4, so live text and photographs sat dimmed behind what looked like
+   a translucent sheet — the same complaint as the reveals, from the other end.
+   Scenes now hold full opacity wherever they are in the scroll.
+   Never put a filter on .scene itself if this is ever revisited: measured at
+   15.4ms per frame on its own, 95% of the budget, because it forces the whole
+   section (text, photos, the 3D globe) through an off-screen pass every frame. */
 
 /* ---------- Craft backdrops ---------- */
 .scenebg {
@@ -6586,21 +6464,11 @@ main > section > .scenebg { z-index: 0; }
 :hover > [data-icon-spin] { transform: rotate(90deg); }
 
 /* ---------- Reduced motion ---------- */
-/* Content still reveals (that's comprehension), but nothing loops, drifts,
-   parallaxes or blurs, and scenes never dim on the way out. */
+/* Nothing loops, drifts, parallaxes or blurs. There is no reveal state left to
+   force visible — content is never hidden in the first place. */
 @media (prefers-reduced-motion: reduce) {
-  [data-anim] {
-    opacity: 1 !important;
-    clip-path: none !important;
-    filter: none !important;
-    transform: none !important;
-    transition: none !important;
-  }
   [data-float],
   .scenebg * { animation: none !important; }
   [data-parallax] { transform: none !important; }
-  .scene.is-leaving { opacity: 1; filter: none; transform: none; }
-  .scene.is-leaving .scenebg { opacity: 0.18; }
-  .scene, .scenebg { transition: none; }
-  .scenebg { opacity: 0.18; }
+  .scenebg { opacity: 0.18; transition: none; }
 }

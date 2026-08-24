@@ -99,11 +99,40 @@ The route wipe is 600ms end to end and `pointer-events: none` throughout. A
 transition that is still running when the destination is ready makes the site
 feel broken; one that eats a click is worse than none. *(001)*
 
+### Nothing enters on scroll
+
+Content is at its final position in the first paint. There are no scroll
+reveals: no `[data-anim]` start state, no `.reveal` / `.split` / `.clip-reveal`
+observer, no per-word split, and no `.is-leaving` dim as a section drifts off
+centre.
+
+The reveals were removed rather than retuned because their failure mode is
+unacceptable and unavoidable. Every one of them hid real copy behind a trigger,
+so a slow parse, a restored scroll position, a stale cached bundle or any script
+error left the page showing nothing — indistinguishable from an overlay lying
+over the site. The observer here had already grown four separate failsafes
+(three timeouts, a scroll listener and a rAF pair) chasing that, which is the
+tell: a decoration that needs a safety net to avoid hiding the product is not
+worth the product.
+
+The `data-anim` and `data-split` attributes are still in the Blade templates and
+are inert. Leave them; do not wire a new trigger to them.
+
+What stays: hover and focus feedback, the route curtain, the hero slideshow, the
+work marquee, the decorative `.scenebg` backdrops, `[data-float]`, and the
+counters. None of those gate content on scroll.
+
 ### Scroll is never locked
 
 No pinning, no scroll-jacking, no swallowed keypresses. The services depth
 scrub reads progress from the section's own rect rather than pinning it,
 specifically so the scrollbar keeps telling the truth. *(002)*
+
+The homepage hero broke this rule and was removed with the reveals: it held
+`overflow: hidden` on both `<html>` and `<body>`, kept its own headline at
+`opacity: 0`, and waited for a wheel, key or touch event before tweening either
+back — so the site opened on an empty frame that would not scroll, for up to
+four seconds if no input arrived.
 
 ### Grid filtering is a transition, not a swap
 
@@ -126,5 +155,5 @@ this rule if it is ever split into steps.
 
 `resources/css/core.css` holds the tokens and the shared chrome's motion;
 `resources/js/core.js` owns scroll-linked work (parallax, magnetics, cursor) and
-`resources/js/scene.js` decides only *when* a section reveals — the reveals
-themselves are CSS transitions keyed off `.is-in`.
+`resources/js/scene.js` drives the decorative backdrops only — which are near
+the viewport, and when their loops may run. `resources/js/reveals.js` is gone.

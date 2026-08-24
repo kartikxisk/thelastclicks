@@ -917,50 +917,6 @@ img, video { max-width: 100%; display: block; }
   .marquee--logos .marquee__track { animation: none; }
 }
 
-/* ---------- Reveal animations ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
-  will-change: transform, opacity;
-}
-.reveal.is-in { opacity: 1; transform: translateY(0); }
-.reveal[data-delay="1"] { transition-delay: 0.08s; }
-.reveal[data-delay="2"] { transition-delay: 0.16s; }
-.reveal[data-delay="3"] { transition-delay: 0.24s; }
-.reveal[data-delay="4"] { transition-delay: 0.32s; }
-.reveal[data-delay="5"] { transition-delay: 0.40s; }
-
-.split-line { display: block; overflow: hidden; }
-.split-word { display: inline-block; overflow: visible; vertical-align: top; }
-.split-word > span {
-  display: inline-block;
-  transform: translateY(40%);
-  opacity: 0;
-  transition: transform 0.7s var(--ease), opacity 0.7s var(--ease);
-  will-change: transform, opacity;
-}
-.split.is-in .split-word > span { opacity: 1; }
-.split.is-in .split-word > span { transform: translateY(0); }
-.split.is-in .split-word:nth-child(1) > span { transition-delay: 0.00s; }
-.split.is-in .split-word:nth-child(2) > span { transition-delay: 0.04s; }
-.split.is-in .split-word:nth-child(3) > span { transition-delay: 0.08s; }
-.split.is-in .split-word:nth-child(4) > span { transition-delay: 0.12s; }
-.split.is-in .split-word:nth-child(5) > span { transition-delay: 0.16s; }
-.split.is-in .split-word:nth-child(6) > span { transition-delay: 0.20s; }
-.split.is-in .split-word:nth-child(7) > span { transition-delay: 0.24s; }
-.split.is-in .split-word:nth-child(8) > span { transition-delay: 0.28s; }
-.split.is-in .split-word:nth-child(9) > span { transition-delay: 0.32s; }
-.split.is-in .split-word:nth-child(10) > span { transition-delay: 0.36s; }
-.split.is-in .split-word:nth-child(n+11) > span { transition-delay: 0.40s; }
-
-.clip-reveal {
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path 1.1s var(--ease-3);
-  will-change: clip-path;
-}
-.clip-reveal.is-in { clip-path: inset(0 0 0 0); }
-
 /* ---------- Footer ---------- */
 .foot {
   background: var(--ink);
@@ -1534,10 +1490,10 @@ section[class*="services"] + .section { border-top-color: rgba(255,255,255,0.06)
 
 /* ============================================================
    REDUCED MOTION — honour the OS "reduce motion" preference.
-   The site is heavily animated (reveals, splits, curtains, marquees,
-   preloader, tilt, magnetic, spotlight). This block neutralises the
-   motion while GUARANTEEING every scroll-revealed element is visible,
-   so nothing stays stuck at opacity:0 when the observer motion is off.
+   The site is still animated (curtains, marquees, preloader, tilt,
+   magnetic, spotlight); this block neutralises that motion. It no longer
+   needs to force revealed elements visible — scroll reveals are gone, so
+   nothing on the page starts at opacity:0 in the first place.
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1546,10 +1502,6 @@ section[class*="services"] + .section { border-top-color: rgba(255,255,255,0.06)
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  /* Force JS-driven reveal states to their final, visible position */
-  .reveal,
-  .split-word > span,
-  .clip-reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }
   /* Full-screen motion overlays add nothing without animation — drop them */
   .curtain,
   .preloader { display: none !important; }
