@@ -7,6 +7,7 @@ use App\Support\MediaUrl;
 use Database\Factories\IndustryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -40,6 +41,41 @@ class Industry extends Model implements HasMedia
     public function testimonials(): HasMany
     {
         return $this->hasMany(Testimonial::class)->orderBy('order');
+    }
+
+    /**
+     * Projects filed under this industry.
+     *
+     * The same pivot Work::industries() reads, from the other end — the admin
+     * edits the link from whichever record is already open. Unfiltered on
+     * purpose: Filament's Select::relationship() runs this query to load the
+     * field's current state as well as its options, so filtering here would hide
+     * an attached-but-unpublished project from the form, and saving would then
+     * write back the reduced set and silently detach it. The portfolio applies
+     * its own published scope.
+     *
+     * @return BelongsToMany<Work, $this>
+     */
+    public function works(): BelongsToMany
+    {
+        return $this->belongsToMany(Work::class);
+    }
+
+    /**
+     * Projects shown on this industry's page.
+     *
+     * Published-only and ordered by the work's own `order`, so the sequence
+     * matches the portfolio and a draft cannot reach a live page by being
+     * attached here. Mirrors Service::publishedWorks().
+     *
+     * @return BelongsToMany<Work, $this>
+     */
+    public function publishedWorks(): BelongsToMany
+    {
+        return $this->works()
+            ->where('is_published', true)
+            ->orderBy('works.order')
+            ->orderBy('works.id');
     }
 
     protected function mediaCoverCollection(): string

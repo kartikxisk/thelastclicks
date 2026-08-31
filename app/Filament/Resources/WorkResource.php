@@ -98,6 +98,18 @@ class WorkResource extends Resource
                     ->preload()
                     ->columnSpanFull()
                     ->helperText('Adds this project to the work grid on each service page you pick.'),
+
+                // Who the work was for, which is a different axis from both
+                // `category` (what the piece is) and `crafts` (what we did).
+                // Read by the industry chips on /portfolio; industries have no
+                // page of their own for it to feed.
+                Select::make('industries')
+                    ->label('Industries')
+                    ->relationship('industries', 'title')
+                    ->multiple()
+                    ->preload()
+                    ->columnSpanFull()
+                    ->helperText('Adds this project to the industry filter on the portfolio page.'),
             ]),
         ]);
     }

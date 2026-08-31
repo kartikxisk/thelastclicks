@@ -43,12 +43,19 @@
 
             $usedCrafts = collect(\App\Models\Work::CRAFTS)
                 ->filter(fn ($label, $slug) => $works->contains(fn ($w) => in_array($slug, $w->craftSlugs(), true)));
+
+            // Same rule again, read off the loaded relation rather than a
+            // constant: an industry earns a chip only once a published project
+            // is filed under it. Keyed by slug so the chip and the tile's
+            // data-industries agree, and ordered by the industries' own order
+            // via Work::industries().
+            $usedIndustries = $works->flatMap->industries->unique('id')->values();
         @endphp
 
         <section class="section" data-screen-label="02 Work">
             <x-scene-bg type="photo" />
             <x-container>
-                @if ($usedCategories->isNotEmpty() || $usedCrafts->isNotEmpty())
+                @if ($usedCategories->isNotEmpty() || $usedCrafts->isNotEmpty() || $usedIndustries->isNotEmpty())
                     <div class="work-filters" data-anim="rise" data-work-filters role="group" aria-label="Filter work">
                         <button type="button" class="work-filters__chip is-on" data-filter="all" aria-pressed="true">All</button>
 
@@ -61,6 +68,14 @@
                             <span class="work-filters__label">In-house</span>
                             @foreach ($usedCrafts as $slug => $label)
                                 <button type="button" class="work-filters__chip work-filters__chip--craft" data-filter="craft:{{ $slug }}" aria-pressed="false">{{ $label }}</button>
+                            @endforeach
+                        @endif
+
+                        @if ($usedIndustries->isNotEmpty())
+                            <span class="work-filters__sep" aria-hidden="true"></span>
+                            <span class="work-filters__label">Industry</span>
+                            @foreach ($usedIndustries as $industry)
+                                <button type="button" class="work-filters__chip work-filters__chip--industry" data-filter="industry:{{ $industry->slug }}" aria-pressed="false">{{ $industry->title }}</button>
                             @endforeach
                         @endif
                     </div>

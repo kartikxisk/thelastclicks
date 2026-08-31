@@ -517,7 +517,7 @@ import { initServicesAccordion } from './services-accordion';
         c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
       });
 
-      // Chips are either `all`, `cat:<slug>` or `craft:<slug>`.
+      // Chips are `all`, `cat:<slug>`, `craft:<slug>` or `industry:<slug>`.
       const [kind, value] = (chip.dataset.filter || 'all').split(':');
       let shown = 0;
 
@@ -527,6 +527,10 @@ import { initServicesAccordion } from './services-accordion';
           match = (tile.dataset.cat || '') === value;
         } else if (kind === 'craft') {
           match = (tile.dataset.crafts || '').split(/\s+/).includes(value);
+        } else if (kind === 'industry') {
+          // Space-separated like crafts, because a project can serve more than
+          // one industry and must answer to every chip it is filed under.
+          match = (tile.dataset.industries || '').split(/\s+/).includes(value);
         }
         tile.hidden = !match;
         if (match) shown++;

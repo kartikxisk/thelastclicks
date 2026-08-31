@@ -5801,6 +5801,10 @@ main > section.strip {
 .work-filters__chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
 /* Craft chips read as a distinct axis from the discipline chips beside them. */
 .work-filters__chip--craft { border-style: dashed; }
+/* Industry is a third axis — who the work was for, rather than what it is or
+   what we did on it. Dotted rather than dashed so the three groups stay
+   distinguishable at a glance even once the separators drop on mobile. */
+.work-filters__chip--industry { border-style: dotted; }
 .work-filters__sep {
   width: 1px;
   height: 22px;

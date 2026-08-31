@@ -62,6 +62,12 @@
             $preview = method_exists($item, 'previewVideoUrl') ? $item->previewVideoUrl() : null;
             $crafts = method_exists($item, 'craftSlugs') ? $item->craftSlugs() : [];
             $category = $item->category ?? null;
+            // Gated on the relation already being loaded, not just on it
+            // existing: the caller decides whether industries are part of this
+            // grid, and reading it here unloaded would fire a query per tile.
+            $industries = $item instanceof \App\Models\Work && $item->relationLoaded('industries')
+                ? $item->industries->pluck('slug')->all()
+                : [];
         @endphp
         <{{ $tag }}
             class="work-tile scene-stop"
@@ -71,6 +77,7 @@
             data-zoom
             @if ($category) data-cat="{{ $category }}" @endif
             @if ($crafts) data-crafts="{{ implode(' ', $crafts) }}" @endif
+            @if ($industries) data-industries="{{ implode(' ', $industries) }}" @endif
             @if ($href)
                 href="{{ $href }}"
                 aria-label="{{ $item->title }}"

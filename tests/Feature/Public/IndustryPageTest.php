@@ -7,49 +7,29 @@ use Spatie\ResponseCache\Facades\ResponseCache;
 uses(RefreshDatabase::class);
 beforeEach(fn () => $this->seed());
 
+// Industry detail pages are live again — see IndustryShowTest for the page
+// itself. What is left here is the deck: what it lists, how its tiles link, and
+// the cache invalidation behind it.
+//
+// Assertions read the seeded rows rather than naming a vertical. The taxonomy
+// has been rewritten twice; a test that pins "Fashion" only records which
+// version it was written against.
+
 it('industry index lists seeded industries', function () {
-    $this->get('/industries')->assertOk()->assertSee('Fashion');
-});
+    $first = Industry::orderBy('order')->firstOrFail();
 
-// Industry detail pages were retired: routes/web.php 301s /industries/{slug} to
-// the index, and a tile now opens the quote wizard pre-filled with its industry.
-// These four tests asserted the detail page still rendered, which is why they
-// failed on a route that had deliberately become a redirect.
-
-it('redirects a retired industry detail page to the index', function () {
-    $industry = Industry::orderBy('order')->firstOrFail();
-
-    $this->get('/industries/'.$industry->slug)
-        ->assertStatus(301)
-        ->assertRedirect('/industries');
-});
-
-it('redirects an unknown industry slug rather than 404ing', function () {
-    // The redirect is a wildcard, so it catches slugs that never existed too.
-    // Deliberate: every old /industries/* URL lands somewhere useful.
-    $this->get('/industries/not-a-real-industry')
-        ->assertStatus(301)
-        ->assertRedirect('/industries');
+    $this->get('/industries')->assertOk()->assertSee($first->title);
 });
 
 it('shows every industry title on the index, and no summaries', function () {
     $industry = Industry::orderBy('order')->firstOrFail();
 
-    // Title-only cards. The summary had a home on the detail page; with that
-    // gone it is admin-managed copy that no public page renders.
+    // Title-only cards. The summary belongs to the detail page, which now leads
+    // with it — repeating it on the deck would just be duplicate copy.
     $this->get('/industries')
         ->assertOk()
         ->assertSee($industry->title)
         ->assertDontSee($industry->summary);
-});
-
-it('opens the quote wizard from an industry tile instead of a detail page', function () {
-    $industry = Industry::orderBy('order')->firstOrFail();
-
-    $this->get('/industries')
-        ->assertOk()
-        // href stays a real URL so the tile still works without JS.
-        ->assertSee('data-quote-prefill=\''.e($industry->title).'\'', false);
 });
 
 it('gives every seeded industry a cover so the grid is never blank', function () {
@@ -68,13 +48,19 @@ it('gives every seeded industry a cover so the grid is never blank', function ()
     );
 });
 
-it('renders each industry tile as a real link, not a lightbox tile', function () {
+it('links each industry tile to its own page, not to the quote wizard', function () {
+    $industry = Industry::orderBy('order')->firstOrFail();
+
     $response = $this->get('/industries')->assertOk();
 
-    // Still anchors rather than lightbox tiles — that part of the contract did
-    // not change when detail pages went; only the destination did, from
-    // /industries/{slug} to the contact page carrying the prefill.
-    $response->assertSee('href="'.url('/contact').'"', false);
+    // The tiles were quote-modal triggers while detail pages were retired. Now
+    // that each vertical argues its own case, the deck leads there instead; the
+    // wizard is one click away from the CTA at the foot of that page.
+    $response->assertSee('href="'.url('/industries/'.$industry->slug).'"', false);
+    expect($response->getContent())->not->toContain('data-quote-prefill=\''.e($industry->title).'\'');
+
+    // Still anchors rather than lightbox tiles — that half of the contract did
+    // not change when the destination did.
     expect(substr_count($response->getContent(), 'data-work-tile'))->toBe(0);
 });
 

@@ -1,0 +1,66 @@
+{
+  "_note": "Drive ids extracted from the PDF's link annotations. `title` is the corrected public name; `label` is the PDF's original text, kept so the mapping stays auditable. Works listed under two groups share one Drive id and become ONE work attached to both industries.",
+  "groups": {
+    "alcobev": "Alcobev",
+    "cover-artist": "Cover Artist",
+    "corporate-shoots": "Corporate Shoots",
+    "real-estate": "Real Estate",
+    "podcast": "Podcast",
+    "wedding-pre-wedding": "Wedding & Pre-Wedding"
+  },
+  "works": [
+    {"label": "Patron", "title": "Patron", "groups": ["alcobev"], "drive": "15SqDXK5_pOpWZ_egehkec3ko7Km6Z3t5"},
+    {"label": "tranquery", "title": "Tanqueray", "groups": ["alcobev"], "drive": "1nahetgr6fqhHC6AOupUJ776OZMv_pYXy"},
+    {"label": "Jaisalmer", "title": "Jaisalmer", "groups": ["alcobev"], "drive": "1CHvxOzs5pkBFmbJ1GeOYfz8g1GK5GFNw"},
+    {"label": "Donjulio", "title": "Don Julio", "groups": ["alcobev"], "drive": "1ZHRLufl2AM-4AVf8UwvrPBcV3Cg5stug"},
+    {"label": "Loka Coca", "title": "Loka Coca", "groups": ["alcobev"], "drive": "11UI_zjiZH8ORA-Si4BleSCLJcFlCBBnY", "unsure_name": true},
+    {"label": "Black Dog", "title": "Black Dog", "groups": ["alcobev"], "drive": "1hDmZae1zSB1CUd3bVTuSEN6fOoRipjSe"},
+    {"label": "Blue Label", "title": "Blue Label", "groups": ["alcobev"], "drive": "13ulbUwcYcLQJuNzSl67H6tZGMFvLHpdW"},
+    {"label": "Jonnie walker", "title": "Johnnie Walker", "groups": ["alcobev"], "drive": "1AoOpaIhElg-zjwPKTQyA4_etwu-D3_hQ"},
+    {"label": "Camicara Rum", "title": "Camikara Rum", "groups": ["alcobev"], "drive": "1wbwxC4Se5BcHlLtvUatYsoDd5ACPxmpb"},
+    {"label": "Laphoiag", "title": "Laphroaig", "groups": ["alcobev"], "drive": "1nYNzVxEiFGU53YUSsNVwfB7JORRbtN9b"},
+    {"label": "Macllan", "title": "Macallan", "groups": ["alcobev"], "drive": "1sEAe3SWSX2E7G7nVgQxNQkwzUExPIk19"},
+
+    {"label": "Javed Ali", "title": "Javed Ali", "groups": ["cover-artist"], "drive": "1q7sp1vpTnqMAotA0XuA4pbTbmcX4mbvT"},
+    {"label": "Palash Sen", "title": "Palash Sen", "groups": ["cover-artist"], "drive": "1Eky89uaEX5CnDAxA1_6Z4TO2VA4DfsT-"},
+    {"label": "Hariharan", "title": "Hariharan", "groups": ["cover-artist"], "drive": "1EeQNHpKuvvOkY4tA9C0VF5pkGFsy2qUu"},
+    {"label": "Sonu Nigam", "title": "Sonu Nigam", "groups": ["cover-artist"], "drive": "14TCvAzgneiC7GunvUn0NuBd-Y-tealjN"},
+    {"label": "Kailash Kher", "title": "Kailash Kher", "groups": ["cover-artist"], "drive": "1iCJOmoWRtlTZsaGSadQoeZPBzEyZ32XW"},
+    {"label": "Simar Kaur", "title": "Simar Kaur", "groups": ["cover-artist"], "drive": "1xha0HtTgpKSce4VYT6bDAhST2iwovv8N"},
+    {"label": "Shankar Mahadevan", "title": "Shankar Mahadevan", "groups": ["cover-artist"], "drive": "1VpPW-sLR_u7U5XGCwGUKLaf0yowQ-1GA"},
+
+    {"label": "Sales Force", "title": "Salesforce", "groups": ["corporate-shoots"], "drive": "16IT43GfnxY6ARmVqSewwIDBau1SdTWzI"},
+    {"label": "Tata TEA", "title": "Tata Tea", "groups": ["corporate-shoots"], "drive": "1omA_kM3jDSpMnlnTnI-t3hqG9FT7oUZG"},
+    {"label": "Steadfast Nutriton", "title": "Steadfast Nutrition", "groups": ["corporate-shoots"], "drive": "1MYp2GFZqswviFzdoGXwEaOHtcNte1WRq"},
+    {"label": "Adama", "title": "Adama", "groups": ["corporate-shoots"], "drive": "1oOdqf_AkzlFQrQvB7qf6YBoahv0Rj7Us"},
+    {"label": "Congurex", "title": "Congruex", "groups": ["corporate-shoots"], "drive": "1ROz2EVc1AVuWTX3-3-sqhdrIJds_rX9v", "unsure_name": true},
+    {"label": "E-Submit 2025", "title": "E-Summit 2025", "groups": ["corporate-shoots"], "drive": "1eahZ3TKjB-0dM6NypP5L4G8_IaUwEa4z"},
+
+    {"label": "Avance", "title": "Avance", "groups": ["real-estate"], "drive": "1y-XxJsx6LP3qe6unU4uX4pknQldDSUUN", "unsure_name": true},
+    {"label": "Capital Land", "title": "CapitaLand", "groups": ["real-estate"], "drive": "1Qa4w26uxqxnHCFwUbBSHqIfhWI903Lf6"},
+    {"label": "TASkUS Gurgoan", "title": "TaskUs Gurgaon", "groups": ["real-estate"], "drive": "1IwqfI2D9egxZQsv85HftgIdzV5pQLmpv", "is_folder": true},
+    {"label": "TASkUS Noida", "title": "TaskUs Noida", "groups": ["real-estate"], "drive": "1kdkdgok4L-_v3tCryxy-3QQkD8vTzQGU"},
+    {"label": "RAMBOLL", "title": "Ramboll", "groups": ["real-estate"], "drive": "1kVf5nvDGXbqhugYhHaELSvncaNN87JJQ", "shared_drive_id_with": "House Lauch"},
+    {"label": "House Lauch", "title": "House Launch", "groups": ["real-estate"], "drive": "1kVf5nvDGXbqhugYhHaELSvncaNN87JJQ", "shared_drive_id_with": "RAMBOLL"},
+    {"label": "WNS Global services", "title": "WNS Global Services", "groups": ["real-estate"], "drive": "1JxF0mX9ofbR0yGrGkPpaXOcKxknBS5WH"},
+
+    {"label": "DLF thrive", "title": "DLF Thrive", "groups": ["real-estate", "podcast"], "drive": "1TxSmUCDvdkyQSoCfnINdf-hpmj5EUpQh"},
+    {"label": "ITC sherton", "title": "ITC Sheraton", "groups": ["real-estate", "podcast"], "drive": "1oBU6v_bOusMrPuekCsRQu75wCtEhhpAJ"},
+    {"label": "Education", "title": "Education", "groups": ["podcast"], "drive": "1sFTsF1hJ5dBq2w6OqpRV7DIP81arLvNf", "unsure_name": true},
+    {"label": "Darstormson", "title": "Darstormson", "groups": ["podcast"], "drive": "1HwngN39rxLYvrFvRnOBqRcKUmYoRdi3h", "unsure_name": true},
+    {"label": "Threads Of Humanity", "title": "Threads Of Humanity", "groups": ["podcast"], "drive": "1SEZvbLiA2LZ5zno_CWDei6LJ7MvRSvG4"},
+
+    {"label": "After Party", "title": "After Party", "groups": ["wedding-pre-wedding"], "drive": "17NVTF-OW68M9JKAEThf_CYS3SEKz7w1Q"},
+    {"label": "Wedding Trailer", "title": "Wedding Trailer", "groups": ["wedding-pre-wedding"], "drive": "1euciiOHjfiDaTypVcVzfyTfBGCufLD9p"},
+    {"label": "haldi and mehandi mix", "title": "Haldi & Mehandi", "groups": ["wedding-pre-wedding"], "drive": "1fS8WgbJB0Anlh1-anIZlFXE5-PydTqDN", "dir": "haldi-and-mehandi"},
+    {"label": "Enagement", "title": "Engagement", "groups": ["wedding-pre-wedding"], "drive": "11BUnR4ub5wCI6fUXILYhZhb0SFTZr7Uu"},
+    {"label": "fairmont Wedding", "title": "Fairmont Wedding", "groups": ["wedding-pre-wedding"], "drive": "1nTYLdCXtiqnLaem2jseedJfIUaerY64L"},
+    {"label": "Roka Ceremony", "title": "Roka Ceremony", "groups": ["wedding-pre-wedding"], "drive": "1ZLyYW6vUW5cg6DJUJ6jIWeKiv0DoSezW"},
+    {"label": "baby Shower", "title": "Baby Shower", "groups": ["wedding-pre-wedding"], "drive": "1XLX4C6Xo1gcBlo1JG416GEeZWjJVLozX"},
+    {"label": "mehandi", "title": "Mehandi", "groups": ["wedding-pre-wedding"], "drive": "1CfCQKT-b1mN2qySkrtBrxgCZvs_MiIuh"},
+
+    {"label": "Dupion Jaipur", "title": "Dupion Jaipur", "groups": [], "drive": "16uePwz_5gcnp_HQiNeZWW0AKgdKwRU29", "ungrouped_in_pdf": true},
+    {"label": "The Paino man", "title": "The Piano Man", "groups": [], "drive": "1-UfRKimRusXryRsSDTyJvMA9bsTLnffY", "ungrouped_in_pdf": true},
+    {"label": "Range Rover", "title": "Range Rover", "groups": [], "drive": "1Y1C35hmeihxo2kPKI7bjXO02jF_RYYz-", "ungrouped_in_pdf": true}
+  ]
+}

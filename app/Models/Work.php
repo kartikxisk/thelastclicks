@@ -79,6 +79,22 @@ class Work extends Model implements HasMedia
         return $this->belongsToMany(Service::class);
     }
 
+    /**
+     * Industries this project is filed under.
+     *
+     * Read publicly by the /portfolio filter chips and by each tile, and edited
+     * from both this record and the industry's. Ordered so the chip row follows
+     * the order the admin gave the industries rather than attachment order.
+     *
+     * @return BelongsToMany<Industry, $this>
+     */
+    public function industries(): BelongsToMany
+    {
+        return $this->belongsToMany(Industry::class)
+            ->orderBy('industries.order')
+            ->orderBy('industries.id');
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()

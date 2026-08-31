@@ -29,10 +29,15 @@ Route::middleware('cacheResponse')->group(function () {
     Route::redirect('/services/creative-direction', '/services/editing', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
-    // Industry detail pages retired — the index and the homepage deck carry the
-    // vertical story now, and clicking through opens a pre-filled quote instead.
-    // 301 so indexed slugs and inbound links land on the index rather than 404.
-    Route::redirect('/industries/{slug}', '/industries', 301);
+    // Industry detail pages are live again — each vertical now carries its own
+    // copy and the work actually filed under it, which the deck alone could not.
+    // Registered after the exact '/industries' route above, which still wins.
+    //
+    // Slugs retired with the earlier taxonomy 301 to the index, but that is
+    // handled in the controller rather than by Route::redirect entries here: a
+    // redirect registered ahead of this route would shadow a live industry the
+    // moment anyone reused one of those slugs, and the shadowing is invisible.
+    Route::get('/industries/{slug}', [IndustryController::class, 'show'])->name('industry.show');
     Route::get('/portfolio', [WorkController::class, 'index'])->name('works');
     // Renamed from /our-works — 301 preserves inbound links and indexed URLs.
     Route::redirect('/our-works', '/portfolio', 301);

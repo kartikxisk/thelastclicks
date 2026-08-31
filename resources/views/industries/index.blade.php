@@ -43,14 +43,14 @@
                         <h2 class="section__title" data-split>What we <em>cover.</em></h2>
                     </div>
                 </div>
-                {{-- Detail pages are retired: a tile now opens the quote wizard with
-                     its industry pre-selected. href stays a real URL so it still
-                     works without JS. --}}
+                {{-- Detail pages are live again, so a tile opens the vertical's own
+                     page rather than the quote wizard. The wizard is still one
+                     click away from the CTA at the bottom of that page, and this
+                     way the deck leads somewhere that argues the case. --}}
                 <x-media-grid
                     :items="$industries"
                     layout="grid"
-                    :link="fn ($industry) => url('/contact')"
-                    :link-attrs="fn ($industry) => 'data-quote-trigger data-quote-prefill=\''.e($industry->title).'\''" />
+                    :link="fn ($industry) => url('/industries/'.$industry->slug)" />
             </x-container>
         </section>
     @endif
