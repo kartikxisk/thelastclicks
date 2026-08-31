@@ -67,7 +67,7 @@ window.TLC = (function(){
           </div>
           <div class="foot__col">
             <h5>Work</h5>
-            <a href="/services/editing">Editing</a>
+            <a href="/services/post-production">Post Production</a>
             <a href="/services/videography">Videography</a>
             <a href="/services/photography">Photography</a>
             <a href="/contact">Start a project</a>

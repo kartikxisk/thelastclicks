@@ -48,16 +48,40 @@
 
     {{-- 02 THE CASE — the industry's own copy. Rich text from the admin, so it
          is echoed unescaped; Filament's RichEditor is the only writer. --}}
+    {{-- 02 THE CASE — the industry's own argument.
+         Its own grid rather than .disc__grid. That rule pairs a short heading
+         with a short paragraph; this body is a full article of headings, lists
+         and several hundred words, so borrowing it left a 700x700 hole under the
+         title while the copy ran 800px down the other column. Here the left rail
+         sticks and carries the services that cover this vertical, so the space
+         holds something a reader can act on for the whole scroll. --}}
     @if ($industry->body)
-        <section class="section" data-screen-label="02 Overview">
+        @php $industryServices = $industry->services; @endphp
+        <section class="section ind-case" data-screen-label="02 Overview">
             <x-scene-bg type="camera" />
             <x-container>
-                <div class="disc__grid">
-                    <div class="disc__head">
-                        <span class="section__eyebrow">What we cover</span>
-                        <h2 class="section__title">Shooting for <em>{{ $industry->title }}.</em></h2>
-                    </div>
-                    <div class="disc__copy">{!! $industry->body !!}</div>
+                <div class="ind-case__grid">
+                    <aside class="ind-case__rail">
+                        <div class="ind-case__railInner">
+                            <span class="section__eyebrow">What we cover</span>
+                            <h2 class="ind-case__title">Shooting for <em>{{ $industry->title }}.</em></h2>
+
+                            @if ($industryServices->isNotEmpty())
+                                <p class="ind-case__railLabel">Services on this work</p>
+                                <ul class="ind-case__services" data-industry-services>
+                                    @foreach ($industryServices as $svc)
+                                        <li>
+                                            <a href="{{ url('/services/'.$svc->slug) }}">
+                                                {{ $svc->title }} <span class="arr"></span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    </aside>
+
+                    <div class="ind-case__copy">{!! $industry->body !!}</div>
                 </div>
             </x-container>
         </section>
@@ -119,13 +143,16 @@
             ->orderBy('order')->orderBy('id')->get(['slug', 'title']);
     @endphp
     @if ($otherIndustries->isNotEmpty())
-        <section class="section" data-screen-label="05 More">
+        {{-- Not .services__head here: that is a two-column grid built for a
+             heading beside a lead paragraph, and with only a heading in it the
+             second column sat empty at 400px while a 45px row of links floated
+             in the leftover space. A single-line header is the right weight for
+             a footer-ish signpost. --}}
+        <section class="section ind-more" data-screen-label="05 More">
             <x-container>
-                <div class="services__head">
-                    <div>
-                        <span class="section__eyebrow">Also</span>
-                        <h2 class="section__title">Other <em>industries.</em></h2>
-                    </div>
+                <div class="ind-more__head">
+                    <span class="section__eyebrow">Also</span>
+                    <h2 class="ind-more__title">Other <em>industries.</em></h2>
                 </div>
                 <nav class="ind-cross" aria-label="Other industries">
                     @foreach ($otherIndustries as $other)

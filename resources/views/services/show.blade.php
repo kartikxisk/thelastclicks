@@ -228,13 +228,14 @@
              attached work: a service with nothing filed under it yet still
              covers its verticals. Also the route from a service page into the
              industry pages, which otherwise had one way in. --}}
-        <section class="section" data-screen-label="Industries" data-service-industries>
+        {{-- Same compact header as the industry cross-links, and for the same
+             reason: .services__head is a two-column grid that leaves a 400px
+             hole when only the heading is filled. --}}
+        <section class="section ind-more" data-screen-label="Industries" data-service-industries>
             <x-container>
-                <div class="services__head">
-                    <div>
-                        <span class="section__eyebrow">Who we shoot for</span>
-                        <h2 class="section__title">{{ $service->title }} for <em>your sector.</em></h2>
-                    </div>
+                <div class="ind-more__head">
+                    <span class="section__eyebrow">Who we shoot for</span>
+                    <h2 class="ind-more__title">{{ $service->title }} for <em>your sector.</em></h2>
                 </div>
                 <nav class="ind-cross" aria-label="Industries we cover for {{ $service->title }}">
                     @foreach ($serviceIndustries as $ind)

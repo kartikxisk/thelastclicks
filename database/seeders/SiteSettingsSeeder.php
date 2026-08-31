@@ -80,7 +80,14 @@ class SiteSettingsSeeder extends Seeder
         // setIfMissing, not set: these are the studio's current choices rather
         // than immutable config, and an editor who swaps a header in the admin
         // should not have it reverted by the next deploy.
-        $this->setIfMissing('brand_logo', 'branding/logo-be3963b5c6.png');
+        // The white wordmark (1200x494), not the circular emblem. This pointed at
+        // branding/logo-be3963b5c6.png, which is the 320x320 dark mark meant for
+        // the favicon — on the site's dark nav it rendered as a near-invisible
+        // grey circle. Nobody noticed until a rebuilt database fell back to the
+        // seeded default instead of the value an editor had set by hand.
+        $this->setIfMissing('brand_logo', 'branding/logo-a6a2cd4afe.png');
+        $this->setIfMissing('brand_logo_dark', 'branding/logo-dark-f65ca5e2f7.png');
+        $this->setIfMissing('favicon', 'branding/favicon-34d5039f93.png');
         $this->setIfMissing('page_image_about', 'headers/gear-lenses-red.jpg');
         $this->setIfMissing('page_image_about_body', 'headers/gear-lenses-red.jpg');
         $this->setIfMissing('page_image_blog', 'headers/gear-camera-dark.jpg');

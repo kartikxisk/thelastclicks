@@ -5656,6 +5656,7 @@ main > section.legal,
 main > section.art-share,
 main > section.art-author,
 main > section.pp-intro,
+main > section.ind-more,
 main > section.cta-strip {
   min-height: 0;
   display: block;
@@ -5799,6 +5800,164 @@ main > section.strip {
 .work-filters__chip:hover { color: var(--paper); border-color: rgba(232,15,3,0.45); }
 .work-filters__chip.is-on { background: var(--red); border-color: var(--red); color: #fff; }
 .work-filters__chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+/* ---------- Industry detail: the case ----------
+   A sticky rail against a long article. The rail was a dead column: the heading
+   is four words and the body runs several hundred, so a plain two-column grid
+   left ~700px of empty space beside the copy. Sticking it keeps the industry
+   named while you read, and the service links give the space a job. */
+.ind-case__grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.ind-case__rail { position: relative; }
+.ind-case__railInner {
+  position: sticky;
+  /* Clears the fixed nav plus a breath, so the heading never sits under it. */
+  top: 120px;
+}
+.ind-case__title {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(30px, 3.4vw, 48px);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  margin-top: 14px;
+  text-wrap: balance;
+}
+.ind-case__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--red);
+}
+.ind-case__railLabel {
+  margin-top: 36px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ind-case__services {
+  list-style: none;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ind-case__services a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-display);
+  font-size: 16px;
+  color: var(--paper-dim);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), padding-inline-start 0.3s var(--ease);
+}
+.ind-case__services a:hover,
+.ind-case__services a:focus-visible {
+  color: #fff;
+  border-color: var(--red);
+  padding-inline-start: 8px;
+}
+
+/* The article itself. This is admin rich text — p / h3 / ul / strong / a — and
+   it arrived with no rules of its own, so headings sat flush on the list above
+   them and the whole thing read as one undifferentiated block. */
+.ind-case__copy {
+  max-width: 68ch;
+  color: var(--paper-dim);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.72;
+}
+.ind-case__copy > * + * { margin-top: 1.1em; }
+/* The opening paragraph carries the argument, so it is set larger — the section
+   needs somewhere to start rather than opening at body weight. */
+.ind-case__copy > p:first-child {
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.6;
+  color: var(--paper);
+}
+.ind-case__copy h3 {
+  /* Asymmetric on purpose: far more space above a heading than below it. Even
+     margins are what let these group with the list they follow instead of the
+     block they introduce. */
+  margin-top: 2.4em;
+  margin-bottom: 0.7em;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.ind-case__copy ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ind-case__copy li {
+  position: relative;
+  padding-left: 22px;
+}
+/* A rule, not a disc: the site's vocabulary is lines and frames, and a bullet
+   here read as a list lifted in from somewhere else. */
+.ind-case__copy li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 10px;
+  height: 1px;
+  background: var(--red);
+}
+.ind-case__copy strong { color: var(--paper); font-weight: 500; }
+.ind-case__copy a {
+  color: var(--paper);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  transition: text-decoration-color 0.3s var(--ease);
+}
+.ind-case__copy a:hover { text-decoration-color: var(--red); }
+
+@media (max-width: 980px) {
+  .ind-case__grid { grid-template-columns: 1fr; gap: 32px; }
+  /* Sticky is a wide-screen affordance: in one column it would pin the heading
+     over the copy the reader is scrolling. */
+  .ind-case__railInner { position: static; }
+  .ind-case__copy { max-width: none; }
+}
+
+/* ---------- "Other industries" signpost ----------
+   A closing band, not a full scene. The shared .section rhythm is built for a
+   section that carries a grid or an article; here it wraps one heading and a row
+   of links, so the vertical padding is pulled in and the heading is set at the
+   weight of a label rather than a display title. */
+.ind-more { padding-block: clamp(48px, 7vh, 88px); }
+.ind-more__head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.ind-more__title {
+  font-family: var(--f-display);
+  font-weight: 500;
+  /* Two steps down from .section__title (64px): this signposts what is next
+     rather than opening a section, and at display size it competed with the
+     work grid above it. */
+  font-size: clamp(24px, 2.6vw, 34px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.ind-more__title em { font-style: italic; color: var(--red); }
+
 /* ---------- Cross-links between industries, and from a service page ----------
    A row of destinations rather than a grid of cards: this sits at the foot of a
    page whose job is already done, so it should read as a next step, not compete

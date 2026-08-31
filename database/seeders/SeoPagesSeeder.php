@@ -28,7 +28,7 @@ class SeoPagesSeeder extends Seeder
         // admin's SEO list as if it were live. routes/web.php is the source of
         // truth for what redirects; this keeps the SEO table agreeing with it.
         SeoPage::whereIn('page_url', [
-            '/services/post-production',
+            '/services/editing',
             '/services/social-content',
             '/services/creative-direction',
             '/services/weddings',
@@ -52,9 +52,8 @@ class SeoPagesSeeder extends Seeder
                 'og_image_path' => 'headers/gear-camera-dark.jpg',
             ],
             [
-                // The service is displayed as "Post Production"; the URL stays
-                // /services/editing because it is already published there.
-                'page_url' => '/services/editing',
+                // The address matches the name now; /services/editing 301s here.
+                'page_url' => '/services/post-production',
                 'label' => 'Post Production service',
                 // The only service page that carried no location while the other two
                 // did, and "editing" is the higher-volume term people actually type.

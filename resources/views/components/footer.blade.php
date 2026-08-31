@@ -67,7 +67,7 @@
         </div>
         <div class="foot__col">
           <h3 class="foot__h"><span class="foot__idx">02</span> Work</h3>
-          <a href="{{ url('/services/editing') }}">Editing</a>
+          <a href="{{ url('/services/post-production') }}">Post Production</a>
           <a href="{{ url('/services/videography') }}">Videography</a>
           <a href="{{ url('/services/photography') }}">Photography</a>
         </div>

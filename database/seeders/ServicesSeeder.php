@@ -15,15 +15,22 @@ class ServicesSeeder extends Seeder
         // standalone services; the studio sells photography, videography and
         // editing (the USP) only.
         //
-        // 'post-production' is in the retire list because the service was renamed
-        // to Editing and routes/web.php already 301s the old URL. The seeder kept
-        // creating the old slug, so every db:seed resurrected it as a fourth
-        // service sitting behind a redirect.
+        // 'post-production' is NOT in the retire list. It used to be, from when
+        // the service was addressed as /services/editing — and leaving it there
+        // after the rename would make every deploy delete the live service and
+        // cascade its hero and gallery off S3.
+        //
+        // The rename comes first, before the retire sweep and before the upsert:
+        // the seeder is keyed on slug, so an environment still holding `editing`
+        // would otherwise gain a second row and strand the original behind a
+        // redirect, with its media attached to the row nobody can reach.
+        Service::where('slug', 'editing')->update(['slug' => 'post-production']);
+
         // Hydrate then delete through Eloquent (not a Builder delete) so the
         // `deleting` event fires — Service uses Spatie's InteractsWithMedia
         // directly, which hooks `deleting` to clean up its media/S3 files; a
         // Builder ->delete() bypasses that and leaks the hero/gallery files.
-        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction', 'post-production'])->get()->each->delete();
+        Service::whereIn('slug', ['talent', 'weddings', 'social-content', 'creative-direction'])->get()->each->delete();
 
         $services = [
             'videography' => [
@@ -108,7 +115,7 @@ class ServicesSeeder extends Seeder
                 ],
                 'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Product shoot'],
             ],
-            'editing' => [
+            'post-production' => [
                 'hero_headline' => 'Studio-grade <em>finishing.</em>',
                 'hero_meta' => [
                     ['label' => 'Discipline', 'value' => 'Post Production · 01'],
@@ -152,26 +159,27 @@ class ServicesSeeder extends Seeder
         ];
 
         $heroCopy = [
-            'editing' => 'True cinematic quality is forged behind closed doors. We refuse to outsource our finish. By keeping our entire post-production pipeline in-house, we maintain absolute control over the final aesthetic, ensuring zero friction and uncompromising visual fidelity.',
+            'post-production' => 'True cinematic quality is forged behind closed doors. We refuse to outsource our finish. By keeping our entire post-production pipeline in-house, we maintain absolute control over the final aesthetic, ensuring zero friction and uncompromising visual fidelity.',
             'videography' => 'Scalable cinematic production built on absolute set discipline. From agile documentary units to heavily controlled, multi-camera commercial sets, we protect the narrative and deliver footage designed for a studio-grade finish.',
             'photography' => 'We do not just capture images; we architect them. From high-stakes commercial advertising to industrial documentation and corporate archives, every frame is meticulously composed to command attention and align flawlessly with your brand\'s identity.',
         ];
-        // The 'editing' KEY is the slug, and the slug is a published address —
+        // The KEY is the slug, and the slug is a published address —
         // Service::getSlugOptions() deliberately refuses to regenerate it from a
-        // renamed title for exactly this reason. So the service is displayed as
-        // "Post Production" while /services/editing keeps serving it, and the
-        // /services/post-production 301 in routes/web.php stays pointing here.
+        // renamed title, so moving one is always a deliberate edit here plus a
+        // redirect in routes/web.php. The service was displayed as "Post
+        // Production" while served from /services/editing; the address now
+        // matches the name, and /services/editing 301s onto it.
         $titles = [
-            'editing' => 'Post Production',
+            'post-production' => 'Post Production',
             'videography' => 'Videography',
             'photography' => 'Photography',
         ];
         // Post-production is the studio's USP — it leads everywhere services are listed.
-        $order = ['editing', 'videography', 'photography'];
+        $order = ['post-production', 'videography', 'photography'];
         // Discipline "mix of work" percentages — descending, sums to 100. Drives the
         // portfolio bars (.pf-disc__c label + --p fill), mirroring the design.
         $share = [
-            'editing' => 40,
+            'post-production' => 40,
             'videography' => 35,
             'photography' => 25,
         ];
@@ -179,7 +187,7 @@ class ServicesSeeder extends Seeder
         // the services list has a hover preview out of the box. An admin upload to the
         // 'hero' media collection wins over these — see Service::heroUrl().
         $heroUrl = [
-            'editing' => 'industries/brands-agencies.jpg',
+            'post-production' => 'industries/brands-agencies.jpg',
             'videography' => 'industries/nightlife-entertainment.jpg',
             'photography' => 'industries/fashion-creators.jpg',
         ];
@@ -217,7 +225,7 @@ class ServicesSeeder extends Seeder
         $map = [
             'photography' => ['alcobev', 'corporate-shoots', 'real-estate', 'wedding-pre-wedding'],
             'videography' => ['alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding'],
-            'editing' => ['alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding'],
+            'post-production' => ['alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding'],
         ];
 
         $slugs = $map[$service->slug] ?? [];

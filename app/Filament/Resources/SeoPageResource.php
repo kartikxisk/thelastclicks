@@ -43,7 +43,7 @@ class SeoPageResource extends Resource
     {
         return [
             '/', '/about', '/portfolio', '/industries', '/blog', '/contact',
-            '/services/photography', '/services/videography', '/services/editing',
+            '/services/photography', '/services/videography', '/services/post-production',
             '/privacy-policy', '/terms-of-service', '/cookie-policy', '/disclaimer', '/thank-you',
         ];
     }

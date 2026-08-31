@@ -21,12 +21,15 @@ Route::middleware('cacheResponse')->group(function () {
     Route::get('/disclaimer', [PageController::class, 'disclaimer'])->name('disclaimer');
     Route::get('/thank-you', [PageController::class, 'thankYou'])->name('thank-you');
     // Retired service pages — the studio now offers photography, videography and
-    // editing only. Old URLs 301 to the closest remaining service.
+    // post-production only. Old URLs 301 to the closest remaining service.
     Route::redirect('/services/weddings', '/services/videography', 301);
-    // Post Production was renamed to Editing; its slug moved with it.
-    Route::redirect('/services/post-production', '/services/editing', 301);
-    Route::redirect('/services/social-content', '/services/editing', 301);
-    Route::redirect('/services/creative-direction', '/services/editing', 301);
+    // The service is named Post Production and is now addressed that way. It was
+    // served from /services/editing, which is published and indexed, so that URL
+    // redirects here rather than 404ing. This pair used to point the other way —
+    // reversing it is the whole rename.
+    Route::redirect('/services/editing', '/services/post-production', 301);
+    Route::redirect('/services/social-content', '/services/post-production', 301);
+    Route::redirect('/services/creative-direction', '/services/post-production', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
     // Industry detail pages are live again — each vertical now carries its own

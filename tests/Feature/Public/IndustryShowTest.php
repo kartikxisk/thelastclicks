@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Industry;
+use App\Models\Service;
 use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -127,4 +128,32 @@ it('prefers a live industry over a retired redirect of the same slug', function 
     $this->get('/industries/nightlife-entertainment')
         ->assertOk()
         ->assertSee($revived->title);
+});
+
+it('lists the services that cover this industry, in the page aside', function () {
+    // Fills what was a dead 700px column beside the body copy, and adds the
+    // reciprocal of the link the service pages already carry.
+    //
+    // Scoped to the aside block rather than the whole document: the footer
+    // links every service on every page, so a document-wide assertion here
+    // passes whether or not this feature exists.
+    $industry = Industry::first();
+    $service = Service::firstOrFail();
+    $industry->services()->sync([$service->id]);
+
+    $html = $this->get('/industries/'.$industry->slug)->assertOk()->getContent();
+
+    preg_match('#<ul[^>]*data-industry-services.*?</ul>#s', $html, $block);
+
+    expect($block)->not->toBeEmpty()
+        ->and($block[0])->toContain(url('/services/'.$service->slug))
+        ->and($block[0])->toContain($service->title);
+});
+
+it('renders no services aside when none cover the industry', function () {
+    $industry = Industry::first();
+    $industry->services()->detach();
+
+    expect($this->get('/industries/'.$industry->slug)->assertOk()->getContent())
+        ->not->toContain('data-industry-services');
 });
