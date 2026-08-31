@@ -54,6 +54,22 @@ class Service extends Model implements HasMedia
     }
 
     /**
+     * Industries this service page says it covers.
+     *
+     * An editorial claim rather than something derived from the attached work —
+     * a service with nothing filed under it yet still covers its verticals.
+     * Ordered by the industry's own order so the block matches the deck.
+     *
+     * @return BelongsToMany<Industry, $this>
+     */
+    public function industries(): BelongsToMany
+    {
+        return $this->belongsToMany(Industry::class)
+            ->orderBy('industries.order')
+            ->orderBy('industries.id');
+    }
+
+    /**
      * Projects shown on this service's page.
      *
      * Published-only and ordered by the work's own `order`, so the sequence

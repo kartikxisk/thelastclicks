@@ -111,6 +111,33 @@
         </section>
     @endif
 
+    {{-- 05 OTHER INDUSTRIES — a shoot rarely sits in one vertical, and without
+         this each detail page was a dead end with one route back. Excludes the
+         page it is on, and renders nothing when there is nowhere else to go. --}}
+    @php
+        $otherIndustries = \App\Models\Industry::whereKeyNot($industry->id)
+            ->orderBy('order')->orderBy('id')->get(['slug', 'title']);
+    @endphp
+    @if ($otherIndustries->isNotEmpty())
+        <section class="section" data-screen-label="05 More">
+            <x-container>
+                <div class="services__head">
+                    <div>
+                        <span class="section__eyebrow">Also</span>
+                        <h2 class="section__title">Other <em>industries.</em></h2>
+                    </div>
+                </div>
+                <nav class="ind-cross" aria-label="Other industries">
+                    @foreach ($otherIndustries as $other)
+                        <a class="ind-cross__link" href="{{ url('/industries/'.$other->slug) }}">
+                            {{ $other->title }} <span class="arr"></span>
+                        </a>
+                    @endforeach
+                </nav>
+            </x-container>
+        </section>
+    @endif
+
     <x-clients-marquee />
 
     <section class="cta-strip">

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Industry;
 use App\Models\Service;
 use Illuminate\Database\Seeder;
 
@@ -186,7 +187,7 @@ class ServicesSeeder extends Seeder
         foreach ($services as $slug => $data) {
             $service = Service::firstWhere('slug', $slug);
 
-            Service::updateOrCreate(['slug' => $slug], array_merge($data, [
+            $record = Service::updateOrCreate(['slug' => $slug], array_merge($data, [
                 'title' => $titles[$slug],
                 'hero_copy' => $heroCopy[$slug],
                 // Never clobber a hero someone already set in the admin.
@@ -195,6 +196,38 @@ class ServicesSeeder extends Seeder
                 'order' => array_search($slug, $order, true),
                 'share' => $share[$slug] ?? null,
             ]));
+
+            $this->linkIndustries($record);
         }
+    }
+
+    /**
+     * Which verticals each service says it covers.
+     *
+     * syncWithoutDetaching, not sync: an editor who adds an industry to a service
+     * in the admin must not have it removed by the next deploy. The seeder only
+     * asserts the defaults it knows about.
+     *
+     * Photography omits cover-artist and podcast deliberately — both are
+     * video-led formats, and claiming them from the stills page would be a link
+     * block that argues nothing.
+     */
+    private function linkIndustries(Service $service): void
+    {
+        $map = [
+            'photography' => ['alcobev', 'corporate-shoots', 'real-estate', 'wedding-pre-wedding'],
+            'videography' => ['alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding'],
+            'editing' => ['alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding'],
+        ];
+
+        $slugs = $map[$service->slug] ?? [];
+
+        if ($slugs === []) {
+            return;
+        }
+
+        $service->industries()->syncWithoutDetaching(
+            Industry::whereIn('slug', $slugs)->pluck('id')->all()
+        );
     }
 }

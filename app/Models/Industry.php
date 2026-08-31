@@ -62,6 +62,20 @@ class Industry extends Model implements HasMedia
     }
 
     /**
+     * Services that say they cover this industry.
+     *
+     * Read from the service page, and edited from either end in the admin.
+     *
+     * @return BelongsToMany<Service, $this>
+     */
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class)
+            ->orderBy('services.order')
+            ->orderBy('services.id');
+    }
+
+    /**
      * Projects shown on this industry's page.
      *
      * Published-only and ordered by the work's own `order`, so the sequence

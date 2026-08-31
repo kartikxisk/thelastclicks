@@ -71,8 +71,23 @@
           <a href="{{ url('/services/videography') }}">Videography</a>
           <a href="{{ url('/services/photography') }}">Photography</a>
         </div>
+        {{-- Sitewide links into the industry pages. Those pages were reachable
+             only from the /industries deck, which is one inbound link each and
+             leaves them shallow for crawlers and invisible to anyone who landed
+             on a service page. Renders nothing when there are no industries. --}}
+        @php
+            $footerIndustries = \App\Models\Industry::orderBy('order')->orderBy('id')->get(['slug', 'title']);
+        @endphp
+        @if ($footerIndustries->isNotEmpty())
         <div class="foot__col">
-          <h3 class="foot__h"><span class="foot__idx">03</span> Contact</h3>
+          <h3 class="foot__h"><span class="foot__idx">03</span> Industries</h3>
+          @foreach ($footerIndustries as $footerIndustry)
+            <a href="{{ url('/industries/'.$footerIndustry->slug) }}">{{ $footerIndustry->title }}</a>
+          @endforeach
+        </div>
+        @endif
+        <div class="foot__col">
+          <h3 class="foot__h"><span class="foot__idx">{{ $footerIndustries->isNotEmpty() ? '04' : '03' }}</span> Contact</h3>
           <a href="tel:{{ preg_replace('/[^+\d]/', '', $contactPhone) }}">{{ $contactPhone }}</a>
           <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" data-noswap>WhatsApp</a>
           <a href="{{ url('/contact') }}">Start a project</a>

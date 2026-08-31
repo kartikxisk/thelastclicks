@@ -62,6 +62,16 @@ class ServiceResource extends Resource
                     // has ever read it — it was a stringly-typed pointer at one
                     // project, which is what the works relation below now does
                     // properly, for many, with referential integrity.
+                    // The sectors this service claims to cover. Editorial rather
+                    // than derived from the attached work: a service with nothing
+                    // filed under it yet still covers its verticals.
+                    Select::make('industries')
+                        ->label('Industries this service covers')
+                        ->relationship('industries', 'title')
+                        ->multiple()
+                        ->preload()
+                        ->columnSpanFull()
+                        ->helperText('Renders a link block on this page pointing at each industry.'),
                     Select::make('works')
                         ->label('Work on this page')
                         ->relationship('works', 'title')

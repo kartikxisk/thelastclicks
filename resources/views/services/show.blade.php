@@ -32,7 +32,9 @@
         // per tile, and lazily resolving that is the N+1 assertQueryCount() in
         // tests/Pest.php exists to catch.
         $serviceWorks = $service->publishedWorks()->with('media')->get();
+        $serviceIndustries = $service->industries;
     @endphp
+
 
     {{-- 01 HEADER — the same full-bleed media header every other top-level page
          uses, so a service no longer opens on a different shape to /about or
@@ -221,6 +223,29 @@
     @endif
 
     {{-- 08 FAQ --}}
+    @if ($serviceIndustries->isNotEmpty())
+        {{-- Who this service is bought by. Editorial, not derived from the
+             attached work: a service with nothing filed under it yet still
+             covers its verticals. Also the route from a service page into the
+             industry pages, which otherwise had one way in. --}}
+        <section class="section" data-screen-label="Industries" data-service-industries>
+            <x-container>
+                <div class="services__head">
+                    <div>
+                        <span class="section__eyebrow">Who we shoot for</span>
+                        <h2 class="section__title">{{ $service->title }} for <em>your sector.</em></h2>
+                    </div>
+                </div>
+                <nav class="ind-cross" aria-label="Industries we cover for {{ $service->title }}">
+                    @foreach ($serviceIndustries as $ind)
+                        <a class="ind-cross__link" href="{{ url('/industries/'.$ind->slug) }}">
+                            {{ $ind->title }} <span class="arr"></span>
+                        </a>
+                    @endforeach
+                </nav>
+            </x-container>
+        </section>
+    @endif
     @if (!empty($service->faqs))
         <section class="pp-faq" data-screen-label="07 FAQ">
             <x-scene-bg type="grid" />

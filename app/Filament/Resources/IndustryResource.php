@@ -39,6 +39,15 @@ class IndustryResource extends Resource
             TextInput::make('summary')->columnSpanFull(),
             // The same link WorkResource edits, from this end — curating a set
             // is natural here, filing one project is natural there.
+            // Which service pages list this industry. Editable from either end,
+            // like the works link below it.
+            Select::make('services')
+                ->label('Listed on these service pages')
+                ->relationship('services', 'title')
+                ->multiple()
+                ->preload()
+                ->columnSpanFull()
+                ->helperText('Adds a link to this industry from each service page you pick.'),
             Select::make('works')
                 ->label('Work filed under this industry')
                 ->relationship('works', 'title')

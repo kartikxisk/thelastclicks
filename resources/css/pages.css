@@ -5799,6 +5799,38 @@ main > section.strip {
 .work-filters__chip:hover { color: var(--paper); border-color: rgba(232,15,3,0.45); }
 .work-filters__chip.is-on { background: var(--red); border-color: var(--red); color: #fff; }
 .work-filters__chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+/* ---------- Cross-links between industries, and from a service page ----------
+   A row of destinations rather than a grid of cards: this sits at the foot of a
+   page whose job is already done, so it should read as a next step, not compete
+   with the work above it. */
+.ind-cross {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+.ind-cross__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+.ind-cross__link:hover,
+.ind-cross__link:focus-visible {
+  color: #fff;
+  border-color: var(--red);
+  background: var(--red);
+}
+@media (max-width: 760px) {
+  .ind-cross__link { padding: 10px 14px; font-size: 11px; letter-spacing: 0.1em; }
+}
+
 /* Craft chips read as a distinct axis from the discipline chips beside them. */
 .work-filters__chip--craft { border-style: dashed; }
 /* Industry is a third axis — who the work was for, rather than what it is or

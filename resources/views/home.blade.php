@@ -188,15 +188,15 @@
                  aria-roledescription="carousel"
                  aria-label="Industries we cover">
                 @foreach ($industries as $industry)
-                    {{-- href stays a real contact URL so the card still works without
-                         JS; the delegated [data-quote-trigger] handler intercepts it
-                         and opens the wizard with this industry pre-selected. --}}
+                    {{-- Opens the industry's own page rather than the quote wizard.
+                         The wizard was one click from here and nowhere else; now the
+                         card leads to the page that argues the case, whose CTA opens
+                         the wizard pre-filled. It is also the strongest internal link
+                         those pages get — this deck sits on the homepage. --}}
                     <a class="i3d__card"
                        data-i3d-card
-                       href="{{ url('/contact') }}"
-                       data-quote-trigger
-                       data-quote-prefill="{{ $industry->title }}"
-                       aria-label="Start a {{ $industry->title }} project">
+                       href="{{ url('/industries/'.$industry->slug) }}"
+                       aria-label="{{ $industry->title }} work">
                         @if ($industry->coverUrl())
                             {{-- draggable=false: without it a mouse press on the image
                                  starts a native HTML5 image drag, which takes the
