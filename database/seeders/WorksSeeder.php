@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Industry;
 use App\Models\MediaItem;
+use App\Models\Service;
 use App\Models\Work;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -28,9 +32,15 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class WorksSeeder extends Seeder
 {
+    /**
+     * Overridable so a test can round-trip a fixture without writing over the
+     * real one. Null means the committed archive.
+     */
+    public ?string $fixturePath = null;
+
     public function run(): void
     {
-        $path = database_path('seeders/data/works.json');
+        $path = $this->fixturePath ?? database_path('seeders/data/works.json');
 
         if (! File::exists($path)) {
             $this->command?->warn('No works fixture — run `php artisan app:export-works` first.');
@@ -58,14 +68,24 @@ class WorksSeeder extends Seeder
                 continue;
             }
 
-            // Create-only, deliberately. This runs from db:seed, which runs on
-            // every deploy, and works are admin-managed content rather than seed
-            // content — updateOrCreate here would silently overwrite an editor's
-            // changes and delete their media items on the next release. A fresh
-            // database gets the whole archive; an existing record is left to
-            // whoever owns it. Use `app:export-works` and a manual import when
-            // you deliberately want one environment to match another.
-            if (Work::where('slug', $slug)->exists()) {
+            // Create-only for attributes and media, deliberately. This runs from
+            // db:seed on every deploy, and works are admin-managed content —
+            // updateOrCreate here would silently overwrite an editor's changes
+            // and delete their media items on the next release.
+            //
+            // Pivots are the exception, and are repaired on an existing record
+            // too. Attaching is additive: syncWithoutDetaching can only add a
+            // row, never remove one an editor chose. That distinction matters
+            // because a database rebuilt from a fixture written before these
+            // pivots existed comes up with the whole archive present and nothing
+            // filed under any industry — which looked exactly like the feature
+            // being broken rather than the data being absent.
+            $existing = Work::where('slug', $slug)->first();
+
+            if ($existing) {
+                $this->syncPivot($existing->industries(), Industry::class, $row['industries'] ?? []);
+                $this->syncPivot($existing->services(), Service::class, $row['services'] ?? []);
+
                 continue;
             }
 
@@ -80,9 +100,38 @@ class WorksSeeder extends Seeder
                 $item = $work->mediaItems()->create($itemRow['attributes'] ?? []);
                 $media += $this->attach($item, $itemRow['media'] ?? []);
             }
+
+            // Matched on slug, because ids differ per environment. A slug this
+            // environment does not have is skipped rather than fatal: industries
+            // and services are seeded content and the two sides can legitimately
+            // drift, and half an archive is worse than an unfiled project.
+            $this->syncPivot($work->industries(), Industry::class, $row['industries'] ?? []);
+            $this->syncPivot($work->services(), Service::class, $row['services'] ?? []);
         }
 
         $this->command?->info("Seeded {$works} works and {$media} media rows.");
+    }
+
+    /**
+     * Attach pivot rows named by slug, ignoring slugs this environment lacks.
+     *
+     * @param  BelongsToMany<covariant Model, Work>  $relation
+     * @param  class-string<Model>  $model
+     */
+    protected function syncPivot(BelongsToMany $relation, string $model, mixed $slugs): void
+    {
+        if (! is_array($slugs) || $slugs === []) {
+            return;
+        }
+
+        $ids = $model::query()
+            ->whereIn('slug', array_filter($slugs, 'is_string'))
+            ->pluck('id')
+            ->all();
+
+        if ($ids !== []) {
+            $relation->syncWithoutDetaching($ids);
+        }
     }
 
     /**

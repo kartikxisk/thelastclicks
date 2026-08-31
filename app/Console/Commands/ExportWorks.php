@@ -32,7 +32,7 @@ class ExportWorks extends Command
         $path = (string) ($this->option('path') ?: database_path('seeders/data/works.json'));
 
         $works = Work::query()
-            ->with(['media', 'mediaItems.media'])
+            ->with(['media', 'mediaItems.media', 'industries', 'services'])
             ->orderBy('order')
             ->orderBy('id')
             ->get();
@@ -48,6 +48,14 @@ class ExportWorks extends Command
                 ->except(['id', 'created_at', 'updated_at'])
                 ->all(),
             'media' => $work->media->map(fn (Media $m) => $this->media($m))->all(),
+            // Pivots, by slug rather than id. Ids are assigned per environment,
+            // so exporting them would attach a rebuilt archive to whichever
+            // industry happened to land on that number. Omitting these was a
+            // real bug: a `migrate:fresh --seed` restored every work with its
+            // media intact and left every industry page empty, because nothing
+            // walked the pivots.
+            'industries' => $work->industries->pluck('slug')->all(),
+            'services' => $work->services->pluck('slug')->all(),
             'media_items' => $work->mediaItems->map(fn ($item) => [
                 'attributes' => collect($item->getAttributes())
                     ->except(['id', 'mediable_id', 'mediable_type', 'created_at', 'updated_at'])
