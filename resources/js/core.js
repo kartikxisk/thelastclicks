@@ -1228,6 +1228,14 @@ import { initServicesAccordion } from './services-accordion';
       return;
     }
     v.muted = true;
+    // Only the slide that is actually showing. The nudge used to start every
+    // slide's film, which undid the crossfade's own "pause what's leaving" rule
+    // and left the whole reel decoding at once — the hidden ones sit at opacity
+    // 0 behind the visible one and cost exactly as much to decode.
+    if (!v.closest('.hero__slide')?.classList.contains('is-on')) {
+      v.pause();
+      return;
+    }
     const p = v.play();
     if (p && p.catch) p.catch(() => {});
   });

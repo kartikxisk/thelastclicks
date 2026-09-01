@@ -12,6 +12,10 @@
  *   A dozen <video> elements decoding at once is real CPU even when muted and
  *   off screen, so they ship as preload="none" and only load and play while the
  *   strip is actually in view. Scrolling past releases them again.
+ *
+ *   "In view" is per tile, not per strip. Gating on the strip alone still ran
+ *   every film in the track — twenty-four of them for twelve works, nineteen of
+ *   which sat outside the clip with nobody able to see them.
  */
 
 const REDUCED = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -39,9 +43,17 @@ export function initWorkMarquee() {
     let stopped = false;
     let onScreen = false;
 
+    // Which tiles are actually within the strip's own window. The set is what
+    // keeps the rule at the top of this file true: the track holds the works
+    // twice so it can loop, so a twelve-work strip ships twenty-four <video>
+    // elements while only about seven are ever on screen. Playing the whole
+    // track meant nineteen films decoding behind a clip that hides them, which
+    // is what made scrolling past this section stutter.
+    const visible = new Set();
+
     const sync = () => {
-      const shouldPlay = onScreen && !stopped && !REDUCED();
-      videos.forEach(v => (shouldPlay ? play(v) : v.pause()));
+      const allowed = onScreen && !stopped && !REDUCED();
+      videos.forEach(v => (allowed && visible.has(v) ? play(v) : v.pause()));
     };
 
     if (toggle) {
@@ -65,5 +77,18 @@ export function initWorkMarquee() {
     }, { rootMargin: '200px 0px' });
 
     io.observe(root);
+
+    // Second gate, per tile. Rooted on the strip's own viewport rather than the
+    // page's: the track is clipped by .wmq__viewport, so a rootMargin measured
+    // against the page would be swallowed by that clip and a tile would only
+    // start once it was already visible. Against this root the margin buys a
+    // tile enough lead-in to be running by the time it slides into view.
+    const frame = root.querySelector('.wmq__viewport');
+    const tileIO = new IntersectionObserver(entries => {
+      entries.forEach(e => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+      sync();
+    }, { root: frame || null, rootMargin: '0px 240px' });
+
+    videos.forEach(v => tileIO.observe(v));
   });
 }

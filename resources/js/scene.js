@@ -93,7 +93,14 @@ export function initScenes() {
 
   /** Shift every backdrop loop back by the time the page has been running. */
   const resumePhase = () => {
-    document.querySelectorAll('.scene .scenebg *').forEach((el) => {
+    // Only the scenes that are near. Two reasons, and the second is the sharp
+    // one: a parked backdrop is `content-visibility: hidden` (see pages.css), and
+    // getComputedStyle on anything inside such a subtree forces the browser to
+    // render it after all — which is exactly the work that property exists to
+    // skip, paid on every scroll settle, for backdrops nobody can see. The first
+    // reason is that phase only matters to a loop somebody is watching: one that
+    // was parked off screen has no visible restart to hide.
+    document.querySelectorAll('.scene.is-near .scenebg *').forEach((el) => {
       // The authored delay is what staggers the loops against each other, so it
       // is captured once and always kept as the base — reading it back later
       // would return the already-shifted value and the stagger would drift

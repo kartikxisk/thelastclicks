@@ -6438,6 +6438,19 @@ main > section > .scenebg { z-index: 0; }
    not `paused`: pausing leaves the render surface live and saves almost nothing. */
 .is-scrolling .scenebg * { animation: none; }
 
+/* Freezing the animations was only half of it. Every .scenebg carries a mask,
+   which forces its own viewport-sized render surface, and that surface is
+   composited on each scroll frame even when the backdrop is perfectly static
+   and its section is nowhere near the fold — six of them on the homepage, one
+   of which is on screen. `content-visibility: hidden` takes the other five out
+   of the render path entirely.
+
+   Gated on `is-near`, not `is-live`: `is-near` carries a 20% margin, so a
+   backdrop is back in the render path before it can be seen, and the switch
+   never lands inside the viewport where it would read as a flash. Browsers
+   without content-visibility ignore this and simply keep the old cost. */
+.scene:not(.is-near) .scenebg { content-visibility: hidden; }
+
 /* --- Edit: timeline, clips, keyframes, waveform, playhead --- */
 .scenebg__tracks { position: absolute; inset: 18% 0 auto 0; display: grid; gap: 22px; }
 .scenebg__lane {
