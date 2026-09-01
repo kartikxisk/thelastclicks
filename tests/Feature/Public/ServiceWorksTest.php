@@ -51,7 +51,7 @@ it('never leaks an unpublished project onto a live page', function () {
 });
 
 it('orders the work by the order field, not by when it was attached', function () {
-    $service = Service::firstWhere('slug', 'editing');
+    $service = Service::firstWhere('slug', 'post-production');
     $second = Work::factory()->create(['title' => 'Runs Second', 'order' => 2, 'is_published' => true]);
     $first = Work::factory()->create(['title' => 'Runs First', 'order' => 1, 'is_published' => true]);
 

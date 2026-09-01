@@ -28,7 +28,7 @@
         <div class="nav__drop">
           <div class="nav__drop-inner">
             @foreach ($navIndustries as $i)
-              <a href="{{ url('/industries#ind-'.$i->slug) }}" class="nav__drop-link">{{ $i->title }}<span class="nav__drop-arr">↗</span></a>
+              <a href="{{ url('/industries/'.$i->slug) }}" class="nav__drop-link">{{ $i->title }}<span class="nav__drop-arr">↗</span></a>
             @endforeach
           </div>
         </div>
@@ -58,7 +58,7 @@
     <li><a href="{{ url('/industries') }}"><span>Industries</span></a>
       <div class="menu__sub">
         @foreach ($navIndustries as $i)
-          <a href="{{ url('/industries#ind-'.$i->slug) }}">{{ $i->title }}</a>
+          <a href="{{ url('/industries/'.$i->slug) }}">{{ $i->title }}</a>
         @endforeach
       </div>
     </li>

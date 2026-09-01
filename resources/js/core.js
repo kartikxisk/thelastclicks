@@ -841,19 +841,32 @@ import { initServicesAccordion } from './services-accordion';
     });
 
     /* Drag / swipe. One card per 90px of travel, direction-matched. */
-    let down = false, startX = 0, moved = 0, settled = 0;
+    const DRAG_SLOP = 6;
+    let down = false, startX = 0, moved = 0, settled = 0, captured = false;
     stage.addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
-      down = true; startX = e.clientX; moved = 0; settled = 0;
-      // Capture, so a drag that wanders off the deck keeps sending moves here
-      // instead of dying the moment the pointer crosses the edge. This is also
-      // what makes pointerleave the wrong place to end a drag.
-      try { stage.setPointerCapture(e.pointerId); } catch { /* no capture: fall back to the window */ }
+      down = true; startX = e.clientX; moved = 0; settled = 0; captured = false;
+      // Deliberately NOT capturing here. While a pointer capture is active the
+      // browser retargets the following `click` to the capturing element, so the
+      // card's own <a> never receives it and the link silently does nothing.
+      // That was invisible while the cards were delegated quote triggers — a
+      // document-level listener sees the click wherever it lands — and broke the
+      // moment they became real links to the industry pages.
     });
     stage.addEventListener('pointermove', e => {
       if (!down) return;
       const dx = e.clientX - startX;
       moved = Math.max(moved, Math.abs(dx));
+
+      // Capture only once this is genuinely a drag. From here the pointer may
+      // wander off the deck and the moves still arrive, which is what makes
+      // pointerleave the wrong place to end one — but a plain click never gets
+      // this far, so its click event reaches the anchor untouched.
+      if (!captured && moved > DRAG_SLOP) {
+        captured = true;
+        try { stage.setPointerCapture(e.pointerId); } catch { /* no capture: fall back to the window */ }
+      }
+
       // Advance by the full delta, not one card per move event — a fast flick
       // that crosses several thresholds in one frame must not under-scroll.
       const steps = Math.trunc(dx / 90);
@@ -861,6 +874,7 @@ import { initServicesAccordion } from './services-accordion';
     });
     const endDrag = (e) => {
       down = false;
+      captured = false;
       if (e && e.pointerId !== undefined && stage.hasPointerCapture?.(e.pointerId)) {
         stage.releasePointerCapture(e.pointerId);
       }

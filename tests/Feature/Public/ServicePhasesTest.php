@@ -17,7 +17,7 @@ beforeEach(fn () => $this->seed());
  * three sizes. The sequence is the promise; dates are set in the quote.
  */
 it('states the phases without attaching a duration to any of them', function () {
-    foreach (['photography', 'videography', 'editing'] as $slug) {
+    foreach (['photography', 'videography', 'post-production'] as $slug) {
         $service = Service::firstWhere('slug', $slug);
 
         foreach ($service->phases as $phase) {

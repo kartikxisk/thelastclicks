@@ -2007,18 +2007,27 @@ main > section:has(.clients) {
 .page-header--media h1 { color: #fff; text-shadow: 0 2px 30px rgba(20,14,12,0.4); }
 /* Standfirst under the title. Near-white rather than --paper-dim: dimmed grey is
    for dark flat panels and drops below AA once there's a photograph behind it. */
+/* The BOX matches its siblings exactly — same max-width, same auto margins — so
+   the standfirst starts on the same left edge as the crumb and the title. The
+   measure is capped on the inner span instead.
+
+   Narrowing this element's own max-width is the obvious move and it is wrong:
+   `.page-header--media > *` centres children with margin-inline:auto, so a
+   narrower box centres itself in the viewport rather than sitting under the
+   title. Pinning margin-left to 0 to stop that then aligns it to the viewport
+   edge while the centred siblings sit --maxw in from it — a gap that is 20px at
+   1600px wide and 834px on a 3228px display. */
 .page-header__lead {
-  /* `.page-header--media > *` sets margin-inline:auto to centre children in the
-     container; left margin must be pinned back to 0 or a narrower max-width centres
-     the standfirst instead of aligning it under the title. The extra pad-x covers
-     the padding-inline that same rule applies, since box-sizing is border-box. */
-  max-width: calc(58ch + var(--pad-x) * 2);
+  max-width: var(--maxw);
   margin-top: 20px;
-  margin-inline: 0 auto;
   font-size: clamp(16px, 1.3vw, 19px);
   line-height: 1.6;
   color: var(--paper-dim);
   text-wrap: pretty;
+}
+.page-header__lead > span {
+  display: block;
+  max-width: 58ch;
 }
 .page-header--media .page-header__lead {
   color: rgba(255,255,255,0.92);

@@ -42,7 +42,10 @@
         </div>
         <h1>{{ $industry->title }}</h1>
         @if ($industry->summary)
-            <p class="page-header__lead">{{ $industry->summary }}</p>
+            {{-- The span carries the measure. The paragraph itself has to keep the
+                 same box as the crumb and the title above it, or it aligns to a
+                 different left edge — see .page-header__lead. --}}
+            <p class="page-header__lead"><span>{{ $industry->summary }}</span></p>
         @endif
     </section>
 
