@@ -81,6 +81,14 @@
             @if ($post->published_at)
                 <span>{{ $post->published_at->format('d M Y') }}</span>
             @endif
+            {{-- Only once a revision has actually happened — a day's grace, or
+                 every post would say "Updated" on the day it was published and
+                 the signal would mean nothing. The schema has carried
+                 dateModified all along; this makes the same fact visible, which
+                 is the form answer engines and readers actually weight. --}}
+            @if ($post->published_at && $post->updated_at && $post->updated_at->gt($post->published_at->addDay()))
+                <span>Updated {{ $post->updated_at->format('d M Y') }}</span>
+            @endif
             <span>{{ max(1, (int) ceil(str_word_count(strip_tags((string) $post->body)) / 200)) }} min read</span>
             <span>{{ $post->author?->name ?? 'TheLastClicks' }}</span>
         </div>

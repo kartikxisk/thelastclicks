@@ -75,6 +75,10 @@ class GenerateLlmsTxt extends Command
         $lines[] = '';
         $lines[] = sprintf('- [Portfolio](%s): Selected client work, filterable by industry.', url('/portfolio'));
         $lines[] = sprintf('- [About](%s): The studio, its crew and its process.', url('/about'));
+        // No pricing link, deliberately: every project is quoted individually
+        // and the studio does not publish rates. The conversion path an agent
+        // should hand a buyer is the quote form and the reply promise above.
+        $lines[] = sprintf('- [Get a quote](%s): Custom quote per project — replies within 4 working hours.', url('/contact'));
 
         File::put(public_path('llms.txt'), implode("\n", $lines)."\n");
 

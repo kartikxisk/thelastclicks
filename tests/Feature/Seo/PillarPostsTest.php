@@ -21,9 +21,10 @@ it('publishes the video editing cost guide, linked into the money page', functio
 
     expect($post->status)->toBe('published')
         ->and((string) $post->body)->toContain('/services/post-production')
-        // Grounded in the studio's own published budget bands, not invented
-        // market rates — the quote wizard is the source of truth for these.
-        ->and((string) $post->body)->toContain('₹');
+        // The studio does not publish rates; the post explains the drivers and
+        // converts to a quote instead of stating figures.
+        ->and(str_contains((string) $post->body, '₹'))->toBeFalse()
+        ->and((string) $post->body)->toContain('/contact');
 
     $this->get('/blog/video-editing-cost-india')->assertOk();
 });

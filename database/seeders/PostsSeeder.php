@@ -195,14 +195,14 @@ HTML,
             // no local competitor publishes any.
             [
                 'slug' => 'video-editing-cost-india',
-                'title' => 'What video editing costs in India (and what actually drives the price)',
-                'excerpt' => 'The honest version of the pricing conversation: the budget bands real projects land in, the six things that move the number, and the cuts that cost more than they save.',
-                'seo_title' => 'Video Editing Cost in India — Rates, Drivers & Budget Bands',
-                'seo_description' => 'What video editing and post-production really cost in India: typical project bands, the six drivers that move the price, post-only projects, and where cutting budget backfires.',
+                'title' => 'What drives the cost of video editing in India',
+                'excerpt' => 'Every serious edit is quoted to its scope, not off a rate card. The six things that decide the number — so you can predict your own quote before the first call.',
+                'seo_title' => 'Video Editing Cost in India — What Actually Drives the Price',
+                'seo_description' => 'What decides the cost of video editing and post-production in India: the six drivers a studio quotes from, post-only projects, where cutting budget backfires, and how to get an accurate quote fast.',
                 'categories' => ['Post-production'],
                 'tags' => ['editing', 'planning'],
                 'body' => <<<'HTML'
-<p>Nobody in this industry publishes prices, which leaves every buyer guessing from a "contact us" form. Here is the honest version. Projects that come through our own quote form land in bands — under ₹1L, ₹1–3L, ₹3–7L, ₹7–15L, ₹15L+ — and where a given edit falls is driven by six things you can reason about before you ever talk to a studio.</p>
+<p>There is no honest rate card for video editing, because two films with the same runtime can be entirely different amounts of work. What a serious studio does instead is quote each project against six drivers — and once you know them, you can predict where your own quote will land before you ever get on a call.</p>
 <h2>What moves the number</h2>
 <p><strong>Footage volume.</strong> An editor's first job is watching. Two hours of rushes and twenty hours of rushes are different projects even if the final film is ninety seconds in both cases — a multi-day event shot on three cameras costs more to cut than a single-location interview, before any creative decision is made.</p>
 <p><strong>Edit complexity.</strong> A talking-head with b-roll is assembly; a narrative brand film is writing with footage. The more the structure has to be <em>found</em> in the material rather than planned before it, the more edit rounds the film needs.</p>
@@ -214,8 +214,8 @@ HTML,
 <p>You do not need to have shot with a studio for it to finish your film. We take <a href="/services/post-production">post-only projects</a> — footage from any camera, another crew's rushes, an archive — and run the same pipeline: edit, grade, sound, conform. If you already have material sitting on a drive, the cost conversation starts at the edit, not the shoot.</p>
 <h2>Where cutting budget backfires</h2>
 <p>Skipping the grade shows in every frame. Skipping the mix shows in every second. Cutting revision structure — going cheap on project management — usually costs more than either, because an edit that drifts through six rounds of scattered feedback burns the hours a look and a mix would have taken. If the budget is genuinely tight, cut scope: a shorter film finished properly beats a longer one abandoned at the rough cut.</p>
-<h2>Getting a real number</h2>
-<p>A useful quote needs four facts: what the footage is (or what the shoot is), what the film must achieve, where it will run, and when it is needed. With those, a studio can put you in a band in one conversation. Everything that happens between the rushes and the master is in <a href="/blog/what-post-production-actually-includes">what post-production actually includes</a> — read it before the call and the call gets shorter.</p>
+<h2>Getting your number</h2>
+<p>A useful quote needs four facts: what the footage is (or what the shoot is), what the film must achieve, where it will run, and when it is needed. Bring those and the number arrives in one conversation, not a week of back-and-forth — <a href="/contact">send us the four facts</a> and you will have a reply within 4 working hours. If you want the fuller picture of what you are buying first, <a href="/blog/what-post-production-actually-includes">what post-production actually includes</a> walks the whole pipeline.</p>
 HTML,
             ],
             [
