@@ -54,13 +54,6 @@ class PageSeoSeeder extends Seeder
                 'og_image_path' => 'headers/portfolio-set.jpg',
             ],
             [
-                'page_url' => '/industries',
-                'label' => 'Industries',
-                'title' => Brand::title('Brand, Auto & Wedding Film'),
-                'meta_description' => 'Fashion, hospitality, beauty, weddings, automotive, corporate and nightlife — the sectors TheLastClicks produces photography and film for across India.',
-                'og_image_path' => 'headers/industries-conference.jpg',
-            ],
-            [
                 'page_url' => '/blog',
                 'label' => 'Journal',
                 'title' => Brand::title('Film & Photography Journal'),

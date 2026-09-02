@@ -77,7 +77,7 @@ class PostsSeeder extends Seeder
 <h2>What to leave out</h2>
 <p>Shot lists, camera models, and edit instructions. Those are the production team's craft — and prescribing them early locks the team out of solving your problem better than you imagined it. Share the destination, let the crew pick the road.</p>
 <h2>The kickoff conversation</h2>
-<p>A written brief plus a one-hour conversation beats either alone. The questions a good team asks in that hour — budget honesty, real deadlines, who signs off — are the ones that prevent the expensive surprises later.</p>
+<p>A written brief plus a one-hour conversation beats either alone. The questions a good team asks in that hour — budget honesty, real deadlines, who signs off — are the ones that prevent the expensive surprises later. It is the hour every <a href="/services/videography">film we produce</a> starts with.</p>
 HTML,
             ],
             [
@@ -103,7 +103,7 @@ HTML,
 <p>The single biggest time-saver is one designated person — not the couple, not a parent — who knows every name on the family photo list and can pull people out of the cocktail hour. Photographers can direct a pose; they cannot find your uncle.</p>
 <blockquote>Plan the day so that photography fits inside the celebration — never the other way round. The best photos happen when nobody feels photographed.</blockquote>
 <h2>Share the plan early</h2>
-<p>Send your photography team the full event schedule two weeks out. They will spot the collisions — a sunset portrait slot during speeches, a first look scheduled in a lobby — while there is still time to fix them.</p>
+<p>Send your photography team the full event schedule two weeks out. They will spot the collisions — a sunset portrait slot during speeches, a first look scheduled in a lobby — while there is still time to fix them. It is the first thing we ask for on every <a href="/industries/wedding-pre-wedding">wedding we cover</a>.</p>
 HTML,
             ],
             [
@@ -126,7 +126,7 @@ HTML,
 <h2>Conform and masters</h2>
 <p>The finishing pass: graphics and titles in place, final resolution conform, loudness standards met, and exports tuned per destination — a bright punchy master for Instagram, a broadcast-safe one for TV, a clean archival master for the future re-cut you do not know you need yet.</p>
 <h2>Why in-house post matters</h2>
-<p>When the people who shot the film also finish it, intent survives. The lighting choices made on set were made <em>for</em> a grade someone already had in mind. Outsourced post starts from zero; integrated post starts from the brief.</p>
+<p>When the people who shot the film also finish it, intent survives. The lighting choices made on set were made <em>for</em> a grade someone already had in mind. Outsourced post starts from zero; integrated post starts from the brief. That pipeline — edit, grade, sound and conform under one roof — is what our <a href="/services/post-production">post-production service</a> runs, including post-only projects on footage from any camera.</p>
 HTML,
             ],
             [
@@ -153,7 +153,7 @@ HTML,
 <li><strong>Product launches</strong> — film-led; the launch film outlives the evening. Photography for press and social.</li>
 </ul>
 <h2>One brief, one team</h2>
-<p>Whatever the mix, put stills and motion under one brief and, ideally, one team. Separate vendors compete for the same angles at the same moments; an integrated crew choreographs around each other.</p>
+<p>Whatever the mix, put stills and motion under one brief and, ideally, one team. Separate vendors compete for the same angles at the same moments; an integrated crew choreographs around each other — which is how we run <a href="/industries/corporate-shoots">corporate event coverage</a>.</p>
 HTML,
             ],
             [
@@ -180,7 +180,7 @@ HTML,
 <h2>Ready the space</h2>
 <p>A shoot moves furniture, kills overhead lights, and occupies a room for longer than feels reasonable. Book the space for the whole block, warn the neighbours about noise, and nominate one person who can say yes to small questions — the crew will have twenty of them before lunch.</p>
 <h2>Schedule around energy</h2>
-<p>Put interviews in the morning while faces are fresh. Save b-roll — people working, walking, meeting — for the afternoon slump when nobody has to speak. And feed the crew with the team: shoots run on the same fuel as everything else.</p>
+<p>Put interviews in the morning while faces are fresh. Save b-roll — people working, walking, meeting — for the afternoon slump when nobody has to speak. And feed the crew with the team: shoots run on the same fuel as everything else. The full run-of-day is on our <a href="/industries/corporate-shoots">corporate shoots</a> page.</p>
 HTML,
             ],
         ];

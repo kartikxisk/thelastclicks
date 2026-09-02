@@ -18,7 +18,13 @@ beforeEach(function () {
 it('Super-admin can list seo pages', function () {
     SeoPage::create(['page_url' => '/about', 'title' => 'About SEO']);
 
-    Livewire::test(ListSeoPages::class)->assertCanSeeTableRecords(SeoPage::all());
+    // Page size raised past the seeded set. The table paginates at ten, and the
+    // seeder now writes ten rows on its own — three services, six industries and
+    // the industries deck — so "can see every record" silently became "can see
+    // the first page of them" and failed on the row this test creates.
+    Livewire::test(ListSeoPages::class)
+        ->set('tableRecordsPerPage', 50)
+        ->assertCanSeeTableRecords(SeoPage::all());
 });
 
 it('Super-admin can create a seo page', function () {

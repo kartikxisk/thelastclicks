@@ -66,7 +66,15 @@ class SiteSettingsSeeder extends Seeder
         $this->setIfMissing('address_country', 'IN');
         $this->setIfMissing('geo_latitude', '28.5808331');
         $this->setIfMissing('geo_longitude', '77.3328251');
-        $this->setIfMissing('map_url', 'https://share.google/QlMQkefJfn2iRnma3');
+        // The listing's own share link, supplied by the owner. The share.google
+        // URL seeded before it bounced through a Google interstitial rather than
+        // resolving to the place; recognised by value and replaced, the same way
+        // the retired pixel is — any other value is a deliberate choice.
+        if (SiteSetting::get('map_url') === 'https://share.google/QlMQkefJfn2iRnma3') {
+            SiteSetting::set('map_url', 'https://maps.app.goo.gl/gu7Jr8BPX5PyhupCA');
+        } else {
+            $this->setIfMissing('map_url', 'https://maps.app.goo.gl/gu7Jr8BPX5PyhupCA');
+        }
         $this->setIfMissing('hours_days', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
         $this->setIfMissing('hours_opens', '10:00');
         $this->setIfMissing('hours_closes', '19:00');

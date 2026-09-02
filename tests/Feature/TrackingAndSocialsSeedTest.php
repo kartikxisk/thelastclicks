@@ -78,3 +78,15 @@ it('renders the linkedin profile in the footer', function () {
         ->assertOk()
         ->assertSee('https://www.linkedin.com/company/thelastclicks', false);
 });
+
+it('replaces the superseded map link but keeps a deliberate one', function () {
+    // The owner supplied the listing's own share link; the earlier seeded URL
+    // bounced through a Google interstitial instead of resolving to the place.
+    SiteSetting::set('map_url', 'https://share.google/QlMQkefJfn2iRnma3');
+    $this->seed();
+    expect(SiteSetting::get('map_url'))->toBe('https://maps.app.goo.gl/gu7Jr8BPX5PyhupCA');
+
+    SiteSetting::set('map_url', 'https://maps.app.goo.gl/deliberately-different');
+    $this->seed();
+    expect(SiteSetting::get('map_url'))->toBe('https://maps.app.goo.gl/deliberately-different');
+});
