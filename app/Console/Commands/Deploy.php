@@ -148,6 +148,10 @@ class Deploy extends Command
         }
 
         $steps[] = ['label' => 'Generate sitemap', 'cmd' => [$php, 'artisan', 'sitemap:generate'], 'timeout' => 300];
+        // Same pattern and same reason as the sitemap: a generated file, because
+        // a PHP route behind nginx's static-file location 404s with the right
+        // body. Regenerated every deploy so a renamed service never goes stale in it.
+        $steps[] = ['label' => 'Generate llms.txt', 'cmd' => [$php, 'artisan', 'llms:generate'], 'timeout' => 60];
         // Immediately after the sitemap, because it reads the file that step just
         // wrote. No-ops without INDEXNOW_KEY, so it is safe to leave in the script
         // whether or not the environment has opted in.

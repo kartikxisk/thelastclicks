@@ -17,6 +17,22 @@
             ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
             ['@type' => 'ListItem', 'position' => 2, 'name' => $service->title, 'item' => url('/services/'.$service->slug)],
         ]]" />
+
+        {{-- The FAQ accordion below is the one block of literal question-and-answer
+             copy on the site, and without this node it was invisible to answer
+             engines — an assistant extracting Q&A reads the schema, not a JS
+             accordion. Built from the same $service->faqs the section renders,
+             so the two cannot drift apart. --}}
+        @if (!empty($service->faqs))
+            <x-json-ld :data="[
+                '@type' => 'FAQPage',
+                'mainEntity' => collect($service->faqs)->map(fn ($f) => [
+                    '@type' => 'Question',
+                    'name' => $f['q'] ?? '',
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a'] ?? ''],
+                ])->all(),
+            ]" />
+        @endif
     </x-slot>
 
     @php

@@ -26,6 +26,8 @@ yarn-error.log
 
 # Generated on deploy by `sitemap:generate` — never committed.
 /public/sitemap.xml
+# Same deal, by `llms:generate`.
+/public/llms.txt
 
 # Copied out of vendor/ by `livewire:publish --assets`, on every composer install
 # (post-autoload-dump) and every deploy. Version-pinned to the installed Livewire,
