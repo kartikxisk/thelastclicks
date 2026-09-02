@@ -183,6 +183,64 @@ HTML,
 <p>Put interviews in the morning while faces are fresh. Save b-roll — people working, walking, meeting — for the afternoon slump when nobody has to speak. And feed the crew with the team: shoots run on the same fuel as everything else. The full run-of-day is on our <a href="/industries/corporate-shoots">corporate shoots</a> page.</p>
 HTML,
             ],
+
+            // The two pillar posts behind the keyword map's Tier 1 clusters. The
+            // five posts above are craft notes; these two aim at commercial
+            // queries the site already registers for ("video post production",
+            // Search Console positions 57–64, with no supporting content).
+            //
+            // The cost guide quotes the budget bands from the studio's own quote
+            // wizard rather than invented market rates — the one honest source
+            // of numbers available, and the transparency itself is the point:
+            // no local competitor publishes any.
+            [
+                'slug' => 'video-editing-cost-india',
+                'title' => 'What video editing costs in India (and what actually drives the price)',
+                'excerpt' => 'The honest version of the pricing conversation: the budget bands real projects land in, the six things that move the number, and the cuts that cost more than they save.',
+                'seo_title' => 'Video Editing Cost in India — Rates, Drivers & Budget Bands',
+                'seo_description' => 'What video editing and post-production really cost in India: typical project bands, the six drivers that move the price, post-only projects, and where cutting budget backfires.',
+                'categories' => ['Post-production'],
+                'tags' => ['editing', 'planning'],
+                'body' => <<<'HTML'
+<p>Nobody in this industry publishes prices, which leaves every buyer guessing from a "contact us" form. Here is the honest version. Projects that come through our own quote form land in bands — under ₹1L, ₹1–3L, ₹3–7L, ₹7–15L, ₹15L+ — and where a given edit falls is driven by six things you can reason about before you ever talk to a studio.</p>
+<h2>What moves the number</h2>
+<p><strong>Footage volume.</strong> An editor's first job is watching. Two hours of rushes and twenty hours of rushes are different projects even if the final film is ninety seconds in both cases — a multi-day event shot on three cameras costs more to cut than a single-location interview, before any creative decision is made.</p>
+<p><strong>Edit complexity.</strong> A talking-head with b-roll is assembly; a narrative brand film is writing with footage. The more the structure has to be <em>found</em> in the material rather than planned before it, the more edit rounds the film needs.</p>
+<p><strong>The grade.</strong> Colour correction — matching shots, fixing exposure, holding skin tones — is included in any serious edit. A <em>look</em>, built in DaVinci and reviewed on a calibrated display, is its own line. It is also, frame for frame, the biggest visible difference between a film that feels expensive and one that does not.</p>
+<p><strong>Sound.</strong> Cleaned dialogue, a licensed track, a real mix. Audiences forgive soft focus; they never forgive bad audio — and sound is the half of post most often cut from a budget and most regretted afterwards.</p>
+<p><strong>Motion graphics.</strong> Titles and lower thirds are standard. Animated diagrams, logo builds and data visualisation are designed, not applied — they price like design work because they are design work.</p>
+<p><strong>Revision rounds.</strong> The quiet budget-killer. Two consolidated feedback rounds are typical; per-stakeholder drip feedback can double an edit. One person collecting all notes into one document is worth real money.</p>
+<h2>Post-only projects</h2>
+<p>You do not need to have shot with a studio for it to finish your film. We take <a href="/services/post-production">post-only projects</a> — footage from any camera, another crew's rushes, an archive — and run the same pipeline: edit, grade, sound, conform. If you already have material sitting on a drive, the cost conversation starts at the edit, not the shoot.</p>
+<h2>Where cutting budget backfires</h2>
+<p>Skipping the grade shows in every frame. Skipping the mix shows in every second. Cutting revision structure — going cheap on project management — usually costs more than either, because an edit that drifts through six rounds of scattered feedback burns the hours a look and a mix would have taken. If the budget is genuinely tight, cut scope: a shorter film finished properly beats a longer one abandoned at the rough cut.</p>
+<h2>Getting a real number</h2>
+<p>A useful quote needs four facts: what the footage is (or what the shoot is), what the film must achieve, where it will run, and when it is needed. With those, a studio can put you in a band in one conversation. Everything that happens between the rushes and the master is in <a href="/blog/what-post-production-actually-includes">what post-production actually includes</a> — read it before the call and the call gets shorter.</p>
+HTML,
+            ],
+            [
+                'slug' => 'corporate-event-video-coverage-guide',
+                'title' => 'Corporate event video: planning coverage for a summit, AGM or launch',
+                'excerpt' => 'The agenda will not stop for the crew. How coverage is actually planned — cameras, audio, permissions and deliverables — for events that happen exactly once.',
+                'seo_title' => 'Corporate Event Video Coverage — A Planning Guide',
+                'seo_description' => 'How to plan video coverage for a corporate summit, AGM or launch: camera positions, desk audio with backup, permissions, and the deliverables to ask for — from a crew that shoots them.',
+                'categories' => ['Corporate', 'Production'],
+                'tags' => ['events', 'planning'],
+                'body' => <<<'HTML'
+<p>A corporate event is a film with no second take. The keynote happens once, the CEO has eleven minutes between sessions, and the agenda does not stop because a camera was in the wrong place. Every good event film is therefore won in planning — the shoot is just the plan executing.</p>
+<h2>Start from the run-of-show</h2>
+<p>Coverage is planned off your agenda, not off a shot list a crew invented. Send the run-of-show early and mark the moments that matter: the announcement, the award, the handshake that took two years of negotiation. A crew that knows the third speaker is the story positions for the third speaker.</p>
+<h2>The camera plan</h2>
+<p>The reliable minimum for a stage event is three roles: a locked wide that never misses, a tight camera on faces, and a roving camera on the audience — because the room reacting <em>is</em> the story of a good event, and the moment you most need that shot is the moment you cannot stage it. Bigger rooms scale the same roles up rather than adding new ones.</p>
+<h2>Audio is the actual risk</h2>
+<p>The single most common way corporate footage is lost is sound: a crew that pointed a camera microphone at a PA system. Insist on a feed from the sound desk plus an independent backup recorder. It is one line in an email to your AV vendor, and it is the difference between a keynote you can publish and a keynote you can only caption.</p>
+<h2>Permissions, before the day</h2>
+<p>Three questions to settle in advance: can the crew shoot the audience (some rooms carry attendees whose employers say no), can slides appear on camera (legal review cares), and who signs off the final cut. Answering these on the day costs shooting time; answering them a week early costs nothing.</p>
+<h2>Ask for deliverables by shelf life</h2>
+<p>The highlight film matters most in the week after the event, while the room still talks about it — days, not weeks, is the right expectation. Full-session recordings, chaptered, live longer on the intranet. Vertical cuts with subtitles carry the event to people who were never coming. Agree the set before the shoot, because coverage decisions on the day depend on it: a crew cutting verticals frames differently from one cutting only a wide film.</p>
+<p>How we run this — positions, redundancy, review gates — is on our <a href="/industries/corporate-shoots">corporate shoots</a> page. And if you are still deciding what to book, <a href="/blog/photo-vs-video-corporate-event-coverage">photo, video or both</a> covers the trade-off, while <a href="/blog/preparing-your-team-for-a-corporate-shoot">preparing your team</a> is the checklist to circulate internally once you have.</p>
+HTML,
+            ],
         ];
     }
 }
