@@ -93,3 +93,35 @@ it('links a service and an industry in both directions', function () {
     expect($service->fresh()->industries->pluck('id'))->toContain($industry->id)
         ->and($industry->fresh()->services->pluck('id'))->toContain($service->id);
 });
+
+it('keeps the footer nav on one row of columns rather than orphaning one', function () {
+    // The Industries column made the footer four columns wide. .foot__nav was
+    // pinned to repeat(3, 1fr), so Contact dropped onto a second row on its own.
+    // The count is not fixed any more, because the Industries column only exists
+    // when there are industries — the footer has to read at three and at four.
+    $css = file_get_contents(resource_path('css/core.css'));
+
+    preg_match('#\.foot__nav\s*\{[^}]*\}#s', $css, $rule);
+
+    expect($rule)->not->toBeEmpty()
+        ->and($rule[0])->toContain('auto-fit')
+        ->and($rule[0])->not->toMatch('/repeat\(\s*\d+\s*,/');
+});
+
+it('renders one footer column per section, industries included', function () {
+    $html = $this->get('/')->assertOk()->getContent();
+
+    preg_match('#<nav class="foot__nav".*?</nav>#s', $html, $nav);
+
+    expect($nav)->not->toBeEmpty()
+        ->and(substr_count($nav[0], 'foot__col'))->toBe(4);
+});
+
+it('drops to three footer columns when there are no industries', function () {
+    Industry::query()->get()->each->delete();
+
+    $html = $this->get('/')->assertOk()->getContent();
+    preg_match('#<nav class="foot__nav".*?</nav>#s', $html, $nav);
+
+    expect(substr_count($nav[0], 'foot__col'))->toBe(3);
+});

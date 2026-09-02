@@ -1174,10 +1174,12 @@ img, video { max-width: 100%; display: block; }
 .foot__hello:hover { color: var(--paper-dim); }
 .foot__hello:hover .arr { transform: translate(0.14em, -0.14em); }
 
-/* Meta row: intro · nav · locale */
+/* Meta row: intro · nav · locale.
+   The nav takes the larger share since it gained a fourth column — at 1.6fr the
+   industry names ("Wedding & Pre-Wedding") wrapped to three lines each. */
 .foot__meta {
   display: grid;
-  grid-template-columns: 1fr 1.6fr;
+  grid-template-columns: 1fr 2.2fr;
   gap: clamp(32px, 5vw, 96px);
   padding: clamp(40px, 5vw, 72px) 0 clamp(24px, 3vw, 40px);
 }
@@ -1199,10 +1201,15 @@ img, video { max-width: 100%; display: block; }
 }
 .foot__socials a svg { width: 18px; height: 18px; display: block; }
 .foot__socials a:hover { color: #fff; background: var(--red); border-color: var(--red); transform: translateY(-2px); }
+/* auto-fit, not a fixed count: the Industries column only renders when there are
+   industries to list, so the footer has to read correctly at three columns and
+   at four. It was pinned to repeat(3, 1fr), which dropped Contact onto a second
+   row on its own the moment the fourth arrived. */
 .foot__nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 28px 24px;
+  align-content: start;
 }
 .foot__idx { color: var(--red); margin-right: 6px; }
 /* Locale column — mono label / value pairs */
