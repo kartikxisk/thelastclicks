@@ -88,3 +88,50 @@ it('leaves imagery an editor already replaced alone', function () {
 
     unlink($path);
 });
+
+it('repairs media items a failed restore left with no file behind them', function () {
+    // Exactly the state production is in: the first deploy created the reel's
+    // items but skipped their media rows (the ids were taken by client logos),
+    // so six items exist with nothing behind them. A re-run must repair those,
+    // not stack a second set of items beside them.
+    $industry = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $item = $industry->mediaItems()->create(['type' => 'image', 'order' => 0]);
+    $item->addMedia(UploadedFile::fake()->image('frame.jpg'))->toMediaCollection('file');
+
+    $path = base_path('tests/tmp-industry-media.json');
+    $this->artisan('app:export-industry-media', ['--path' => $path])->assertSuccessful();
+
+    // Strip the media row, leaving the orphaned item — the broken production state.
+    Media::query()->where('model_type', (new MediaItem)->getMorphClass())->delete();
+    expect($industry->fresh()->mediaItems)->toHaveCount(1)
+        ->and($industry->fresh()->mediaItems->first()->resolvedUrl())->toBeNull();
+
+    (new IndustryMediaSeeder($path))->run();
+
+    $items = $industry->fresh()->mediaItems;
+
+    expect($items)->toHaveCount(1)
+        ->and($items->first()->resolvedUrl())->not->toBeNull();
+
+    unlink($path);
+});
+
+it('leaves a youtube item alone, which legitimately has no upload', function () {
+    // A youtube row carries a URL and no file, so "no media" cannot be the test
+    // for a broken item on its own.
+    $industry = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $industry->mediaItems()->create([
+        'type' => 'youtube',
+        'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ',
+        'order' => 0,
+    ]);
+
+    $path = base_path('tests/tmp-industry-media.json');
+    $this->artisan('app:export-industry-media', ['--path' => $path])->assertSuccessful();
+
+    (new IndustryMediaSeeder($path))->run();
+
+    expect($industry->fresh()->mediaItems()->where('type', 'youtube')->count())->toBe(1);
+
+    unlink($path);
+});

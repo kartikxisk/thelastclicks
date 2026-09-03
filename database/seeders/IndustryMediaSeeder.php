@@ -67,12 +67,35 @@ class IndustryMediaSeeder extends Seeder
 
             $covers += MediaSnapshot::restore($industry, $row['media'] ?? []);
 
+            // Clear the wreckage of a restore that half-succeeded before the
+            // items are replayed, so the repair lands on a clean slate rather
+            // than stacking a second reel beside the broken one.
+            $this->pruneOrphanItems($industry);
+
             foreach ($row['media_items'] ?? [] as $itemRow) {
                 $items += $this->restoreItem($industry, $itemRow);
             }
         }
 
         $this->command?->info("Restored {$covers} industry cover row(s) and {$items} media item(s).");
+    }
+
+    /**
+     * Delete upload-backed items that have no upload behind them.
+     *
+     * An image or video row exists to carry a file; with none it renders
+     * nothing and is filtered out of every gallery, so it can only be the
+     * residue of a restore whose media rows were skipped — which is exactly
+     * what production hit when the fixture ids collided with client logos.
+     * A youtube row is deliberately excluded: it carries a URL, never a file.
+     */
+    protected function pruneOrphanItems(Industry $industry): void
+    {
+        $industry->mediaItems()
+            ->whereIn('type', ['image', 'video'])
+            ->whereDoesntHave('media')
+            ->get()
+            ->each->delete();
     }
 
     /**
@@ -83,6 +106,19 @@ class IndustryMediaSeeder extends Seeder
     {
         $media = $itemRow['media'] ?? [];
         $firstId = is_array($media) && isset($media[0]['id']) ? $media[0]['id'] : null;
+        $attributes = $itemRow['attributes'] ?? [];
+
+        // A youtube row carries no file, so there is no media id to match on.
+        // Its URL is the identity instead — without this the row is recreated
+        // on every deploy and the gallery grows a duplicate each time.
+        if ($firstId === null) {
+            $url = $attributes['youtube_url'] ?? null;
+
+            if (is_string($url) && $url !== '' && $industry->mediaItems()
+                ->where('youtube_url', $url)->exists()) {
+                return 0;
+            }
+        }
 
         // Matched on the media id rather than on the item's own: media ids are
         // what the fixture pins and what the storage path is built from, so an
@@ -98,7 +134,7 @@ class IndustryMediaSeeder extends Seeder
         }
 
         /** @var MediaItem $item */
-        $item = $industry->mediaItems()->create($itemRow['attributes'] ?? []);
+        $item = $industry->mediaItems()->create($attributes);
 
         return MediaSnapshot::restore($item, is_array($media) ? $media : []);
     }
