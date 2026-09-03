@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\SiteSetting;
+use Database\Seeders\SiteSettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -89,4 +90,29 @@ it('replaces the superseded map link but keeps a deliberate one', function () {
     SiteSetting::set('map_url', 'https://maps.app.goo.gl/deliberately-different');
     $this->seed();
     expect(SiteSetting::get('map_url'))->toBe('https://maps.app.goo.gl/deliberately-different');
+});
+
+it('serves the pan-India city list, replacing the NCR-only default', function () {
+    // The studio travels nationally — the portfolio alone spans Jaipur, Udaipur
+    // and Bengaluru — but areaServed still listed four NCR towns, so every
+    // schema consumer read the coverage as local. setIfMissing could not fix
+    // that on its own: the key was already filled, so a deploy would skip it.
+    SiteSetting::set('service_areas', SiteSettingsSeeder::RETIRED_SERVICE_AREAS);
+
+    (new SiteSettingsSeeder)->run();
+
+    $areas = SiteSetting::get('service_areas');
+
+    expect($areas)->toBe(SiteSettingsSeeder::SERVICE_AREAS)
+        ->and($areas)->toContain('Mumbai', 'Bengaluru', 'Jaipur', 'Noida');
+});
+
+it('leaves an editor-chosen service area list alone', function () {
+    // Only the exact retired default is recognised and replaced. Anything an
+    // editor curated is theirs, and a deploy must never overwrite it.
+    SiteSetting::set('service_areas', ['Noida', 'Dubai']);
+
+    (new SiteSettingsSeeder)->run();
+
+    expect(SiteSetting::get('service_areas'))->toBe(['Noida', 'Dubai']);
 });

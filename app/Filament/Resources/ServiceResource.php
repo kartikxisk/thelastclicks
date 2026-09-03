@@ -41,9 +41,16 @@ class ServiceResource extends Resource
             ]),
             Textarea::make('hero_copy')->rows(2)->columnSpanFull(),
             RichEditor::make('body')->columnSpanFull(),
+            // One image, two homes: the banner on the service page and the
+            // full-bleed strip this service gets in the homepage's "What we do".
+            // The label used to read plain "Hero", so nobody had a reason to
+            // think changing it touched the homepage at all.
             SpatieMediaLibraryFileUpload::make('hero')
+                ->label('Service image')
                 ->collection('hero')
                 ->image()
+                ->imageEditor()
+                ->helperText('Used twice: the banner at the top of this service page, and this service\'s band in the homepage "What we do" section. The homepage band crops it to a wide letterbox around the centre, so keep the subject away from the edges. Overrides the path below.')
                 ->columnSpanFull(),
             TextInput::make('order')->numeric()->default(0),
             TextInput::make('share')->label('Mix share (%)')->numeric()->minValue(0)->maxValue(100)
@@ -56,8 +63,8 @@ class ServiceResource extends Resource
                     // Resolved by Service::heroUrl() via MediaUrl, which accepts a
                     // media-disk key (e.g. "industries/x.jpg") as well as an absolute
                     // URL — so no strict ->url() rule, which rejects the path form.
-                    TextInput::make('hero_url')->label('Hero image path or URL')
-                        ->helperText('A media-disk key (industries/x.jpg) or a full https:// URL. An uploaded hero above overrides it.'),
+                    TextInput::make('hero_url')->label('Service image path or URL')
+                        ->helperText('Fallback for the image above: a media-disk key (industries/x.jpg) or a full https:// URL. An upload always wins.'),
                     // featured_slug's input is gone. The column stays, but no view
                     // has ever read it — it was a stringly-typed pointer at one
                     // project, which is what the works relation below now does

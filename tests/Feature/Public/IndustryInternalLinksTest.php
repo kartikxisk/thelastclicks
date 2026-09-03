@@ -4,6 +4,8 @@ use App\Models\Industry;
 use App\Models\Service;
 use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -133,6 +135,9 @@ it('spotlights the artist work on the homepage, linked to its industry', functio
     // by design — but it only earns its place while there is published work
     // behind it, so a published cover-artist work is what turns it on.
     // WorksSeeder is skipped under testing, hence the row created here.
+    config(['media-library.disk_name' => 's3']);
+    Storage::fake('s3');
+
     $ca = Industry::where('slug', 'cover-artist')->firstOrFail();
     $ca->works()->attach(Work::create([
         'title' => 'Sonu Nigam',
@@ -140,13 +145,15 @@ it('spotlights the artist work on the homepage, linked to its industry', functio
         'is_published' => true,
     ]));
 
+    $item = $ca->mediaItems()->create(['type' => 'image', 'order' => 0]);
+    $item->addMedia(UploadedFile::fake()->image('stage.jpg'))->toMediaCollection('file');
+
     $html = $this->get('/')->assertOk()->getContent();
 
     preg_match('#<section[^>]*data-artist-band.*?</section>#s', $html, $band);
 
     expect($band)->not->toBeEmpty()
-        ->and($band[0])->toContain(url('/industries/cover-artist'))
-        ->and($band[0])->toContain('images/artist/wm/');
+        ->and($band[0])->toContain(url('/industries/cover-artist'));
 });
 
 it('renders no artist band while the cover-artist work is unpublished', function () {
@@ -170,4 +177,39 @@ it('renders no artist band when the cover-artist industry is gone', function () 
 
     expect($this->get('/')->assertOk()->getContent())
         ->not->toContain('data-artist-band');
+});
+
+it('builds the artist reel from admin-managed media, not bundled files', function () {
+    // The reel shipped pointing at seven files committed under public/images —
+    // hardcoded filenames no editor could change and 37MB in the repo. The
+    // frames are now the cover-artist industry's own media rows, uploaded in
+    // the admin and served from the media disk like every other image here.
+    config(['media-library.disk_name' => 's3']);
+    Storage::fake('s3');
+
+    $ca = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $ca->works()->attach(Work::create([
+        'title' => 'Sonu Nigam', 'slug' => 'sonu-nigam', 'is_published' => true,
+    ]));
+
+    $item = $ca->mediaItems()->create(['type' => 'image', 'order' => 0]);
+    $item->addMedia(UploadedFile::fake()->image('stage.jpg'))->toMediaCollection('file');
+
+    $html = $this->get('/')->assertOk()->getContent();
+    preg_match('#<section[^>]*data-artist-band.*?</section>#s', $html, $band);
+
+    expect($band)->not->toBeEmpty()
+        ->and($band[0])->toContain($item->fresh()->resolvedUrl())
+        ->and($band[0])->not->toContain('images/artist/');
+});
+
+it('renders no artist reel when the industry has no media uploaded', function () {
+    // Same rule the hero follows: an empty admin shows nothing, never a
+    // bundled stand-in an editor cannot find or replace.
+    $ca = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $ca->works()->attach(Work::create([
+        'title' => 'Sonu Nigam', 'slug' => 'sonu-nigam', 'is_published' => true,
+    ]));
+
+    expect($this->get('/')->assertOk()->getContent())->not->toContain('data-artist-band');
 });

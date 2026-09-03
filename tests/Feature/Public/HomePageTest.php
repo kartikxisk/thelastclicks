@@ -3,6 +3,8 @@
 use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -49,4 +51,25 @@ it('renders the services strips with each service linked and its artwork bled fu
     }
 
     expect($section[0])->not->toContain('svcx__more');
+});
+
+it('paints a services strip with the hero image uploaded against that service', function () {
+    // The strip's background is Service::heroUrl(), which prefers admin-uploaded
+    // media over the seeded hero_url path. That makes the upload under
+    // Content → Services the way an editor changes what the homepage shows —
+    // worth pinning, because the strip redesign is what gave that field a
+    // second home and nothing else asserts the link.
+    config(['media-library.disk_name' => 's3']);
+    Storage::fake('s3');
+
+    $service = Service::orderBy('order')->firstOrFail();
+    $service->addMedia(UploadedFile::fake()->image('strip.jpg'))->toMediaCollection('hero');
+
+    $html = $this->get('/')->assertOk()->getContent();
+
+    preg_match('#<section[^>]*data-svc-index.*?</section>#s', $html, $section);
+
+    expect($section)->not->toBeEmpty()
+        ->and($section[0])->toContain('--svcx-bg')
+        ->and($section[0])->toContain($service->fresh()->heroUrl());
 });

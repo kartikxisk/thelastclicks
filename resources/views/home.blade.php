@@ -159,8 +159,19 @@
     @php
         $spotlight = $industries->firstWhere('slug', 'cover-artist');
         $spotlightArtists = $spotlight?->publishedWorks()->orderBy('order')->pluck('title') ?? collect();
+        // The frames are the industry's own uploaded image rows, resolved on
+        // the media disk. They were seven filenames committed under
+        // public/images/artist — nothing an editor could change, and 37MB of
+        // photography in the repo. Uploading under Content → Industries →
+        // Cover Artist → Media is now the whole workflow.
+        $spotlightFrames = $spotlight
+            ? $spotlight->mediaItems->where('type', 'image')
+                ->map(fn ($item) => $item->resolvedUrl())
+                ->filter()
+                ->values()
+            : collect();
     @endphp
-    @if ($spotlight && $spotlightArtists->isNotEmpty())
+    @if ($spotlight && $spotlightArtists->isNotEmpty() && $spotlightFrames->isNotEmpty())
     <section class="artist-band" data-artist-band data-screen-label="04b Artists">
         <x-container>
             <div class="artist-band__head">
@@ -176,9 +187,9 @@
 
         <a class="artist-band__reel" href="{{ url('/industries/'.$spotlight->slug) }}"
            aria-label="See the artist work">
-            @foreach (['70715', '70731', '70734', '70738', '70746', '70748', '70757'] as $frame)
+            @foreach ($spotlightFrames as $frame)
                 <span class="artist-band__frame"
-                      style="background-image:url('{{ asset('images/artist/wm/'.$frame.'.jpg') }}')"></span>
+                      style="background-image:url('{{ $frame }}')"></span>
             @endforeach
         </a>
     </section>

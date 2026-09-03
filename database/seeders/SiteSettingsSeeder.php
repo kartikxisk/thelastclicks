@@ -78,7 +78,15 @@ class SiteSettingsSeeder extends Seeder
         $this->setIfMissing('hours_days', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
         $this->setIfMissing('hours_opens', '10:00');
         $this->setIfMissing('hours_closes', '19:00');
-        $this->setIfMissing('service_areas', ['Noida', 'Delhi', 'Gurgaon', 'Ghaziabad']);
+        // Recognised-and-replaced rather than setIfMissing: the key was already
+        // filled with the NCR-only list, so a plain setIfMissing would skip it
+        // forever. Only that exact list is swapped — anything an editor curated
+        // is theirs and survives every deploy.
+        if (SiteSetting::get('service_areas') === self::RETIRED_SERVICE_AREAS) {
+            SiteSetting::set('service_areas', self::SERVICE_AREAS);
+        } else {
+            $this->setIfMissing('service_areas', self::SERVICE_AREAS);
+        }
         $this->setIfMissing('brand_logo', 'branding/logo-a6a2cd4afe.png');
         $this->setIfMissing('brand_logo_dark', 'branding/logo-dark-f65ca5e2f7.png');
         $this->setIfMissing('favicon', 'branding/favicon-34d5039f93.png');
@@ -97,6 +105,34 @@ class SiteSettingsSeeder extends Seeder
      * or URL, and seo_default_og_image in particular already existed as an empty
      * string — an existence check alone would have left it that way forever.
      */
+    /**
+     * Where the studio actually shoots.
+     *
+     * areaServed is read at the granularity of the query (see Nap::areaServed),
+     * so these are named cities rather than "India" — a national node matches
+     * nothing a local searcher types. NCR leads because that is where the
+     * studio is based and where the strongest local intent sits; the rest are
+     * the metros and destination cities the work travels to, several of which
+     * the portfolio already evidences (Jaipur, Udaipur, Bengaluru, Gurgaon).
+     *
+     * @var list<string>
+     */
+    public const SERVICE_AREAS = [
+        'Noida', 'Delhi', 'Gurgaon', 'Ghaziabad', 'Faridabad',
+        'Mumbai', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata',
+        'Pune', 'Ahmedabad', 'Jaipur', 'Chandigarh', 'Lucknow',
+        'Udaipur', 'Goa', 'Kochi', 'Indore', 'Surat',
+        'Nagpur', 'Bhopal', 'Dehradun', 'Amritsar', 'Varanasi', 'Jodhpur',
+    ];
+
+    /**
+     * The NCR-only list this replaces. Kept so the swap above can recognise
+     * exactly what it is allowed to overwrite, and nothing else.
+     *
+     * @var list<string>
+     */
+    public const RETIRED_SERVICE_AREAS = ['Noida', 'Delhi', 'Gurgaon', 'Ghaziabad'];
+
     protected function setIfMissing(string $key, mixed $value): void
     {
         if (filled(SiteSetting::get($key))) {
