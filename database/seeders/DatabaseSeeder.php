@@ -50,6 +50,8 @@ class DatabaseSeeder extends Seeder
                 // so without this a deployed database shows stock covers and
                 // no artist band at all.
                 IndustryMediaSeeder::class,
+                // Journal covers, for the same reason.
+                PostMediaSeeder::class,
                 // Titles and descriptions for the eleven non-service routes.
                 // Was run-once-by-hand, which meant a rebuilt site launched with
                 // no <title> or description on its homepage, about, portfolio or

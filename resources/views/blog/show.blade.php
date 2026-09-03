@@ -24,11 +24,14 @@
             ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => url('/blog/'.$post->slug)],
         ]]" />
 <style>
-  .art-hero { max-width: var(--maxw); margin-inline: auto; padding: 130px var(--pad-x) 0; }
+  .art-hero { max-width: var(--maxw); margin-inline: auto; padding: clamp(104px, 12vh, 140px) var(--pad-x) 0; }
   .art-hero__crumb { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--paper-dim); display: flex; gap: 10px; margin-bottom: 32px; }
   .art-hero__crumb a { color: var(--paper-dim); }
   .art-hero__crumb a:hover { color: var(--red); }
-  .art-hero__cat { display: inline-flex; align-items: center; gap: 12px; padding: 8px 14px; background: var(--red); color: #fff; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
+  /* align-self is load-bearing: `main > section` is a flex column, so a
+     stretch-aligned child fills the whole content width — the category chip
+     rendered as a full-width red bar rather than a label. */
+  .art-hero__cat { align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; padding: 8px 14px; background: var(--red); color: #fff; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 28px; }
   .art-hero h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(40px, 6.5vw, 96px); letter-spacing: -0.04em; line-height: 0.98; max-width: 18ch; text-wrap: balance; }
   .art-hero h1 em { font-family: var(--f-display); font-style: italic; font-weight: 400; color: var(--red); }
   .art-meta { display: flex; gap: 24px; flex-wrap: wrap; padding: 32px 0; margin-top: 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-dim); }
@@ -41,7 +44,7 @@
   :root { --art-inset: max(var(--pad-x), calc((100% - var(--maxw)) / 2 + var(--pad-x))); }
   /* Typography lives in pages.css (.art-body) and is shared with the industry
      pages. Only the article-specific layout and scale is overridden here. */
-  .art-body { padding: 100px 0; max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); font-size: 19px; }
+  .art-body { padding: clamp(44px, 6vh, 72px) 0 clamp(64px, 8vh, 96px); max-width: 760px; margin-inline: var(--art-inset) var(--pad-x); font-size: 19px; }
   .art-body h2 { font-size: clamp(28px, 3.6vw, 40px); margin: 56px 0 22px; }
   .art-body blockquote { padding: 24px 0 24px 32px; max-width: 36ch; }
   .art-body img { aspect-ratio: 16/9; object-fit: cover; }

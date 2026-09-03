@@ -5563,6 +5563,9 @@ main > section.art-share,
 main > section.art-author,
 main > section.pp-intro,
 main > section.ind-more,
+/* The article head is as tall as its title and meta: the 46rem scene floor
+   left a screen of black between the byline and the first paragraph. */
+main > section.art-hero,
 /* The image strips: the footage is the scene, and the 46rem floor was taller
    than head + strip, so the slack pooled as dead black around the images. */
 main > section#work,

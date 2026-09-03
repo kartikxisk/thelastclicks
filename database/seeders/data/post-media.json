@@ -1,0 +1,142 @@
+[
+    {
+        "slug": "how-to-brief-a-video-production-team",
+        "media": [
+            {
+                "id": 233,
+                "collection_name": "cover",
+                "name": "how-to-brief-a-video-production-team",
+                "file_name": "how-to-brief-a-video-production-team-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 252921,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "wedding-photography-timeline-planning",
+        "media": [
+            {
+                "id": 237,
+                "collection_name": "cover",
+                "name": "wedding-photography-timeline-planning",
+                "file_name": "wedding-photography-timeline-planning-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 234730,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "what-post-production-actually-includes",
+        "media": [
+            {
+                "id": 238,
+                "collection_name": "cover",
+                "name": "what-post-production-actually-includes",
+                "file_name": "what-post-production-actually-includes-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 302092,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "photo-vs-video-corporate-event-coverage",
+        "media": [
+            {
+                "id": 234,
+                "collection_name": "cover",
+                "name": "photo-vs-video-corporate-event-coverage",
+                "file_name": "photo-vs-video-corporate-event-coverage-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 385019,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "preparing-your-team-for-a-corporate-shoot",
+        "media": [
+            {
+                "id": 235,
+                "collection_name": "cover",
+                "name": "preparing-your-team-for-a-corporate-shoot",
+                "file_name": "preparing-your-team-for-a-corporate-shoot-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 923388,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "video-editing-cost-india",
+        "media": [
+            {
+                "id": 236,
+                "collection_name": "cover",
+                "name": "video-editing-cost-india",
+                "file_name": "video-editing-cost-india-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 62189,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "corporate-event-video-coverage-guide",
+        "media": [
+            {
+                "id": 232,
+                "collection_name": "cover",
+                "name": "corporate-event-video-coverage-guide",
+                "file_name": "corporate-event-video-coverage-guide-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 155245,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    }
+]
