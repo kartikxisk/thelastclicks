@@ -1,10 +1,12 @@
 <?php
 
 use App\Models\Industry;
+use App\Models\MediaItem;
 use Database\Seeders\IndustryMediaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 uses(RefreshDatabase::class);
 
@@ -33,8 +35,10 @@ it('replays an industry cover upload onto a rebuilt database', function () {
 
     $this->artisan('app:export-industry-media', ['--path' => $path])->assertSuccessful();
 
-    // Wipe the uploads the way a rebuilt database would.
-    $industry->clearMediaCollection('hero');
+    // A rebuilt database loses the rows; the bucket keeps every object. Delete
+    // through the query builder rather than clearMediaCollection(), which would
+    // take the files with it and simulate the wrong disaster.
+    Media::query()->where('model_type', $industry->getMorphClass())->delete();
     expect($industry->fresh()->coverUrl())->not->toBe($url);
 
     (new IndustryMediaSeeder($path))->run();
@@ -54,7 +58,8 @@ it('replays the cover-artist reel frames, which the homepage band needs', functi
 
     $this->artisan('app:export-industry-media', ['--path' => $path])->assertSuccessful();
 
-    $industry->mediaItems()->get()->each->delete();
+    Media::query()->where('model_type', (new MediaItem)->getMorphClass())->delete();
+    $industry->mediaItems()->getQuery()->delete();
     expect($industry->fresh()->mediaItems()->count())->toBe(0);
 
     (new IndustryMediaSeeder($path))->run();
