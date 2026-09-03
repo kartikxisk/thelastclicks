@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\HeroSlide;
+use App\Models\SiteSetting;
+use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -55,4 +57,48 @@ it('ignores an active slide whose asset never uploaded', function () {
     HeroSlide::create(['label' => 'Empty', 'order' => 0, 'is_active' => true]);
 
     expect($this->get('/')->assertOk()->getContent())->not->toContain('hero__bg');
+});
+
+/**
+ * Leading the hero with the studio's own featured work.
+ *
+ * The empty-admin rule above still holds: nothing appears on its own. This is
+ * a source an editor picks in Site Settings, and the material it reaches for
+ * is the studio's own published work rather than a bundled asset — which is
+ * what the no-fallback rule was written to keep out.
+ */
+it('leads the hero with featured work once the admin picks that source', function () {
+    SiteSetting::set('hero_source', 'work');
+
+    $work = Work::create([
+        'title' => 'Jaisalmer Craft Gin',
+        'slug' => 'jaisalmer-craft-gin',
+        'is_published' => true,
+        'is_featured' => true,
+        'preview_video_url' => 'https://cdn.example.com/previews/jaisalmer.mp4',
+    ]);
+    $work->addMedia(UploadedFile::fake()->image('cover.jpg'))->toMediaCollection('cover');
+
+    $html = $this->get('/')->assertOk()->getContent();
+
+    expect($html)->toContain('hero__bg')
+        ->and($html)->toContain('hero__slide')
+        ->and($html)->toContain('https://cdn.example.com/previews/jaisalmer.mp4');
+});
+
+it('leaves the hero empty when the work source has no featured work to show', function () {
+    // Picking the source is not a promise that something exists behind it.
+    SiteSetting::set('hero_source', 'work');
+
+    Work::create(['title' => 'Not featured', 'slug' => 'not-featured', 'is_published' => true]);
+
+    expect($this->get('/')->assertOk()->getContent())->not->toContain('hero__bg');
+});
+
+it('keeps unrecognised hero sources on the uploaded slides', function () {
+    // Same allowlist reasoning as WORK_TILE_RATIOS: the value drives what the
+    // page renders, so anything unknown falls back rather than guessing.
+    SiteSetting::set('hero_source', 'whatever-someone-typed');
+
+    expect(SiteSetting::heroSource())->toBe(SiteSetting::DEFAULT_HERO_SOURCE);
 });

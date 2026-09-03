@@ -23,6 +23,14 @@ class Work extends Model implements HasMedia
         'location', 'agency', 'preview_video_url', 'year', 'order', 'is_published', 'is_featured',
     ];
 
+    /**
+     * How many featured projects the hero rotates through when an editor
+     * points it at the portfolio. Enough to establish a rotation without
+     * turning the opening frame into a reel — the same count HeroSlidesSeeder
+     * settled on for the uploaded equivalent.
+     */
+    public const HERO_FRAMES = 3;
+
     protected $casts = [
         'is_published' => 'boolean',
         'is_featured' => 'boolean',

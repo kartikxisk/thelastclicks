@@ -71,6 +71,7 @@ class SiteSettingsPage extends Page implements HasForms
             'page_image_industries' => SiteSetting::get('page_image_industries'),
             'page_image_about_body' => SiteSetting::get('page_image_about_body'),
             'page_image_testimonials' => SiteSetting::get('page_image_testimonials'),
+            'hero_source' => SiteSetting::heroSource(),
             'work_tile_ratio' => SiteSetting::get('work_tile_ratio', SiteSetting::DEFAULT_WORK_TILE_RATIO),
             'cta_video' => SiteSetting::get('cta_video'),
         ]);
@@ -262,6 +263,17 @@ class SiteSettingsPage extends Page implements HasForms
 
                     Forms\Components\Tabs\Tab::make('Portfolio display')
                         ->schema([
+                            Forms\Components\Placeholder::make('hero_source_note')
+                                ->label('')
+                                ->content('What plays behind the homepage headline. Either way an empty source shows no background at all rather than a stand-in.'),
+                            Forms\Components\Select::make('hero_source')
+                                ->label('Homepage hero background')
+                                ->options(SiteSetting::HERO_SOURCES)
+                                ->default(SiteSetting::DEFAULT_HERO_SOURCE)
+                                ->selectablePlaceholder(false)
+                                ->native(false)
+                                ->helperText('Featured work needs no uploads here: it reads the covers and preview videos of the first three featured projects, so featuring a project under Works is the whole workflow. Hero Slides gives you a separate set to upload and switch on by hand.'),
+
                             Forms\Components\Placeholder::make('work_ratio_note')
                                 ->label('')
                                 ->content('Shape of the floating tiles in the homepage portfolio field. Every tile uses the same ratio — mixed shapes read as a mistake rather than as a collage.'),
@@ -337,6 +349,14 @@ class SiteSettingsPage extends Page implements HasForms
         $this->storeUpload('brand_logo', $data['brand_logo'] ?? '', (bool) ($data['remove_brand_logo'] ?? false));
         $this->storeUpload('brand_logo_dark', $data['brand_logo_dark'] ?? '', (bool) ($data['remove_brand_logo_dark'] ?? false));
         $this->storeUpload('favicon', $data['favicon'] ?? '', (bool) ($data['remove_favicon'] ?? false));
+
+        // Guarded on the way in as well as on the way out: SiteSetting::heroSource()
+        // falls back on read, but a junk row stored here would sit in the admin
+        // showing a source the site is not actually using.
+        $heroSource = $data['hero_source'] ?? SiteSetting::DEFAULT_HERO_SOURCE;
+        SiteSetting::set('hero_source', isset(SiteSetting::HERO_SOURCES[$heroSource])
+            ? $heroSource
+            : SiteSetting::DEFAULT_HERO_SOURCE);
 
         // Guard the ratio: an unknown value would emit invalid CSS and collapse
         // every tile to zero height.

@@ -91,6 +91,35 @@ class SiteSetting extends Model
         return preg_match('/^G-[A-Z0-9]{4,20}$/', $id) === 1 ? $id : null;
     }
 
+    /**
+     * Where the homepage hero takes its background from.
+     *
+     * Allowlisted rather than trusted, exactly like WORK_TILE_RATIOS: the value
+     * decides what the hero renders, so an unrecognised one falls back to the
+     * uploaded slides instead of guessing.
+     *
+     * @var array<string, string>
+     */
+    public const HERO_SOURCES = [
+        'slides' => 'Hero Slides — whatever is uploaded and switched on',
+        'work' => 'Featured work — the covers and previews already in the portfolio',
+    ];
+
+    /**
+     * Uploaded slides. Not because work is the worse lead, but because the
+     * hero must never start showing footage nobody chose: an empty admin is
+     * an empty hero until an editor says otherwise.
+     */
+    public const DEFAULT_HERO_SOURCE = 'slides';
+
+    /** The configured hero source, falling back when unset or unrecognised. */
+    public static function heroSource(): string
+    {
+        $v = (string) static::get('hero_source', self::DEFAULT_HERO_SOURCE);
+
+        return isset(self::HERO_SOURCES[$v]) ? $v : self::DEFAULT_HERO_SOURCE;
+    }
+
     /** The configured tile ratio, falling back when unset or unrecognised. */
     public static function workTileRatio(): string
     {
