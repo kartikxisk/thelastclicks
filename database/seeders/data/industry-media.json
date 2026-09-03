@@ -1,0 +1,304 @@
+[
+    {
+        "slug": "alcobev",
+        "media": [
+            {
+                "id": 222,
+                "collection_name": "hero",
+                "name": "1-alcobev",
+                "file_name": "alcobev-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 211417,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": []
+    },
+    {
+        "slug": "cover-artist",
+        "media": [
+            {
+                "id": 224,
+                "collection_name": "hero",
+                "name": "4-coverartist",
+                "file_name": "cover-artist-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 153463,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": [
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 0
+                },
+                "media": [
+                    {
+                        "id": 206,
+                        "collection_name": "file",
+                        "name": "70715",
+                        "file_name": "70715.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 166427,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 1
+                },
+                "media": [
+                    {
+                        "id": 207,
+                        "collection_name": "file",
+                        "name": "70731",
+                        "file_name": "70731.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 153790,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 2
+                },
+                "media": [
+                    {
+                        "id": 208,
+                        "collection_name": "file",
+                        "name": "70734",
+                        "file_name": "70734.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 209124,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 3
+                },
+                "media": [
+                    {
+                        "id": 209,
+                        "collection_name": "file",
+                        "name": "70738",
+                        "file_name": "70738.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 241500,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 4
+                },
+                "media": [
+                    {
+                        "id": 210,
+                        "collection_name": "file",
+                        "name": "70746",
+                        "file_name": "70746.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 113779,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 5
+                },
+                "media": [
+                    {
+                        "id": 211,
+                        "collection_name": "file",
+                        "name": "70748",
+                        "file_name": "70748.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 176797,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 6
+                },
+                "media": [
+                    {
+                        "id": 212,
+                        "collection_name": "file",
+                        "name": "70757",
+                        "file_name": "70757.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 117634,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "slug": "corporate-shoots",
+        "media": [
+            {
+                "id": 223,
+                "collection_name": "hero",
+                "name": "2-corporate",
+                "file_name": "corporate-shoots-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 385019,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": []
+    },
+    {
+        "slug": "real-estate",
+        "media": [
+            {
+                "id": 225,
+                "collection_name": "hero",
+                "name": "5-realestate",
+                "file_name": "real-estate-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 293243,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": []
+    },
+    {
+        "slug": "podcast",
+        "media": [
+            {
+                "id": 226,
+                "collection_name": "hero",
+                "name": "6-podcast",
+                "file_name": "podcast-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 252921,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": []
+    },
+    {
+        "slug": "wedding-pre-wedding",
+        "media": [
+            {
+                "id": 227,
+                "collection_name": "hero",
+                "name": "7-wedding",
+                "file_name": "wedding-pre-wedding-cover.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 234730,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ],
+        "media_items": []
+    }
+]

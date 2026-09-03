@@ -44,6 +44,12 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 WorksSeeder::class,
                 ServiceMediaSeeder::class,
+                // Industry covers and the media items behind the homepage
+                // artist reel. Same reason as the line above: uploads are
+                // medialibrary rows the content seeders know nothing about,
+                // so without this a deployed database shows stock covers and
+                // no artist band at all.
+                IndustryMediaSeeder::class,
                 // Titles and descriptions for the eleven non-service routes.
                 // Was run-once-by-hand, which meant a rebuilt site launched with
                 // no <title> or description on its homepage, about, portfolio or

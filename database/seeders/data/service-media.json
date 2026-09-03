@@ -1,11 +1,51 @@
 [
     {
+        "slug": "videography",
+        "media": [
+            {
+                "id": 231,
+                "collection_name": "hero",
+                "name": "8-videography",
+                "file_name": "videography-strip.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 40917,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
+        "slug": "photography",
+        "media": [
+            {
+                "id": 230,
+                "collection_name": "hero",
+                "name": "3-photography",
+                "file_name": "photography-strip.jpg",
+                "mime_type": "image/jpeg",
+                "disk": "s3",
+                "conversions_disk": "s3",
+                "size": 55017,
+                "manipulations": [],
+                "custom_properties": [],
+                "generated_conversions": [],
+                "responsive_images": [],
+                "order_column": 1
+            }
+        ]
+    },
+    {
         "slug": "post-production",
         "media": [
             {
-                "id": 1,
+                "id": 218,
                 "collection_name": "hero",
-                "name": "c-1188751",
+                "name": "editing-timeline",
                 "file_name": "editing-timeline.jpg",
                 "mime_type": "image/jpeg",
                 "disk": "s3",
