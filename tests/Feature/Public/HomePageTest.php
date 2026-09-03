@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Service;
 use App\Models\Testimonial;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -31,4 +32,21 @@ it('homepage shows seeded testimonials from the database', function () {
 it('homepage hides testimonial section when none published', function () {
     Testimonial::query()->update(['is_published' => false]);
     $this->get('/')->assertOk()->assertDontSee('What our');
+});
+
+it('renders the services strips with each service linked and its artwork bled full-width', function () {
+    // The services section is a stack of full-bleed cover strips: every
+    // published service gets one, linking its detail page, carrying its own
+    // hero artwork. Deliberately no description copy — the strip is title
+    // and photograph only.
+    $html = $this->get('/')->assertOk()->getContent();
+
+    preg_match('#<section[^>]*data-svc-index.*?</section>#s', $html, $section);
+    expect($section)->not->toBeEmpty();
+
+    foreach (Service::orderBy('order')->get() as $service) {
+        expect($section[0])->toContain('href="'.url('/services/'.$service->slug).'"');
+    }
+
+    expect($section[0])->not->toContain('svcx__more');
 });

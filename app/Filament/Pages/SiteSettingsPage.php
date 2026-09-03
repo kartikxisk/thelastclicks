@@ -70,6 +70,7 @@ class SiteSettingsPage extends Page implements HasForms
             'page_image_blog' => SiteSetting::get('page_image_blog'),
             'page_image_industries' => SiteSetting::get('page_image_industries'),
             'page_image_about_body' => SiteSetting::get('page_image_about_body'),
+            'page_image_testimonials' => SiteSetting::get('page_image_testimonials'),
             'work_tile_ratio' => SiteSetting::get('work_tile_ratio', SiteSetting::DEFAULT_WORK_TILE_RATIO),
             'cta_video' => SiteSetting::get('cta_video'),
         ]);
@@ -242,7 +243,7 @@ class SiteSettingsPage extends Page implements HasForms
                         ->schema([
                             Forms\Components\Placeholder::make('page_images_note')
                                 ->label('')
-                                ->content('Decorative header stills for the static pages. Uploaded to S3/CloudFront. ~1800px wide works best. Leave empty for a plain dark header.'),
+                                ->content('Decorative stills for the static page headers and the homepage Client stories band. Uploaded to S3/CloudFront. ~1800px wide works best. Leave empty for a plain dark header; Client stories falls back to its animated backdrop.'),
                             ...collect([
                                 'about' => 'About — header',
                                 'contact' => 'Contact — header',
@@ -250,6 +251,7 @@ class SiteSettingsPage extends Page implements HasForms
                                 'blog' => 'Journal — header',
                                 'industries' => 'Industries — header',
                                 'about_body' => 'About — studio photo',
+                                'testimonials' => 'Home — Client stories background',
                             ])->map(fn (string $label, string $key): Forms\Components\FileUpload => Forms\Components\FileUpload::make("page_image_{$key}")
                                 ->label($label)
                                 ->image()
@@ -345,7 +347,7 @@ class SiteSettingsPage extends Page implements HasForms
 
         $this->storeUpload('cta_video', $data['cta_video'] ?? '', (bool) ($data['remove_cta_video'] ?? false));
 
-        foreach (['about', 'contact', 'works', 'blog', 'industries', 'about_body'] as $key) {
+        foreach (['about', 'contact', 'works', 'blog', 'industries', 'about_body', 'testimonials'] as $key) {
             $this->storeUpload("page_image_{$key}", $data["page_image_{$key}"] ?? '', false);
         }
 

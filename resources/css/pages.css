@@ -279,199 +279,116 @@
 .services__head .section__lead { max-width: none; }
 @media (max-width: 880px) { .services__head { grid-template-columns: 1fr; } }
 
-/* ---------- Services bento grid ---------- */
-.svc-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  grid-auto-rows: minmax(230px, 1fr);
-  gap: 16px;
-  margin-top: 52px;
-}
-.svc-card {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: 0;
-  border: 1px solid var(--line);
-  min-height: 250px;
-  padding: 30px;
+/* ---------- Services: full-bleed cover strips ----------
+   The vertical counterpart to the artist reel: each service is an
+   edge-to-edge band of its own artwork under a left-weighted scrim, and the
+   hovered band opens to show its pillar line. The opening is a
+   grid-template-rows transition — the motion-spec's sanctioned layout motion
+   (grid-template-rows, not max-height); everything else is hover-only,
+   nothing enters on scroll. */
+.svcx {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  color: #fff;
+  gap: 3px;
 }
-.svc-card--feature { grid-row: span 2; }
-.svc-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-image: var(--svc-bg);
-  background-size: cover;
-  background-position: center;
-  transform: scale(1.04);
-  transition: transform 0.9s var(--ease);
-}
-.svc-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(28,20,18,0.12) 0%, rgba(28,20,18,0.5) 52%, rgba(28,20,18,0.88) 100%);
-  transition: background 0.55s var(--ease);
-}
-.svc-card:hover::before { transform: scale(1.09); }
-.svc-card:hover::after {
-  background: linear-gradient(180deg, rgba(28,20,18,0.18) 0%, rgba(184,11,2,0.34) 55%, rgba(28,20,18,0.9) 100%);
-}
-.svc-card__num {
-  position: absolute;
-  top: 24px;
-  left: 30px;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.72);
-}
-.svc-card__title {
-  font-family: var(--f-display);
-  font-weight: 600;
-  font-size: clamp(24px, 2.4vw, 38px);
-  letter-spacing: -0.03em;
-  line-height: 1.04;
-}
-.svc-card--feature .svc-card__title { font-size: clamp(30px, 3.4vw, 52px); }
-.svc-card__desc {
-  margin-top: 10px;
-  max-width: 46ch;
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: rgba(255,255,255,0.82);
-}
-.svc-card__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 18px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #fff;
-}
-.svc-card__arr { transition: transform 0.4s var(--ease); }
-.svc-card:hover .svc-card__arr { transform: translate(3px, -3px); }
-
-@media (max-width: 760px) {
-  .svc-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(200px, 1fr); gap: 12px; margin-top: 36px; }
-  .svc-card--feature { grid-row: auto; }
-  .svc-card { min-height: 210px; padding: 24px; border-radius: 0; }
-}
-
-.services__list {
-  border-top: 1px solid var(--line);
-}
-.svc {
-  display: grid;
-  /* title · arrow. The row carried a leading 01/02/03 index column; dropping it
-     has to drop the track too, or every title indents past a column that is now
-     empty. */
-  grid-template-columns: 1fr auto;
-  gap: clamp(20px, 2.4vw, 32px);
-  align-items: center;
-  /* Side padding keeps the title off the red hover edge drawn at the row's own
-     left edge, and leaves the arrow somewhere to travel on hover — .svc is
-     overflow:hidden (via [data-sheen]), so a flush arrow lost its right border
-     to the clip the moment it moved. */
-  padding: clamp(22px, 2.2vw, 30px) 14px;
-  /* Height is what makes the full-bleed artwork legible. At the old 34px padding
-     a row was about 13:1 and `cover` crushed a photograph into a thin band; this
-     brings it to roughly 7:1, which is a letterboxed still rather than a slice. */
-  min-height: clamp(120px, 13vw, 172px);
-  border-bottom: 1px solid var(--line);
+.svcx__row {
   position: relative;
+  display: grid;
+  /* Content track plus an empty expander track. Hover opens the expander, so
+     the whole strip grows and the photograph takes the room — height motion
+     through grid-template-rows, the one layout transition the motion-spec
+     sanctions. */
+  grid-template-rows: auto 0fr;
+  transition: grid-template-rows 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
   cursor: pointer;
 }
-/* Each row reveals its own service artwork on hover, bled across the whole row.
-   The image sits under a left-weighted scrim so the title and the index keep
-   their contrast no matter what the photograph is doing behind them. --svc-bg is
-   set per row in the markup; rows without artwork fall back to a plain dark
-   panel so hover still gives feedback. */
-.svc::before {
+.svcx__row:hover,
+.svcx__row:focus-visible { grid-template-rows: auto 1fr; }
+.svcx__grow { display: block; min-height: 0; overflow: hidden; }
+.svcx__grow > span { display: block; height: clamp(48px, 7vh, 84px); }
+/* The artwork, bled across the whole strip. Letterboxed dark at rest so the
+   row reads as an index line first and a photograph second; the hover lifts
+   the exposure rather than sliding anything in. Rows without artwork fall
+   back to a plain panel so hover still answers. */
+.svcx__row::before {
   content: '';
   position: absolute;
-  /* inset:0, not a negative bleed — .svc is overflow:hidden, so anything outside
-     the row was being clipped anyway and only produced a hard edge. */
   inset: 0;
   background-image:
-    /* Even wash: dark enough on the left for the title to hold contrast, but it
-       stops climbing to near-black so the photograph reads across the whole row
-       instead of only appearing in the right-hand third. */
-    linear-gradient(90deg, rgba(10,10,10,0.86) 0%, rgba(10,10,10,0.7) 38%, rgba(10,10,10,0.55) 100%),
-    var(--svc-bg, linear-gradient(var(--ink-3), var(--ink-3)));
+    linear-gradient(90deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.52) 44%, rgba(10,10,10,0.3) 100%),
+    var(--svcx-bg, linear-gradient(var(--ink-3), var(--ink-3)));
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  /* The row's leading edge lights red. An inset shadow rather than a border so
-     nothing in the row shifts sideways when it appears. */
-  box-shadow: inset 3px 0 0 var(--red);
-  opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 0.45s var(--ease), transform 0.8s var(--ease);
-  z-index: -1;
+  background-position: center 30%;
+  /* 0.78, not the 0.66 it launched at: with the dark edit-bay artwork the
+     first strip read as an empty black band until hovered. */
+  filter: saturate(0.85) brightness(0.78);
+  transform: scale(1.03);
+  transition: filter 0.6s var(--ease), transform 0.9s var(--ease);
 }
-.svc:hover, .svc:focus-visible { color: #fff; }
-.svc:hover::before, .svc:focus-visible::before { opacity: 1; transform: scale(1); }
-/* Pure white, not a translucent tint — 55% white on red is 2.1:1 and unreadable. */
-.svc:hover .svc__desc { color: #fff; }
-/* The box travels, the glyph turns. Rotating the 44px box instead spun it into
-   a diamond whose corners the row's overflow:hidden then sliced off. */
-.svc:hover .svc__arr, .svc:focus-visible .svc__arr { transform: translateX(6px); border-color: #fff; }
-.svc:hover .svc__arr svg, .svc:focus-visible .svc__arr svg { transform: rotate(45deg); }
-.svc:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
-
-/* Index rail. Mono and small against the display-weight title — the scale
-   contrast is the point, not the number itself. */
-.svc__title {
-  grid-column: 1;
+.svcx__row:hover::before,
+.svcx__row:focus-visible::before { filter: none; transform: scale(1); }
+/* Content rides the page grid even though the strip bleeds past it. */
+.svcx__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(20px, 2.4vw, 36px);
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: clamp(52px, 7.5vh, 92px) var(--pad-x);
+}
+.svcx__num {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--paper-dim);
+  transition: color 0.35s var(--ease);
+  align-self: start;
+  padding-top: 0.5em;
+}
+.svcx__title {
+  min-width: 0;
   font-family: var(--f-display);
   font-weight: 500;
-  font-size: clamp(24px, 2.7vw, 38px);
-  letter-spacing: -0.025em;
-  line-height: 1;
+  font-size: clamp(30px, 3.6vw, 54px);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  color: var(--paper);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s var(--ease);
 }
-.svc__title em {
-  font-style: italic;
-  font-family: var(--f-display);
-  font-weight: 400;
-}
-.svc__desc {
-  font-size: 14.5px;
-  color: var(--paper-dim);
-  line-height: 1.55;
-  max-width: 50ch;
-  transition: color 0.4s var(--ease);
-}
-.svc__arr {
-  grid-column: 2;
+.svcx__row:hover .svcx__num,
+.svcx__row:focus-visible .svcx__num { color: var(--red); }
+.svcx__row:hover .svcx__title,
+.svcx__row:focus-visible .svcx__title { transform: translateX(10px); color: #fff; }
+.svcx__row:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
+.svcx__arr {
   width: 44px; height: 44px;
-  border: 1px solid var(--line);
-  border-radius: 0;
+  border: 1px solid rgba(255,255,255,0.3);
   display: grid; place-items: center;
-  transition: transform 0.5s var(--ease), border-color 0.4s var(--ease);
-  justify-self: end;
+  color: var(--paper);
+  transition: transform 0.5s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
 }
-.svc__arr svg { width: 14px; height: 14px; transition: transform 0.5s var(--ease); }
-
-@media (max-width: 980px) {
-  .svc {
-    gap: 18px;
-    /* Keeps the 14px side inset — the red hover edge and the arrow's travel both
-       still need it here. */
-    padding: 24px 14px;
-    min-height: clamp(96px, 20vw, 130px);
-  }
-  .svc__desc { display: none; }
+.svcx__arr svg { width: 14px; height: 14px; transition: transform 0.5s var(--ease); }
+.svcx__row:hover .svcx__arr,
+.svcx__row:focus-visible .svcx__arr { background: var(--red); border-color: var(--red); color: #fff; }
+.svcx__row:hover .svcx__arr svg,
+.svcx__row:focus-visible .svcx__arr svg { transform: rotate(45deg); }
+@media (max-width: 767px) {
+  /* No cursor here: the strips are tall enough for the artwork to carry them,
+     and the hover expander stays shut. */
+  .svcx__inner { padding-block: 48px; }
+  .svcx__row::before { filter: saturate(0.85) brightness(0.75); }
+  .svcx__row:hover { grid-template-rows: auto 0fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Gentler, not zero: the strip still opens, with less travel. */
+  .svcx__row, .svcx__row::before, .svcx__title { transition-duration: 0.25s; }
+  .svcx__row:hover .svcx__title { transform: none; }
+  .svcx__row:hover::before { transform: scale(1.03); }
+  .svcx__grow > span { height: 60px; }
 }
 
 /* ---------- Portfolio ---------- */
@@ -1144,10 +1061,32 @@ main > section:has(.clients) {
 }
 
 /* Onward link — the archive is offered after the strip. */
-.work-marquee__cta {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(28px, 3.5vw, 48px);
+/* The archive link sits in the section head, right of the title, bottom-
+   aligned to it — the artist band's head geometry. */
+.work-head__cta { justify-self: end; align-self: end; }
+
+/* ---------- Full-bleed image sections: one rhythm ----------
+   Four homepage sections are edge-to-edge footage — the work strip, the
+   industries bento, the artist reel, the service bands. Each one ends at
+   its own images, so the scene padding that frames a boxed section put a
+   band of dead black between one photograph and the next: the bento's
+   120px floor and the artist band's 76px opener stacked into 205px of
+   nothing. Flush at the bottom, one modest opener at the top, everywhere.
+   Written as one rule because four separate ones drifted apart twice. */
+main > section#work,
+main > section[data-ind-bento],
+main > section.artist-band,
+main > section[data-svc-index] {
+  /* The opener carries the whole seam: the bottoms are flush by design, so
+     the only thing separating one section's footage from the next section's
+     eyebrow is this. Too tight and the page reads as one continuous strip. */
+  padding-block: clamp(64px, 8vh, 104px) 0;
+}
+main > section#work .services__head,
+main > section[data-ind-bento] .services__head,
+main > section[data-svc-index] .services__head,
+main > section.artist-band .artist-band__head {
+  margin-bottom: clamp(40px, 5vh, 64px);
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -1168,191 +1107,108 @@ main > section:has(.clients) {
   .wmq__tile:hover .wmq__frame video { transform: none; }
 }
 
-/* ---------- Industries 3D coverflow ----------
-   Cards live in one grid cell and are placed in 3D by position class. Advancing
-   only swaps classes, so every card retargets its transition from where it is
-   (AUDIT §4). Transform + opacity only — no layout properties animate. */
-.i3d {
-  margin-top: clamp(32px, 4vw, 56px);
-  position: relative;
-  /* The receding cards deliberately extend past the viewport on both sides.
-     Without this they widen the document and the whole page scrolls sideways —
-     opacity:0 on the outer pair at mobile widths hides them but still leaves
-     their boxes in the scroll extent. `clip` rather than `hidden` so no scroll
-     container is created and the 3D perspective on the stage is untouched. */
-  overflow-x: clip;
-}
-.i3d__stage {
+/* ---------- Industries bento ----------
+   A full-bleed mosaic of the verticals — the same edge-to-edge, 3px-gap
+   language as the artist reel and the services strips, so the homepage's
+   three image sections read as one system. The first industry takes a
+   double-width, double-height feature cell; dense flow keeps the mosaic
+   solid whatever number of industries the admin publishes. Hover lifts the
+   exposure and surfaces the corner arrow — transform and opacity only,
+   nothing enters on scroll. */
+.indb {
   display: grid;
-  place-items: center;
-  /* Depth of field for the whole deck. Lower = more aggressive convergence.
-     1600px read almost flat against a dark background — the rotation needs to
-     be visible for the 3D to mean anything. */
-  perspective: 1150px;
-  perspective-origin: 50% 50%;
-  /* Sized by the centre card; the receding cards never grow the stage. */
-  height: clamp(240px, 30vw, 460px);
-  /* Horizontal intent belongs to the deck, vertical to the page, so a swipe
-     turns cards without trapping the scroll. */
-  touch-action: pan-y;
-  cursor: grab;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: clamp(220px, 32vh, 320px);
+  grid-auto-flow: dense;
+  gap: 3px;
 }
-.i3d__stage:active { cursor: grabbing; }
-.i3d__stage:focus-visible { outline: 2px solid var(--red); outline-offset: 12px; border-radius: 0; }
-
-.i3d__card {
-  grid-area: 1 / 1;
-  width: clamp(280px, 42vw, 720px);
-  aspect-ratio: 16 / 9;
+.indb__tile {
   position: relative;
   overflow: hidden;
-  border-radius: 0;
-  border: 1px solid var(--line);
   background: var(--ink-3);
-  /* A slow drag would otherwise highlight the card titles instead of turning
-     the deck. Rescued from brutalist.css with the rest of the drag enablers. */
-  -webkit-user-select: none;
-  user-select: none;
-  /* Buried default — the JS promotes five of them. */
-  opacity: 0;
-  transform: translateX(0) translateZ(-600px);
-  pointer-events: none;
-  transition: transform 0.55s var(--ease-soft), opacity 0.55s var(--ease-soft),
-              border-color 0.4s var(--ease-soft);
 }
-.i3d__card img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  /* The card owns the gesture: with the image transparent to pointer events
-     there is nothing left to start a native image drag from. Without this,
-     pressing a card hands the pointer to the browser's drag ghost and the deck
-     never sees a move — the drag is simply dead. */
-  pointer-events: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Sides read as background but must still read as photographs — on a near-black
-     page anything under ~0.7 brightness collapses into the background. */
-  filter: brightness(0.72) saturate(0.9);
-  transition: filter 0.55s var(--ease-soft), transform 0.9s var(--ease-soft);
+.indb__tile--feature {
+  grid-column: span 2;
+  grid-row: span 2;
 }
-.i3d__scrim {
+.indb__tile img {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.15) 55%, transparent 85%);
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) brightness(0.72);
+  transform: scale(1.04);
+  transition: filter 0.5s var(--ease), transform 0.9s var(--ease);
 }
-.i3d__title {
+.indb__tile:hover img,
+.indb__tile:focus-visible img { filter: none; transform: scale(1); }
+.indb__scrim {
   position: absolute;
-  left: clamp(16px, 2vw, 28px);
-  right: clamp(16px, 2vw, 28px);
-  bottom: clamp(14px, 1.8vw, 24px);
-  font-family: var(--f-display);
-  font-weight: 600;
-  font-size: clamp(15px, 1.7vw, 26px);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  color: #fff;
-  text-wrap: balance;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease-soft);
+  inset: 0;
+  background: linear-gradient(0deg, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.25) 38%, rgba(10,10,10,0) 65%);
 }
-
-/* --- Position classes. p1/p2 = one/two places either side of centre. --- */
-.i3d__card.is-p2-left {
-  opacity: 0.45;
-  transform: translateX(-74%) translateZ(-420px) rotateY(34deg);
-  z-index: 1;
-}
-.i3d__card.is-p2-left img,
-.i3d__card.is-p2-right img { filter: brightness(0.6) saturate(0.85); }
-.i3d__card.is-p1-left {
-  opacity: 0.85;
-  transform: translateX(-44%) translateZ(-200px) rotateY(26deg);
-  z-index: 2;
-}
-.i3d__card.is-centre {
-  opacity: 1;
-  transform: translateX(0) translateZ(0) rotateY(0deg);
-  border-color: rgba(255,255,255,0.22);
-  z-index: 3;
-}
-.i3d__card.is-p1-right {
-  opacity: 0.85;
-  transform: translateX(44%) translateZ(-200px) rotateY(-26deg);
-  z-index: 2;
-}
-.i3d__card.is-p2-right {
-  opacity: 0.45;
-  transform: translateX(74%) translateZ(-420px) rotateY(-34deg);
-  z-index: 1;
-}
-.i3d__card.is-centre img { filter: brightness(0.82) saturate(1); }
-.i3d__card.is-centre .i3d__title { opacity: 1; }
-.i3d__card.is-centre:hover img { transform: scale(1.04); }
-.i3d__card.is-centre:hover { border-color: rgba(232,15,3,0.5); }
-
-/* Side cards stay clickable so a mis-aimed tap advances rather than dead-ends;
-   the JS turns that click into "rotate to me" instead of following the link. */
-.i3d__card.is-p1-left,
-.i3d__card.is-p1-right,
-.i3d__card.is-p2-left,
-.i3d__card.is-p2-right,
-.i3d__card.is-centre { pointer-events: auto; }
-
-.i3d__nav {
+.indb__meta {
+  position: absolute;
+  left: clamp(18px, 2vw, 28px);
+  right: clamp(18px, 2vw, 28px);
+  bottom: clamp(16px, 2vh, 24px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(14px, 2vw, 26px);
-  margin-top: clamp(24px, 3vw, 40px);
+  flex-direction: column;
+  gap: 6px;
 }
-.i3d__arr {
-  width: 44px; height: 44px;
-  border-radius: 0;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--paper);
+.indb__num {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.6);
+  transition: color 0.35s var(--ease);
+}
+.indb__title {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(19px, 1.7vw, 27px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: #fff;
+}
+.indb__tile--feature .indb__title { font-size: clamp(26px, 2.6vw, 42px); }
+.indb__tile:hover .indb__num,
+.indb__tile:focus-visible .indb__num { color: var(--red); }
+/* The corner arrow: parked a step down-left at zero opacity, it rides in on
+   hover — transform and opacity, the motion-spec's home territory. */
+.indb__arr {
+  position: absolute;
+  top: clamp(14px, 1.6vw, 22px);
+  right: clamp(14px, 1.6vw, 22px);
+  width: 40px; height: 40px;
   display: grid; place-items: center;
-  transition: background 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+  background: var(--red);
+  color: #fff;
+  opacity: 0;
+  transform: translate(-6px, 6px);
+  transition: opacity 0.35s var(--ease), transform 0.45s var(--ease);
 }
-.i3d__arr svg { width: 17px; height: 17px; }
-.i3d__arr:hover { background: var(--red); border-color: var(--red); color: #fff; }
-.i3d__dots { display: flex; align-items: center; gap: 8px; }
-.i3d__dot {
-  width: 24px; height: 2px;
-  padding: 0;
-  border: 0;
-  background: var(--line);
-  transform: scaleX(1);
-  transform-origin: center;
-  transition: background 0.3s var(--ease), transform 0.4s var(--ease);
+.indb__arr svg { width: 14px; height: 14px; }
+.indb__tile:hover .indb__arr,
+.indb__tile:focus-visible .indb__arr { opacity: 1; transform: translate(0, 0); }
+.indb__tile:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
+@media (max-width: 767px) {
+  .indb { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(150px, 26vw, 210px); }
+  /* Feature keeps its width but drops the double height — a 2x2 cell on a
+     phone is a full screen of one industry before the mosaic shows at all. */
+  .indb__tile--feature { grid-column: 1 / -1; grid-row: auto; }
+  /* The feature takes a full row, so an even child-count leaves the last
+     tile alone beside an empty cell — give the orphan the full row too. */
+  .indb__tile:last-child:nth-child(even) { grid-column: 1 / -1; }
+  .indb__tile img { filter: saturate(0.9) brightness(0.8); }
 }
-.i3d__dot.is-on { background: var(--red); transform: scaleX(1.9); }
-
-@media (max-width: 720px) {
-  /* Shallower depth so side cards don't shrink to slivers on a narrow stage. */
-  .i3d__stage { perspective: 1000px; }
-  .i3d__card.is-p1-left  { transform: translateX(-40%) translateZ(-180px) rotateY(22deg); }
-  .i3d__card.is-p1-right { transform: translateX(40%) translateZ(-180px) rotateY(-22deg); }
-  .i3d__card.is-p2-left,
-  .i3d__card.is-p2-right { opacity: 0; pointer-events: none; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  /* No rotation, no depth — the deck collapses to a flat crossfade in place. */
-  .i3d__card,
-  .i3d__card.is-p1-left,
-  .i3d__card.is-p1-right,
-  .i3d__card.is-p2-left,
-  .i3d__card.is-p2-right,
-  .i3d__card.is-centre { transform: none; }
-  .i3d__card.is-p1-left,
-  .i3d__card.is-p1-right,
-  .i3d__card.is-p2-left,
-  .i3d__card.is-p2-right { opacity: 0; pointer-events: none; }
-  .i3d__card.is-centre:hover img { transform: none; }
+  /* Gentler, not zero. */
+  .indb__tile img, .indb__arr { transition-duration: 0.25s; }
+  .indb__tile:hover img { transform: scale(1.04); }
 }
+
 /* ---------- Client stories ----------
    Heading on the left, quotes drifting upward on the right. The rails use the
    same mechanism as .marquee in core.css — the set rendered twice, the track
@@ -1376,6 +1232,9 @@ main > section:has(.clients) {
   display: grid;
   gap: 20px;
 }
+/* The grid gap stacks on the eyebrow's own margin here, which put this head
+   two steps out of the rhythm every other section keeps. */
+.tmq__aside .section__eyebrow { margin-bottom: 0; }
 .tmq__lead {
   font-size: clamp(15px, 1.1vw, 17px);
   line-height: 1.6;
@@ -1423,27 +1282,26 @@ main > section:has(.clients) {
   flex-direction: column;
   gap: 20px;
   margin: 0;
-  padding: 26px;
-  border: 1px solid var(--line);
-  background: var(--ink-2);
+  /* A rule, not a box: the homepage dropped its card chrome section by
+     section, and a bordered, filled panel here was the last one standing. */
+  padding: 8px 0 8px 26px;
+  border-left: 1px solid var(--line);
   position: relative;
   overflow: hidden;
-  transition: border-color 0.4s var(--ease), transform 0.5s var(--ease);
 }
-.tmq__card:hover { border-color: var(--red); transform: translateY(-4px); }
 /* The red rule that wipes in along the bottom edge — the tell that marks every
    card on this site as one of ours. */
 .tmq__card::before {
   content: '';
   position: absolute;
-  inset: auto 0 0 0;
-  height: 2px;
+  inset: 0 auto 0 -1px;
+  width: 1px;
   background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
+  transform: scaleY(0);
+  transform-origin: top;
   transition: transform 0.6s var(--ease);
 }
-.tmq__card:hover::before { transform: scaleX(1); }
+.tmq__card:hover::before { transform: scaleY(1); }
 .tmq__card::after {
   content: '\201C';
   position: absolute;
@@ -2004,6 +1862,45 @@ main > section:has(.clients) {
 .page-header--media .page-header__crumb,
 .page-header--media .page-header__crumb a { color: rgba(255,255,255,0.72); }
 .page-header--media .page-header__crumb a:hover { color: #fff; }
+
+/* Full-bleed photo behind an ordinary .section, admin-supplied via
+   page_image_*. .section is already position:relative, so inset:0 reaches the
+   viewport edges while the container inside keeps the content on the grid.
+
+   Deliberately NOT overflow:hidden, and the image is not scaled: .tmq__aside is
+   position:sticky, and any overflow other than visible on an ancestor silently
+   kills sticky. That is also why there is no transform on the layer — a scaled
+   backdrop would need clipping to hide its edges.
+
+   background-attachment stays scroll. A fixed backdrop re-rasters the whole
+   viewport on every scroll frame, which is the exact cost the scenebg parking
+   rule further down exists to avoid. */
+.section--photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--section-bg);
+  background-size: cover;
+  background-position: center;
+}
+/* Floors the contrast rather than assuming a dark upload — same reasoning as
+   .page-header--media::after. It used to be thin because .tmq__card was an
+   opaque --ink-2 panel and only the sticky aside sat on bare photo; the cards
+   are rules on nothing now, so every quote reads directly off the image and
+   the wash has to carry the whole section. Deep in the middle, not just at
+   the edges, because that is where the quotes are. */
+.section--photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg,
+    rgba(8,8,8,0.9) 0%,
+    rgba(8,8,8,0.84) 50%,
+    rgba(8,8,8,0.92) 100%);
+}
+.section--photo > * { position: relative; z-index: 2; }
 .page-header--media h1 { color: #fff; text-shadow: 0 2px 30px rgba(20,14,12,0.4); }
 /* Standfirst under the title. Near-white rather than --paper-dim: dimmed grey is
    for dark flat panels and drops below AA once there's a photograph behind it. */
@@ -3166,7 +3063,7 @@ main > section:has(.clients) {
   .tag { font-size: 9.5px; padding: 5px 10px; }
 
   /* Sections eyebrow */
-  .section__eyebrow { font-size: 10px; margin-bottom: 20px; }
+  .section__eyebrow { font-size: 10px; margin-bottom: 10px; }
 }
 
 @media (max-width: 420px) {
@@ -3521,7 +3418,7 @@ main > section:has(.clients) {
   .hero__meta .meta-label { font-size: 10px; margin-top: 6px; letter-spacing: 0.14em; }
 
   /* Section eyebrows + lead */
-  .section__eyebrow { font-size: 10px; margin-bottom: 14px; letter-spacing: 0.18em; }
+  .section__eyebrow { font-size: 10px; margin-bottom: 8px; letter-spacing: 0.18em; }
   .section__eyebrow::before { width: 20px; }
   .section__lead { font-size: 15px; margin-top: 16px; }
 
@@ -5666,6 +5563,10 @@ main > section.art-share,
 main > section.art-author,
 main > section.pp-intro,
 main > section.ind-more,
+/* The image strips: the footage is the scene, and the 46rem floor was taller
+   than head + strip, so the slack pooled as dead black around the images. */
+main > section#work,
+main > section.artist-band,
 main > section.cta-strip {
   min-height: 0;
   display: block;
@@ -5809,6 +5710,87 @@ main > section.strip {
 .work-filters__chip:hover { color: var(--paper); border-color: rgba(232,15,3,0.45); }
 .work-filters__chip.is-on { background: var(--red); border-color: var(--red); color: #fff; }
 .work-filters__chip:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+/* ---------- Artist spotlight band (homepage) ----------
+   The live-music work shown as work: a thin head of copy, then a full-bleed
+   accordion reel of stage frames, each strip widening under the cursor, the
+   whole reel one link into the cover-artist industry. Track-size transitions
+   are the codebase's sanctioned layout motion (motion-spec:
+   grid-template-rows, not max-height — flex-grow is the same family);
+   everything else is hover-only, nothing enters on scroll. */
+.artist-band { background: var(--ink); }
+.artist-band__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(28px, 4vh, 48px);
+}
+/* Matches .section__title exactly — this heading sat two steps smaller than
+   every other section head on the page and read as a subheading. */
+.artist-band__title {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(36px, 5vw, 64px);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.artist-band__title em { font-style: italic; font-weight: 400; color: var(--red); }
+.artist-band__cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper);
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.artist-band__cta:hover,
+.artist-band__cta:focus-visible { color: var(--red); border-color: var(--red); }
+/* The reel. One link, seven strips; the hovered strip takes the room its
+   neighbours give up. Portrait frames, so even a collapsed strip reads. */
+.artist-band__reel {
+  display: flex;
+  gap: 3px;
+  height: clamp(420px, 64vh, 620px);
+}
+.artist-band__frame {
+  flex: 1 1 0;
+  min-width: 0;
+  background-size: cover;
+  background-position: center 22%;
+  filter: saturate(0.92) brightness(0.9);
+  transition:
+    flex-grow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.6s var(--ease);
+}
+.artist-band__reel:hover .artist-band__frame { filter: saturate(0.7) brightness(0.6); }
+.artist-band__reel .artist-band__frame:hover { flex-grow: 2.8; filter: none; }
+.artist-band__reel:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+@media (max-width: 767px) {
+  .artist-band__head { flex-direction: column; align-items: flex-start; gap: 16px; }
+  /* No cursor to court on touch: the reel becomes a snap scroller instead. */
+  .artist-band__reel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    height: clamp(340px, 96vw, 460px);
+    -webkit-overflow-scrolling: touch;
+  }
+  .artist-band__frame { flex: 0 0 64vw; scroll-snap-align: center; }
+  .artist-band__reel .artist-band__frame:hover { flex-grow: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Gentler, not zero: the strip still answers the cursor, with less travel. */
+  .artist-band__frame { transition-duration: 0.35s; }
+  .artist-band__reel .artist-band__frame:hover { flex-grow: 1.5; }
+}
+
 /* ---------- Industry detail: the case ----------
    A sticky rail against a long article. The rail was a dead column: the heading
    is four words and the body runs several hundred, so a plain two-column grid

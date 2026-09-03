@@ -385,7 +385,10 @@ img, video { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 28px;
+  /* Close to the title: an eyebrow labels the heading under it, and at 28px
+     it read as its own line of copy with a gap either side. The title's own
+     leading adds ~10px on top of whatever is set here. */
+  margin-bottom: 12px;
 }
 .section__eyebrow::before {
   content: '';

@@ -102,163 +102,119 @@
                     <span class="section__eyebrow" data-scramble>Portfolio</span>
                     <h2 class="section__title" data-split>Our <em>work.</em></h2>
                 </div>
-            </div>
-            <x-work-marquee :items="$featuredWorks" lightbox-label="Selected work" />
-            {{-- The onward link closes the scene: you watch the strip first, then
-                 you're offered the full archive. --}}
-            <div class="work-marquee__cta" data-anim="rise">
-                <a class="btn btn--ghost" href="{{ url('/portfolio') }}" data-cursor="VIEW">View portfolio <span class="arr"></span></a>
+                {{-- The archive link rides the head, right of the title — the
+                     same head geometry as the artist band. --}}
+                <a class="btn btn--ghost work-head__cta" href="{{ url('/portfolio') }}" data-cursor="VIEW">View portfolio <span class="arr"></span></a>
             </div>
         </x-container>
+        {{-- The strip bleeds edge to edge — the head keeps the page grid, the
+             footage does not. Same full-bleed language as the artist reel. --}}
+        <x-work-marquee :items="$featuredWorks" lightbox-label="Selected work" />
     </section>
     @endif
 
-    <!-- DISCIPLINE -->
-    {{-- Scene 03 · Discipline — the studio's standards, so the backdrop is the
-         camera language: light sweep, framing guides, focus pull. --}}
-    <section class="section disc" data-screen-label="03 Discipline">
-        <x-scene-bg type="camera" />
-        <x-container>
-            {{-- Title left, description right, bottom-aligned so the paragraph sits
-                 on the title's last line rather than up beside the eyebrow.
-
-                 .disc__head rather than .disc__grid: the grid rule belongs to the
-                 About page, whose story copy is three paragraphs and wants a
-                 different measure and a top alignment. --}}
-            <div class="disc__head" data-stagger>
-                <div class="disc__lead" data-anim="curtain">
-                    <span class="section__eyebrow reveal">Who we are</span>
-                    <h2 class="section__title" data-split>Beyond the lens: <em>a promise of discipline.</em></h2>
-                </div>
-                <div class="disc__copy" data-anim="slide-r">
-                    <p>We are built on the discipline of premium brands. By showing up prepared and refusing to compromise, our work earns the trust of <strong>national institutions</strong> and <strong>global enterprises</strong> alike.</p>
-                </div>
-            </div>
-
-            {{-- The same four principles the About page expands on, cut to one line
-                 each. Reuses .proc rather than a homepage-only variant, so a change
-                 to the card treatment lands on both pages at once. --}}
-            <div class="proc" data-stagger>
-                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">01<span>FOCUS</span></div><h3>Narrative first</h3><p>Imagery is empty without a story. We build the blueprint before the cameras roll.</p></div>
-                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">02<span>CRAFT</span></div><h3>Studio-grade finish</h3><p>True quality is forged in post. Our in-house grading ensures uncompromising fidelity.</p></div>
-                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">03<span>SCALE</span></div><h3>Agile production</h3><p>From single-operator to massive multi-camera sets, our aesthetic remains steadfast.</p></div>
-                <div class="proc__step" data-anim="curtain" data-sheen><div class="proc__num">04<span>TRUST</span></div><h3>Absolute alignment</h3><p>We integrate seamlessly, ensuring deliverables are fully compliant with your guidelines.</p></div>
-            </div>
-
-            <div class="disc__stats" data-stagger>
-                <div class="disc__stat" data-anim="mask-up">
-                    <div class="disc__num"><span data-count="5">0</span><em>+</em></div>
-                    <span class="disc__lab">Years of experience</span>
-                </div>
-                <div class="disc__stat" data-anim="mask-up">
-                    <div class="disc__num"><span data-count="20">0</span><em>+</em></div>
-                    <span class="disc__lab">Cities covered across India</span>
-                </div>
-                <div class="disc__stat" data-anim="mask-up">
-                    <div class="disc__num"><span data-count="1000">0</span><em>+</em></div>
-                    <span class="disc__lab">Events &amp; activations over the last decade</span>
-                </div>
-            </div>
-        </x-container>
-    </section>
-
     <!-- INDUSTRIES -->
     @if ($industries->isNotEmpty())
-    {{-- Scene 04 · Industries — a 3D deck already, so the backdrop stays the
-         neutral grid and the reveal pushes the whole deck in from depth. --}}
-    <section class="section" data-screen-label="04 Industries">
-        <x-scene-bg type="grid" />
+    {{-- Scene 04 · Industries — a full-bleed bento of the verticals, the same
+         edge-to-edge language as the work strip and the services bands. The
+         first industry (admin order) takes the feature cell; every tile is
+         the strongest internal link its detail page gets. No backdrop: the
+         covers are the backdrop. Nothing enters on scroll. --}}
+    <section class="section" data-screen-label="04 Industries" data-ind-bento>
         <x-container>
-            <div class="services__head" data-stagger>
-                <div data-anim="flip-up">
+            <div class="services__head">
+                <div>
                     <span class="section__eyebrow">Industries</span>
                     <h2 class="section__title" data-split>What we <em>cover.</em></h2>
                 </div>
             </div>
         </x-container>
-
-        {{-- Coverflow: every industry is a real card sitting in 3D space. Advancing
-             re-assigns position classes, so cards transition from wherever they are
-             instead of restarting. Cards stay focusable — focusing one off to the
-             side rotates the deck to it rather than trapping keyboard users. --}}
-        <div class="i3d" data-i3d data-anim="depth">
-            <div class="i3d__stage"
-                 tabindex="0"
-                 role="group"
-                 aria-roledescription="carousel"
-                 aria-label="Industries we cover">
-                @foreach ($industries as $industry)
-                    {{-- Opens the industry's own page rather than the quote wizard.
-                         The wizard was one click from here and nowhere else; now the
-                         card leads to the page that argues the case, whose CTA opens
-                         the wizard pre-filled. It is also the strongest internal link
-                         those pages get — this deck sits on the homepage. --}}
-                    <a class="i3d__card"
-                       data-i3d-card
-                       href="{{ url('/industries/'.$industry->slug) }}"
-                       aria-label="{{ $industry->title }} work">
-                        @if ($industry->coverUrl())
-                            {{-- draggable=false: without it a mouse press on the image
-                                 starts a native HTML5 image drag, which takes the
-                                 pointer and the deck's own drag never sees a move.
-                                 CSS covers WebKit; Firefox needs the attribute. --}}
-                            <img src="{{ $industry->coverUrl() }}" alt="" draggable="false"
-                                 loading="lazy" decoding="async">
-                        @endif
-                        <span class="i3d__scrim" aria-hidden="true"></span>
-                        <span class="i3d__title">{{ $industry->title }}</span>
-                    </a>
-                @endforeach
-            </div>
-
-            @if ($industries->count() > 1)
-                <div class="i3d__nav">
-                    <button type="button" class="i3d__arr" data-i3d-prev aria-label="Previous industry">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-                    </button>
-                    <div class="i3d__dots">
-                        @foreach ($industries as $industry)
-                            <button type="button" class="i3d__dot" data-i3d-dot
-                                    aria-label="Show {{ $industry->title }}"></button>
-                        @endforeach
-                    </div>
-                    <button type="button" class="i3d__arr" data-i3d-next aria-label="Next industry">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            @endif
-
-            <p class="sr-only" aria-live="polite" data-i3d-status></p>
+        <div class="indb">
+            @foreach ($industries as $industry)
+                <a class="indb__tile @if ($loop->first) indb__tile--feature @endif"
+                   href="{{ url('/industries/'.$industry->slug) }}"
+                   aria-label="{{ $industry->title }} work">
+                    @if ($industry->coverUrl())
+                        <img src="{{ $industry->coverUrl() }}" alt="" loading="lazy" decoding="async">
+                    @endif
+                    <span class="indb__scrim" aria-hidden="true"></span>
+                    <span class="indb__meta">
+                        <span class="indb__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="indb__title">{{ $industry->title }}</span>
+                    </span>
+                    <span class="indb__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
+                </a>
+            @endforeach
         </div>
     </section>
     @endif
 
-    <!-- SERVICES -->
-    {{-- Scene 05 · Services — the disciplines themselves, so the backdrop is the
-         edit bay: timeline lanes, keyframes, playhead. Rows wipe in from the
-         left one after another, like clips landing on a track. --}}
-    <section class="section services" id="services" data-screen-label="05 Services">
-        <x-scene-bg type="edit" />
+    {{-- 04b ARTIST SPOTLIGHT — the live-music work shown as work: a thin head
+         of copy, then a full-bleed reel of watermarked frames from real shows
+         (public/images/artist/wm), each strip expanding on hover, the whole
+         reel one link into /industries/cover-artist. No names, no captions —
+         the frames are the argument. Renders only while the cover-artist
+         industry exists and has published work; the roster gates it without
+         being printed. --}}
+    @php
+        $spotlight = $industries->firstWhere('slug', 'cover-artist');
+        $spotlightArtists = $spotlight?->publishedWorks()->orderBy('order')->pluck('title') ?? collect();
+    @endphp
+    @if ($spotlight && $spotlightArtists->isNotEmpty())
+    <section class="artist-band" data-artist-band data-screen-label="04b Artists">
         <x-container>
-            <div class="services__head" data-stagger>
-                <div data-anim="mask-up">
+            <div class="artist-band__head">
+                <div>
+                    <span class="section__eyebrow">{{ $spotlight->title }}</span>
+                    <h2 class="artist-band__title">Every performance is <em>its own film.</em></h2>
+                </div>
+                <a class="artist-band__cta" href="{{ url('/industries/'.$spotlight->slug) }}">
+                    See the artist work <span class="arr"></span>
+                </a>
+            </div>
+        </x-container>
+
+        <a class="artist-band__reel" href="{{ url('/industries/'.$spotlight->slug) }}"
+           aria-label="See the artist work">
+            @foreach (['70715', '70731', '70734', '70738', '70746', '70748', '70757'] as $frame)
+                <span class="artist-band__frame"
+                      style="background-image:url('{{ asset('images/artist/wm/'.$frame.'.jpg') }}')"></span>
+            @endforeach
+        </a>
+    </section>
+    @endif
+
+    <!-- SERVICES -->
+    {{-- Scene 05 · Services — full-bleed cover strips, the vertical counterpart
+         to the artist reel: each service is an edge-to-edge band of its own
+         artwork, and the hovered band opens to show its pillar line — a
+         grid-template-rows transition, the motion-spec's sanctioned layout
+         motion. No scene backdrop here: the artwork is the backdrop. Nothing
+         enters on scroll. --}}
+    <section class="section services" id="services" data-screen-label="05 Services" data-svc-index>
+        <x-container>
+            <div class="services__head">
+                <div>
                     <span class="section__eyebrow" data-scramble>Our Services</span>
                     <h2 class="section__title" data-split>What <em>we do</em></h2>
                 </div>
             </div>
-            <div class="services__list" data-stagger data-svc-accordion>
-                @foreach ($services as $service)
-                    {{-- The row's own artwork becomes its hover background, so each
-                         service previews itself in place. --}}
-                    <a class="svc" href="{{ url('/services/'.$service->slug) }}"
-                       @if ($service->heroUrl()) style="--svc-bg:url('{{ $service->heroUrl() }}')" @endif
-                       data-anim="curtain" data-sheen data-cursor="EXPLORE">
-                        <h3 class="svc__title">{{ $service->title }}</h3>
-                        <span class="svc__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
-                    </a>
-                @endforeach
-            </div>
         </x-container>
+        <div class="svcx">
+            @foreach ($services as $service)
+                <a class="svcx__row" href="{{ url('/services/'.$service->slug) }}" data-cursor="EXPLORE"
+                   @if ($service->heroUrl()) style="--svcx-bg:url('{{ $service->heroUrl() }}')" @endif>
+                    <span class="svcx__inner">
+                        <span class="svcx__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <h3 class="svcx__title">{{ $service->title }}</h3>
+                        <span class="svcx__arr" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 19L19 5M19 5H8M19 5V16"/></svg></span>
+                    </span>
+                    {{-- Empty grid track that opens on hover — the strip grows,
+                         the photograph gets the room, no copy appears. --}}
+                    <span class="svcx__grow" aria-hidden="true"><span></span></span>
+                </a>
+            @endforeach
+        </div>
     </section>
 
     <!-- TESTIMONIALS -->
@@ -268,10 +224,20 @@
          block sliding; the second is a straight repeat of the same quotes, which
          is why it is aria-hidden in full — it exists to fill the right-hand
          column, not to add content. --}}
-    <section class="section" data-screen-label="06 Testimonials">
+    @php $storiesBg = \App\Models\SiteSetting::pageImage('testimonials'); @endphp
+    <section class="section @if ($storiesBg) section--photo @endif"
+             data-screen-label="06 Testimonials"
+             @if ($storiesBg) style="--section-bg:url('{{ $storiesBg }}')" @endif>
         {{-- Scene 06 · Testimonials — words, not craft, so the backdrop drops to
-             the quiet aperture. --}}
-        <x-scene-bg type="photo" />
+             the quiet aperture.
+
+             The photo replaces the animated backdrop rather than layering over
+             it: two backdrops in one section read as noise, and a still costs
+             one static surface where .scenebg costs a masked animated one.
+             Nothing uploaded means nothing changes here — the aperture stays. --}}
+        @unless ($storiesBg)
+            <x-scene-bg type="photo" />
+        @endunless
         <x-container>
             <div class="tmq" data-anim="rise">
                 {{-- Sticky, so the heading holds while the quotes travel past it. --}}

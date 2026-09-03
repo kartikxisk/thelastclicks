@@ -2,6 +2,7 @@
 
 use App\Models\Industry;
 use App\Models\Service;
+use App\Models\Work;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -124,4 +125,49 @@ it('drops to three footer columns when there are no industries', function () {
     preg_match('#<nav class="foot__nav".*?</nav>#s', $html, $nav);
 
     expect(substr_count($nav[0], 'foot__col'))->toBe(3);
+});
+
+it('spotlights the artist work on the homepage, linked to its industry', function () {
+    // The full-bleed reel exists to route the homepage's live-music proof into
+    // /industries/cover-artist. It shows frames, not names — the copy is thin
+    // by design — but it only earns its place while there is published work
+    // behind it, so a published cover-artist work is what turns it on.
+    // WorksSeeder is skipped under testing, hence the row created here.
+    $ca = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $ca->works()->attach(Work::create([
+        'title' => 'Sonu Nigam',
+        'slug' => 'sonu-nigam',
+        'is_published' => true,
+    ]));
+
+    $html = $this->get('/')->assertOk()->getContent();
+
+    preg_match('#<section[^>]*data-artist-band.*?</section>#s', $html, $band);
+
+    expect($band)->not->toBeEmpty()
+        ->and($band[0])->toContain(url('/industries/cover-artist'))
+        ->and($band[0])->toContain('images/artist/wm/');
+});
+
+it('renders no artist band while the cover-artist work is unpublished', function () {
+    $ca = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $ca->works()->attach(Work::create([
+        'title' => 'Unreleased Artist',
+        'slug' => 'unreleased-artist',
+        'is_published' => false,
+    ]));
+
+    expect($this->get('/')->assertOk()->getContent())->not->toContain('data-artist-band');
+});
+
+it('renders no artist band while the cover-artist industry has nothing published', function () {
+    // An empty lineup poster is worse than none — the band waits for the work.
+    expect($this->get('/')->assertOk()->getContent())->not->toContain('data-artist-band');
+});
+
+it('renders no artist band when the cover-artist industry is gone', function () {
+    Industry::where('slug', 'cover-artist')->get()->each->delete();
+
+    expect($this->get('/')->assertOk()->getContent())
+        ->not->toContain('data-artist-band');
 });
