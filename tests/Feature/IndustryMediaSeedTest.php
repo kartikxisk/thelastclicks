@@ -6,6 +6,7 @@ use Database\Seeders\IndustryMediaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 uses(RefreshDatabase::class);
@@ -132,6 +133,51 @@ it('leaves a youtube item alone, which legitimately has no upload', function () 
     (new IndustryMediaSeeder($path))->run();
 
     expect($industry->fresh()->mediaItems()->where('type', 'youtube')->count())->toBe(1);
+
+    unlink($path);
+});
+
+it('stays idempotent even after a frame was restored under a new id', function () {
+    // The duplicate-reel bug. When a fixture id is taken, the frame is restored
+    // under a fresh id — so on the next deploy the dedupe, which matched on the
+    // fixture's media id, no longer recognised its own work and created a second
+    // copy of every frame. Production ended up rendering fourteen strips.
+    $industry = Industry::where('slug', 'cover-artist')->firstOrFail();
+    $item = $industry->mediaItems()->create(['type' => 'image', 'order' => 0]);
+    $item->addMedia(UploadedFile::fake()->image('frame.jpg'))->toMediaCollection('file');
+
+    $path = base_path('tests/tmp-industry-media.json');
+    $this->artisan('app:export-industry-media', ['--path' => $path])->assertSuccessful();
+
+    // Rebuild the world so the fixture's id is occupied by something else and
+    // the restore has to take the copy-under-a-new-id path.
+    $exported = json_decode((string) file_get_contents($path), true);
+    $fixtureId = collect($exported)->firstWhere('slug', 'cover-artist')['media_items'][0]['media'][0]['id'];
+
+    Media::query()->where('model_type', (new MediaItem)->getMorphClass())->delete();
+    $industry->mediaItems()->getQuery()->delete();
+
+    $squatter = Industry::where('slug', 'alcobev')->firstOrFail();
+    Media::query()->create([
+        'id' => $fixtureId,
+        'model_type' => $squatter->getMorphClass(),
+        'model_id' => $squatter->getKey(),
+        'uuid' => (string) Str::uuid(),
+        'collection_name' => 'hero', 'name' => 'squatter',
+        'file_name' => 'squatter.jpg', 'disk' => 's3', 'size' => 1,
+        'manipulations' => [], 'custom_properties' => [],
+        'generated_conversions' => [], 'responsive_images' => [], 'order_column' => 1,
+    ]);
+    Storage::disk('s3')->put("{$fixtureId}/squatter.jpg", 'x');
+
+    (new IndustryMediaSeeder($path))->run();
+    $afterFirst = $industry->fresh()->mediaItems()->count();
+
+    // The deploy that used to double everything.
+    (new IndustryMediaSeeder($path))->run();
+
+    expect($afterFirst)->toBe(1)
+        ->and($industry->fresh()->mediaItems()->count())->toBe(1);
 
     unlink($path);
 });

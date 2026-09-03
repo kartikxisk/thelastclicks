@@ -96,6 +96,22 @@ class IndustryMediaSeeder extends Seeder
             ->whereDoesntHave('media')
             ->get()
             ->each->delete();
+
+        // Clear duplicates an earlier deploy already stacked up, keeping the
+        // first of each file. The id-keyed dedupe this replaces let every
+        // deploy add another copy of every frame, so the repair has to undo
+        // what shipped as well as stop it happening again.
+        $industry->mediaItems()
+            ->with('media')
+            ->get()
+            ->groupBy(fn (MediaItem $item) => (string) $item->getMedia('file')->first()?->file_name)
+            ->each(function ($group, $file) {
+                if ($file === '' || $group->count() < 2) {
+                    return;
+                }
+
+                $group->sortBy('id')->skip(1)->each->delete();
+            });
     }
 
     /**
@@ -105,13 +121,15 @@ class IndustryMediaSeeder extends Seeder
     protected function restoreItem(Industry $industry, array $itemRow): int
     {
         $media = $itemRow['media'] ?? [];
-        $firstId = is_array($media) && isset($media[0]['id']) ? $media[0]['id'] : null;
+        $firstFile = is_array($media) && isset($media[0]['file_name'])
+            ? (string) $media[0]['file_name']
+            : null;
         $attributes = $itemRow['attributes'] ?? [];
 
-        // A youtube row carries no file, so there is no media id to match on.
+        // A youtube row carries no file, so there is nothing to match on there.
         // Its URL is the identity instead — without this the row is recreated
         // on every deploy and the gallery grows a duplicate each time.
-        if ($firstId === null) {
+        if ($firstFile === null) {
             $url = $attributes['youtube_url'] ?? null;
 
             if (is_string($url) && $url !== '' && $industry->mediaItems()
@@ -120,15 +138,18 @@ class IndustryMediaSeeder extends Seeder
             }
         }
 
-        // Matched on the media id rather than on the item's own: media ids are
-        // what the fixture pins and what the storage path is built from, so an
-        // item already holding this file is the same item however its row was
-        // numbered. Without this a re-run would stack duplicate frames into the
-        // reel on every deploy.
-        if (is_int($firstId) && MediaItem::query()
+        // Matched on the file name, not the media id. The id looks like the
+        // stronger key — it is what the fixture pins and what the storage path
+        // is built from — but MediaSnapshot deliberately changes it when the
+        // fixture's id is already taken. Keying on the id therefore stopped
+        // recognising rows this seeder had itself restored, and every deploy
+        // stacked a second copy of every frame into the reel: production
+        // rendered fourteen strips instead of seven. The file name survives the
+        // copy, so it identifies the frame across environments and re-runs.
+        if (MediaItem::query()
             ->where('mediable_type', $industry->getMorphClass())
             ->where('mediable_id', $industry->getKey())
-            ->whereHas('media', fn ($q) => $q->whereKey($firstId))
+            ->whereHas('media', fn ($q) => $q->where('file_name', $firstFile))
             ->exists()) {
             return 0;
         }
