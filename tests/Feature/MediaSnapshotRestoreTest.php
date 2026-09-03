@@ -117,3 +117,32 @@ it('keeps a row it has already restored rather than duplicating it', function ()
 
     expect($industry->fresh()->getMedia('hero'))->toHaveCount(1);
 });
+
+it('survives a file it cannot copy instead of taking the deploy down', function () {
+    // Production's IAM user is not granted s3:GetObjectAcl, so Flysystem's
+    // copy() threw AccessDenied mid-`db:seed` and the whole deploy stopped with
+    // the site half-repaired. A file that cannot be moved is a row that must
+    // not exist; it is never a reason to abort.
+    $squatter = Service::firstOrFail();
+    $squatter->addMedia(UploadedFile::fake()->image('logo.png'))->toMediaCollection('gallery');
+    $takenId = $squatter->getFirstMedia('gallery')->id;
+
+    $industry = Industry::where('slug', 'alcobev')->firstOrFail();
+
+    // No object behind the fixture row: the copy has nothing to move.
+    $created = MediaSnapshot::restore($industry, [[
+        'id' => $takenId,
+        'collection_name' => 'hero',
+        'name' => 'ghost',
+        'file_name' => 'ghost.jpg',
+        'mime_type' => 'image/jpeg',
+        'disk' => 's3',
+        'size' => 1,
+        'order_column' => 1,
+    ]]);
+
+    expect($created)->toBe(0)
+        // No half-made row left behind, and the squatter is untouched.
+        ->and($industry->fresh()->getMedia('hero'))->toHaveCount(0)
+        ->and(Media::whereKey($takenId)->exists())->toBeTrue();
+});

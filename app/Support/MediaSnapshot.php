@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Throwable;
 
 /**
  * Export and replay medialibrary rows without moving a single byte.
@@ -119,7 +120,22 @@ final class MediaSnapshot
             if ($existing) {
                 /** @var Media $fresh */
                 $fresh = Media::query()->latest('id')->firstOrFail();
-                self::copyObject($row, $sourceId, (int) $fresh->id);
+
+                // A file that cannot be copied leaves a row pointing at nothing,
+                // which is the exact breakage this class exists to repair — so
+                // the row goes rather than the deploy. Never fatal: one
+                // unreachable object must not abort a whole `db:seed`.
+                try {
+                    $copied = self::copyObject($row, $sourceId, (int) $fresh->id);
+                } catch (Throwable $e) {
+                    $copied = false;
+                }
+
+                if (! $copied) {
+                    $fresh->delete();
+
+                    continue;
+                }
             }
 
             $created++;
@@ -135,22 +151,50 @@ final class MediaSnapshot
      *
      * @param  array<string, mixed>  $row
      */
-    private static function copyObject(array $row, int $fromId, int $toId): void
+    private static function copyObject(array $row, int $fromId, int $toId): bool
     {
         $file = (string) ($row['file_name'] ?? '');
         $disk = (string) ($row['disk'] ?? config('media-library.disk_name'));
 
         if ($file === '') {
-            return;
+            return false;
         }
 
         $from = "{$fromId}/{$file}";
         $to = "{$toId}/{$file}";
         $storage = Storage::disk($disk);
 
-        if ($storage->exists($from) && ! $storage->exists($to)) {
-            $storage->copy($from, $to);
+        if (! $storage->exists($from)) {
+            return false;
         }
+
+        if ($storage->exists($to)) {
+            return true;
+        }
+
+        // Flysystem's copy() reads the source object's ACL first, to carry its
+        // visibility across. The deploy user is not granted s3:GetObjectAcl —
+        // and granting it is the wrong fix, because this bucket's objects are
+        // served through CloudFront and nothing else needs per-object ACLs — so
+        // that call threw AccessDenied and took the whole `db:seed` down with
+        // it. CopyObject is the same server-side copy without the ACL read.
+        $client = method_exists($storage, 'getClient') ? $storage->getClient() : null;
+        $bucket = (string) config("filesystems.disks.{$disk}.bucket");
+
+        if ($client && $bucket !== '') {
+            $client->copyObject([
+                'Bucket' => $bucket,
+                'Key' => $to,
+                'CopySource' => $bucket.'/'.ltrim($from, '/'),
+            ]);
+
+            return true;
+        }
+
+        // Local and faked disks have no S3 client; they copy plainly.
+        $storage->copy($from, $to);
+
+        return true;
     }
 
     /**
