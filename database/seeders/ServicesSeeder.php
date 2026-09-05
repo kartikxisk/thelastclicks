@@ -44,7 +44,7 @@ class ServicesSeeder extends Seeder
                 'proof' => ['count' => '142', 'label' => 'Films delivered · 2024–26', 'sectors' => 'Brand · Auto · Lifestyle'],
                 'pillars' => [
                     ['title' => 'Treatment-first', 'desc' => 'Every film starts with a written treatment and a single emotional beat it has to land.'],
-                    ['title' => 'One integrated team', 'desc' => 'Director, DOP, editor all work the same brief. Edit starts the same day as the shoot.'],
+                    ['title' => 'One integrated team', 'desc' => 'Director, DOP, editor all work the same brief, so the edit never waits on a handoff.'],
                     ['title' => 'In-house finish', 'desc' => 'Grade, sound, conform — never outsourced. Authorship survives all the way to master.'],
                     ['title' => 'Platform-tuned', 'desc' => 'Hero film + 9:16, 1:1, 16:9 cuts; subtitles + localisation passes on request.'],
                 ],
@@ -66,13 +66,13 @@ class ServicesSeeder extends Seeder
                 'faqs' => [
                     ['q' => 'Music licensing & scores', 'a' => 'Full clearance is standard. Every deliverable includes a fully licensed, broadcast-safe track. Custom, original scores from our composer collective are available for premium campaigns.'],
                     ['q' => 'Camera & lens deployment', 'a' => 'We shoot on ARRI, RED and Sony cinema lines, paired with Cooke or Sigma Cine primes. We do not use a standard kit; the gear is rigorously matched to the exact requirements of your brief.'],
-                    ['q' => 'Live event & broadcast coverage', 'a' => 'Yes. We deploy dedicated, agile event units featuring 2–6 cameras and an on-site producer. Same-day recap reels and live feeds are executed flawlessly.'],
+                    ['q' => 'Live event & broadcast coverage', 'a' => 'Yes. We deploy dedicated, agile event units featuring 2–6 cameras and an on-site producer. Recap reels cut on site and live feeds are scoped to the event schedule and executed flawlessly.'],
                 ],
                 'sections' => [
                     'flow' => ['title' => 'From brief <em>to delivery.</em> No drift.', 'lead' => 'Every phase: an owner, a deliverable, a strict review gate.'],
                     'kit' => ['title' => 'Cinema-grade <em>by default.</em>', 'lead' => 'We do not compromise on our technical pipeline. This is our baseline roster — scaled and adapted whenever a brief demands a highly specific aesthetic.'],
                 ],
-                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Brand commercial'],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond with next steps.', 'prefill' => 'Brand commercial'],
             ],
             'photography' => [
                 'hero_headline' => 'Narrative stills.<br><em>Precision capture.</em>',
@@ -113,7 +113,7 @@ class ServicesSeeder extends Seeder
                     'flow' => ['title' => 'From moodboard <em>to master.</em> No drift.', 'lead' => 'Every phase: an owner, a deliverable, a strict review gate.'],
                     'kit' => ['title' => 'High-resolution <em>by default.</em>', 'lead' => 'We deploy premium glass and high-megapixel sensors to ensure your assets hold up everywhere — from digital feeds to national billboards.'],
                 ],
-                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Product shoot'],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond with next steps.', 'prefill' => 'Product shoot'],
             ],
             'post-production' => [
                 'hero_headline' => 'Studio-grade <em>finishing.</em>',
@@ -154,7 +154,7 @@ class ServicesSeeder extends Seeder
                     'flow' => ['title' => 'From ingest <em>to export.</em> No drift.', 'lead' => 'A highly structured, secure pipeline built for scale and speed.'],
                     'kit' => ['title' => 'The post-production <em>stack.</em>', 'lead' => 'Our editing bays are powered by industry-standard software and calibrated hardware to guarantee absolute colour and audio accuracy.'],
                 ],
-                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond within 4 working hours.', 'prefill' => 'Post-production only'],
+                'cta' => ['title' => 'Cut us in early.<br>Or cut us in <em>at the edit.</em>', 'copy' => 'Detail your project scope. Our production team will review your requirements and respond with next steps.', 'prefill' => 'Post-production only'],
             ],
         ];
 

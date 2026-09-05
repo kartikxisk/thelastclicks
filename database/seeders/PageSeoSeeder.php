@@ -64,7 +64,7 @@ class PageSeoSeeder extends Seeder
                 'page_url' => '/contact',
                 'label' => 'Contact',
                 'title' => Brand::title('Contact Our Photography & Video Team'),
-                'meta_description' => 'Bring us a brief for photography, videography or post-production and we will reply within 4 working hours. Crews and studios covering 20+ cities across India.',
+                'meta_description' => 'Bring us a brief for photography, videography or post-production and we will reply with next steps and a number. Crews and studios covering 20+ cities across India.',
                 'og_image_path' => 'headers/contact-crew.jpg',
             ],
             [
@@ -99,7 +99,7 @@ class PageSeoSeeder extends Seeder
                 'page_url' => '/thank-you',
                 'label' => 'Thank you',
                 'title' => Brand::title('Brief received'),
-                'meta_description' => 'Thanks for your brief — we will be in touch within 4 working hours.',
+                'meta_description' => 'Thanks for your brief — we will be in touch with next steps.',
                 'og_image_path' => 'headers/contact-celebration.jpg',
             ],
         ];

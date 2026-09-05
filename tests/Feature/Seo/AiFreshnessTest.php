@@ -51,8 +51,11 @@ it('publishes no pricing figures anywhere machine-readable', function () {
 
     expect(str_contains($txt, 'pricing.md'))->toBeFalse()
         ->and(str_contains($txt, '₹'))->toBeFalse()
-        // What replaces it converts: the enquiry path and the reply promise.
-        ->and($txt)->toContain('4 working hours');
+        // What replaces it converts: the enquiry path. It used to carry a
+        // "4 working hours" reply window as well; the site now promises no
+        // times at all — reply or delivery — so the path is the whole pitch.
+        ->and($txt)->toContain(url('/contact'))
+        ->and($txt)->not->toContain('working hours');
 
     expect(File::exists(public_path('pricing.md')))->toBeFalse()
         ->and(class_exists(GeneratePricingMd::class))->toBeFalse();

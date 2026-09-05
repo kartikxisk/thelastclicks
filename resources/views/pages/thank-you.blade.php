@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Brief received')"
-    description="Thanks for your brief — we will be in touch within 4 working hours."
+    description="Thanks for your brief — we will be in touch with next steps."
     :canonical="url('/thank-you')"
 >
   <x-slot name="head">
@@ -57,7 +57,7 @@
       </div>
       <span class="ty__kicker">Brief received</span>
       <h1 data-split>Thanks — we're on <em>your brief.</em></h1>
-      <p>We'll read every line and reply with next steps, a direction, and a number — within 4 working hours. Here's what happens next.</p>
+      <p>We'll read every line and reply with next steps, a direction, and a number. Here's what happens next.</p>
       {{-- Heading for the steps so the page reads h1 -> h2 -> h3; the visible
            intro above already says "what happens next", so this is sr-only. --}}
       <h2 class="sr-only">What happens next</h2>
@@ -69,13 +69,13 @@
         </div>
         <div class="ty__step">
           <div class="ty__step-n">02</div>
-          <h3>We respond within 4h</h3>
+          <h3>We reply personally</h3>
           <p>A clear yes/no, a few questions, and a tentative scope.</p>
         </div>
         <div class="ty__step">
           <div class="ty__step-n">03</div>
           <h3>We meet, we treat</h3>
-          <p>A 30-min align call, then a treatment within 5 working days.</p>
+          <p>A 30-min align call, then a treatment scoped to your project.</p>
         </div>
       </div>
       <div class="ty__cta">

@@ -44,7 +44,7 @@ class GenerateLlmsTxt extends Command
         $phone = SiteSetting::get('contact_phone');
         $email = SiteSetting::get('contact_email');
         $lines[] = 'Contact: '.implode(' · ', array_filter([$email, $phone, url('/contact')]));
-        $lines[] = 'Replies within 4 working hours. Studio: Sector 26, Noida, Uttar Pradesh.';
+        $lines[] = 'Every project is quoted individually. Studio: Sector 26, Noida, Uttar Pradesh.';
         $lines[] = '';
 
         $lines[] = '## Services';
@@ -77,8 +77,9 @@ class GenerateLlmsTxt extends Command
         $lines[] = sprintf('- [About](%s): The studio, its crew and its process.', url('/about'));
         // No pricing link, deliberately: every project is quoted individually
         // and the studio does not publish rates. The conversion path an agent
-        // should hand a buyer is the quote form and the reply promise above.
-        $lines[] = sprintf('- [Get a quote](%s): Custom quote per project — replies within 4 working hours.', url('/contact'));
+        // should hand a buyer is the quote form. No reply window is stated: the
+        // site promises no times, for delivery or for replies.
+        $lines[] = sprintf('- [Get a quote](%s): Custom quote per project — a reply with next steps and a number.', url('/contact'));
 
         File::put(public_path('llms.txt'), implode("\n", $lines)."\n");
 

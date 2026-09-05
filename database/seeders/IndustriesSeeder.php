@@ -215,7 +215,7 @@ class IndustriesSeeder extends Seeder
                 <p>An Indian wedding is a multi-day live event where every important moment is unrepeatable and half of them happen simultaneously in different rooms. There is no second take of a father seeing his daughter, and the ceremony will not pause because a camera was in the wrong place. Coverage planning is the entire craft.</p>
                 <h3>What we shoot</h3>
                 <ul>
-                    <li>Wedding films and same-day trailers</li>
+                    <li>Wedding films and highlight trailers</li>
                     <li>Haldi, mehandi, sangeet and roka</li>
                     <li>Engagements and receptions</li>
                     <li>Pre-wedding and couple shoots, on location</li>

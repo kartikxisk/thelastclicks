@@ -40,7 +40,11 @@ class Quote extends Model
         'lost' => [],
     ];
 
-    /** Default response promise, matching the "within 4 working hours" site copy. */
+    /**
+     * Default follow-up target. Internal only: the pipeline flags a lead overdue
+     * past this, but the public site no longer promises any reply window —
+     * it promises no times at all, for replies or for delivery.
+     */
     public const DEFAULT_SLA_HOURS = 4;
 
     protected $fillable = [

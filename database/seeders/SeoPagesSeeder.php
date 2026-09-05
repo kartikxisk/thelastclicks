@@ -133,7 +133,7 @@ class SeoPagesSeeder extends Seeder
                 'page_url' => '/industries/wedding-pre-wedding',
                 'label' => 'Wedding industry',
                 'title' => Brand::title('Wedding Cinematography, Noida & Delhi NCR'),
-                'meta_description' => 'Wedding films, same-day trailers and pre-wedding shoots across India. Haldi, mehandi, sangeet and roka covered by a second unit so nothing is missed.',
+                'meta_description' => 'Wedding films, highlight trailers and pre-wedding shoots across India. Haldi, mehandi, sangeet and roka covered by a second unit so nothing is missed.',
                 'og_image_path' => 'industries/weddings-celebrations.jpg',
             ],
         ];

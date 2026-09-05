@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Contact Our Photography & Video Team')"
-    description="Bring us a brief for photography, videography or post-production and we will reply within 4 working hours. Crews and studios covering 20+ cities across India."
+    description="Bring us a brief for photography, videography or post-production and we will reply with next steps and a number. Crews and studios covering 20+ cities across India."
     :canonical="url('/contact')"
 >
   <x-slot name="head">

@@ -134,22 +134,22 @@ HTML,
                 'title' => 'Photo, video, or both? Choosing coverage for your corporate event',
                 'excerpt' => 'Different outputs serve different jobs: photos fill channels for months, film carries the story. How to decide where your budget works hardest.',
                 'seo_title' => 'Corporate Events: Photography vs Video Coverage',
-                'seo_description' => 'How to choose between photography, videography or both for a corporate event: outputs, team sizes, same-day edits and how each asset gets used.',
+                'seo_description' => 'How to choose between photography, videography or both for a corporate event: outputs, team sizes, on-site edits and how each asset gets used.',
                 'categories' => ['Corporate', 'Production'],
                 'tags' => ['events', 'planning'],
                 'body' => <<<'HTML'
 <p>The honest answer to "photo or video?" is another question: what happens to the coverage after the event? Assets with no destination are decoration. Assets with a job are marketing.</p>
 <h2>What photography does best</h2>
-<p>Volume and speed. A single conference day yields hundreds of usable frames — speaker portraits for LinkedIn, crowd energy for next year's ticket page, sponsor logos in context for renewal decks. Photos publish the same night and keep feeding channels for months.</p>
+<p>Volume and speed. A single conference day yields hundreds of usable frames — speaker portraits for LinkedIn, crowd energy for next year's ticket page, sponsor logos in context for renewal decks. Photos are the fastest asset to publish and keep feeding channels for months.</p>
 <h2>What film does best</h2>
 <p>Feeling and proof. A two-minute highlight film carries the atmosphere of the event to everyone who was not in the room — future attendees, sponsors, leadership. Keynote capture turns a one-time talk into an evergreen content library.</p>
-<h2>The same-day edit</h2>
-<p>For multi-day events, a highlight reel cut on-site and screened before the closing session is the single highest-impact deliverable: the room watches itself, shares it that evening, and registration links ride the wave while attention is at its peak.</p>
+<h2>The on-site edit</h2>
+<p>For multi-day events, when the schedule allows it, a highlight reel cut on-site and screened before the closing session is the single highest-impact deliverable: the room watches itself, shares it that evening, and registration links ride the wave while attention is at its peak.</p>
 <blockquote>Photos are how an event is remembered by the people who came. Film is how it is experienced by the people who did not.</blockquote>
 <h2>A practical split</h2>
 <ul>
 <li><strong>Internal town halls</strong> — photography plus keynote capture. Skip the highlight film.</li>
-<li><strong>Client-facing conferences</strong> — both, with a same-day edit if the event runs more than one day.</li>
+<li><strong>Client-facing conferences</strong> — both, with an on-site edit if the event runs more than one day and the schedule allows.</li>
 <li><strong>Product launches</strong> — film-led; the launch film outlives the evening. Photography for press and social.</li>
 </ul>
 <h2>One brief, one team</h2>
@@ -215,7 +215,7 @@ HTML,
 <h2>Where cutting budget backfires</h2>
 <p>Skipping the grade shows in every frame. Skipping the mix shows in every second. Cutting revision structure — going cheap on project management — usually costs more than either, because an edit that drifts through six rounds of scattered feedback burns the hours a look and a mix would have taken. If the budget is genuinely tight, cut scope: a shorter film finished properly beats a longer one abandoned at the rough cut.</p>
 <h2>Getting your number</h2>
-<p>A useful quote needs four facts: what the footage is (or what the shoot is), what the film must achieve, where it will run, and when it is needed. Bring those and the number arrives in one conversation, not a week of back-and-forth — <a href="/contact">send us the four facts</a> and you will have a reply within 4 working hours. If you want the fuller picture of what you are buying first, <a href="/blog/what-post-production-actually-includes">what post-production actually includes</a> walks the whole pipeline.</p>
+<p>A useful quote needs four facts: what the footage is (or what the shoot is), what the film must achieve, where it will run, and when it is needed. Bring those and the number arrives in one conversation, not a week of back-and-forth — <a href="/contact">send us the four facts</a> and you will have a reply with a direction and a number. If you want the fuller picture of what you are buying first, <a href="/blog/what-post-production-actually-includes">what post-production actually includes</a> walks the whole pipeline.</p>
 HTML,
             ],
             [

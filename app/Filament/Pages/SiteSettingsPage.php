@@ -166,12 +166,12 @@ class SiteSettingsPage extends Page implements HasForms
                     Forms\Components\Tabs\Tab::make('Leads')
                         ->schema([
                             Forms\Components\TextInput::make('lead_sla_hours')
-                                ->label('Response promise (hours)')
+                                ->label('Follow-up target (hours)')
                                 ->numeric()
                                 ->minValue(1)
                                 ->maxValue(168)
                                 ->required()
-                                ->helperText('A new lead is flagged overdue on the dashboard and pipeline after this many hours. The public pages promise 4 working hours.'),
+                                ->helperText('A new lead is flagged overdue on the dashboard and pipeline after this many hours. An internal target only: the public pages make no time promise, for replies or delivery.'),
                         ]),
                     Forms\Components\Tabs\Tab::make('Branding')
                         ->schema([

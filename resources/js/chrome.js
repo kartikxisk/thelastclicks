@@ -109,7 +109,7 @@ window.TLC = (function(){
           <div class="quote__head">
             <div class="quote__eyebrow">Get a quote</div>
             <h2 class="quote__title">Submit your<br><em>brief.</em></h2>
-            <p class="quote__lead">Detail your project scope below. Our production team will review your requirements and respond within 4 working hours to initiate the next phase.</p>
+            <p class="quote__lead">Detail your project scope below. Our production team will review your requirements and respond with next steps to initiate the next phase.</p>
           </div>
           <div class="quote__steps">
             <div class="quote__step is-on" data-step="1"><span>01</span> Project</div>
@@ -183,7 +183,7 @@ window.TLC = (function(){
             <section class="quote__panel-step quote__success" data-panel="4">
               <div class="quote__check"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2"><circle cx="32" cy="32" r="28"/><path d="M20 33 L29 42 L46 24" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <h3>Brief received.</h3>
-              <p>Thanks <span data-out="name">friend</span> — we'll be in touch within 4 working hours at <span data-out="email">your inbox</span>. In the meantime, peek at the portfolio.</p>
+              <p>Thanks <span data-out="name">friend</span> — we'll be in touch at <span data-out="email">your inbox</span> with next steps. In the meantime, peek at the portfolio.</p>
               <div class="quote__success-actions">
                 <a class="btn" href="/portfolio"><span>See the portfolio</span><span class="arr"></span></a>
                 <button type="button" class="btn btn--ghost" data-quote-close><span>Close</span></button>
