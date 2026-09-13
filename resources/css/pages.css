@@ -1118,7 +1118,14 @@ main > section.artist-band .artist-band__head {
 .indb {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: clamp(220px, 32vh, 320px);
+  /* Row height has to track the same axis the columns do.
+     This was 32vh, which is unrelated to how wide a column gets: the tiles held
+     roughly 3:2 at 1440x900 and stretched to 2.66:1 by 2560, worst of all on a
+     short wide monitor where 32vh is small and the columns are enormous.
+     One third of the viewport is a column, so ~19vw holds every tile near 16:9
+     from a phone to an ultrawide, and the 2x2 feature inherits the same ratio
+     because it doubles both axes. */
+  grid-auto-rows: clamp(200px, 19vw, 640px);
   grid-auto-flow: dense;
   gap: 3px;
 }
@@ -1137,16 +1144,20 @@ main > section.artist-band .artist-band__head {
    trailing orphan across whatever is left of its row instead — the same move
    the phone breakpoint already makes below, for the same reason.
 
-   An orphan at the start of a row takes two columns rather than all three, so
-   it echoes the feature cell's width instead of becoming a letterboxed strip
-   the full width of the page.
+   It takes two columns AND two rows — the same block as the feature. Widening
+   without also growing taller just trades a hole for a 3.5:1 strip, and every
+   other tile in the mosaic sits near 16:9. Bookending the grid with a matched
+   pair reads as composition rather than as a gap that got patched.
 
    Scoped to the three-column grid on purpose: unscoped, a multi-column span
    against the two-column phone layout conjures an implicit third column and
    collapses the whole mosaic to zero-width tiles. */
 @media (min-width: 768px) {
   .indb__tile:last-child:nth-child(3n + 1),
-  .indb__tile:last-child:nth-child(3n + 2) { grid-column: span 2; }
+  .indb__tile:last-child:nth-child(3n + 2) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
 }
 .indb__tile img {
   position: absolute;
