@@ -67,9 +67,19 @@ class PermissionsSeeder extends Seeder
         ));
 
         // Sales: all perms on Quote + QuoteNote + Subscriber (all inbound lead data),
-        // plus the lead desk and pipeline they work from every day.
+        // plus outreach, which is the outbound half of the same job, plus the
+        // lead desk and pipeline they work from every day. Without the outreach
+        // permissions here the resource exists and only Super-admin can see it,
+        // which is the one role that never runs the campaign.
         $sales->syncPermissions(array_merge(
-            array_filter($all, fn ($p) => str_ends_with($p, '_quote') || str_ends_with($p, '_quote_note') || str_ends_with($p, '_subscriber')),
+            array_filter($all, fn ($p) => str_ends_with($p, '_quote')
+                || str_ends_with($p, '_quote_note')
+                || str_ends_with($p, '_subscriber')
+                // Shield derives the suffix from the resource name, so a
+                // two-word model lands as "outreach::contact", not
+                // "outreach_contact". Matching the underscore form silently
+                // grants nothing and the resource stays Super-admin-only.
+                || str_ends_with($p, '_outreach::contact')),
             $leadDesk,
         ));
 
