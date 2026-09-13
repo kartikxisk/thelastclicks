@@ -250,3 +250,46 @@ it('refuses a test send to a malformed address', function () {
         ->expectsOutputToContain('Not a valid address')
         ->assertFailed();
 });
+
+it('caps the first day of sending to the start of the warm-up ramp', function () {
+    // A mailbox that sends a handful a day going to sixty in one afternoon is
+    // the loudest spam signal a small domain can emit — louder than any wording.
+    config(['outreach.warmup' => [5, 8, 12]]);
+    writeQueue(array_map(fn ($i) => queueRow(['email' => "c{$i}@example.com"]), range(1, 20)));
+
+    $this->artisan('outreach:send')
+        ->expectsOutputToContain('capping this run at 5')
+        ->assertSuccessful();
+});
+
+it('refuses to send once the day\'s warm-up allowance is spent', function () {
+    config(['outreach.warmup' => [2]]);
+    writeQueue([queueRow(['email' => 'new@example.com'])]);
+
+    $handle = fopen(config('outreach.sent_path'), 'w');
+    fputcsv($handle, ['sent_at', 'email', 'step', 'status', 'message_id', 'subject', 'error'], ',', '"', '');
+    foreach (['a@example.com', 'b@example.com'] as $email) {
+        fputcsv($handle, [now()->toDateString(), $email, 'first-touch', 'sent', 'm@x', 'S', ''], ',', '"', '');
+    }
+    fclose($handle);
+
+    $this->artisan('outreach:send')
+        ->expectsOutputToContain('which is the cap')
+        ->assertSuccessful();
+});
+
+it('resumes the ramp where it stopped rather than jumping to the end', function () {
+    // Day number counts days actually sent on, not days elapsed. Pausing a
+    // fortnight must not earn back allowance.
+    config(['outreach.warmup' => [5, 8, 40]]);
+    writeQueue(array_map(fn ($i) => queueRow(['email' => "c{$i}@example.com"]), range(1, 30)));
+
+    $handle = fopen(config('outreach.sent_path'), 'w');
+    fputcsv($handle, ['sent_at', 'email', 'step', 'status', 'message_id', 'subject', 'error'], ',', '"', '');
+    fputcsv($handle, [now()->subDays(30)->toDateString(), 'a@example.com', 'first-touch', 'sent', 'm@x', 'S', ''], ',', '"', '');
+    fclose($handle);
+
+    $this->artisan('outreach:send')
+        ->expectsOutputToContain('capping this run at 8')
+        ->assertSuccessful();
+});

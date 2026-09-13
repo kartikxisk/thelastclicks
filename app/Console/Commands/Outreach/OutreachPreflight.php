@@ -208,8 +208,10 @@ class OutreachPreflight extends Command
         if (! is_readable($queue)) {
             $this->warned('No queue at '.$this->relative($queue).' — run the exporter first.');
         } else {
-            $rows = max(0, count(file($queue, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) - 1);
+            $lines = file($queue, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $rows = max(0, count($lines) - 1);
             $this->ok("Queue: {$rows} row(s) pending");
+            $this->checkListQuality($lines);
         }
 
         $suppression = (string) config('outreach.suppression_path');
@@ -228,6 +230,55 @@ class OutreachPreflight extends Command
                 static fn (string $line) => $line !== '' && ! str_starts_with($line, '#'),
             ));
             $this->ok("Suppression list: {$count} address(es)");
+        }
+    }
+
+    /**
+     * Flag the addresses most likely to cost reputation rather than earn a reply.
+     *
+     * Gmail wants complaints under 0.30%. On a list this size a single report is
+     * well over that, so which addresses are on it matters more than the copy.
+     *
+     * @param  list<string>  $lines  Raw CSV lines, header first.
+     */
+    private function checkListQuality(array $lines): void
+    {
+        $prefixes = (array) config('outreach.role_prefixes', []);
+        $role = 0;
+        $free = 0;
+        $total = 0;
+
+        foreach (array_slice($lines, 1) as $line) {
+            if (! preg_match('/[\w.+-]+@[\w.-]+\.\w+/', $line, $m)) {
+                continue;
+            }
+            $total++;
+            [$local, $domain] = explode('@', strtolower($m[0]), 2);
+
+            foreach ($prefixes as $prefix) {
+                if ($local === $prefix || str_starts_with($local, $prefix.'.') || str_starts_with($local, $prefix.'@')) {
+                    $role++;
+                    break;
+                }
+            }
+
+            if (preg_match('/^(gmail|yahoo|hotmail|outlook|live|rediffmail)\./', $domain)) {
+                $free++;
+            }
+        }
+
+        if ($total === 0) {
+            return;
+        }
+
+        if ($role > 0) {
+            $this->warned("{$role} of {$total} are role inboxes (accounts@, info@, contact@ …).");
+            $this->line('         A pitch in a finance inbox is the likeliest message on the list to be');
+            $this->line('         reported, and they rarely reply. Consider dropping them.');
+        }
+
+        if ($free > 0) {
+            $this->line("  <fg=cyan>note</>   {$free} of {$total} are Gmail/Yahoo — where the spam rate is measured.");
         }
     }
 

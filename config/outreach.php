@@ -44,6 +44,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Warm-up
+    |--------------------------------------------------------------------------
+    |
+    | Cap on messages per calendar day, indexed by how many days this domain has
+    | already sent outreach on. A mailbox that normally sends a handful a day
+    | going to sixty in one afternoon is the loudest spam signal a small domain
+    | can emit -- louder than any wording in the message. The ramp is the single
+    | highest-impact thing here, well above subject lines or link counts.
+    |
+    | The last value repeats once the ramp is exhausted.
+    |
+    */
+
+    'warmup' => [5, 8, 12, 18, 25, 35, 50],
+
+    /*
+    | Local parts that are almost never a person. A pitch landing in a finance
+    | inbox is the likeliest message in any scraped list to be reported, and
+    | these addresses rarely reply, so they cost reputation and return nothing.
+    */
+    'role_prefixes' => [
+        'accounts', 'account', 'billing', 'finance', 'admin', 'office', 'info',
+        'contact', 'enquiry', 'enquiries', 'support', 'help', 'noreply',
+        'no-reply', 'webmaster', 'postmaster', 'mail', 'team',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Cadence
     |--------------------------------------------------------------------------
     |

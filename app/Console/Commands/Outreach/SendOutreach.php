@@ -94,6 +94,21 @@ class SendOutreach extends Command
         $ceiling = (int) config('outreach.max_per_run');
         $cap = $limit > 0 ? min($limit, $ceiling) : $ceiling;
 
+        [$allowedToday, $sentToday, $dayNumber] = $this->warmupBudget();
+
+        if ($allowedToday <= 0) {
+            $this->warn("Warm-up day {$dayNumber}: {$sentToday} already sent today, which is the cap.");
+            $this->line('  Sending more today is the fastest way into the spam folder. Continue tomorrow.');
+
+            return self::SUCCESS;
+        }
+
+        if ($allowedToday < $cap) {
+            $this->line("  <fg=cyan>warm-up</> day {$dayNumber}: {$allowedToday} more allowed today"
+                .($sentToday > 0 ? " ({$sentToday} already sent)" : ''));
+            $cap = $allowedToday;
+        }
+
         if (count($pending) > $cap) {
             $this->warn('Queue has '.count($pending)." eligible, capping this run at {$cap}.");
             $pending = array_slice($pending, 0, $cap);
@@ -300,6 +315,58 @@ class SendOutreach extends Command
         fclose($handle);
 
         return $rows;
+    }
+
+    /**
+     * How many more may go out today, given how far the ramp has progressed.
+     *
+     * Day number counts distinct days this domain has actually sent on, not
+     * days since the campaign began — a pause does not earn back allowance, and
+     * resuming after a fortnight should resume at the rate it stopped at rather
+     * than jumping to the end of the ramp.
+     *
+     * @return array{0: int, 1: int, 2: int} allowed today, sent today, day number
+     */
+    private function warmupBudget(): array
+    {
+        $ramp = (array) config('outreach.warmup', []);
+
+        if ($ramp === []) {
+            return [PHP_INT_MAX, 0, 0];
+        }
+
+        $path = (string) config('outreach.sent_path');
+        $today = now()->toDateString();
+        $days = [];
+        $sentToday = 0;
+
+        if (is_readable($path)) {
+            $handle = fopen($path, 'r');
+            $headers = fgetcsv($handle, 0, ',', '"', '');
+            if ($headers !== false) {
+                while (($line = fgetcsv($handle, 0, ',', '"', '')) !== false) {
+                    $row = array_combine($headers, array_pad(array_slice($line, 0, count($headers)), count($headers), ''));
+                    if (($row['status'] ?? '') !== 'sent') {
+                        continue;
+                    }
+                    $date = trim((string) ($row['sent_at'] ?? ''));
+                    if ($date === '') {
+                        continue;
+                    }
+                    $days[$date] = true;
+                    if ($date === $today) {
+                        $sentToday++;
+                    }
+                }
+            }
+            fclose($handle);
+        }
+
+        // Today counts as a sending day whether or not anything has gone yet.
+        $dayIndex = count($days) + (isset($days[$today]) ? 0 : 1);
+        $allowance = $ramp[min($dayIndex, count($ramp)) - 1];
+
+        return [max(0, $allowance - $sentToday), $sentToday, $dayIndex];
     }
 
     /**
