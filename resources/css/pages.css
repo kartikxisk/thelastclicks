@@ -1149,11 +1149,19 @@ main > section.artist-band .artist-band__head {
    and every way of patching that single tile is a trade: span the full row and
    it is a 5:1 strip, span 2x2 and it leaves a column of dead pixels beside it.
 
-   So stop patching the last tile and re-pair the tail instead. From the fifth
+   So stop patching the last tile and re-pair the tail instead. From the fourth
    tile on, every other one takes two columns, which turns the remainder into
-   rows of 1 + 2. Seven verticals then fill 4 + 2 + 3 + 3 = 12 cells exactly,
+   rows of 2 + 1. Seven verticals then fill 4 + 2 + 3 + 3 = 12 cells exactly,
    nothing is stretched across the whole page, and the mosaic gains the mixed
    widths a bento is supposed to have.
+
+   The wide slot falls on the fourth and sixth tiles rather than the fifth and
+   seventh, which is a content decision as much as a geometric one: a double-
+   width tile is roughly 3.5:1 and object-fit shows only the middle half of its
+   cover, so it needs a scene. Real Estate and Wedding are rooms and crowds and
+   survive that band. Product Shoot is a single upright bottle — every frame in
+   the set cropped to a zoomed midsection with the brand name sliced off, which
+   is what the deck actually looked like with the pairing one tile over.
 
    Quantity-queried to the count it actually solves. At any other number the
    pairing would reopen a hole, so the plain orphan rule below takes over.
@@ -1162,7 +1170,7 @@ main > section.artist-band .artist-band__head {
    against the two-column phone layout conjures an implicit third column and
    collapses the whole mosaic to zero-width tiles. */
 @media (min-width: 768px) {
-  .indb:has(.indb__tile:nth-child(7):last-child) .indb__tile:nth-child(2n + 5) {
+  .indb:has(.indb__tile:nth-child(7):last-child) .indb__tile:nth-child(2n + 4) {
     grid-column: span 2;
   }
 
