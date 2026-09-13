@@ -215,3 +215,38 @@ it('fails preflight when the From domain and the SMTP login disagree', function 
         ->expectsOutputToContain('differs from SMTP auth domain')
         ->assertFailed();
 });
+
+it('can test-send to an address that is not a prospect', function () {
+    // --only filters the queue, so it can never reach your own inbox. Without a
+    // separate flag the "send yourself one first" step is impossible to follow.
+    Mail::fake();
+    writeQueue([queueRow()]);
+
+    $this->artisan('outreach:send --test=me@example.com')
+        ->expectsOutputToContain('TEST SEND')
+        ->expectsQuestion('Type SEND to confirm', 'SEND')
+        ->assertSuccessful();
+
+    Mail::assertSent(OutreachMail::class);
+});
+
+it('does not log a test send against the prospect', function () {
+    Mail::fake();
+    writeQueue([queueRow()]);
+
+    $this->artisan('outreach:send --test=me@example.com')
+        ->expectsQuestion('Type SEND to confirm', 'SEND')
+        ->assertSuccessful();
+
+    // organiser@example.com never received anything, so a log entry here would
+    // suppress their real first touch.
+    expect(file_exists(config('outreach.sent_path')))->toBeFalse();
+});
+
+it('refuses a test send to a malformed address', function () {
+    writeQueue([queueRow()]);
+
+    $this->artisan('outreach:send --test=not-an-address')
+        ->expectsOutputToContain('Not a valid address')
+        ->assertFailed();
+});

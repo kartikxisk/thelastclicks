@@ -22,7 +22,8 @@ class SendOutreach extends Command
         {--live : Actually send. Without this, nothing leaves the machine}
         {--limit=0 : Stop after N messages (0 = the whole queue, up to max_per_run)}
         {--step= : Only send this step (first-touch, follow-up-1, follow-up-2)}
-        {--only= : Only this email address, for a test send to yourself}';
+        {--only= : Restrict the run to this address, which must already be in the queue}
+        {--test= : Send one real message to this address using the first queue row\'s copy}';
 
     protected $description = 'Send the personalised outreach queue with throttling and suppression';
 
@@ -42,6 +43,10 @@ class SendOutreach extends Command
         $queue = $this->readQueue();
         if ($queue === null) {
             return self::FAILURE;
+        }
+
+        if ($this->option('test')) {
+            return $this->sendTest($queue);
         }
 
         $suppressed = $this->readSuppression();
@@ -166,6 +171,88 @@ class SendOutreach extends Command
         $this->line('Next: python3 marketing-sales/build_leads.py --import-results');
 
         return $failed > 0 ? self::FAILURE : self::SUCCESS;
+    }
+
+    /**
+     * Send one real message to an arbitrary address, using a queue row's copy.
+     *
+     * --only cannot do this: it filters the queue, so an address that is not
+     * already a prospect matches nothing and the run reports "Nothing to send".
+     * That made "post a test to yourself before mailing 62 strangers" impossible
+     * to actually follow, which is the one step worth never skipping.
+     *
+     * Deliberately not written to the sent log: no prospect received anything,
+     * so recording a send would suppress the real one later.
+     *
+     * @param  list<array<string, string>>  $queue
+     */
+    private function sendTest(array $queue): int
+    {
+        $to = strtolower(trim((string) $this->option('test')));
+
+        if (! filter_var($to, FILTER_VALIDATE_EMAIL)) {
+            $this->error("Not a valid address: {$to}");
+
+            return self::FAILURE;
+        }
+
+        // A test send leaves the building like any other, so it gets the same
+        // identity check. Testing through a broken From address proves nothing
+        // except that the mail did not arrive.
+        if ($this->call('outreach:preflight') !== self::SUCCESS) {
+            $this->error('Preflight failed. Nothing sent.');
+
+            return self::FAILURE;
+        }
+
+        $step = (string) ($this->option('step') ?: 'first-touch');
+        if (! in_array($step, (array) config('outreach.steps'), true)) {
+            $this->error("Unknown step '{$step}'.");
+
+            return self::FAILURE;
+        }
+
+        $row = $queue[0] ?? null;
+        if ($row === null) {
+            $this->error('Queue is empty — nothing to preview with.');
+
+            return self::FAILURE;
+        }
+
+        $row['step'] = $step;
+        $subject = $this->subjectFor($row, $step);
+        $messageId = $this->messageId($to, $step);
+
+        // Follow-up copy is written to sit under a quoted original, so a test of
+        // it threads onto a message id that does not exist. Harmless, and the
+        // body is what is being checked.
+        $inReplyTo = $step === 'first-touch' ? null : 'test-thread@'.substr(strrchr($to, '@'), 1);
+
+        $this->newLine();
+        $this->line("<fg=red>TEST SEND</> — one real message to {$to}");
+        $this->line("  step:     {$step}");
+        $this->line("  subject:  {$subject}");
+        $this->line("  copy for: {$row['organizer']} / {$row['event']}");
+        $this->newLine();
+
+        if ($this->ask('Type SEND to confirm') !== 'SEND') {
+            $this->info('Aborted. Nothing sent.');
+
+            return self::SUCCESS;
+        }
+
+        try {
+            Mail::to($to)->send(new OutreachMail($row, $step, $subject, $messageId, $inReplyTo));
+        } catch (Throwable $e) {
+            $this->error('Failed: '.$e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $this->info("Sent to {$to}. Not recorded — no prospect was contacted.");
+        $this->line('Check it landed in the inbox, not Promotions or Spam.');
+
+        return self::SUCCESS;
     }
 
     private function confirmLive(int $count): bool
