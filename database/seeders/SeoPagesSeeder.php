@@ -136,6 +136,13 @@ class SeoPagesSeeder extends Seeder
                 'meta_description' => 'Wedding films, highlight trailers and pre-wedding shoots across India. Haldi, mehandi, sangeet and roka covered by a second unit so nothing is missed.',
                 'og_image_path' => 'industries/weddings-celebrations.jpg',
             ],
+            [
+                'page_url' => '/industries/product-shoot-creative',
+                'label' => 'Product shoot industry',
+                'title' => Brand::title('Product Photography & CGI Studio, Delhi NCR'),
+                'meta_description' => 'Packshots, campaign stills and CGI for product brands in Noida and Delhi NCR — marketplace-ready crops and set-built campaign frames from one colour pipeline.',
+                'og_image_path' => 'industries/product-shoot-creative.jpg',
+            ],
         ];
 
         foreach ($rows as $row) {

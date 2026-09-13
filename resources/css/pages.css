@@ -6044,6 +6044,21 @@ main > section.strip {
 @media (max-width: 980px) { .work-grid--fixed { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .work-grid--fixed { grid-template-columns: 1fr; } }
 
+/* Orphan last tile.
+   The industry count is editor-controlled, so the deck has to end flush at any
+   number rather than only at a multiple of the column count. Seven verticals
+   left a lone half-width tile dangling on the two-column breakpoint; a tile
+   that starts its own final row spans the rest of it instead, which reads as a
+   deliberate wide card rather than a gap. Nothing to do at one column. */
+.work-grid--fixed > :last-child:nth-child(4n + 1) { grid-column: span 2; }
+@media (max-width: 980px) {
+  .work-grid--fixed > :last-child:nth-child(4n + 1) { grid-column: auto; }
+  .work-grid--fixed > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .work-grid--fixed > :last-child:nth-child(odd) { grid-column: auto; }
+}
+
 /* ---------- Bento (Our Work + industry galleries) ----------
    Square base cell on a 4-up grid, with a repeating pattern of larger tiles.
    Row height is driven by the column width, so a 2x2 tile stays square and the

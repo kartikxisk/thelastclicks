@@ -22,11 +22,13 @@ it('seeds roles, admin user, services, industries, sample content', function () 
     expect(Role::pluck('name')->all())->toContain('Super-admin', 'Editor', 'Sales', 'Viewer')
         ->and(User::where('email', config('app.admin_seed_email'))->exists())->toBeTrue()
         ->and(Service::count())->toBe(3)
-        // Six verticals, taken from the studio's own client list. The previous
-        // eight were split by market segment (fashion, automotive, nightlife),
-        // which is not how the work is actually sold or shot.
-        ->and(Industry::count())->toBe(6)
-        ->and(Industry::pluck('slug'))->toContain('alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding')
+        // Verticals taken from the studio's own client list. The original eight
+        // were split by market segment (fashion, automotive, nightlife), which is
+        // not how the work is actually sold or shot; the six that replaced them
+        // are kinds of shoot. Product was added as the seventh once the studio
+        // had product work to put behind it.
+        ->and(Industry::count())->toBe(7)
+        ->and(Industry::pluck('slug'))->toContain('alcobev', 'cover-artist', 'corporate-shoots', 'real-estate', 'podcast', 'wedding-pre-wedding', 'product-shoot-creative')
         ->and(Testimonial::published()->count())->toBeGreaterThanOrEqual(4)
         ->and(Post::published()->count())->toBeGreaterThanOrEqual(3)
         ->and(SiteSetting::get('contact_email'))->toBe('info@thelastclicks.com');

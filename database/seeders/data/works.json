@@ -3114,7 +3114,9 @@
             "is_featured": 0
         },
         "media": [],
-        "industries": [],
+        "industries": [
+            "product-shoot-creative"
+        ],
         "services": [],
         "media_items": [
             {
@@ -3287,7 +3289,9 @@
             "is_featured": 0
         },
         "media": [],
-        "industries": [],
+        "industries": [
+            "product-shoot-creative"
+        ],
         "services": [],
         "media_items": [
             {
@@ -3510,7 +3514,9 @@
             "is_featured": 0
         },
         "media": [],
-        "industries": [],
+        "industries": [
+            "product-shoot-creative"
+        ],
         "services": [],
         "media_items": [
             {
@@ -3808,7 +3814,9 @@
             "is_featured": 0
         },
         "media": [],
-        "industries": [],
+        "industries": [
+            "product-shoot-creative"
+        ],
         "services": [],
         "media_items": [
             {
@@ -3956,7 +3964,9 @@
             "is_featured": 0
         },
         "media": [],
-        "industries": [],
+        "industries": [
+            "product-shoot-creative"
+        ],
         "services": [],
         "media_items": [
             {

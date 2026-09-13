@@ -233,6 +233,34 @@ class IndustriesSeeder extends Seeder
                 <p>We travel for weddings and we scout venues ahead of the date wherever the schedule allows — most of what goes wrong on a wedding shoot is a room nobody had seen before the morning of.</p>
                 HTML,
             ],
+            [
+                'slug' => 'product-shoot-creative',
+                'title' => 'Product Shoot & Creative',
+                'summary' => 'Packshots, campaign stills and generated imagery for products — built to survive a marketplace crop and a full-bleed hero from the same shoot.',
+                'image_url' => 'industries/product-shoot-creative.jpg',
+                'body' => <<<'HTML'
+                <p>A product shoot is two jobs wearing one brief. The marketplace wants the object isolated, square, evenly lit and unambiguous. The campaign wants mood, shadow, a world around the thing. Shot as one setup they fight each other, and the usual outcome is a listing image that looks like a cropped advert or an advert that looks like a listing. We build them as separate setups off one hero lighting unit, so the colour matches across both even though the intent does not.</p>
+                <h3>What we shoot</h3>
+                <ul>
+                    <li>Packshots and e-commerce sets — white, transparent and on-surface</li>
+                    <li>Campaign and launch stills, styled to a set</li>
+                    <li>Texture, macro and material detail</li>
+                    <li>Bottle, glass and reflective goods</li>
+                    <li>Generated and CGI imagery, art-directed and finished alongside the photography</li>
+                </ul>
+                <h3>The hard part</h3>
+                <p>Reflective packaging is the whole problem. Glass, foil and gloss are mirrors, so the lighting rig, the crew and the room end up in the shot unless the set is built to keep them out — we flag, tent and polarise as a matter of routine, and a clean pack often takes more setups than the campaign frame beside it. Label colour is the other one: a brand red that reads correctly on a screen can arrive wrong on paper, so we shoot to a reference the client supplies rather than to what looks good on the monitor.</p>
+                <p>Generated imagery gets treated as a render, not as a shortcut. It can build a set nobody could afford to construct, but it invents detail under pressure — labels drift, type deforms, cap geometry changes between frames. Anything that carries a real product goes through the same check a retouched photograph does, and where a frame has to be literally true to the object, it gets photographed.</p>
+                <h3>What you get</h3>
+                <ul>
+                    <li>Marketplace-ready packs cut to the aspect and background each platform demands</li>
+                    <li>Campaign frames from the same colour pipeline, so the set and the listing agree</li>
+                    <li>Vertical crops framed at the shoot rather than salvaged afterwards</li>
+                    <li>Layered files for the frames you will want to re-version later</li>
+                </ul>
+                <p>Bring the packaging and the platform specs to the pre-production call. Knowing whether a frame has to clear a marketplace rule or only has to look good changes how it gets lit, and that is a cheaper conversation before the shoot than after it.</p>
+                HTML,
+            ],
         ];
     }
 }
