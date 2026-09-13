@@ -1144,19 +1144,35 @@ main > section.artist-band .artist-band__head {
    trailing orphan across whatever is left of its row instead — the same move
    the phone breakpoint already makes below, for the same reason.
 
-   It takes two columns AND two rows — the same block as the feature. Widening
-   without also growing taller just trades a hole for a 3.5:1 strip, and every
-   other tile in the mosaic sits near 16:9. Bookending the grid with a matched
-   pair reads as composition rather than as a gap that got patched.
+   The feature block is 4 cells and tiles 2-3 finish its rows, so six verticals
+   land on exactly three rows. A seventh opens a fourth row holding one tile,
+   and every way of patching that single tile is a trade: span the full row and
+   it is a 5:1 strip, span 2x2 and it leaves a column of dead pixels beside it.
+
+   So stop patching the last tile and re-pair the tail instead. From the fifth
+   tile on, every other one takes two columns, which turns the remainder into
+   rows of 1 + 2. Seven verticals then fill 4 + 2 + 3 + 3 = 12 cells exactly,
+   nothing is stretched across the whole page, and the mosaic gains the mixed
+   widths a bento is supposed to have.
+
+   Quantity-queried to the count it actually solves. At any other number the
+   pairing would reopen a hole, so the plain orphan rule below takes over.
 
    Scoped to the three-column grid on purpose: unscoped, a multi-column span
    against the two-column phone layout conjures an implicit third column and
    collapses the whole mosaic to zero-width tiles. */
 @media (min-width: 768px) {
-  .indb__tile:last-child:nth-child(3n + 1),
-  .indb__tile:last-child:nth-child(3n + 2) {
+  .indb:has(.indb__tile:nth-child(7):last-child) .indb__tile:nth-child(2n + 5) {
     grid-column: span 2;
-    grid-row: span 2;
+  }
+
+  /* Every other count: a trailing orphan fills the rest of its row. A wide
+     tile is not lovely; a void beside it is worse. */
+  .indb:not(:has(.indb__tile:nth-child(7):last-child)) .indb__tile:last-child:nth-child(3n + 1) {
+    grid-column: span 3;
+  }
+  .indb:not(:has(.indb__tile:nth-child(7):last-child)) .indb__tile:last-child:nth-child(3n + 2) {
+    grid-column: span 2;
   }
 }
 .indb__tile img {
