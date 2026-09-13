@@ -1131,6 +1131,19 @@ main > section.artist-band .artist-band__head {
   grid-column: span 2;
   grid-row: span 2;
 }
+/* The feature eats a 2x2 block, so tiles 4, 7, 10 … start a fresh row and
+   tiles 5, 8, 11 … sit second in one. Six verticals filled the mosaic exactly
+   and hid this; the seventh landed alone against two dead cells. Stretch a
+   trailing orphan across whatever is left of its row instead — the same move
+   the phone breakpoint already makes below, for the same reason.
+
+   Scoped to the three-column grid on purpose: unscoped, "span 3" against the
+   two-column phone layout conjures an implicit third column and collapses the
+   whole mosaic to zero-width tiles. */
+@media (min-width: 768px) {
+  .indb__tile:last-child:nth-child(3n + 1) { grid-column: span 3; }
+  .indb__tile:last-child:nth-child(3n + 2) { grid-column: span 2; }
+}
 .indb__tile img {
   position: absolute;
   inset: 0;
