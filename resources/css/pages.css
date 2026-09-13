@@ -1170,8 +1170,13 @@ main > section.artist-band .artist-band__head {
    against the two-column phone layout conjures an implicit third column and
    collapses the whole mosaic to zero-width tiles. */
 @media (min-width: 768px) {
+  /* Pinned to the right-hand pair of columns rather than merely spanning two.
+     The narrow tile that follows in source order then falls into the empty
+     first column via the dense flow above, so each tail row reads narrow-left,
+     wide-right without reordering the markup — the DOM stays in the admin's
+     own order, which is what the numbering on the tiles reflects. */
   .indb:has(.indb__tile:nth-child(7):last-child) .indb__tile:nth-child(2n + 4) {
-    grid-column: span 2;
+    grid-column: 2 / span 2;
   }
 
   /* Every other count: a trailing orphan fills the rest of its row. A wide
