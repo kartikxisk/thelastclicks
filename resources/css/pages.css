@@ -1137,11 +1137,15 @@ main > section.artist-band .artist-band__head {
    trailing orphan across whatever is left of its row instead — the same move
    the phone breakpoint already makes below, for the same reason.
 
-   Scoped to the three-column grid on purpose: unscoped, "span 3" against the
-   two-column phone layout conjures an implicit third column and collapses the
-   whole mosaic to zero-width tiles. */
+   An orphan at the start of a row takes two columns rather than all three, so
+   it echoes the feature cell's width instead of becoming a letterboxed strip
+   the full width of the page.
+
+   Scoped to the three-column grid on purpose: unscoped, a multi-column span
+   against the two-column phone layout conjures an implicit third column and
+   collapses the whole mosaic to zero-width tiles. */
 @media (min-width: 768px) {
-  .indb__tile:last-child:nth-child(3n + 1) { grid-column: span 3; }
+  .indb__tile:last-child:nth-child(3n + 1),
   .indb__tile:last-child:nth-child(3n + 2) { grid-column: span 2; }
 }
 .indb__tile img {
