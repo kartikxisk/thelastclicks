@@ -7,6 +7,7 @@ use App\Models\Subscriber;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -58,14 +59,16 @@ class SubscriberResource extends Resource
                     ->query(fn (Builder $q) => $q->whereNull('unsubscribed_at')),
             ])
             ->actions([
-                Action::make('toggleSubscription')
-                    ->label(fn (Subscriber $record) => $record->unsubscribed_at ? 'Resubscribe' : 'Unsubscribe')
-                    ->icon(fn (Subscriber $record) => $record->unsubscribed_at ? 'heroicon-o-arrow-path' : 'heroicon-o-no-symbol')
-                    ->requiresConfirmation()
-                    ->action(fn (Subscriber $record) => $record->update([
-                        'unsubscribed_at' => $record->unsubscribed_at ? null : now(),
-                    ])),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    Action::make('toggleSubscription')
+                        ->label(fn (Subscriber $record) => $record->unsubscribed_at ? 'Resubscribe' : 'Unsubscribe')
+                        ->icon(fn (Subscriber $record) => $record->unsubscribed_at ? 'heroicon-o-arrow-path' : 'heroicon-o-no-symbol')
+                        ->requiresConfirmation()
+                        ->action(fn (Subscriber $record) => $record->update([
+                            'unsubscribed_at' => $record->unsubscribed_at ? null : now(),
+                        ])),
+                    DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

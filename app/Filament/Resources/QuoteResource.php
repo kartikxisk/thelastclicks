@@ -20,6 +20,7 @@ use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -230,21 +231,23 @@ class QuoteResource extends Resource
                     ),
             ])
             ->actions([
-                ViewAction::make(),
-                EditAction::make(),
-                Action::make('reopen')
-                    ->label('Reopen')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->color('warning')
-                    ->visible(fn (Quote $record): bool => $record->isClosed())
-                    ->authorize(fn (Quote $record): bool => auth()->user()?->can('update', $record) ?? false)
-                    ->form([
-                        Textarea::make('comment')
-                            ->label('Why is it back in play?')
-                            ->rows(3),
-                    ])
-                    ->action(fn (Quote $record, array $data) => $record->reopen($data['comment'] ?? null, auth()->user()))
-                    ->successNotificationTitle('Lead reopened'),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    Action::make('reopen')
+                        ->label('Reopen')
+                        ->icon('heroicon-o-arrow-uturn-left')
+                        ->color('warning')
+                        ->visible(fn (Quote $record): bool => $record->isClosed())
+                        ->authorize(fn (Quote $record): bool => auth()->user()?->can('update', $record) ?? false)
+                        ->form([
+                            Textarea::make('comment')
+                                ->label('Why is it back in play?')
+                                ->rows(3),
+                        ])
+                        ->action(fn (Quote $record, array $data) => $record->reopen($data['comment'] ?? null, auth()->user()))
+                        ->successNotificationTitle('Lead reopened'),
+                ]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
