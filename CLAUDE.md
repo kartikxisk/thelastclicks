@@ -66,38 +66,17 @@ Two layers stacked:
 
 ### Billing
 
-`companies` (our entities, exactly one `is_default`), `billing_clients` (who we bill — *not*
-`clients`, which is the public logo wall) and `service_items` (the saved rate card).
+`companies` (our entities, exactly one `is_default`), `billing_clients` (who we bill — *not* `clients`, which is the public logo wall) and `service_items` (the saved rate card).
 
-Money is **integer paise** in `*_paise` bigint columns, tax rates are **basis points**
-(`18%` → `1800`), and `App\Invoicing\Money` is the only converter. Nothing casts money to a
-float: the GST split is a three-way division and a float leaves the components and the grand
-total a paisa apart, which is what a GSTR-1 reconciliation surfaces months later on a
-document the law no longer lets us edit.
+Money is **integer paise** in `*_paise` bigint columns, tax rates are **basis points** (`18%` → `1800`), and `App\Invoicing\Money` is the only converter. Nothing casts money to a float: the GST split is a three-way division and a float leaves the components and the grand total a paisa apart, which is what a GSTR-1 reconciliation surfaces months later on a document the law no longer lets us edit.
 
-`App\Invoicing\StateCodes` omits 25 and 28 deliberately — both were merged away and cannot
-appear in a GSTIN issued today. `App\Rules\Gstin` validates format, state code and the
-mod-36 check digit; the checksum is the only part that catches a transposed character, which
-is the error people actually make. `checksum()` throws on a stub that is not exactly 14
-characters, because `strpos($alphabet, '')` returns `0` rather than `false` — a short stub
-would otherwise yield a plausible-looking wrong check digit instead of failing.
+`App\Invoicing\StateCodes` omits 25 and 28 deliberately — both were merged away and cannot appear in a GSTIN issued today. `App\Rules\Gstin` validates format, state code and the mod-36 check digit; the checksum is the only part that catches a transposed character, which is the error people actually make. `checksum()` throws on a stub that is not exactly 14 characters, because `strpos($alphabet, '')` returns `0` rather than `false` — a short stub would otherwise yield a plausible-looking wrong check digit instead of failing.
 
-`CompanyObserver` holds "exactly one active default" — MySQL has no partial unique index, so
-it is a code path, not a constraint. Deactivating the default throws rather than leaving
-`Company::default()` null and every invoice form blank with no explanation.
+`CompanyObserver` holds "exactly one active default" — MySQL has no partial unique index, so it is a code path, not a constraint. Deactivating the default throws rather than leaving `Company::default()` null and every invoice form blank with no explanation, and creating the very first company forces `is_active` alongside `is_default`, because a default that is not active is invisible to `Company::default()` and so is the same as having none. `CompanyPolicy::delete()` is the other half of that guard and is hand-written: it refuses to delete the last active company. Shield regenerates policies with `--ignore-existing-policies`, so it survives a `PermissionsSeeder` run and must not be "restored" to the stock template.
 
-`BillingSeeder` bootstraps an empty database and deliberately does not reconcile an existing
-one: it creates the company only when none exists, promotes only when there is no default,
-and seeds the rate card only when no shared item exists. Keying on `config('app.name')`
-created a second company whenever `APP_NAME` drifted, and an unconditional `makeDefault()`
-silently reverted an admin's chosen default on every deploy.
+`BillingSeeder` bootstraps an empty database and deliberately does not reconcile an existing one: it creates the company only when none exists, promotes only when there is no default, and seeds the rate card only when no shared item exists. Keying on `config('app.name')` created a second company whenever `APP_NAME` drifted, and an unconditional `makeDefault()` silently reverted an admin's chosen default on every deploy.
 
-Billing permissions are withheld from Viewer on purpose: its blanket `view_*` grant would
-otherwise hand every read-only account our bank details and every client's GSTIN.
-`User::canAccessPanel()` is a hardcoded role allow-list that gates panel entry *before* any
-policy runs, so a new role must be added there as well as being granted permissions —
-`tests/Feature/Admin/AdminPanelAccessTest.php` walks every seeded role for exactly that
-reason.
+Billing permissions are withheld from Viewer on purpose: its blanket `view_*` grant would otherwise hand every read-only account our bank details and every client's GSTIN. `PermissionsSeeder` derives that billing set from the panel at runtime — the resources whose `$navigationGroup` is `Billing` — rather than from a literal list, because a literal fails open: a resource added later matches no list written today and silently lands on Viewer. Put a new billing resource in the `Billing` nav group and the carve-out covers it with no seeder edit. `User::canAccessPanel()` is a hardcoded role allow-list that gates panel entry *before* any policy runs, so a new role must be added there as well as being granted permissions — `tests/Feature/Admin/AdminPanelAccessTest.php` walks every seeded role for exactly that reason.
 
 ### SEO
 

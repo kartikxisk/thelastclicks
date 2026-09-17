@@ -77,6 +77,20 @@ total in words is expected by every AP department even though Rule 46 does not r
 Column lists below are the schema contract. Types are MySQL types; every table carries
 `timestamps()`.
 
+**Deviation, deliberate: the address and email columns listed NOT NULL below were all built
+nullable.** This applies to `companies` (`address_line1`, `address_city`, `address_state`,
+`address_state_code`, `address_postal_code`, `email`) and to the equivalent columns on
+`billing_clients`. It is not an oversight and should not be "corrected" by a later migration.
+
+Rule 46 requires those fields to be present on an *issued* invoice, not on a row in a table.
+A draft has to be saveable while half-filled — an admin starts a company record with the name
+and comes back for the bank details, and a NOT NULL column turns that into a database error
+on a form that had no way to warn them. Presence is therefore enforced at issue time, by
+phase 2's `InvoiceValidator` (§9), which is the point where the legal requirement actually
+attaches. The one case pulled forward into the form is `companies.address_state_code`, which
+`CompanyResource` requires once the entity is GST-registered, because it decides the tax
+split rather than merely printing.
+
 ### 4.1 `companies`
 
 Our own entities.
@@ -365,22 +379,44 @@ endorsement prints on the PDF (§8). Without LUT, IGST applies at the line rate.
 Never both. The two are mutually exclusive by construction — the calculator returns zero for
 the unused columns rather than leaving them null.
 
+### Rounding direction
+
+**Rounding is half away from zero, not half up.** Earlier drafts of this section said
+"round_half_up"; the implementation in `App\Invoicing\Money` rounds a half away from zero and
+that is the correct behaviour, so this text has been corrected to match it rather than the
+other way round. `Money::applyBps(-123455, 1800)` is `-22222`, where half-up would give
+`-22221`.
+
+The reason is credit notes. A credit note is the same arithmetic with the sign flipped, and
+only symmetric rounding makes `credit(x) === -invoice(x)`. Under half-up a half-paisa on a
+negative line rounds toward zero while its positive twin rounds away, so a credit note issued
+to reverse an invoice fails to cancel it by a paisa — on the exact pair of documents whose
+whole purpose is to net to nothing.
+
 ### Order of operations (exact)
 
-1. `gross = round_half_up(quantity × unit_price_paise)`
-2. `discount_paise` — if a percent was given, `round_half_up(gross × percent / 100)`; the
+1. `gross = round_half_away(quantity × unit_price_paise)`
+2. `discount_paise` — if a percent was given, `round_half_away(gross × percent / 100)`; the
    stored amount wins if both are present.
 3. `taxable_paise = gross − discount_paise`
-4. Each tax component: `round_half_up(taxable_paise × component_bps / 10000)`, at 2dp — i.e.
+4. Each tax component: `round_half_away(taxable_paise × component_bps / 10000)`, at 2dp — i.e.
    to the paise. **Components are never rounded to the rupee.**
 5. Totals are the sums of the line values.
 6. `grand_unrounded = taxable_total + tax_total`
-7. `grand_total_paise = round_half_up_to_rupee(grand_unrounded)`; `round_off_paise =
+7. `grand_total_paise = round_half_away_to_rupee(grand_unrounded)`; `round_off_paise =
    grand_total_paise − grand_unrounded`, which lies in −49..+50.
 
-Step 7 implements §170 (round to the nearest rupee, ≥50 paise up). Step 4 must not: rounding
-the components is what makes a GSTR-1 return disagree with the ledger. The `Round Off` line
-absorbs the difference and prints on the PDF.
+Step 7 implements §170 (round to the nearest rupee, ≥50 paise away from zero). Step 4 must
+not: rounding the components is what makes a GSTR-1 return disagree with the ledger. The
+`Round Off` line absorbs the difference and prints on the PDF.
+
+**Step 1 must be integer arithmetic.** `quantity × unit_price_paise` is a product of two
+integers and has to stay one; the obvious `(float) $quantity * $paise` is exactly what the
+paise columns exist to prevent, and it reintroduces the drift described in §3 at the first
+step of the calculation rather than the last. Phase 2 implements this inside
+`TaxCalculator`. There is deliberately no `Money::multiply()` today — it would be unused API
+until the calculator exists — so this is a note about what that code must do, not a pointer
+to a helper that already does it.
 
 ### Place of supply
 
