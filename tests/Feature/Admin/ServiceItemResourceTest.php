@@ -135,6 +135,21 @@ it('refuses a GST rate that is not a real slab', function () {
         ->assertHasFormErrors(['tax_rate_bps']);
 });
 
+it('rejects an over-long rate as a field error rather than an exception', function () {
+    // Money::fromRupees() cannot hold this in an int, and it is reached from
+    // dehydrateStateUsing() — after validation — so an unguarded field turns a
+    // typo into an uncaught 500.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Overflowing rate',
+            'unit' => 'project',
+            'rate_paise' => '99999999999999999999.99',
+            'tax_rate_bps' => 1800,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['rate_paise']);
+});
+
 it('refuses a fractional sort position', function () {
     // The Eloquent cast added for this column is read-side only: "1.5" still
     // reaches an unsignedInteger column, where MySQL rounds it and SQLite keeps

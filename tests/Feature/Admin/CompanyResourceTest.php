@@ -295,3 +295,22 @@ it('refuses a state code that is not a real GST state', function () {
         ->call('create')
         ->assertHasFormErrors(['address_state_code']);
 });
+
+it('still fills the bank block into the edit form', function () {
+    // Company::$hidden keeps the bank block out of toArray(), and Filament's
+    // EditRecord fills its form from attributesToArray() — so the resource has
+    // to reach for those three attributes explicitly or the edit screen comes
+    // up blank and saves the blanks back over real bank details.
+    $company = Company::factory()->create([
+        'bank_account_number' => '50100123456789',
+        'bank_ifsc' => 'HDFC0001234',
+        'upi_id' => 'studio@hdfcbank',
+    ]);
+
+    Livewire::test(EditCompany::class, ['record' => $company->getRouteKey()])
+        ->assertFormSet([
+            'bank_account_number' => '50100123456789',
+            'bank_ifsc' => 'HDFC0001234',
+            'upi_id' => 'studio@hdfcbank',
+        ]);
+});

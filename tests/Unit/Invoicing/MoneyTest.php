@@ -75,3 +75,22 @@ it('refuses an amount in scientific notation rather than silently misreading it'
     expect(fn () => Money::fromRupees('1.0E+20'))->toThrow(InvalidArgumentException::class)
         ->and(fn () => Money::fromRupees('1e3'))->toThrow(InvalidArgumentException::class);
 });
+
+it('refuses an amount too large to hold in paise', function () {
+    // (int) $whole * 100 overflows to float, and the `: int` return type then
+    // raises a TypeError. That lands inside RupeeInput's dehydrateStateUsing(),
+    // after validation has passed — an uncaught 500, which is exactly the
+    // outcome the `[0-9]` anchor on that field was added to prevent for a
+    // bare '-'. Every sibling refusal in this class is an InvalidArgumentException.
+    expect(fn () => Money::fromRupees('99999999999999999999.99'))
+        ->toThrow(InvalidArgumentException::class);
+
+    expect(fn () => Money::fromRupees('999999999999999999999999'))
+        ->toThrow(InvalidArgumentException::class);
+});
+
+it('still accepts an amount far larger than any real invoice', function () {
+    // The guard above must not clip anything a studio could plausibly bill:
+    // this is a hundred crore rupees.
+    expect(Money::fromRupees('1000000000.00'))->toBe(100000000000);
+});

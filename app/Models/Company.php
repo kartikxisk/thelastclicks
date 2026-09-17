@@ -42,6 +42,21 @@ class Company extends Model implements HasMedia
         'minimal' => 'Minimal',
     ];
 
+    /**
+     * Kept out of toArray()/toJson().
+     *
+     * Phase 2 freezes a party_snapshot of the company onto every invoice and
+     * queues the mail that sends it; a queued job payload is a database row,
+     * and a PDF render is a third place a model gets serialised. None of those
+     * need the bank block, and a serialised model is the easiest way for an
+     * account number to end up somewhere nobody meant to put it. Anything that
+     * genuinely needs these — the payment block on the invoice itself — reads
+     * the attributes directly, which $hidden does not affect.
+     *
+     * @var list<string>
+     */
+    protected $hidden = ['bank_account_number', 'bank_ifsc', 'upi_id'];
+
     protected $guarded = [];
 
     protected function casts(): array

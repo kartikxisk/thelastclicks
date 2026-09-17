@@ -76,8 +76,28 @@ final class Money
 
         [$whole, $fraction] = array_pad(explode('.', $digits, 2), 2, '');
 
+        $whole = ltrim($whole, '0');
+        $whole = $whole === '' ? '0' : $whole;
+
+        // Paise are a PHP int, so there is a ceiling, and past it `(int) $whole
+        // * 100` overflows to a float that the `: int` return type then refuses
+        // with a TypeError. That lands inside RupeeInput's dehydrateStateUsing()
+        // — after validation has passed — so an unguarded over-long amount is an
+        // uncaught 500, exactly the outcome the `[0-9]` anchor on that field was
+        // added to prevent for a bare '-'. Refusing it here makes it the same
+        // InvalidArgumentException as every other thing this method will not
+        // take. One rupee of headroom, for the paise and the half-up carry added
+        // below. strcmp() rather than a numeric comparison because two strings
+        // this long compare as floats, which is the precision loss being guarded.
+        $maxWhole = (string) (intdiv(PHP_INT_MAX, 100) - 1);
+
+        if (strlen($whole) > strlen($maxWhole)
+            || (strlen($whole) === strlen($maxWhole) && strcmp($whole, $maxWhole) > 0)) {
+            throw new InvalidArgumentException("Amount is too large: {$raw}");
+        }
+
         $fraction = str_pad(substr($fraction, 0, 3), 3, '0');
-        $paise = ((int) ($whole === '' ? '0' : $whole)) * 100 + (int) substr($fraction, 0, 2);
+        $paise = ((int) $whole) * 100 + (int) substr($fraction, 0, 2);
 
         if ((int) $fraction[2] >= 5) {
             $paise++;

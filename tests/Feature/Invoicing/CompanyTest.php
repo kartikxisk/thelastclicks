@@ -141,3 +141,14 @@ it('records a change to the UPI ID', function () {
     expect($activity)->not->toBeNull()
         ->and($activity->changes()['attributes']['upi_id'])->toBe('someone-else@ybl');
 });
+
+it('keeps the bank block out of a serialised company', function () {
+    // Phase 2 freezes a party_snapshot and queues mail; a queued job payload is
+    // a database row, and a PDF render is another serialisation point.
+    $company = Company::factory()->create();
+
+    expect(array_keys($company->toArray()))
+        ->not->toContain('bank_account_number')
+        ->not->toContain('bank_ifsc')
+        ->not->toContain('upi_id');
+});

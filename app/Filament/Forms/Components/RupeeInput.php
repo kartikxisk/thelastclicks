@@ -23,6 +23,15 @@ class RupeeInput
             // reach Money::fromRupees('-'), which throws — an admin would see
             // a 500 instead of a field error.
             ->rule('regex:/^-?[0-9][0-9,]*\.?[0-9]{0,2}$/')
+            // Sixteen characters cannot spell an amount Money::fromRupees()
+            // would refuse: at worst that is sixteen digits of rupees, and the
+            // ceiling there is seventeen. Without it a long enough entry passes
+            // validation and throws inside dehydrateStateUsing() below, which
+            // the admin sees as a 500 rather than as a field error — the same
+            // failure the anchor above closed for a bare '-'. It still leaves
+            // room for ₹99,99,99,99,999.99, which is four orders of magnitude
+            // past anything this studio invoices.
+            ->maxLength(16)
             ->default(0)
             ->formatStateUsing(fn (int|string|null $state): string => Money::toRupees((int) ($state ?? 0)))
             ->dehydrateStateUsing(fn (int|string|null $state): int => Money::fromRupees($state));
