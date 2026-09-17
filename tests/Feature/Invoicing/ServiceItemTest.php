@@ -43,3 +43,38 @@ it('scopes to active items', function () {
 
     expect(ServiceItem::active()->count())->toBe(1);
 });
+
+it('hands back an integer sort position, like the other three integer columns', function () {
+    // `sort` was the one integer column with no cast, so the model handed back
+    // whatever the driver returned. A whole number hides it — SQLite and MySQL
+    // both return an int for that — so this uses the value that does not:
+    // "1.5" is stored by SQLite as a float and came back as 1.5, a rate card
+    // ordered by something that is not a position. rate_paise and
+    // tax_rate_bps were always ints; this column was the odd one out.
+    $item = ServiceItem::factory()->create(['sort' => '1.5']);
+
+    expect($item->fresh()->sort)->toBeInt()->toBe(1);
+});
+
+it('deletes a company-scoped rate card with its company and leaves the shared rows', function () {
+    // service_items.company_id is cascadeOnDelete and three separate comments
+    // call that out as dangerous and silent — but until now only the delete
+    // confirmation's row count was tested, never the delete itself. SQLite
+    // enforces foreign keys in this repo, so this genuinely exercises the
+    // constraint rather than asserting a comment.
+    $doomed = Company::factory()->create();
+    $survivor = Company::factory()->create();
+
+    $scoped = ServiceItem::factory()->count(2)->create(['company_id' => $doomed->id]);
+    $shared = ServiceItem::factory()->create(['company_id' => null]);
+    $theirs = ServiceItem::factory()->create(['company_id' => $survivor->id]);
+
+    $doomed->delete();
+
+    expect(ServiceItem::whereIn('id', $scoped->pluck('id'))->count())->toBe(0)
+        // The shared row belongs to no company and must survive — it is most of
+        // the rate card, and losing it to an unrelated company's delete would
+        // be silent.
+        ->and($shared->fresh())->not->toBeNull()
+        ->and($theirs->fresh())->not->toBeNull();
+});

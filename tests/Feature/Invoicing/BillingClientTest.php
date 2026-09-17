@@ -109,3 +109,12 @@ it('leaves an absent GSTIN and PAN null rather than storing an empty string', fu
     expect($client->fresh()->gstin)->toBeNull()
         ->and($client->fresh()->pan)->toBeNull();
 });
+
+it('scopes to active clients', function () {
+    // Company and ServiceItem both have this test; BillingClient did not, so
+    // nothing would have caught its scope being dropped or inverted.
+    BillingClient::factory()->create(['is_active' => true]);
+    BillingClient::factory()->create(['is_active' => false]);
+
+    expect(BillingClient::active()->count())->toBe(1);
+});
