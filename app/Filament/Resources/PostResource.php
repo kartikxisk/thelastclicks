@@ -79,7 +79,10 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->searchable()->sortable(),
+                // Filament's TextColumn is nowrap by default, and a real headline runs to
+                // 520px — wider than a phone on its own, before any other column
+                // exists. Wrapping is what keeps the row inside the viewport.
+                TextColumn::make('title')->searchable()->sortable()->wrap(),
                 TextColumn::make('author.name')->label('Author')->visibleFrom('md'),
                 TextColumn::make('status')
                     ->badge()
