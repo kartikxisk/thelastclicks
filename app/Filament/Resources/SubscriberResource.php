@@ -7,6 +7,7 @@ use App\Models\Subscriber;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -42,8 +43,11 @@ class SubscriberResource extends Resource
     {
         return $table
             ->columns([
+                // Unsubscribed stays visible because the row action (Resubscribe
+                // vs Unsubscribe) reads it — hiding it would leave the button's
+                // label as the only clue to which state you're toggling.
                 TextColumn::make('email')->searchable()->sortable()->copyable(),
-                TextColumn::make('source_page')->label('Source')->searchable()->toggleable(),
+                TextColumn::make('source_page')->label('Source')->searchable()->toggleable()->visibleFrom('md'),
                 TextColumn::make('created_at')->label('Subscribed')->dateTime()->sortable(),
                 TextColumn::make('unsubscribed_at')->label('Unsubscribed')->dateTime()
                     ->placeholder('—')->sortable()->toggleable(),
@@ -55,14 +59,16 @@ class SubscriberResource extends Resource
                     ->query(fn (Builder $q) => $q->whereNull('unsubscribed_at')),
             ])
             ->actions([
-                Action::make('toggleSubscription')
-                    ->label(fn (Subscriber $record) => $record->unsubscribed_at ? 'Resubscribe' : 'Unsubscribe')
-                    ->icon(fn (Subscriber $record) => $record->unsubscribed_at ? 'heroicon-o-arrow-path' : 'heroicon-o-no-symbol')
-                    ->requiresConfirmation()
-                    ->action(fn (Subscriber $record) => $record->update([
-                        'unsubscribed_at' => $record->unsubscribed_at ? null : now(),
-                    ])),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    Action::make('toggleSubscription')
+                        ->label(fn (Subscriber $record) => $record->unsubscribed_at ? 'Resubscribe' : 'Unsubscribe')
+                        ->icon(fn (Subscriber $record) => $record->unsubscribed_at ? 'heroicon-o-arrow-path' : 'heroicon-o-no-symbol')
+                        ->requiresConfirmation()
+                        ->action(fn (Subscriber $record) => $record->update([
+                            'unsubscribed_at' => $record->unsubscribed_at ? null : now(),
+                        ])),
+                    DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

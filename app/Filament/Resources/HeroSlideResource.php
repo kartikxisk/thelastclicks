@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -70,14 +71,17 @@ class HeroSlideResource extends Resource
                 TextColumn::make('label')->searchable()->placeholder('—'),
                 TextColumn::make('kind')->label('Type')
                     ->badge()
-                    ->state(fn (HeroSlide $record) => $record->isVideo() ? 'Video' : 'Image'),
+                    ->state(fn (HeroSlide $record) => $record->isVideo() ? 'Video' : 'Image')
+                    ->visibleFrom('md'),
                 IconColumn::make('is_active')->boolean()->label('Active'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

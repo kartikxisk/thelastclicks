@@ -15,6 +15,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -175,15 +176,20 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
+                // Same shape as IndustryResource: order and slug give way on a
+                // phone, title alone still identifies which of the handful of
+                // service pages this is.
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('slug')->searchable(),
+                TextColumn::make('slug')->searchable()->visibleFrom('md'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

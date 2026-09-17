@@ -12,6 +12,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -69,15 +70,21 @@ class IndustryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
+                // Titles here run long ("Product Shoot & Creative"), so order and
+                // slug — a derivative of the title, not a second identifier —
+                // are the ones to give up on a phone; the row's position already
+                // shows its place in the manual order.
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('slug')->searchable(),
+                TextColumn::make('slug')->searchable()->visibleFrom('md'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

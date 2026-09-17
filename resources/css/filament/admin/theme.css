@@ -66,4 +66,99 @@
 
     /* Pipeline: keep tall columns scrollable instead of stretching the page. */
     .fi-page .fi-ta-ctn:has(.fi-ta-empty-state) { min-height: 0; }
+
+    /*
+     * Touch targets. WCAG 2.5.8 (Target Size, AA) wants 24x24 CSS px minimum;
+     * Apple HIG and Material both recommend 44x44 for anything a finger has
+     * to hit. Measured live at 390px: 31/36 form inputs were 36px tall,
+     * every icon-only button 32-36px, table row actions 20px. These are
+     * Filament's own desktop-tuned defaults, not anything this file wrote.
+     *
+     * Scoped to touch-sized viewports/coarse pointers only — the owner runs
+     * this panel from a phone but also from a laptop all day, and the
+     * desktop density is deliberate. `pointer: coarse` is the more honest
+     * signal (a target is hard to hit because of a finger, not because of
+     * viewport width) but some touch devices misreport pointer type, so a
+     * plain max-width is ORed in as a safety net. Neither condition matches
+     * a mouse-driven 1440px laptop, which must stay exactly as it is.
+     */
+    @media (max-width: 640px), (pointer: coarse) {
+        /* Text/email/password/date inputs, native <select>, and the
+           choices.js multi-select box (relationship pickers like Services)
+           all get their 36px from py-1.5 (6px) padding + line-height.
+           min-height is a floor, not a fight with that padding: native
+           inputs/selects center their content once taller on their own,
+           and choices.js's click-to-open handler is delegated to .choices
+           (the parent), so the enlarged box is genuinely clickable, not
+           just taller-looking. */
+        .fi-input,
+        .fi-select-input,
+        .choices__inner {
+            min-height: 44px;
+        }
+
+        /* Every fi-btn variant (Sign in, Save, header actions, the
+           pagination Next/Previous button, the bulk-action trigger)
+           already centers its label via items-center, so the floor is the
+           only change needed. */
+        .fi-btn {
+            min-height: 44px;
+        }
+
+        /* Icon-only buttons were the worst offenders measured live: the
+           password-visibility toggle, sidebar open/close, table reorder,
+           filter trigger, and column-toggle trigger were all 32-36px
+           square. fi-icon-btn already centers its icon via flex. */
+        .fi-icon-btn {
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* Numbered pagination buttons are hidden below Tailwind's own sm:
+           breakpoint in favour of the Next/Previous fi-btn, so this only
+           matters on a coarse-pointer tablet wide enough to show them. */
+        .fi-pagination-item-button {
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* Table row actions (Edit/Delete) and header link-actions render
+           as fi-link at 20px tall — pure content height, no padding at
+           all in Filament's markup, making this the single worst-measured
+           control in the panel. fi-link is already inline-flex +
+           items-center, so the floor recenters the label for free. */
+        .fi-link.fi-ac-link-action {
+            min-height: 44px;
+        }
+
+        /* The user-menu avatar trigger is a bare <button class="shrink-0">
+           — Filament gives it no sizing class of its own, just a 32x32
+           <img> child — so it needs explicit centering once floored to
+           44px, or the avatar sits top-left in the enlarged box. */
+        .fi-user-menu button[aria-label='User menu'] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* Toggle fields, single Checkbox fields, and CheckboxList options
+           render their visual control at 16-24px, with the row's real
+           height coming from unpadded label content. Padding the label
+           (not the control) keeps the switch/checkbox glyph visually
+           unchanged while still growing the real tap target, because the
+           label wraps both the control and its text. :has() scopes this
+           to labels that actually wrap an interactive control —
+           fi-fo-field-wrp-label is also the plain, non-interactive label
+           above every text input, and padding that unconditionally would
+           add dead space to every field in every form. This is also what
+           makes the column-toggle dropdown's checkbox list (a plain
+           Filament Checkbox field per column) usable with a thumb. */
+        .fi-fo-field-wrp-label:has(.fi-fo-toggle),
+        .fi-fo-field-wrp-label:has(.fi-checkbox-input),
+        .fi-fo-checkbox-list-option-label {
+            padding-block: 0.625rem;
+        }
+    }
 }

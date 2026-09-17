@@ -96,22 +96,25 @@ class OutreachContactResource extends Resource
                     ->description(fn (OutreachContact $r) => $r->email),
 
                 Tables\Columns\TextColumn::make('event')
-                    ->searchable()->wrap()->toggleable()
+                    ->searchable()->wrap()->toggleable()->visibleFrom('md')
                     ->description(fn (OutreachContact $r) => $r->event_city),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()->sortable()
                     ->color(fn (?string $state) => static::statusColour($state)),
 
+                // Next action is what the "Due now" filter and the default sort
+                // both key off — this is a pipeline, so the date stays with
+                // organizer + status as the row's identity on any screen.
                 Tables\Columns\TextColumn::make('next_action_on')
                     ->label('Next action')->date('d M Y')->sortable()
                     ->color(fn (OutreachContact $r) => $r->next_action_on?->isPast() ? 'danger' : null),
 
                 Tables\Columns\TextColumn::make('sends_count')
-                    ->label('Sent')->counts('sends')->badge()->color('gray'),
+                    ->label('Sent')->counts('sends')->badge()->color('gray')->visibleFrom('md'),
 
-                Tables\Columns\IconColumn::make('replied')->boolean()->toggleable(),
-                Tables\Columns\TextColumn::make('owner')->toggleable()->searchable(),
+                Tables\Columns\IconColumn::make('replied')->boolean()->toggleable()->visibleFrom('md'),
+                Tables\Columns\TextColumn::make('owner')->toggleable()->searchable()->visibleFrom('md'),
                 Tables\Columns\TextColumn::make('event_starts_on')
                     ->label('Event')->date('d M Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -139,8 +142,10 @@ class OutreachContactResource extends Resource
                     ->color('primary'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkAction::make('setStatus')

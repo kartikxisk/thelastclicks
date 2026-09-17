@@ -12,6 +12,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -127,17 +128,29 @@ class SeoPageResource extends Resource
     {
         return $table
             ->columns([
+                // Page URL is what these rows are keyed on (it's the defaultSort
+                // and the thing being matched) and, unlike Work's title, its
+                // width is unbounded content, not a label problem: real routes
+                // run to "/industries/product-shoot-creative" (244px on its own
+                // at 390px), so shortening Noindex/Active's labels can't buy
+                // back enough room — the column that needs it is the one whose
+                // text this branch is forbidden from truncating. Both flags
+                // fold to md instead, on the same "secondary state, not
+                // identification" argument as Work's Homepage column; the URL
+                // alone still identifies the row.
                 TextColumn::make('page_url')->label('Page URL')->searchable()->sortable(),
-                TextColumn::make('label')->searchable()->toggleable(),
-                TextColumn::make('title')->limit(45)->searchable()->wrap(),
-                IconColumn::make('noindex')->boolean()->label('Noindex'),
-                IconColumn::make('is_active')->boolean()->label('Active'),
+                TextColumn::make('label')->searchable()->toggleable()->visibleFrom('md'),
+                TextColumn::make('title')->limit(45)->searchable()->wrap()->visibleFrom('md'),
+                IconColumn::make('noindex')->boolean()->label('Noindex')->visibleFrom('md'),
+                IconColumn::make('is_active')->boolean()->label('Active')->visibleFrom('md'),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('page_url')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -118,16 +119,27 @@ class WorkResource extends Resource
     {
         return $table
             ->columns([
+                // Cover + title + publish state are what a phone needs to pick the
+                // right project and know whether it's live; everything else is a
+                // desktop scan column, including category — once the category
+                // filter is applied every visible row already shares it.
                 SpatieMediaLibraryImageColumn::make('cover')->collection('cover'),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('client')->searchable(),
+                TextColumn::make('client')->searchable()->visibleFrom('md'),
                 TextColumn::make('category')->badge()
                     ->formatStateUsing(fn ($state) => Work::CATEGORIES[$state] ?? $state)
-                    ->placeholder('—'),
-                TextColumn::make('year')->sortable(),
-                TextColumn::make('media_items_count')->counts('mediaItems')->label('Media'),
-                IconColumn::make('is_published')->boolean(),
-                IconColumn::make('is_featured')->boolean()->label('Homepage'),
+                    ->placeholder('—')
+                    ->visibleFrom('md'),
+                TextColumn::make('year')->sortable()->visibleFrom('md'),
+                TextColumn::make('media_items_count')->counts('mediaItems')->label('Media')->visibleFrom('md'),
+                // Boolean icon columns are sized by their header LABEL, not their
+                // content (a single glyph) — "Is Published" alone measured 141px
+                // of a 358px mobile container, more than cover+title combined.
+                // "Live" reads correctly at any width (a CMS-standard synonym for
+                // published) and is 82px narrower, which is what actually closes
+                // the overflow.
+                IconColumn::make('is_published')->boolean()->label('Live'),
+                IconColumn::make('is_featured')->boolean()->label('Homepage')->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('category')->options(Work::CATEGORIES),
@@ -135,8 +147,10 @@ class WorkResource extends Resource
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

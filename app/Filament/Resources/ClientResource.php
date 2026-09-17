@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -59,8 +60,11 @@ class ClientResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
-                SpatieMediaLibraryImageColumn::make('logo')->collection('logo')->label('Uploaded'),
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
+                // Not the identifying thumbnail: this is the raw medialibrary
+                // collection, which is blank whenever the row falls back to
+                // logo_path — logo_preview below resolves both, so it stays.
+                SpatieMediaLibraryImageColumn::make('logo')->collection('logo')->label('Uploaded')->visibleFrom('md'),
                 // Distinct name: a second column called `logo_path` would collide
                 // with the Source badge below and only one would render.
                 ImageColumn::make('logo_preview')
@@ -80,14 +84,17 @@ class ClientResource extends Resource
                         (bool) $record->getFirstMedia('logo') => 'success',
                         filled($state) => 'info',
                         default => 'danger',
-                    }),
+                    })
+                    ->visibleFrom('md'),
                 IconColumn::make('is_active')->boolean()->label('Active'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

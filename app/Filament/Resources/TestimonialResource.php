@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -46,17 +47,25 @@ class TestimonialResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
+                // Client name + published state pick the row; the quote text and
+                // its industry are read on the edit screen, not scanned for here.
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
                 TextColumn::make('client_name')->searchable()->sortable(),
-                TextColumn::make('quote')->limit(60)->wrap(),
-                TextColumn::make('industry.title')->sortable(),
-                IconColumn::make('is_published')->boolean(),
+                TextColumn::make('quote')->limit(60)->wrap()->visibleFrom('md'),
+                TextColumn::make('industry.title')->sortable()->visibleFrom('md'),
+                // Same fix as WorkResource: this boolean column's width comes
+                // from its header label, not its single-glyph content — "Is
+                // Published" alone put client_name + this cell 3px over the
+                // 358px mobile container.
+                IconColumn::make('is_published')->boolean()->label('Live'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ]);
     }
 

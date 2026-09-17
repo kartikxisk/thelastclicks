@@ -13,6 +13,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -78,8 +79,11 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('author.name')->label('Author'),
+                // Filament's TextColumn is nowrap by default, and a real headline runs to
+                // 520px — wider than a phone on its own, before any other column
+                // exists. Wrapping is what keeps the row inside the viewport.
+                TextColumn::make('title')->searchable()->sortable()->wrap(),
+                TextColumn::make('author.name')->label('Author')->visibleFrom('md'),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -87,7 +91,7 @@ class PostResource extends Resource
                         'published' => 'success',
                         default => 'gray',
                     }),
-                TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('published_at')->dateTime()->sortable()->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('status')->options(['draft' => 'Draft', 'published' => 'Published']),
@@ -95,8 +99,10 @@ class PostResource extends Resource
             ])
             ->defaultSort('published_at', 'desc')
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+                    DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
