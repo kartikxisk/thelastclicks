@@ -40,12 +40,20 @@ class PermissionsSeeder extends Seeder
         'widget_RecentActivityWidget',
     ];
 
+    /**
+     * Shield derives a permission suffix from the resource name, so two-word
+     * models land as `billing::client`, not `billing_client`. Matching the
+     * underscore form silently grants nothing.
+     */
+    protected string $billingResources = 'company|billing::client|service::item';
+
     protected function assignRolePermissions(): void
     {
         $superAdmin = Role::findOrCreate('Super-admin', 'web');
         $editor = Role::findOrCreate('Editor', 'web');
         $sales = Role::findOrCreate('Sales', 'web');
         $viewer = Role::findOrCreate('Viewer', 'web');
+        $accounts = Role::findOrCreate('Accounts', 'web');
 
         $all = Permission::pluck('name')->all();
 
@@ -83,10 +91,24 @@ class PermissionsSeeder extends Seeder
             $leadDesk,
         ));
 
+        // Accounts: the billing surface, and only that. Invoices carry bank
+        // details and client GSTINs, which is a narrower audience than content
+        // or leads.
+        $accounts->syncPermissions(array_filter(
+            $all,
+            fn ($p) => preg_match('/_('.$this->billingResources.')$/', $p) === 1
+        ));
+
         // Viewer: read-only everywhere, including the lead desk. Moving a card is
         // still refused by QuotePolicy::update, which Viewer never satisfies.
+        // Billing is carved out: a blanket `view_*` grant would hand every
+        // read-only account our bank details and every client's GSTIN.
         $viewer->syncPermissions(array_merge(
-            array_filter($all, fn ($p) => str_starts_with($p, 'view_')),
+            array_filter(
+                $all,
+                fn ($p) => str_starts_with($p, 'view_')
+                    && preg_match('/_('.$this->billingResources.')$/', $p) !== 1
+            ),
             $leadDesk,
         ));
     }
