@@ -53,3 +53,15 @@ it('treats an empty value as absent, leaving `required` to decide', function () 
     expect(gstinFailure(''))->toBeNull()
         ->and(Gstin::isValid(null))->toBeFalse();
 });
+
+it('guards checksum() against a stub too short', function () {
+    expect(fn () => Gstin::checksum('27AAPFU0939F1'))->toThrow(InvalidArgumentException::class);
+});
+
+it('guards checksum() against a stub too long', function () {
+    expect(fn () => Gstin::checksum('27AAPFU0939F1ZZZ'))->toThrow(InvalidArgumentException::class);
+});
+
+it('returns sentinel on a valid-length stub with an out-of-alphabet character', function () {
+    expect(Gstin::checksum('27AAPFU0939F1!'))->toBe('?');  // exactly 14 chars with invalid char at end
+});

@@ -10,6 +10,14 @@ namespace App\Invoicing;
  * in 2020) and 28 (undivided Andhra Pradesh, split into 37 and 36). Neither can
  * appear in a GSTIN issued today, so offering them only lets someone pick a
  * state that will never match the counterparty's registration.
+ *
+ * PHP casts numeric-string keys to integers: '10' through '97' are stored as
+ * int keys, only '01' through '09' remain strings. Both exists() and name() use
+ * array_key_exists() and [], which coerce the lookup, so code lookups work for
+ * both string and int forms. However, a strict comparison over array_keys() —
+ * `in_array($code, array_keys(self::CODES), true)` — would silently fail on
+ * the int-keyed entries. The lookups here are safe; this is why options() casts
+ * to (string) explicitly, because later form consumers see string state codes.
  */
 final class StateCodes
 {
@@ -74,7 +82,9 @@ final class StateCodes
         $options = [];
 
         foreach (self::CODES as $code => $name) {
-            $options[$code] = $code.' — '.$name;
+            // Cast $code to (string) because PHP casts numeric-string keys to int,
+            // and Filament Select form state is a string.
+            $options[(string) $code] = (string) $code.' — '.$name;
         }
 
         return $options;

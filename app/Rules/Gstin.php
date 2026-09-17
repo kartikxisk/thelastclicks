@@ -24,6 +24,9 @@ class Gstin implements ValidationRule
     /** @param  string|null  $stateCode  When set, the GSTIN must belong to this state. */
     public function __construct(private ?string $stateCode = null) {}
 
+    /**
+     * @param  Closure(string): mixed  $fail
+     */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // Blank is not this rule's business — `required` says whether a value
@@ -70,11 +73,8 @@ class Gstin implements ValidationRule
         }
 
         $failed = false;
-        /** @phpstan-ignore-next-line Parameter type mismatch is expected — ValidationRule's fail closure signature is strict but our use case only needs boolean tracking. */
-        (new self)->validate('gstin', $gstin, function (string $message) use (&$failed): mixed {
+        (new self)->validate('gstin', $gstin, function () use (&$failed) {
             $failed = true;
-
-            return $message;
         });
 
         return ! $failed;
@@ -85,9 +85,21 @@ class Gstin implements ValidationRule
      * product folded (quotient + remainder in base 36), then complemented.
      *
      * @param  string  $first14  The GSTIN without its check digit.
+     *
+     * @throws \InvalidArgumentException
      */
     public static function checksum(string $first14): string
     {
+        // Length guard is essential: a short string's missing offsets emit
+        // Uninitialized string offset warnings and return '', which strpos
+        // interprets as 0 (found at position 0), hiding the corruption.
+        // A too-long string is silently truncated. Since factories call this
+        // to mint valid GSTINs, a bug here becomes a silently-wrong fixture
+        // instead of a loudly-failing test.
+        if (strlen($first14) !== 14) {
+            throw new \InvalidArgumentException('GSTIN stub must be exactly 14 characters, got '.strlen($first14).": {$first14}");
+        }
+
         $sum = 0;
 
         for ($i = 0; $i < 14; $i++) {
