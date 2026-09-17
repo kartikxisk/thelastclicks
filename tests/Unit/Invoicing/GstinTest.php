@@ -30,9 +30,21 @@ it('rejects a GSTIN whose checksum does not match', function () {
 
 it('rejects the wrong shape', function () {
     expect(gstinFailure('27AAPFU0939F1Z'))->not->toBeNull()        // 14 chars
-        ->and(gstinFailure('27aapfu0939f1zv'))->not->toBeNull()     // lowercase
         ->and(gstinFailure('27AAPFU0939F1AV'))->not->toBeNull()     // 14th char is not Z
         ->and(gstinFailure('AAAAAAAAAAAAAAA'))->not->toBeNull();
+});
+
+it('accepts a lowercase GSTIN, because case is not part of the number', function () {
+    // This used to be asserted as a rejection, grouped under "wrong shape".
+    // Lowercase is not a wrong shape, it is a wrong case, and every issued
+    // GSTIN is uppercase — so case carries no information and a paste out of
+    // an email should not be refused for it. Form validation runs before the
+    // field's dehydration, so uppercasing only on the way into the column
+    // would still leave the admin facing "the format is invalid", which names
+    // the wrong problem.
+    expect(gstinFailure('27aapfu0939f1zv'))->toBeNull()
+        ->and(gstinFailure('  27AAPFU0939F1ZV  '))->toBeNull()
+        ->and(Gstin::isValid('27aapfu0939f1zv'))->toBeTrue();
 });
 
 it('rejects a state code that no longer issues registrations', function () {

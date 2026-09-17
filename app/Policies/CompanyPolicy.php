@@ -44,10 +44,38 @@ class CompanyPolicy
 
     /**
      * Determine whether the user can delete the model.
+     *
+     * Hand-written, and it must stay that way. Spec §4.1: the policy refuses to
+     * delete or deactivate the last active company. CompanyObserver holds the
+     * deactivate half; this is the delete half.
+     *
+     * Deleting the last active company leaves Company::default() null and every
+     * invoice form with an empty company field and no explanation — the same
+     * end state the observer already refuses to reach the other way. Delete is
+     * one click from the EditCompany header action, and `service_items.company_id`
+     * is cascadeOnDelete, so a company-scoped rate card goes with it silently.
+     *
+     * PermissionsSeeder runs `shield:generate --ignore-existing-policies`, so
+     * regenerating permissions does not overwrite this file. Nobody needs to
+     * "restore" it to the stock template.
      */
     public function delete(User $user, Company $company): bool
     {
-        return $user->can('delete_company');
+        if (! $user->can('delete_company')) {
+            return false;
+        }
+
+        // Only an active company can be the last active one. Deleting an
+        // already-inactive row takes nothing away from Company::default(),
+        // which filters on is_active and was never going to return it.
+        if (! $company->is_active) {
+            return true;
+        }
+
+        return Company::query()
+            ->where('is_active', true)
+            ->whereKeyNot($company->getKey())
+            ->exists();
     }
 
     /**

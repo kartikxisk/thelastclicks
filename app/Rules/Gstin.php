@@ -36,7 +36,13 @@ class Gstin implements ValidationRule
             return;
         }
 
-        $gstin = (string) $value;
+        // Case carries no information in a GSTIN — every issued one is
+        // uppercase — so a lowercase paste out of an email is normalised here
+        // rather than rejected. Form validation runs BEFORE the field's
+        // dehydration, so uppercasing only on the way into the column would
+        // still leave the admin facing "the format is invalid", which names the
+        // wrong problem: the characters are right and only the case is not.
+        $gstin = strtoupper(trim((string) $value));
 
         if (preg_match(self::FORMAT, $gstin) !== 1) {
             $fail('The :attribute must be 15 characters: 2 digits, 5 letters, 4 digits, a letter, one character, Z, then the check digit.');

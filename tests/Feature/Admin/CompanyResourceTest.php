@@ -1,8 +1,10 @@
 <?php
 
 use App\Filament\Resources\CompanyResource\Pages\CreateCompany;
+use App\Filament\Resources\CompanyResource\Pages\EditCompany;
 use App\Filament\Resources\CompanyResource\Pages\ListCompanies;
 use App\Models\Company;
+use App\Models\ServiceItem;
 use App\Models\User;
 use Database\Factories\CompanyFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -96,4 +98,112 @@ it('switches the default from the table', function () {
         // with is_default = true, and the two checks above alone wouldn't
         // notice.
         ->and(Company::where('is_default', true)->count())->toBe(1);
+});
+
+it('refuses a GST-registered company with no state code', function () {
+    // address_state_code is the input to the intra-state vs inter-state split.
+    // Left blank it is also not passed to the Gstin rule, so the state
+    // cross-check is skipped entirely — and phase 2 then evaluates
+    // company.state_code == place_of_supply as null == '07', which is false,
+    // so every invoice goes out as IGST. That is the wrong tax on a document
+    // the law does not allow us to edit afterwards.
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Stateless Studio',
+            'is_gst_registered' => true,
+            'gstin' => CompanyFactory::gstinFor('07'),
+            'address_state_code' => null,
+            'invoice_prefix' => 'TLC',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['address_state_code']);
+});
+
+it('still allows an unregistered company with no state code', function () {
+    // Only the GST-registered case needs the state: an unregistered entity
+    // issues no tax invoice, so there is no split to get wrong.
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Unregistered Studio',
+            'is_gst_registered' => false,
+            'address_state_code' => null,
+            'invoice_prefix' => 'UNR',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+});
+
+it('refuses to delete the last active company', function () {
+    // Spec 4.1: the policy refuses to delete or deactivate the last active
+    // company. The deactivate half lives in CompanyObserver; this is the other
+    // half. Delete is one click from the EditCompany header action, and
+    // service_items.company_id is cascadeOnDelete, so the company-scoped rate
+    // card goes with it silently.
+    $admin = User::where('email', config('app.admin_seed_email'))->first();
+    Company::query()->delete();
+    $only = Company::factory()->create();
+
+    expect($admin->can('delete', $only))->toBeFalse();
+});
+
+it('allows deleting a company when another active one remains', function () {
+    $admin = User::where('email', config('app.admin_seed_email'))->first();
+    Company::query()->delete();
+    Company::factory()->create();
+    $second = Company::factory()->create();
+
+    expect($admin->can('delete', $second))->toBeTrue();
+});
+
+it('counts only active companies as survivors', function () {
+    // An inactive company cannot be Company::default(), so it is not a
+    // survivor: deleting the last ACTIVE one still leaves every invoice form
+    // with no company to prefill from.
+    $admin = User::where('email', config('app.admin_seed_email'))->first();
+    Company::query()->delete();
+    $only = Company::factory()->create();
+    Company::factory()->create()->forceFill(['is_active' => false])->saveQuietly();
+
+    expect($admin->can('delete', $only))->toBeFalse();
+});
+
+it('names the rate-card rows a company delete takes with it', function () {
+    // service_items.company_id is cascadeOnDelete. Without this the admin is
+    // asked "are you sure?" about a company and silently loses its rate card.
+    Company::query()->delete();
+    Company::factory()->create();
+    $doomed = Company::factory()->create();
+    ServiceItem::factory()->count(2)->create(['company_id' => $doomed->id]);
+    ServiceItem::factory()->create(['company_id' => null]);
+
+    Livewire::test(EditCompany::class, ['record' => $doomed->getRouteKey()])
+        ->mountAction('delete')
+        // Two scoped rows, not three: the shared row belongs to no company and
+        // survives the delete.
+        ->assertSee('deletes 2 rate-card row(s)');
+});
+
+it('uppercases a lowercase GSTIN, PAN and IFSC rather than failing the format check', function () {
+    // GSTIN, PAN and IFSC are uppercase by definition, and a paste out of an
+    // email is routinely not. Failing it with "format is invalid" names the
+    // wrong problem — the characters are right, the case is not — so the case
+    // is corrected on the way into the column instead.
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Lowercase Studio',
+            'is_gst_registered' => true,
+            'gstin' => strtolower(CompanyFactory::gstinFor('07')),
+            'address_state_code' => '07',
+            'pan' => 'aapfu0939f',
+            'bank_ifsc' => 'hdfc0001234',
+            'invoice_prefix' => 'TLC',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $company = Company::where('name', 'Lowercase Studio')->first();
+
+    expect($company->gstin)->toBe(CompanyFactory::gstinFor('07'))
+        ->and($company->pan)->toBe('AAPFU0939F')
+        ->and($company->bank_ifsc)->toBe('HDFC0001234');
 });

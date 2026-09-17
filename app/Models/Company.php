@@ -7,6 +7,7 @@ use Database\Factories\CompanyFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -48,6 +49,20 @@ class Company extends Model implements HasMedia
         $q->where('is_active', true);
     }
 
+    /**
+     * Rate-card rows scoped to this company.
+     *
+     * Shared rows carry a null `company_id` and belong to no company, so they
+     * are not part of this. `service_items.company_id` is cascadeOnDelete, which
+     * makes this also the count of what a delete takes with it.
+     *
+     * @return HasMany<ServiceItem, $this>
+     */
+    public function serviceItems(): HasMany
+    {
+        return $this->hasMany(ServiceItem::class);
+    }
+
     /** The entity a new invoice starts from. */
     public static function default(): ?self
     {
@@ -65,6 +80,13 @@ class Company extends Model implements HasMedia
      * eventually diverge. Wrapping the save in a transaction is what makes the
      * observer's demotion atomic with this promotion — the save and the
      * `saved` event it fires both happen inside it.
+     *
+     * It force-fills `is_active` as well, so promoting an inactive company
+     * reactivates it. That is deliberate rather than incidental: a default that
+     * is not active is invisible to Company::default(), which filters on
+     * is_active, and so is the same as having no default at all. The table's
+     * "Make default" action is visible on inactive rows, so this is a reachable
+     * path and not only an internal one.
      */
     public function makeDefault(): void
     {

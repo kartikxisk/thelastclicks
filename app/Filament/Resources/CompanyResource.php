@@ -57,8 +57,18 @@ class CompanyResource extends Resource
                     ->required(fn (Get $get): bool => (bool) $get('is_gst_registered'))
                     // The state rule is the load-bearing one: the invoice reads
                     // this state code to choose CGST+SGST or IGST.
-                    ->rules(fn (Get $get): array => [new Gstin($get('address_state_code'))]),
-                TextInput::make('pan')->label('PAN')->maxLength(10),
+                    ->rules(fn (Get $get): array => [new Gstin($get('address_state_code'))])
+                    // GSTIN, PAN and IFSC are uppercase by definition, and a
+                    // paste out of an email routinely is not. Failing that with
+                    // "format is invalid" names the wrong problem: the characters
+                    // are right, only the case is not.
+                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
+                TextInput::make('pan')->label('PAN')->maxLength(10)
+                    // GSTIN, PAN and IFSC are uppercase by definition, and a
+                    // paste out of an email routinely is not. Failing that with
+                    // "format is invalid" names the wrong problem: the characters
+                    // are right, only the case is not.
+                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
                 TextInput::make('cin')->label('CIN')->maxLength(21),
                 TextInput::make('lut_number')->label('LUT number')
                     ->helperText('Needed to invoice an export without IGST.'),
@@ -74,6 +84,14 @@ class CompanyResource extends Resource
                     ->options(StateCodes::options())
                     ->searchable()
                     ->live()
+                    // Required once this entity is GST-registered, because this
+                    // is the input to the intra-state vs inter-state split. Left
+                    // blank it is also never handed to the Gstin rule above, so
+                    // the state cross-check is skipped entirely — and phase 2
+                    // then reads company.state_code == place_of_supply as
+                    // null == '07', which is false, and puts IGST on every
+                    // invoice. The law does not let us edit one afterwards.
+                    ->required(fn (Get $get): bool => (bool) $get('is_gst_registered'))
                     ->afterStateUpdated(fn (?string $state, callable $set) => $set('address_state', StateCodes::name($state))),
                 TextInput::make('address_state')->label('State name')->maxLength(255)
                     ->helperText('Filled from the state above; printed on the invoice.'),
@@ -84,7 +102,12 @@ class CompanyResource extends Resource
                 TextInput::make('bank_name')->maxLength(255),
                 TextInput::make('bank_account_name')->maxLength(255),
                 TextInput::make('bank_account_number')->maxLength(34),
-                TextInput::make('bank_ifsc')->label('IFSC')->maxLength(11),
+                TextInput::make('bank_ifsc')->label('IFSC')->maxLength(11)
+                    // GSTIN, PAN and IFSC are uppercase by definition, and a
+                    // paste out of an email routinely is not. Failing that with
+                    // "format is invalid" names the wrong problem: the characters
+                    // are right, only the case is not.
+                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
                 TextInput::make('bank_branch')->maxLength(255),
                 TextInput::make('upi_id')->label('UPI ID')
                     ->helperText('Becomes the QR code on the invoice PDF.'),
@@ -115,7 +138,7 @@ class CompanyResource extends Resource
                 Textarea::make('footer_note')->rows(2)->columnSpanFull(),
             ]),
 
-            Section::make()->columns(2)->schema([
+            Section::make()->schema([
                 Toggle::make('is_active')->default(true)
                     // The observer throws rather than letting the default be
                     // switched off, which would leave every invoice form with no
