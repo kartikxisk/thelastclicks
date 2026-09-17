@@ -24,6 +24,11 @@ class ServiceItem extends Model
         return [
             'rate_paise' => 'integer',
             'tax_rate_bps' => 'integer',
+            // Cast like the other three integer columns. Without it a `sort` of
+            // "1.5" reaches an unsignedInteger column as a string: MySQL rounds
+            // it silently, SQLite stores 1.5, and the two disagree about the
+            // order the rate card is in.
+            'sort' => 'integer',
             'is_expense' => 'boolean',
             'is_active' => 'boolean',
         ];

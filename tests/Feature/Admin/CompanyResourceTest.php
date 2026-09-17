@@ -224,3 +224,30 @@ it('refuses a negative default payment term', function () {
         ->call('create')
         ->assertHasFormErrors(['default_payment_terms_days']);
 });
+
+it('hides Make default from an account that can see companies but not change them', function () {
+    // A plain Action::make() is not auto-wired to a policy the way EditAction
+    // is, so without ->authorize('update') this write action sits unguarded on
+    // a screen someone may only be able to read. No role today reaches that —
+    // Accounts holds the whole billing surface and Viewer holds none of it —
+    // so this pins the guard against the first narrower billing role rather
+    // than a bug anyone can hit now.
+    $readOnly = User::factory()->create();
+    $readOnly->givePermissionTo(['view_any_company', 'view_company']);
+
+    $company = Company::factory()->create();
+
+    $this->actingAs($readOnly);
+
+    Livewire::test(ListCompanies::class)
+        ->assertTableActionHidden('makeDefault', $company);
+});
+
+it('still offers Make default to an account that can update companies', function () {
+    // The other half: the authorize() must not have hidden the action from
+    // everyone, which a wrong ability name would do silently.
+    $company = Company::factory()->create();
+
+    Livewire::test(ListCompanies::class)
+        ->assertTableActionVisible('makeDefault', $company);
+});

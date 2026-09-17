@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Forms\Components\RupeeInput;
 use App\Filament\Resources\ServiceItemResource\Pages;
-use App\Invoicing\Money;
 use App\Models\Company;
 use App\Models\ServiceItem;
 use Filament\Forms\Components\Section;
@@ -85,8 +84,11 @@ class ServiceItemResource extends Resource
                 TextColumn::make('sort')->sortable()->label('#'),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('company.name')->label('Company')->placeholder('Shared'),
+                // Through the model rather than calling Money::format() again
+                // here: formattedRate() is the tested one, and two spellings of
+                // the same formatting eventually disagree.
                 TextColumn::make('rate_paise')->label('Rate')
-                    ->formatStateUsing(fn (int $state): string => Money::format($state))
+                    ->formatStateUsing(fn (ServiceItem $record): string => $record->formattedRate())
                     ->sortable(),
                 TextColumn::make('unit'),
                 TextColumn::make('sac_code')->label('SAC'),

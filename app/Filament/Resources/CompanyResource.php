@@ -70,7 +70,7 @@ class CompanyResource extends Resource
                     // are right, only the case is not.
                     ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
                 TextInput::make('cin')->label('CIN')->maxLength(21),
-                TextInput::make('lut_number')->label('LUT number')
+                TextInput::make('lut_number')->label('LUT number')->maxLength(255)
                     ->helperText('Needed to invoice an export without IGST.'),
                 DatePicker::make('lut_valid_till'),
             ]),
@@ -111,7 +111,7 @@ class CompanyResource extends Resource
                     // are right, only the case is not.
                     ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
                 TextInput::make('bank_branch')->maxLength(255),
-                TextInput::make('upi_id')->label('UPI ID')
+                TextInput::make('upi_id')->label('UPI ID')->maxLength(255)
                     ->helperText('Becomes the QR code on the invoice PDF.'),
             ]),
 
@@ -174,6 +174,13 @@ class CompanyResource extends Resource
                 Action::make('makeDefault')
                     ->label('Make default')
                     ->icon('heroicon-o-star')
+                    // A plain Action is not wired to a policy the way EditAction
+                    // is, so without this it would promote a company for anyone
+                    // who can merely see the table. No role today can do that —
+                    // Accounts holds the whole billing surface and Viewer holds
+                    // none of it — but the moment a narrower billing role exists
+                    // this is a write action reachable from a read-only screen.
+                    ->authorize('update')
                     ->visible(fn (Company $record): bool => ! $record->is_default)
                     ->requiresConfirmation()
                     ->action(fn (Company $record) => $record->makeDefault()),
