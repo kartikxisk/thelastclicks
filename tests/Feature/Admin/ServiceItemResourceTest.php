@@ -54,3 +54,17 @@ it('rejects a rate with three decimal places', function () {
         ->call('create')
         ->assertHasFormErrors(['rate_paise']);
 });
+
+it('rejects a lone minus sign as a form error rather than throwing', function () {
+    // The regex used to admit '-' with no digits at all. That passed
+    // validation and reached Money::fromRupees('-'), which throws an
+    // uncaught InvalidArgumentException — an admin sees a 500 instead of a
+    // field error for what is obviously not an amount.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Bare minus',
+            'rate_paise' => '-',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['rate_paise']);
+});

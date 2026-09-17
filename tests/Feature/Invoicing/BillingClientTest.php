@@ -48,6 +48,15 @@ it('falls through an empty-string place of supply override to the billing state'
     expect($client->placeOfSupplyStateCode())->toBe('29');
 });
 
+it('returns null when the override, the GSTIN and the billing state are all blank', function () {
+    $client = BillingClient::factory()->unregistered()->create([
+        'place_of_supply_state_code' => null,
+        'billing_address_state_code' => null,
+    ]);
+
+    expect($client->placeOfSupplyStateCode())->toBeNull();
+});
+
 it('prefers the GSTIN state over the billing state when no override is set', function () {
     // The factory's registered() state always keeps the GSTIN and billing
     // state in step, so nothing previously exercised a registered client

@@ -49,11 +49,17 @@ it('rejects a malformed GSTIN', function () {
 });
 
 it('accepts a valid GSTIN from any state, because the client may be anywhere', function () {
+    // Deliberately disagreeing: a client can be registered in one state and
+    // billed at an address in another, and their GSTIN's state is what
+    // determines the place of supply rather than something to validate
+    // against. If this form's GSTIN rule were ever coupled to the billing
+    // state address — new Gstin($get('billing_address_state_code')) — this
+    // is the test that would catch it.
     Livewire::test(CreateBillingClient::class)
         ->fillForm([
             'name' => 'Acme Events',
             'gstin' => CompanyFactory::gstinFor('29'),
-            'billing_address_state_code' => '29',
+            'billing_address_state_code' => '07',
         ])
         ->call('create')
         ->assertHasNoFormErrors();

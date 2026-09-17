@@ -18,7 +18,11 @@ class RupeeInput
     {
         return TextInput::make($name)
             ->prefix('₹')
-            ->rule('regex:/^-?[0-9,]*\.?[0-9]{0,2}$/')
+            // At least one digit before the optional decimal part is
+            // required: a bare '-' used to match this, pass validation, and
+            // reach Money::fromRupees('-'), which throws — an admin would see
+            // a 500 instead of a field error.
+            ->rule('regex:/^-?[0-9][0-9,]*\.?[0-9]{0,2}$/')
             ->default(0)
             ->formatStateUsing(fn (int|string|null $state): string => Money::toRupees((int) ($state ?? 0)))
             ->dehydrateStateUsing(fn (int|string|null $state): int => Money::fromRupees($state));

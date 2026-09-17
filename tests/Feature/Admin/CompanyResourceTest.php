@@ -74,12 +74,26 @@ it('rejects a prefix that would overflow the 16-character invoice number', funct
 });
 
 it('switches the default from the table', function () {
+    // BillingSeeder already created a default company, and CompanyObserver
+    // only auto-defaults the very first company ever created — so $first is
+    // never the default on its own. Making it the default explicitly first is
+    // what makes the later assertions mean anything: without this, $first
+    // being "not default" afterwards would be true whether or not the table
+    // action demoted anyone.
     $first = Company::factory()->create();
     $second = Company::factory()->create();
+    $first->makeDefault();
+
+    expect($first->fresh()->is_default)->toBeTrue();
 
     Livewire::test(ListCompanies::class)
         ->callTableAction('makeDefault', $second);
 
     expect($second->fresh()->is_default)->toBeTrue()
-        ->and($first->fresh()->is_default)->toBeFalse();
+        ->and($first->fresh()->is_default)->toBeFalse()
+        // The assertion that actually catches a broken demotion: one that adds
+        // a new default without clearing the old one would leave two rows
+        // with is_default = true, and the two checks above alone wouldn't
+        // notice.
+        ->and(Company::where('is_default', true)->count())->toBe(1);
 });
