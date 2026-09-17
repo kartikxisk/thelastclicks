@@ -37,7 +37,15 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('slug'),
-                TextColumn::make('posts_count')->counts('posts')->label('Posts'),
+                // Same header-wider-than-content shape as the boolean columns
+                // elsewhere: a single digit, but "Posts" as a header measured
+                // 79px, wider than name+slug leave room for once a real
+                // category name like "Post-production" is in the row (the
+                // b2b2513 "no change" call assumed shorter content than the
+                // seeded data actually has). Name + slug already identify the
+                // row, so the count folds to md like every other scan-only
+                // column.
+                TextColumn::make('posts_count')->counts('posts')->label('Posts')->visibleFrom('md'),
             ])
             ->actions([
                 ActionGroup::make([

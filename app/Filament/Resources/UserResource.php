@@ -46,7 +46,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('email')->searchable(),
+                // Not a header-label problem — this is a genuinely long value
+                // (a real address like admin@thelastclicks.com), the same
+                // shape as Quote's email column, which already folds here for
+                // the same reason: name + role identify an admin user, email
+                // is a detail one tap away on Edit.
+                TextColumn::make('email')->searchable()->visibleFrom('md'),
                 TextColumn::make('roles.name')->badge(),
                 TextColumn::make('created_at')->dateTime()->sortable()->visibleFrom('md'),
             ])

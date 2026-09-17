@@ -132,7 +132,13 @@ class WorkResource extends Resource
                     ->visibleFrom('md'),
                 TextColumn::make('year')->sortable()->visibleFrom('md'),
                 TextColumn::make('media_items_count')->counts('mediaItems')->label('Media')->visibleFrom('md'),
-                IconColumn::make('is_published')->boolean(),
+                // Boolean icon columns are sized by their header LABEL, not their
+                // content (a single glyph) — "Is Published" alone measured 141px
+                // of a 358px mobile container, more than cover+title combined.
+                // "Live" reads correctly at any width (a CMS-standard synonym for
+                // published) and is 82px narrower, which is what actually closes
+                // the overflow.
+                IconColumn::make('is_published')->boolean()->label('Live'),
                 IconColumn::make('is_featured')->boolean()->label('Homepage')->visibleFrom('md'),
             ])
             ->filters([

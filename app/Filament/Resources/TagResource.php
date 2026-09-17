@@ -37,7 +37,11 @@ class TagResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('slug'),
-                TextColumn::make('posts_count')->counts('posts')->label('Posts'),
+                // Same fix as CategoryResource: "Posts" as a header measured
+                // wider than its single-digit content, and a real tag name
+                // like "pre-production" already uses up the name+slug budget.
+                // Name + slug still identify the row on their own.
+                TextColumn::make('posts_count')->counts('posts')->label('Posts')->visibleFrom('md'),
             ])
             ->actions([
                 ActionGroup::make([

@@ -53,7 +53,11 @@ class TestimonialResource extends Resource
                 TextColumn::make('client_name')->searchable()->sortable(),
                 TextColumn::make('quote')->limit(60)->wrap()->visibleFrom('md'),
                 TextColumn::make('industry.title')->sortable()->visibleFrom('md'),
-                IconColumn::make('is_published')->boolean(),
+                // Same fix as WorkResource: this boolean column's width comes
+                // from its header label, not its single-glyph content — "Is
+                // Published" alone put client_name + this cell 3px over the
+                // 358px mobile container.
+                IconColumn::make('is_published')->boolean()->label('Live'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
