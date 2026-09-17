@@ -70,7 +70,8 @@ class HeroSlideResource extends Resource
                 TextColumn::make('label')->searchable()->placeholder('—'),
                 TextColumn::make('kind')->label('Type')
                     ->badge()
-                    ->state(fn (HeroSlide $record) => $record->isVideo() ? 'Video' : 'Image'),
+                    ->state(fn (HeroSlide $record) => $record->isVideo() ? 'Video' : 'Image')
+                    ->visibleFrom('md'),
                 IconColumn::make('is_active')->boolean()->label('Active'),
             ])
             ->defaultSort('order')

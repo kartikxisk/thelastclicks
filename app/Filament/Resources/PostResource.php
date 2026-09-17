@@ -79,7 +79,7 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('author.name')->label('Author'),
+                TextColumn::make('author.name')->label('Author')->visibleFrom('md'),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -87,7 +87,7 @@ class PostResource extends Resource
                         'published' => 'success',
                         default => 'gray',
                     }),
-                TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('published_at')->dateTime()->sortable()->visibleFrom('md'),
             ])
             ->filters([
                 SelectFilter::make('status')->options(['draft' => 'Draft', 'published' => 'Published']),

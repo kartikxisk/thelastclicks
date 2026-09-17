@@ -46,10 +46,12 @@ class TestimonialResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
+                // Client name + published state pick the row; the quote text and
+                // its industry are read on the edit screen, not scanned for here.
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
                 TextColumn::make('client_name')->searchable()->sortable(),
-                TextColumn::make('quote')->limit(60)->wrap(),
-                TextColumn::make('industry.title')->sortable(),
+                TextColumn::make('quote')->limit(60)->wrap()->visibleFrom('md'),
+                TextColumn::make('industry.title')->sortable()->visibleFrom('md'),
                 IconColumn::make('is_published')->boolean(),
             ])
             ->defaultSort('order')

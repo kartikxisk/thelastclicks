@@ -42,8 +42,11 @@ class SubscriberResource extends Resource
     {
         return $table
             ->columns([
+                // Unsubscribed stays visible because the row action (Resubscribe
+                // vs Unsubscribe) reads it — hiding it would leave the button's
+                // label as the only clue to which state you're toggling.
                 TextColumn::make('email')->searchable()->sortable()->copyable(),
-                TextColumn::make('source_page')->label('Source')->searchable()->toggleable(),
+                TextColumn::make('source_page')->label('Source')->searchable()->toggleable()->visibleFrom('md'),
                 TextColumn::make('created_at')->label('Subscribed')->dateTime()->sortable(),
                 TextColumn::make('unsubscribed_at')->label('Unsubscribed')->dateTime()
                     ->placeholder('—')->sortable()->toggleable(),
