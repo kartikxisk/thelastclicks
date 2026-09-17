@@ -51,8 +51,11 @@ class AdminPanelProvider extends PanelProvider
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">'
             )
             // Leads first — the panel exists to chase work, not to browse content.
+            // Billing sits next to it because an invoice is the last step of the
+            // same job.
             ->navigationGroups([
                 'Leads',
+                'Billing',
                 'Content',
                 'Site',
                 'Access',

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use Filament\Facades\Filament;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Permission;
@@ -40,14 +42,64 @@ class PermissionsSeeder extends Seeder
         'widget_RecentActivityWidget',
     ];
 
-    protected function assignRolePermissions(): void
+    /**
+     * The Billing nav group, read off the panel, as an alternation of the
+     * permission suffixes shield derives from each resource class name.
+     *
+     * Derived rather than listed because Viewer's carve-out below fails OPEN
+     * against a literal list. Phase 2's `invoice`, `invoice::line` and
+     * `invoice::payment` would match no list written today, so Viewer's
+     * blanket `view_*` grant would silently hand every read-only account the
+     * invoice resource — bank details, client GSTINs, revenue. The Accounts
+     * side of the same property fails closed, because the resource simply
+     * stays invisible and someone says so on day one; only the Viewer
+     * direction goes unnoticed. Reading the group off the panel makes the
+     * property "Viewer holds nothing for anything in Billing" rather than
+     * "Viewer holds nothing for these three names".
+     *
+     * Shield derives the suffix from the resource name, so two-word models
+     * land as `billing::client`, not `billing_client`. Matching the underscore
+     * form silently grants nothing.
+     */
+    protected function billingPermissionPattern(): string
+    {
+        $identifiers = collect(Filament::getPanel('admin')->getResources())
+            ->filter(fn (string $resource): bool => $resource::getNavigationGroup() === 'Billing')
+            ->map(fn (string $resource): string => preg_quote(FilamentShield::getPermissionIdentifier($resource), '/'))
+            ->values();
+
+        // `(?!)` is a pattern that can never match, which is the honest reading
+        // of "there are no billing resources" — but it is not what makes the
+        // carve-out safe, and an earlier comment here claimed it was. It is not:
+        // `/_((?!))$/` and `/_()$/` behave identically against every permission
+        // name, because both still require a trailing underscore and no
+        // permission has one, so both return 0 for `view_company` alike. What
+        // actually keeps Viewer's negated test closed is that the identifier
+        // list is never empty: this panel always has billing resources, and a
+        // resource can only leave the list by leaving the Billing nav group,
+        // which is the same edit that takes it out of the carve-out on purpose.
+        // `(?!)` is kept as the correct expression of the empty case, not as a
+        // guard that is doing work today.
+        return $identifiers->isEmpty() ? '(?!)' : $identifiers->implode('|');
+    }
+
+    /**
+     * Public because it is the half of this seeder that can be re-run on its
+     * own — shield:generate creates the permissions, this hands them out — and
+     * a test that registers a phase-2 resource onto the panel needs to re-run
+     * exactly this half against it.
+     */
+    public function assignRolePermissions(): void
     {
         $superAdmin = Role::findOrCreate('Super-admin', 'web');
         $editor = Role::findOrCreate('Editor', 'web');
         $sales = Role::findOrCreate('Sales', 'web');
         $viewer = Role::findOrCreate('Viewer', 'web');
+        $accounts = Role::findOrCreate('Accounts', 'web');
 
         $all = Permission::pluck('name')->all();
+
+        $billing = $this->billingPermissionPattern();
 
         // Only hand out lead-desk permissions that shield:generate actually created.
         $leadDesk = array_values(array_intersect($this->leadDeskPermissions, $all));
@@ -83,10 +135,24 @@ class PermissionsSeeder extends Seeder
             $leadDesk,
         ));
 
+        // Accounts: the billing surface, and only that. Invoices carry bank
+        // details and client GSTINs, which is a narrower audience than content
+        // or leads.
+        $accounts->syncPermissions(array_filter(
+            $all,
+            fn ($p) => preg_match('/_('.$billing.')$/', $p) === 1
+        ));
+
         // Viewer: read-only everywhere, including the lead desk. Moving a card is
         // still refused by QuotePolicy::update, which Viewer never satisfies.
+        // Billing is carved out: a blanket `view_*` grant would hand every
+        // read-only account our bank details and every client's GSTIN.
         $viewer->syncPermissions(array_merge(
-            array_filter($all, fn ($p) => str_starts_with($p, 'view_')),
+            array_filter(
+                $all,
+                fn ($p) => str_starts_with($p, 'view_')
+                    && preg_match('/_('.$billing.')$/', $p) !== 1
+            ),
             $leadDesk,
         ));
     }

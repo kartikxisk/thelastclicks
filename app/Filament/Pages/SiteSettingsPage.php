@@ -99,10 +99,19 @@ class SiteSettingsPage extends Page implements HasForms
             ->schema([
                 Forms\Components\TextInput::make('address_street')
                     ->label('Street address')
+                    // Bounded because BillingSeeder copies this into
+                    // companies.address_line1, a varchar(255). Unbounded free
+                    // text that overflows it is MySQL error 1406, and that
+                    // error aborts `db:seed` — deploy step three — leaving
+                    // livewire:publish and the cache refresh unrun.
+                    ->maxLength(255)
                     ->helperText('Exactly as it reads on the Google Business Profile — a variant here becomes an inconsistent citation.'),
                 Forms\Components\TextInput::make('address_locality')->label('City'),
                 Forms\Components\TextInput::make('address_region')->label('State / region'),
-                Forms\Components\TextInput::make('address_postal_code')->label('Postal code'),
+                // Six digits is an Indian PIN. Same reason as the street above:
+                // this is copied into a short varchar by BillingSeeder, and a
+                // PIN typed "201 301" is seven characters.
+                Forms\Components\TextInput::make('address_postal_code')->label('Postal code')->maxLength(6),
                 Forms\Components\TextInput::make('address_country')
                     ->label('Country code')
                     ->maxLength(2)

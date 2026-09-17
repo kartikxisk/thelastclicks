@@ -68,7 +68,43 @@ return [
             'report' => false,
         ],
 
+        // Where a company's scanned signature and seal are kept. NOT the media
+        // disk: that one is an s3 bucket with CloudFront in front of it, serving
+        // the public marketing site its imagery anonymously, and medialibrary
+        // writes to a guessable {media_id}/{file_name}. See
+        // Company::registerMediaCollections() for the whole failure.
+        //
+        // Local by default because CloudFront has no origin for storage/, which
+        // is the entire requirement. ->visibility('private') is not a substitute:
+        // it sets an object ACL, and the CDN is what serves the object —
+        // SiteSettingsPage records the same finding on the branding uploads.
+        // Driver and root are env-driven so this can move to a genuinely private
+        // bucket without a code change; whatever it points at must not be a
+        // bucket the CDN fronts.
+        'billing_private' => [
+            'driver' => env('BILLING_MEDIA_DRIVER', 'local'),
+            'root' => env('BILLING_MEDIA_ROOT', storage_path('app/private/billing')),
+            // No 'serve' and no 'url': nothing may hand these bytes to a browser
+            // by URL. Phase 3 reads them server-side into the dompdf data URI,
+            // which is also what lets dompdf's enable_remote stay off.
+            'throw' => true,
+            'report' => false,
+        ],
+
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Private billing media disk
+    |--------------------------------------------------------------------------
+    |
+    | Which disk Company's `signature` and `stamp` collections are stored on.
+    | It must never be the media disk, or any other bucket CloudFront fronts —
+    | a scanned signature there is anonymously fetchable at a guessable path.
+    |
+    */
+
+    'billing_disk' => env('BILLING_MEDIA_DISK', 'billing_private'),
 
     /*
     |--------------------------------------------------------------------------
