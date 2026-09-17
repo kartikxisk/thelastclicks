@@ -127,9 +127,13 @@ class SeoPageResource extends Resource
     {
         return $table
             ->columns([
+                // Page URL is what these rows are keyed on (it's the defaultSort
+                // and the thing being matched), and noindex/active are the two
+                // states worth a glance before tapping in — the admin label and
+                // title override are editorial detail, not identification.
                 TextColumn::make('page_url')->label('Page URL')->searchable()->sortable(),
-                TextColumn::make('label')->searchable()->toggleable(),
-                TextColumn::make('title')->limit(45)->searchable()->wrap(),
+                TextColumn::make('label')->searchable()->toggleable()->visibleFrom('md'),
+                TextColumn::make('title')->limit(45)->searchable()->wrap()->visibleFrom('md'),
                 IconColumn::make('noindex')->boolean()->label('Noindex'),
                 IconColumn::make('is_active')->boolean()->label('Active'),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),

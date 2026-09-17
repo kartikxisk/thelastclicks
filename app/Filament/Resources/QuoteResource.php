@@ -173,10 +173,14 @@ class QuoteResource extends Resource
     {
         return $table
             ->columns([
+                // Name, status and age carry the queue: who they are, where they
+                // sit in the pipeline, how long they've waited. The brief details
+                // and contact info are one tap away on View; nothing here blocks
+                // acting on a lead from a phone.
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('email')->searchable(),
-                TextColumn::make('project_type')->toggleable(),
-                TextColumn::make('budget')->toggleable(),
+                TextColumn::make('email')->searchable()->visibleFrom('md'),
+                TextColumn::make('project_type')->toggleable()->visibleFrom('md'),
+                TextColumn::make('budget')->toggleable()->visibleFrom('md'),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -187,7 +191,7 @@ class QuoteResource extends Resource
                         'lost' => 'danger',
                         default => 'gray',
                     }),
-                TextColumn::make('assignee.name')->label('Assigned')->placeholder('Unassigned')->toggleable(),
+                TextColumn::make('assignee.name')->label('Assigned')->placeholder('Unassigned')->toggleable()->visibleFrom('md'),
                 TextColumn::make('created_at')
                     ->label('Age')
                     ->since()
