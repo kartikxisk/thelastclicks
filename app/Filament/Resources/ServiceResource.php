@@ -175,9 +175,12 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('order')->sortable(),
+                // Same shape as IndustryResource: order and slug give way on a
+                // phone, title alone still identifies which of the handful of
+                // service pages this is.
+                TextColumn::make('order')->sortable()->visibleFrom('md'),
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('slug')->searchable(),
+                TextColumn::make('slug')->searchable()->visibleFrom('md'),
             ])
             ->defaultSort('order')
             ->reorderable('order')
