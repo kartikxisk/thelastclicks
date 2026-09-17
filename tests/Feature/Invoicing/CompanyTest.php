@@ -107,3 +107,19 @@ it('keeps the signature and the stamp off the publicly-served media disk', funct
         // blank collection disk means "the default media disk".
         ->and($disks['logo'] === '' ? $publicDisk : $disks['logo'])->toBe($publicDisk);
 });
+
+it('clears the GSTIN when the company stops being GST registered', function () {
+    // Two columns that can disagree about registration is one too many — the
+    // sibling BillingClient refuses to carry a second flag for exactly this
+    // reason. A hidden Filament field is not dehydrated, so the edit form never
+    // sends the key and the stale number survives the untick.
+    $company = Company::factory()->create([
+        'is_gst_registered' => true,
+        'gstin' => CompanyFactory::gstinFor('07'),
+        'address_state_code' => '07',
+    ]);
+
+    $company->update(['is_gst_registered' => false]);
+
+    expect($company->fresh()->gstin)->toBeNull();
+});

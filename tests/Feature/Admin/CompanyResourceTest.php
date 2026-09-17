@@ -251,3 +251,21 @@ it('still offers Make default to an account that can update companies', function
     Livewire::test(ListCompanies::class)
         ->assertTableActionVisible('makeDefault', $company);
 });
+
+it('clears the stored GSTIN when the admin unticks GST registered', function () {
+    // The GSTIN field is ->visible() on the toggle, and a hidden Filament field
+    // is not dehydrated — so EditRecord's update() never receives the key and
+    // the old number stays behind a false is_gst_registered.
+    $company = Company::factory()->create([
+        'is_gst_registered' => true,
+        'gstin' => CompanyFactory::gstinFor('07'),
+        'address_state_code' => '07',
+    ]);
+
+    Livewire::test(EditCompany::class, ['record' => $company->getRouteKey()])
+        ->fillForm(['is_gst_registered' => false])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    expect($company->fresh()->gstin)->toBeNull();
+});

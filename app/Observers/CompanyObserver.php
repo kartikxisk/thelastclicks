@@ -6,7 +6,8 @@ use App\Models\Company;
 use RuntimeException;
 
 /**
- * Holds the "exactly one active default" invariant.
+ * Holds Company's write-time invariants: "exactly one active default", and
+ * "is_gst_registered and gstin never disagree".
  *
  * Every invoice form prefills from Company::default(). If that returns null the
  * form comes up with an empty company field and no explanation, so the ways of
@@ -20,6 +21,29 @@ use RuntimeException;
  */
 class CompanyObserver
 {
+    /**
+     * An unregistered company carries no GSTIN.
+     *
+     * CompanyResource hides the `gstin` field when `is_gst_registered` is off,
+     * and a hidden Filament field is not dehydrated — so EditRecord's
+     * $record->update($data) never receives the key and the old number stays
+     * behind a false flag. That leaves two columns disagreeing about whether
+     * this entity is registered, which is exactly what the sibling
+     * BillingClient refuses to allow: it derives isRegistered() from the GSTIN
+     * precisely because a second flag can contradict it.
+     *
+     * Here rather than on the form, because the form is not the only writer —
+     * an importer, an artisan command or a seeder reaches the column directly,
+     * and phase 2 reads `is_gst_registered` to decide whether a tax invoice may
+     * be issued at all.
+     */
+    public function saving(Company $company): void
+    {
+        if (! $company->is_gst_registered) {
+            $company->gstin = null;
+        }
+    }
+
     public function creating(Company $company): void
     {
         // The first company is the only one it can be, so don't make someone
