@@ -43,8 +43,15 @@ final class Money
      * stray spaces. A third decimal rounds half-up rather than truncating,
      * because truncation always rounds in our favour and that is the direction
      * a client notices.
+     *
+     * A float is deliberately not accepted. `(string) 1.0e20` is "1.0E+20", and
+     * the strip below removes the "E+" rather than the exponent it stands for,
+     * leaving "1.020" — 102 paise, returned silently. Refusing the type keeps
+     * the one class whose whole purpose is that money never becomes a float
+     * from being handed one; PHPStan is what enforces it, since PHP itself
+     * would quietly coerce the argument to a string here.
      */
-    public static function fromRupees(string|int|float|null $input): int
+    public static function fromRupees(string|int|null $input): int
     {
         if ($input === null || $input === '') {
             return 0;
@@ -52,6 +59,15 @@ final class Money
 
         $raw = trim((string) $input);
         $negative = str_starts_with($raw, '-');
+
+        // The same exponent shape still arrives as a string — out of a CSV
+        // import, a JSON payload, or a float someone cast before calling. The
+        // strip below cannot represent it, so it must be refused rather than
+        // silently misread as the digits that survive.
+        if (preg_match('/[eE]/', $raw) === 1) {
+            throw new InvalidArgumentException("Not an amount: {$raw}");
+        }
+
         $digits = preg_replace('/[^0-9.]/', '', $raw) ?? '';
 
         if ($digits === '' || substr_count($digits, '.') > 1) {
@@ -98,7 +114,15 @@ final class Money
     }
 
     /**
-     * Apply a basis-point rate, rounded half-up at the paise.
+     * Apply a basis-point rate, rounding a half AWAY FROM ZERO at the paise.
+     *
+     * Not half-up: applyBps(-123455, 1800) is -22222, where half-up would give
+     * -22221. Symmetric rounding is what credit notes need — a credit note is
+     * this arithmetic with the sign flipped, and only away-from-zero makes
+     * credit(x) === -invoice(x). Under half-up the two miss each other by a
+     * paisa on the one pair of documents whose whole purpose is to net to
+     * nothing. Spec section 5 said "round_half_up" for a while; the spec was
+     * wrong and has been corrected to match this.
      *
      * Basis points, not percentages, so a 2.5% half-rate is the integer 250 and
      * not a float that cannot represent itself.
@@ -112,7 +136,10 @@ final class Money
     }
 
     /**
-     * Round to the nearest rupee, ≥50 paise up — CGST §170.
+     * Round to the nearest rupee, a half going AWAY FROM ZERO — CGST §170.
+     *
+     * roundToRupee(-12350) is -12400, not -12300. Same reason as applyBps():
+     * a credit note must cancel the invoice it reverses exactly.
      *
      * Only ever applied to an invoice grand total. Applying it to a tax
      * component instead is what makes a return disagree with the ledger.

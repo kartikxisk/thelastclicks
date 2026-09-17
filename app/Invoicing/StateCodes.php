@@ -72,6 +72,34 @@ final class StateCodes
     }
 
     /**
+     * The code for a state name, or null when nothing matches.
+     *
+     * BillingSeeder has a free-text state name out of Site Settings and needs
+     * the code, because the name is only printed while the code decides the
+     * intra-state vs inter-state split. Matching is case-insensitive and
+     * trimmed, since an admin types the name rather than picking it.
+     *
+     * Returning null on no match is deliberate: a guessed code silently picks
+     * the wrong side of that split, which is worse than an empty field.
+     */
+    public static function codeFor(?string $name): ?string
+    {
+        if ($name === null || trim($name) === '') {
+            return null;
+        }
+
+        $needle = mb_strtolower(trim($name));
+
+        foreach (self::CODES as $code => $stateName) {
+            if (mb_strtolower($stateName) === $needle) {
+                return (string) $code;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Select options. The code is part of the label because it is what a client
      * reads off their own GSTIN when checking we billed them correctly.
      *
@@ -82,8 +110,12 @@ final class StateCodes
         $options = [];
 
         foreach (self::CODES as $code => $name) {
-            // Cast $code to (string) because PHP casts numeric-string keys to int,
-            // and Filament Select form state is a string.
+            // The (string) cast is for the label text and for what callers read
+            // out of $code — it does NOT make the resulting array keys strings.
+            // PHP re-normalises a numeric-string key on assignment, so
+            // array_keys(self::options()) still contains int(27). Use exists()
+            // for membership; a strict in_array() over array_keys() would
+            // silently miss every int-keyed entry.
             $options[(string) $code] = (string) $code.' — '.$name;
         }
 

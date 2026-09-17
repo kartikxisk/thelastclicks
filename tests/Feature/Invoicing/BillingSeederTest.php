@@ -2,6 +2,7 @@
 
 use App\Models\Company;
 use App\Models\ServiceItem;
+use App\Models\SiteSetting;
 use Database\Seeders\BillingSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -87,4 +88,34 @@ it('does not duplicate a rate-card row an admin renamed', function () {
     $this->seed(BillingSeeder::class);
 
     expect(ServiceItem::count())->toBe($countBefore);
+});
+
+it('derives the state code from the seeded state name', function () {
+    // address_state came from Site Settings free text and address_state_code
+    // was never set, so a fresh production database had the printed field
+    // filled and the tax-deciding field empty.
+    SiteSetting::set('address_locality', 'New Delhi');
+    SiteSetting::set('address_region', 'Delhi');
+
+    $this->seed(BillingSeeder::class);
+
+    $company = Company::default();
+
+    expect($company->address_state)->toBe('Delhi')
+        ->and($company->address_state_code)->toBe('07');
+});
+
+it('leaves both state fields null when the name matches no state', function () {
+    // Half-filling the pair is the bad outcome: a state name with no code
+    // looks complete on the form while the tax split silently has no input.
+    // An admin seeing one empty field is better than an inconsistent pair.
+    SiteSetting::set('address_locality', 'Somewhere');
+    SiteSetting::set('address_region', 'Not A State');
+
+    $this->seed(BillingSeeder::class);
+
+    $company = Company::default();
+
+    expect($company->address_state)->toBeNull()
+        ->and($company->address_state_code)->toBeNull();
 });

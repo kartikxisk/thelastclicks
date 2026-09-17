@@ -64,3 +64,14 @@ it('writes the total in words the Indian way', function () {
         ->and(Money::inWords(-12345600))->toBe('Minus Rupees One Lakh Twenty Three Thousand Four Hundred Fifty Six Only')
         ->and(Money::inWords(-123455))->toBe('Minus Rupees One Thousand Two Hundred Thirty Four and Fifty Five Paise Only');
 });
+
+it('refuses an amount in scientific notation rather than silently misreading it', function () {
+    // (string) 1.0e20 is "1.0E+20". Stripping everything but digits and the dot
+    // left "1.020", which parsed as 102 paise — a wrong number, returned
+    // silently, from the one class whose whole purpose is that this cannot
+    // happen. The float overload that made this reachable by accident is gone
+    // from the signature, but a string in this shape still arrives from a CSV
+    // or a JSON payload, so it has to be refused rather than guessed at.
+    expect(fn () => Money::fromRupees('1.0E+20'))->toThrow(InvalidArgumentException::class)
+        ->and(fn () => Money::fromRupees('1e3'))->toThrow(InvalidArgumentException::class);
+});

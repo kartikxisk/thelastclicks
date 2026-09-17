@@ -48,3 +48,26 @@ it('confirms exists() works for both int-keyed and string-keyed entries', functi
     expect(StateCodes::exists('27'))->toBeTrue()  // PHP-cast to int internally, still found by array_key_exists
         ->and(StateCodes::exists('07'))->toBeTrue();  // string key, found directly
 });
+
+it('looks a code up from a state name', function () {
+    // BillingSeeder has a free-text state name out of Site Settings and needs
+    // the code, because the name is what prints and the code is what decides
+    // the tax split.
+    expect(StateCodes::codeFor('Delhi'))->toBe('07')
+        ->and(StateCodes::codeFor('Maharashtra'))->toBe('27')
+        ->and(StateCodes::codeFor('Tamil Nadu'))->toBe('33');
+});
+
+it('matches a state name regardless of case or surrounding space', function () {
+    // The name is typed by an admin into Site Settings, not picked from a list.
+    expect(StateCodes::codeFor('  delhi '))->toBe('07')
+        ->and(StateCodes::codeFor('KARNATAKA'))->toBe('29');
+});
+
+it('returns null for a name it cannot match, rather than guessing', function () {
+    // A wrong code is worse than no code: it silently picks the other side of
+    // the intra-state vs inter-state split.
+    expect(StateCodes::codeFor('Bombay'))->toBeNull()
+        ->and(StateCodes::codeFor(''))->toBeNull()
+        ->and(StateCodes::codeFor(null))->toBeNull();
+});

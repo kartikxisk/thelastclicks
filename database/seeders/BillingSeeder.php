@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Invoicing\Money;
+use App\Invoicing\StateCodes;
 use App\Models\Company;
 use App\Models\ServiceItem;
 use App\Support\Nap;
@@ -59,12 +60,24 @@ class BillingSeeder extends Seeder
     {
         $address = Nap::address() ?? [];
 
+        // addressRegion is free text out of Site Settings, so the code has to be
+        // derived from it. Seeding the name alone left the printed field filled
+        // and the tax-deciding field empty on a fresh production database.
+        //
+        // When the name matches no state, both fields are left null rather than
+        // storing a name with no code: a half-filled pair looks complete on the
+        // form while the intra-state vs inter-state split silently has no input,
+        // and one visibly empty field is the better thing for an admin to meet.
+        $stateName = $address['addressRegion'] ?? null;
+        $stateCode = StateCodes::codeFor($stateName);
+
         return [
             'name' => config('app.name'),
             'is_gst_registered' => false,
             'address_line1' => $address['streetAddress'] ?? null,
             'address_city' => $address['addressLocality'] ?? null,
-            'address_state' => $address['addressRegion'] ?? null,
+            'address_state' => $stateCode === null ? null : $stateName,
+            'address_state_code' => $stateCode,
             'address_postal_code' => $address['postalCode'] ?? null,
             'address_country' => $address['addressCountry'] ?? 'IN',
             'email' => config('mail.from.address'),
@@ -79,8 +92,10 @@ class BillingSeeder extends Seeder
     }
 
     /**
-     * Starter lines, all at SAC 998383 / 18% — event photography and
-     * videography. Rates are placeholders an admin is expected to edit.
+     * Starter lines at 18%, mostly SAC 998383 — event photography and
+     * videography. The reel edit is 998386 (film post-production), because that
+     * is the service it actually is. Rates are placeholders an admin is
+     * expected to edit.
      *
      * @return list<array<string, mixed>>
      */
