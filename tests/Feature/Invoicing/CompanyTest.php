@@ -4,6 +4,7 @@ use App\Models\Company;
 use App\Rules\Gstin;
 use Database\Factories\CompanyFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Activitylog\Models\Activity;
 
 uses(RefreshDatabase::class);
 
@@ -122,4 +123,21 @@ it('clears the GSTIN when the company stops being GST registered', function () {
     $company->update(['is_gst_registered' => false]);
 
     expect($company->fresh()->gstin)->toBeNull();
+});
+
+it('records a change to the UPI ID', function () {
+    // The UPI ID becomes the QR code on every invoice PDF, so editing it
+    // silently redirects customer payments.
+    $company = Company::factory()->create(['upi_id' => 'studio@hdfcbank']);
+
+    $company->update(['upi_id' => 'someone-else@ybl']);
+
+    $activity = Activity::query()
+        ->where('subject_type', $company->getMorphClass())
+        ->where('subject_id', $company->getKey())
+        ->latest('id')
+        ->first();
+
+    expect($activity)->not->toBeNull()
+        ->and($activity->changes()['attributes']['upi_id'])->toBe('someone-else@ybl');
 });

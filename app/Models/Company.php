@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -20,7 +22,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Company extends Model implements HasMedia
 {
     /** @use HasFactory<CompanyFactory> */
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, LogsActivity;
 
     /**
      * The invoice layouts a company may pick.
@@ -51,6 +53,33 @@ class Company extends Model implements HasMedia
             'lut_valid_till' => 'date',
             'default_payment_terms_days' => 'integer',
         ];
+    }
+
+    /**
+     * An audit trail for the row that decides where money lands.
+     *
+     * `upi_id` becomes the QR code on every invoice PDF and the bank block is
+     * printed underneath it, so changing either silently redirects customer
+     * payments — and there was no record of who did it or when. The tax
+     * identifiers are here for the same reason on the other side: a GSTIN or a
+     * PAN is what a filed return is keyed on. CompanyObserver already guards
+     * is_default and is_active carefully, so they are logged too; the rest of
+     * the row is addresses and invoice boilerplate, and logging all of it would
+     * bury the seven fields that matter.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'bank_account_number',
+                'bank_ifsc',
+                'upi_id',
+                'gstin',
+                'pan',
+                'is_default',
+                'is_active',
+            ])
+            ->logOnlyDirty();
     }
 
     /**
