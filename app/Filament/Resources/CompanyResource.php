@@ -95,7 +95,9 @@ class CompanyResource extends Resource
                     ->afterStateUpdated(fn (?string $state, callable $set) => $set('address_state', StateCodes::name($state))),
                 TextInput::make('address_state')->label('State name')->maxLength(255)
                     ->helperText('Filled from the state above; printed on the invoice.'),
-                TextInput::make('address_postal_code')->maxLength(6),
+                // Twelve, matching the column: a company invoicing an export can
+                // carry a non-Indian address, and a UK postcode is eight characters.
+                TextInput::make('address_postal_code')->maxLength(12),
             ]),
 
             Section::make('Bank and UPI')->columns(2)->schema([

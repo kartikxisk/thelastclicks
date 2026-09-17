@@ -34,7 +34,11 @@ return new class extends Migration
             $table->string('billing_address_city')->nullable();
             $table->string('billing_address_state')->nullable();
             $table->string('billing_address_state_code', 2)->nullable();
-            $table->string('billing_address_postal_code', 6)->nullable();
+            // Twelve, not six — see companies.address_postal_code. A client
+            // billed outside India is the case this table's own helper text
+            // describes ("Anything other than IN makes the invoice an export"),
+            // and a UK postcode is eight characters.
+            $table->string('billing_address_postal_code', 12)->nullable();
             $table->string('billing_address_country', 2)->default('IN');
 
             $table->string('place_of_supply_state_code', 2)->nullable();

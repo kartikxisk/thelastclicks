@@ -84,3 +84,22 @@ it('uppercases a lowercase GSTIN and PAN rather than failing the format check', 
     expect($client->gstin)->toBe(CompanyFactory::gstinFor('29'))
         ->and($client->pan)->toBe('AAPFU0939F');
 });
+
+it('accepts an export client whose postcode is longer than an Indian PIN', function () {
+    // The country field on this form says an address outside IN makes the
+    // invoice an export, and the company carries LUT fields that exist only for
+    // exports — but at six characters a UK postcode like SW1A 1AA could not be
+    // typed at all. The column is varchar(12) for the same reason; on MySQL an
+    // over-long value is error 1406 rather than a silent truncation.
+    Livewire::test(CreateBillingClient::class)
+        ->fillForm([
+            'name' => 'Thameside Studios Ltd',
+            'billing_address_postal_code' => 'SW1A 1AA',
+            'billing_address_country' => 'GB',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    expect(BillingClient::where('name', 'Thameside Studios Ltd')->first()->billing_address_postal_code)
+        ->toBe('SW1A 1AA');
+});

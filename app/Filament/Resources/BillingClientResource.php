@@ -89,7 +89,10 @@ class BillingClientResource extends Resource
                     ->live()
                     ->afterStateUpdated(fn (?string $state, callable $set) => $set('billing_address_state', StateCodes::name($state))),
                 TextInput::make('billing_address_state')->label('State name')->maxLength(255),
-                TextInput::make('billing_address_postal_code')->label('PIN')->maxLength(6),
+                // Twelve, matching the column, and labelled for both: the
+                // country field below says an address outside IN makes this an
+                // export, and a UK postcode like SW1A 1AA is eight characters.
+                TextInput::make('billing_address_postal_code')->label('PIN / postcode')->maxLength(12),
                 TextInput::make('billing_address_country')->label('Country')->default('IN')->maxLength(2)
                     ->helperText('Anything other than IN makes the invoice an export.'),
             ]),

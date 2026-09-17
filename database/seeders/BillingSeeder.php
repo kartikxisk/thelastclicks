@@ -78,7 +78,7 @@ class BillingSeeder extends Seeder
             'address_city' => $address['addressLocality'] ?? null,
             'address_state' => $stateCode === null ? null : $stateName,
             'address_state_code' => $stateCode,
-            'address_postal_code' => $address['postalCode'] ?? null,
+            'address_postal_code' => self::pin($address['postalCode'] ?? null),
             'address_country' => $address['addressCountry'] ?? 'IN',
             'email' => config('mail.from.address'),
             'invoice_prefix' => 'INV',
@@ -89,6 +89,29 @@ class BillingSeeder extends Seeder
             'default_payment_terms_days' => 7,
             'is_active' => true,
         ];
+    }
+
+    /**
+     * An Indian PIN as six digits, or null.
+     *
+     * The value arrives from a Site Settings field that is free text, and a PIN
+     * written the way people write it — "201 301", "110024 (Lajpat Nagar)" — is
+     * longer than the column. MySQL answers that with SQLSTATE 22001 / error
+     * 1406 and aborts the insert; SQLite stores it, which is why the suite
+     * cannot see this. The abort lands inside `db:seed`, which is deploy step
+     * three: `livewire:publish --assets` and `deploy:refresh` never run, and a
+     * deploy that skips livewire:publish is this repo's recorded admin-login
+     * killer. So the seeder normalises rather than trusting the setting.
+     *
+     * Nothing recoverable means null rather than an empty string: an address
+     * block prints the line it is given, and "" would print a stray space
+     * after the city.
+     */
+    private static function pin(?string $value): ?string
+    {
+        $digits = substr(preg_replace('/\D/', '', (string) $value) ?? '', 0, 6);
+
+        return $digits === '' ? null : $digits;
     }
 
     /**

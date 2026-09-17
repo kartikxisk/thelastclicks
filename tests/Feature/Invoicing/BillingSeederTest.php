@@ -119,3 +119,30 @@ it('leaves both state fields null when the name matches no state', function () {
     expect($company->address_state)->toBeNull()
         ->and($company->address_state_code)->toBeNull();
 });
+
+it('normalises a spaced PIN out of Site Settings to six digits', function () {
+    // companies.address_postal_code is a short varchar and the Site Settings
+    // field this is copied from is free text. An Indian PIN written "201 301"
+    // is seven characters, which MySQL refuses outright (SQLSTATE 22001) while
+    // SQLite stores it — and the refusal lands in the middle of `db:seed`,
+    // which is deploy step 3. Everything after it, including the
+    // `livewire:publish --assets` that keeps admin login working, never runs.
+    SiteSetting::set('address_locality', 'Noida');
+    SiteSetting::set('address_region', 'Uttar Pradesh');
+    SiteSetting::set('address_postal_code', '201 301');
+
+    $this->seed(BillingSeeder::class);
+
+    expect(Company::default()->address_postal_code)->toBe('201301');
+});
+
+it('stores no postal code at all when the setting carries no digits', function () {
+    // "Ask us" in a free-text field is not a PIN. Storing the letters would
+    // print nonsense on an invoice address block; null leaves the line out.
+    SiteSetting::set('address_locality', 'Noida');
+    SiteSetting::set('address_postal_code', 'Ask us');
+
+    $this->seed(BillingSeeder::class);
+
+    expect(Company::default()->address_postal_code)->toBeNull();
+});

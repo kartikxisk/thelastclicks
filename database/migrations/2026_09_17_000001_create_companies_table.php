@@ -33,7 +33,12 @@ return new class extends Migration
             $table->string('address_city')->nullable();
             $table->string('address_state')->nullable();
             $table->string('address_state_code', 2)->nullable();
-            $table->string('address_postal_code', 6)->nullable();
+            // Twelve, not six: the form advertises non-IN addresses (a country
+            // other than IN makes the invoice an export, and the LUT fields
+            // above exist only for exports), and a UK postcode like SW1A 1AA is
+            // eight characters. At six, that address simply cannot be entered —
+            // and on MySQL an over-long value is error 1406, not a truncation.
+            $table->string('address_postal_code', 12)->nullable();
             $table->string('address_country', 2)->default('IN');
 
             $table->string('email')->nullable();
