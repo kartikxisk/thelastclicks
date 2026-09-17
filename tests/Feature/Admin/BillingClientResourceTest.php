@@ -64,3 +64,23 @@ it('accepts a valid GSTIN from any state, because the client may be anywhere', f
         ->call('create')
         ->assertHasNoFormErrors();
 });
+
+it('uppercases a lowercase GSTIN and PAN rather than failing the format check', function () {
+    // Same reason as the company form: the characters in a pasted GSTIN are
+    // right and only the case is wrong, so "format is invalid" names the wrong
+    // problem.
+    Livewire::test(CreateBillingClient::class)
+        ->fillForm([
+            'name' => 'Lowercase Events',
+            'gstin' => strtolower(CompanyFactory::gstinFor('29')),
+            'pan' => 'aapfu0939f',
+            'billing_address_state_code' => '07',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $client = BillingClient::where('name', 'Lowercase Events')->first();
+
+    expect($client->gstin)->toBe(CompanyFactory::gstinFor('29'))
+        ->and($client->pan)->toBe('AAPFU0939F');
+});

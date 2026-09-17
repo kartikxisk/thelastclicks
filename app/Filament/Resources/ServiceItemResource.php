@@ -34,6 +34,10 @@ class ServiceItemResource extends Resource
 
     protected static ?string $modelLabel = 'service item';
 
+    // Without this the nav reads "Rate card" while the page heading and
+    // breadcrumb read "Service Items" — two names for one screen.
+    protected static ?string $pluralModelLabel = 'Rate card';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -46,7 +50,12 @@ class ServiceItemResource extends Resource
                     ->helperText('Leave blank unless this rate belongs to one entity.'),
                 Textarea::make('description')->rows(2)->columnSpanFull()
                     ->helperText('Prefills the invoice line description.'),
-                RupeeInput::make('rate_paise')->label('Rate')->required(),
+                // A rate card is a price list, so a negative price is not one.
+                // RupeeInput itself still admits a leading minus on purpose —
+                // phase 2 needs negatives for discount and round-off lines — so
+                // the constraint belongs here, at the call site.
+                RupeeInput::make('rate_paise')->label('Rate')->required()
+                    ->rule('regex:/^[0-9][0-9,]*\.?[0-9]{0,2}$/'),
                 Select::make('unit')
                     ->options(array_combine(ServiceItem::UNITS, array_map(ucfirst(...), ServiceItem::UNITS)))
                     ->default('project')->required(),

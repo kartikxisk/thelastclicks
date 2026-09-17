@@ -35,6 +35,10 @@ class BillingClientResource extends Resource
 
     protected static ?string $modelLabel = 'billing client';
 
+    // The nav says "Clients"; without this the heading and breadcrumb say
+    // "Billing Clients". One screen, one name.
+    protected static ?string $pluralModelLabel = 'Clients';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -47,8 +51,18 @@ class BillingClientResource extends Resource
                     // can be registered anywhere, and their GSTIN state is what
                     // decides the place of supply rather than contradicting it.
                     ->rules([new Gstin])
+                    // GSTIN, PAN and IFSC are uppercase by definition, and a
+                    // paste out of an email routinely is not. Failing that with
+                    // "format is invalid" names the wrong problem: the characters
+                    // are right, only the case is not.
+                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null)
                     ->helperText('Leave blank for an unregistered client.'),
-                TextInput::make('pan')->label('PAN')->maxLength(10),
+                TextInput::make('pan')->label('PAN')->maxLength(10)
+                    // GSTIN, PAN and IFSC are uppercase by definition, and a
+                    // paste out of an email routinely is not. Failing that with
+                    // "format is invalid" names the wrong problem: the characters
+                    // are right, only the case is not.
+                    ->dehydrateStateUsing(fn (?string $state): ?string => filled($state) ? strtoupper(trim($state)) : null),
                 Select::make('client_id')
                     ->label('Logo-wall entry')
                     ->options(fn (): array => Client::orderBy('name')->pluck('name', 'id')->all())

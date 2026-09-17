@@ -68,3 +68,17 @@ it('rejects a lone minus sign as a form error rather than throwing', function ()
         ->call('create')
         ->assertHasFormErrors(['rate_paise']);
 });
+
+it('rejects a negative rate-card rate', function () {
+    // A rate card is a price list; a negative price is not one. RupeeInput
+    // itself still admits a leading minus on purpose — phase 2 needs negatives
+    // for discount and round-off lines — so the constraint belongs here, at
+    // the call site, rather than in the component.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Negative rate',
+            'rate_paise' => '-100.00',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['rate_paise']);
+});
