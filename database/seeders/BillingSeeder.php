@@ -37,15 +37,31 @@ class BillingSeeder extends Seeder
     public function run(): void
     {
         if (Company::count() === 0) {
-            $company = Company::create($this->companyAttributes());
+            Company::create($this->companyAttributes());
+        }
 
-            // CompanyObserver auto-promotes the very first company created, so
-            // this is usually a no-op — kept for the edge case where it somehow
-            // isn't, since a company with no default anywhere leaves every
-            // invoice form blank.
-            if (Company::default() === null) {
-                $company->makeDefault();
-            }
+        // Unconditional, and deliberately OUTSIDE the block above.
+        //
+        // CompanyObserver auto-promotes the very first company created, so on a
+        // fresh database this is a no-op. It is here for the state nothing else
+        // repairs: the observer decides "first company" with a non-locking
+        // Company::count() === 0 and demotes with `WHERE id != <me>`, so two
+        // inserts that land before either demotion each demote the other and
+        // the table is left with zero defaults. A double-clicked deploy reaches
+        // that, and so does a deploy seeding while an admin creates a company.
+        // The old fallback sat inside the count() === 0 branch, which by then
+        // is false, so the database stayed broken and every invoice form came
+        // up with an empty company field and no explanation.
+        //
+        // This is NOT the "never revert an admin's chosen default" case the
+        // docblock above describes, and must not be simplified into one. It
+        // fires only when there is no default AT ALL — the broken state — and
+        // does nothing the moment one exists, whoever chose it.
+        //
+        // Oldest active company wins: arbitrary, deterministic, and the same
+        // successor rule CompanyObserver::deleted() already uses.
+        if (Company::default() === null) {
+            Company::query()->where('is_active', true)->oldest('id')->first()?->makeDefault();
         }
 
         if (! ServiceItem::whereNull('company_id')->exists()) {

@@ -87,12 +87,21 @@ class Company extends Model implements HasMedia
      * is_active, and so is the same as having no default at all. The table's
      * "Make default" action is visible on inactive rows, so this is a reachable
      * path and not only an internal one.
+     *
+     * Three attempts rather than the default one, because two concurrent
+     * promotions deadlock on MySQL. The observer's demotion is
+     * `UPDATE companies SET is_default = 0 WHERE id <> ?`, which InnoDB serves
+     * with a PRIMARY range scan, so each transaction ends up holding rows the
+     * other is waiting on and one of them is killed. The invariant survives
+     * either way — the victim rolls back whole — but at one attempt the loser
+     * reaches the admin as a 500 on a button that would have worked on a
+     * retry. SQLite cannot produce that deadlock, so no test here sees it.
      */
     public function makeDefault(): void
     {
         DB::transaction(function (): void {
             $this->forceFill(['is_default' => true, 'is_active' => true])->save();
-        });
+        }, 3);
     }
 
     public function stateLabel(): ?string

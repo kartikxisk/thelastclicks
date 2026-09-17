@@ -82,3 +82,28 @@ it('rejects a negative rate-card rate', function () {
         ->call('create')
         ->assertHasFormErrors(['rate_paise']);
 });
+
+it('refuses a negative sort position', function () {
+    // `sort` is an unsignedInteger column and ->numeric() alone passes -1.
+    // Zero is allowed — it is the column default and the top of the list — so
+    // the floor is 0 here rather than the 1 the payment-term fields use.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Negative sort',
+            'rate_paise' => '100.00',
+            'sort' => -1,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['sort']);
+});
+
+it('still accepts a sort position of zero', function () {
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Top of the list',
+            'rate_paise' => '100.00',
+            'sort' => 0,
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+});

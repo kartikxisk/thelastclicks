@@ -103,7 +103,9 @@ class BillingClientResource extends Resource
                     ->options(StateCodes::options())
                     ->searchable()
                     ->helperText('Leave blank to use their GSTIN state, then their billing state.'),
-                TextInput::make('payment_terms_days')->numeric()
+                // unsignedInteger column: ->numeric() alone passes -5, which
+                // MySQL refuses with error 1264 and SQLite stores silently.
+                TextInput::make('payment_terms_days')->numeric()->minValue(1)
                     ->helperText('Blank uses the company default.'),
                 TextInput::make('currency')->default('INR')->maxLength(3),
                 Textarea::make('notes')->rows(3)->columnSpanFull(),

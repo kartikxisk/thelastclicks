@@ -2,6 +2,7 @@
 
 use App\Models\Company;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 
 uses(RefreshDatabase::class);
 
@@ -111,4 +112,33 @@ it('activates the first company as well as promoting it to default', function ()
     expect($first->fresh()->is_active)->toBeTrue()
         ->and($first->fresh()->is_default)->toBeTrue()
         ->and(Company::default())->not->toBeNull();
+});
+
+it('asks the transaction to retry, because two concurrent promotions deadlock', function () {
+    // makeDefault() fires CompanyObserver::saved(), whose demotion is
+    // `UPDATE companies SET is_default = 0 WHERE id <> ?`. On MySQL that takes
+    // a PRIMARY range scan, so two concurrent promotions each hold the rows
+    // the other needs and InnoDB kills one. The invariant survives — the
+    // victim rolls back whole — but DB::transaction() defaults to a single
+    // attempt, so the loser reaches the admin as a 500 on a button that
+    // would have worked.
+    //
+    // Asserting the attempt count rather than the deadlock: SQLite cannot
+    // produce an InnoDB deadlock, so the retry itself is not reproducible in
+    // this suite. What is checkable is that the retry was asked for.
+    $company = Company::factory()->create();
+
+    $attempts = null;
+
+    DB::shouldReceive('transaction')
+        ->once()
+        ->andReturnUsing(function (...$args) use (&$attempts) {
+            $attempts = $args[1] ?? 1;
+
+            return null;
+        });
+
+    $company->makeDefault();
+
+    expect($attempts)->toBe(3);
 });

@@ -146,3 +146,28 @@ it('stores no postal code at all when the setting carries no digits', function (
 
     expect(Company::default()->address_postal_code)->toBeNull();
 });
+
+it('repairs a database that has companies but no default at all', function () {
+    // CompanyObserver decides "first company" with a non-locking
+    // Company::count() === 0 and demotes with `WHERE id != <me>`. Two inserts
+    // that land before either demotion therefore demote each other and leave
+    // zero defaults — reachable by a double-clicked deploy, or by a deploy
+    // seeding while an admin creates a company. It does not self-repair,
+    // because the existing fallback only ran inside the count() === 0 branch.
+    //
+    // Forced through the query builder on purpose: CompanyObserver::updating()
+    // refuses to clear is_default through Eloquent, so this is reproducing the
+    // state a race leaves behind, not a state the admin can reach.
+    Company::factory()->count(2)->create();
+    Company::query()->update(['is_default' => false]);
+
+    expect(Company::default())->toBeNull();
+
+    $this->seed(BillingSeeder::class);
+
+    expect(Company::where('is_default', true)->count())->toBe(1)
+        ->and(Company::default())->not->toBeNull()
+        // The oldest active company wins — arbitrary but deterministic, and
+        // the same successor rule CompanyObserver::deleted() already uses.
+        ->and(Company::default()->id)->toBe(Company::oldest('id')->first()->id);
+});

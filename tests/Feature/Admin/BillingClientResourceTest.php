@@ -103,3 +103,16 @@ it('accepts an export client whose postcode is longer than an Indian PIN', funct
     expect(BillingClient::where('name', 'Thameside Studios Ltd')->first()->billing_address_postal_code)
         ->toBe('SW1A 1AA');
 });
+
+it('refuses a negative payment term', function () {
+    // payment_terms_days is an unsignedInteger column, and ->numeric() alone
+    // passes -5. MySQL refuses it with error 1264 — a 500 for the admin —
+    // while SQLite stores the negative silently.
+    Livewire::test(CreateBillingClient::class)
+        ->fillForm([
+            'name' => 'Negative Terms Events',
+            'payment_terms_days' => -5,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['payment_terms_days']);
+});

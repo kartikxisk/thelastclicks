@@ -207,3 +207,20 @@ it('uppercases a lowercase GSTIN, PAN and IFSC rather than failing the format ch
         ->and($company->pan)->toBe('AAPFU0939F')
         ->and($company->bank_ifsc)->toBe('HDFC0001234');
 });
+
+it('refuses a negative default payment term', function () {
+    // The column is unsignedInteger. A bare ->numeric() only adds the `numeric`
+    // rule, which passes -5 — and MySQL answers an out-of-range value with
+    // error 1264, a 500 for the admin, while SQLite stores the negative
+    // silently. The branch already learned this for rate_paise; this field was
+    // missed.
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Negative Terms Studio',
+            'is_gst_registered' => false,
+            'invoice_prefix' => 'NEG',
+            'default_payment_terms_days' => -5,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['default_payment_terms_days']);
+});

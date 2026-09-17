@@ -134,7 +134,12 @@ class CompanyResource extends Resource
                 Select::make('default_template')
                     ->options(['classic' => 'Classic', 'modern' => 'Modern', 'minimal' => 'Minimal'])
                     ->default('classic')->required(),
-                TextInput::make('default_payment_terms_days')->numeric()->default(7)->required(),
+                // The column is unsignedInteger, and ->numeric() alone only
+                // adds the `numeric` rule, which passes -5. MySQL answers that
+                // with error 1264 — a 500 for the admin — while SQLite stores
+                // the negative silently. A zero-day term is not one either:
+                // the invoice due date is issue date plus this.
+                TextInput::make('default_payment_terms_days')->numeric()->minValue(1)->default(7)->required(),
                 Textarea::make('default_terms')->rows(3)->columnSpanFull(),
                 Textarea::make('default_notes')->rows(2)->columnSpanFull(),
                 Textarea::make('footer_note')->rows(2)->columnSpanFull(),

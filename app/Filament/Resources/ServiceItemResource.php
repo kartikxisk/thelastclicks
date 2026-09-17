@@ -68,7 +68,11 @@ class ServiceItemResource extends Resource
                 Toggle::make('is_expense')
                     ->label('Reimbursable expense')
                     ->helperText('Groups this line under expenses on the invoice. Does not change the tax.'),
-                TextInput::make('sort')->numeric()->default(0),
+                // unsignedInteger column, so the floor is 0 rather than the 1
+                // the payment-term fields use — 0 is the column default and the
+                // top of the list. ->numeric() alone passes -1, which MySQL
+                // refuses with error 1264 and SQLite stores silently.
+                TextInput::make('sort')->numeric()->minValue(0)->default(0),
                 Toggle::make('is_active')->default(true),
             ]),
         ]);
