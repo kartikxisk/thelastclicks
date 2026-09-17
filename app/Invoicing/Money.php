@@ -130,10 +130,13 @@ final class Money
      * The total in words, Indian numbering.
      *
      * Not a Rule 46 requirement, but every accounts-payable department expects
-     * it and a few refuse an invoice without it.
+     * it and a few refuse an invoice without it. The sign must be preserved on
+     * legal documents: a credit note or round-off amount can be negative, and
+     * an unsigned words method would produce an invoice with a wrong total.
      */
     public static function inWords(int $paise): string
     {
+        $negative = $paise < 0;
         $abs = abs($paise);
         $rupees = intdiv($abs, 100);
         $fraction = $abs % 100;
@@ -144,7 +147,7 @@ final class Money
             $words .= ' and '.self::integerInWords($fraction).' Paise';
         }
 
-        return $words.' Only';
+        return ($negative ? 'Minus ' : '').$words.' Only';
     }
 
     /** Last three digits, then pairs — 12345600 paise reads as 1,23,456. */

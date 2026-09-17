@@ -9,7 +9,9 @@ it('parses rupee input into paise without touching a float', function () {
         ->and(Money::fromRupees('1,23,456'))->toBe(12345600)
         ->and(Money::fromRupees('₹ 1,234.55'))->toBe(123455)
         ->and(Money::fromRupees(''))->toBe(0)
-        ->and(Money::fromRupees(null))->toBe(0);
+        ->and(Money::fromRupees(null))->toBe(0)
+        ->and(Money::fromRupees('-1234.55'))->toBe(-123455)
+        ->and(Money::fromRupees('-1,23,456'))->toBe(-12345600);
 });
 
 it('rounds a third decimal half-up rather than truncating it', function () {
@@ -31,7 +33,9 @@ it('formats with Indian digit grouping', function () {
     expect(Money::format(12345600))->toBe('₹1,23,456.00')
         ->and(Money::format(100000000))->toBe('₹10,00,000.00')
         ->and(Money::format(99900))->toBe('₹999.00')
-        ->and(Money::format(123455, 'USD'))->toBe('USD 1,234.55');
+        ->and(Money::format(123455, 'USD'))->toBe('USD 1,234.55')
+        ->and(Money::format(-123455))->toBe('-₹1,234.55')
+        ->and(Money::format(-12345600))->toBe('-₹1,23,456.00');
 });
 
 it('applies a basis-point rate half-up', function () {
@@ -39,7 +43,9 @@ it('applies a basis-point rate half-up', function () {
     expect(Money::applyBps(123455, 1800))->toBe(22222)
         // The same value at 9% (one half of an intra-state split) = ₹111.1095 → ₹111.11
         ->and(Money::applyBps(123455, 900))->toBe(11111)
-        ->and(Money::applyBps(0, 1800))->toBe(0);
+        ->and(Money::applyBps(0, 1800))->toBe(0)
+        ->and(Money::applyBps(-123455, 1800))->toBe(-22222)
+        ->and(Money::applyBps(-123455, 900))->toBe(-11111);
 });
 
 it('rounds a total to the nearest rupee, half-up, per section 170', function () {
@@ -54,5 +60,7 @@ it('writes the total in words the Indian way', function () {
         ->and(Money::inWords(100000000))->toBe('Rupees Ten Lakh Only')
         ->and(Money::inWords(1000000000))->toBe('Rupees One Crore Only')
         ->and(Money::inWords(123455))->toBe('Rupees One Thousand Two Hundred Thirty Four and Fifty Five Paise Only')
-        ->and(Money::inWords(0))->toBe('Rupees Zero Only');
+        ->and(Money::inWords(0))->toBe('Rupees Zero Only')
+        ->and(Money::inWords(-12345600))->toBe('Minus Rupees One Lakh Twenty Three Thousand Four Hundred Fifty Six Only')
+        ->and(Money::inWords(-123455))->toBe('Minus Rupees One Thousand Two Hundred Thirty Four and Fifty Five Paise Only');
 });
