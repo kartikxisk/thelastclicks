@@ -96,3 +96,19 @@ it('lets the last company be deleted without promoting a ghost', function () {
     expect(Company::count())->toBe(0)
         ->and(Company::default())->toBeNull();
 });
+
+it('activates the first company as well as promoting it to default', function () {
+    // The create form leaves the Active toggle live for a new record (it is
+    // only disabled once $record->is_default is true, and $record is null on
+    // create), so unticking it while creating the very first company used to
+    // save is_default = true alongside is_active = false. Company::default()
+    // filters on is_active, so it returned null — permanently, because
+    // creating a second company does not repair it: creating() only promotes
+    // when the table is empty. A default that is not active is the same as
+    // having no default at all.
+    $first = Company::factory()->create(['is_default' => false, 'is_active' => false]);
+
+    expect($first->fresh()->is_active)->toBeTrue()
+        ->and($first->fresh()->is_default)->toBeTrue()
+        ->and(Company::default())->not->toBeNull();
+});

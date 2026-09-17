@@ -24,8 +24,19 @@ class CompanyObserver
     {
         // The first company is the only one it can be, so don't make someone
         // press a button to say so.
+        //
+        // is_active is forced alongside it, mirroring makeDefault(). The create
+        // form leaves the Active toggle live for a new record — it is only
+        // disabled once $record->is_default is true, and $record is null on
+        // create — so unticking it while creating the very first company saved
+        // is_default = true with is_active = false. Company::default() filters
+        // on is_active and so returned null, permanently: creating a second
+        // company does not repair it, because this branch only promotes while
+        // the table is empty. A default that is not active is the same as
+        // having no default at all.
         if (Company::count() === 0) {
             $company->is_default = true;
+            $company->is_active = true;
         }
     }
 
