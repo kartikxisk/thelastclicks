@@ -51,9 +51,18 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    /**
+     * This is an allow-list, not a policy check: Filament calls it before any
+     * resource policy runs, so a role missing here is rejected at the panel
+     * door no matter what permissions it holds — that is what happened to
+     * Accounts, which had every billing permission and still couldn't log
+     * in. `AdminPanelAccessTest`'s "every role RolesSeeder creates" test
+     * reads the role list from the database rather than restating it, so the
+     * next new role fails loudly here instead of shipping locked out.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasAnyRole(['Super-admin', 'Editor', 'Sales', 'Viewer']);
+        return $this->hasAnyRole(['Super-admin', 'Editor', 'Sales', 'Viewer', 'Accounts']);
     }
 
     /** @return HasMany<Quote, $this> */
