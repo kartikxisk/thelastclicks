@@ -55,15 +55,20 @@ class Company extends Model implements HasMedia
     }
 
     /**
-     * Promote this company and demote the rest, in one transaction.
+     * Promote this company, with the demotion of every other company folded
+     * into the same transaction.
      *
      * MySQL has no partial unique index, so "exactly one default" cannot be a
-     * constraint — it has to be a code path, and this is the only one.
+     * database constraint — CompanyObserver::saved() is what demotes the rest,
+     * triggered by the `is_default` flip below. Demoting here too, on top of
+     * that, would be the same invariant encoded twice, and the two would
+     * eventually diverge. Wrapping the save in a transaction is what makes the
+     * observer's demotion atomic with this promotion — the save and the
+     * `saved` event it fires both happen inside it.
      */
     public function makeDefault(): void
     {
         DB::transaction(function (): void {
-            static::query()->where('id', '!=', $this->id)->update(['is_default' => false]);
             $this->forceFill(['is_default' => true, 'is_active' => true])->save();
         });
     }
