@@ -686,7 +686,7 @@ Expected: all pass.
   - `$company->addressLines(): list<string>`
   - `$company->stateLabel(): ?string`
   - `Company::scopeActive(Builder $q): void`
-  - `CompanyFactory` with states `gstRegistered()` (default) and `unregistered()`
+  - `CompanyFactory`, GST-registered by default (`definition()` already returns a valid GSTIN — there is no `gstRegistered()` state), with an `unregistered()` state and an `inState(string $stateCode)` state
 
 - [ ] **Step 1: Write the failing test**
 
@@ -2853,7 +2853,7 @@ class EditServiceItem extends EditRecord
 - [ ] **Step 5: Run the test and watch it pass**
 
 Run: `./bin/php vendor/bin/pest tests/Feature/Admin/ServiceItemResourceTest.php`
-Expected: PASS, 5 tests.
+Expected: PASS, 4 tests.
 
 ---
 

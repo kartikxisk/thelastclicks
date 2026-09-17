@@ -64,6 +64,41 @@ Two layers stacked:
 - **`MediaItem`** — a polymorphic ordered list of `image` / `video` / `youtube` rows, shared by `Work` and `Industry` via the `HasMediaItems` trait. That trait boots a `deleting` hook that deletes children through Eloquent so medialibrary's cleanup runs; a query-builder delete would orphan the files on S3.
 - **`App\Support\MediaUrl`** is the single resolver: blank → null, already-a-URL → passthrough, otherwise resolved on a disk. It builds s3 URLs from `config('filesystems.disks.s3.url')` by string concatenation rather than `Storage::disk()->url()` — resolving the s3 driver instantiates `PortableVisibilityConverter`, which hard-crashes on a server with a stale `vendor/`. Do not "simplify" this back to the facade, and do not add a `visibility` key to the s3 disk.
 
+### Billing
+
+`companies` (our entities, exactly one `is_default`), `billing_clients` (who we bill — *not*
+`clients`, which is the public logo wall) and `service_items` (the saved rate card).
+
+Money is **integer paise** in `*_paise` bigint columns, tax rates are **basis points**
+(`18%` → `1800`), and `App\Invoicing\Money` is the only converter. Nothing casts money to a
+float: the GST split is a three-way division and a float leaves the components and the grand
+total a paisa apart, which is what a GSTR-1 reconciliation surfaces months later on a
+document the law no longer lets us edit.
+
+`App\Invoicing\StateCodes` omits 25 and 28 deliberately — both were merged away and cannot
+appear in a GSTIN issued today. `App\Rules\Gstin` validates format, state code and the
+mod-36 check digit; the checksum is the only part that catches a transposed character, which
+is the error people actually make. `checksum()` throws on a stub that is not exactly 14
+characters, because `strpos($alphabet, '')` returns `0` rather than `false` — a short stub
+would otherwise yield a plausible-looking wrong check digit instead of failing.
+
+`CompanyObserver` holds "exactly one active default" — MySQL has no partial unique index, so
+it is a code path, not a constraint. Deactivating the default throws rather than leaving
+`Company::default()` null and every invoice form blank with no explanation.
+
+`BillingSeeder` bootstraps an empty database and deliberately does not reconcile an existing
+one: it creates the company only when none exists, promotes only when there is no default,
+and seeds the rate card only when no shared item exists. Keying on `config('app.name')`
+created a second company whenever `APP_NAME` drifted, and an unconditional `makeDefault()`
+silently reverted an admin's chosen default on every deploy.
+
+Billing permissions are withheld from Viewer on purpose: its blanket `view_*` grant would
+otherwise hand every read-only account our bank details and every client's GSTIN.
+`User::canAccessPanel()` is a hardcoded role allow-list that gates panel entry *before* any
+policy runs, so a new role must be added there as well as being granted permissions —
+`tests/Feature/Admin/AdminPanelAccessTest.php` walks every seeded role for exactly that
+reason.
+
 ### SEO
 
 `SeoPage::forPath()` gives admin-managed per-URL overrides; the layout (`components/layouts/app.blade.php`) merges them field-by-field over whatever the page passed, so a row that only sets a title keeps the page's own description. `App\Support\AppUrl` centralises the "is APP_URL actually public" question that both `sitemap:generate` and `app:preflight` ask. `public/sitemap.xml` is generated, never committed.
