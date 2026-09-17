@@ -31,6 +31,12 @@ use Illuminate\Database\Seeder;
  * legal declaration, so the company arrives `is_gst_registered = false` and
  * phase-2 validation refuses to issue a tax invoice until a human has filled
  * in the real registration.
+ *
+ * One consequence worth knowing before it surprises someone: because the rate
+ * card is gated on "no shared item exists" rather than on identity, deleting
+ * every placeholder row lets the next run seed them again. That is accepted —
+ * the alternative is remembering which rows a human deleted, which needs a
+ * column this table does not have.
  */
 class BillingSeeder extends Seeder
 {

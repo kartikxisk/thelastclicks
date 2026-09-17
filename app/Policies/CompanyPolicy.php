@@ -6,6 +6,13 @@ use App\Models\Company;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Company does not use SoftDeletes, so this policy deliberately carries no
+ * restore/restoreAny/forceDelete/forceDeleteAny. Shield's stock template
+ * generates them; kept, they answer a question nothing can ask and advertise a
+ * recovery path that does not exist — a delete here is final. `reorder` stays:
+ * shield generates it and the table may gain a drag handle later.
+ */
 class CompanyPolicy
 {
     use HandlesAuthorization;
@@ -84,38 +91,6 @@ class CompanyPolicy
     public function deleteAny(User $user): bool
     {
         return $user->can('delete_any_company');
-    }
-
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, Company $company): bool
-    {
-        return $user->can('force_delete_company');
-    }
-
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->can('force_delete_any_company');
-    }
-
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, Company $company): bool
-    {
-        return $user->can('restore_company');
-    }
-
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
-    {
-        return $user->can('restore_any_company');
     }
 
     /**

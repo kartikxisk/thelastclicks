@@ -68,11 +68,18 @@ class PermissionsSeeder extends Seeder
             ->map(fn (string $resource): string => preg_quote(FilamentShield::getPermissionIdentifier($resource), '/'))
             ->values();
 
-        // An empty alternation would compile to `/_()$/` and match nothing
-        // useful for Accounts while matching the empty string for Viewer's
-        // negated test — i.e. the fail-open case this method exists to close.
-        // `(?!)` is a pattern that can never match, which is the safe reading
-        // of "there are no billing resources".
+        // `(?!)` is a pattern that can never match, which is the honest reading
+        // of "there are no billing resources" — but it is not what makes the
+        // carve-out safe, and an earlier comment here claimed it was. It is not:
+        // `/_((?!))$/` and `/_()$/` behave identically against every permission
+        // name, because both still require a trailing underscore and no
+        // permission has one, so both return 0 for `view_company` alike. What
+        // actually keeps Viewer's negated test closed is that the identifier
+        // list is never empty: this panel always has billing resources, and a
+        // resource can only leave the list by leaving the Billing nav group,
+        // which is the same edit that takes it out of the carve-out on purpose.
+        // `(?!)` is kept as the correct expression of the empty case, not as a
+        // guard that is doing work today.
         return $identifiers->isEmpty() ? '(?!)' : $identifiers->implode('|');
     }
 

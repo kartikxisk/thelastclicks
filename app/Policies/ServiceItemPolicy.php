@@ -6,6 +6,13 @@ use App\Models\ServiceItem;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * ServiceItem does not use SoftDeletes, so this policy deliberately carries no
+ * restore/restoreAny/forceDelete/forceDeleteAny. Shield's stock template
+ * generates them; kept, they answer a question nothing can ask and advertise a
+ * recovery path that does not exist — a delete here is final. `reorder` stays:
+ * ServiceItemResource is ->reorderable('sort') and that chain is live.
+ */
 class ServiceItemPolicy
 {
     use HandlesAuthorization;
@@ -56,38 +63,6 @@ class ServiceItemPolicy
     public function deleteAny(User $user): bool
     {
         return $user->can('delete_any_service::item');
-    }
-
-    /**
-     * Determine whether the user can permanently delete.
-     */
-    public function forceDelete(User $user, ServiceItem $serviceItem): bool
-    {
-        return $user->can('force_delete_service::item');
-    }
-
-    /**
-     * Determine whether the user can permanently bulk delete.
-     */
-    public function forceDeleteAny(User $user): bool
-    {
-        return $user->can('force_delete_any_service::item');
-    }
-
-    /**
-     * Determine whether the user can restore.
-     */
-    public function restore(User $user, ServiceItem $serviceItem): bool
-    {
-        return $user->can('restore_service::item');
-    }
-
-    /**
-     * Determine whether the user can bulk restore.
-     */
-    public function restoreAny(User $user): bool
-    {
-        return $user->can('restore_any_service::item');
     }
 
     /**

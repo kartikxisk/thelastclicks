@@ -314,3 +314,37 @@ it('still fills the bank block into the edit form', function () {
             'upi_id' => 'studio@hdfcbank',
         ]);
 });
+
+it('survives the deactivate-the-default race without reaching the observer', function () {
+    // Admin A opens the edit form for a non-default company, so the Active
+    // toggle is enabled. Admin B makes that company the default. Admin A then
+    // unticks Active and saves.
+    //
+    // This was reported as a path to a bare 500 out of CompanyObserver's
+    // RuntimeException; it is not, and this test is here so nobody "fixes" it
+    // again. Save is a second Livewire request, and Livewire re-resolves the
+    // record from the database when it hydrates the component — so Filament
+    // re-evaluates ->disabled() against the row as it now is, finds it default,
+    // and never dehydrates is_active at all. The observer is not reached, the
+    // rest of the form still saves, and the invariant holds.
+    $company = Company::factory()->create([
+        'is_default' => false,
+        'is_active' => true,
+        'name' => 'Before the race',
+    ]);
+
+    $page = Livewire::test(EditCompany::class, ['record' => $company->getRouteKey()]);
+
+    // Admin B, between the form loading and Admin A saving.
+    $company->makeDefault();
+
+    $page->fillForm(['is_active' => false, 'name' => 'After the race'])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    $fresh = $company->fresh();
+
+    expect($fresh->name)->toBe('After the race')
+        ->and($fresh->is_default)->toBeTrue()
+        ->and($fresh->is_active)->toBeTrue();
+});
