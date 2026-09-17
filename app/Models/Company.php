@@ -7,6 +7,7 @@ use Database\Factories\CompanyFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -51,6 +52,20 @@ class Company extends Model implements HasMedia
     public static function default(): ?self
     {
         return self::query()->where('is_default', true)->where('is_active', true)->first();
+    }
+
+    /**
+     * Promote this company and demote the rest, in one transaction.
+     *
+     * MySQL has no partial unique index, so "exactly one default" cannot be a
+     * constraint — it has to be a code path, and this is the only one.
+     */
+    public function makeDefault(): void
+    {
+        DB::transaction(function (): void {
+            static::query()->where('id', '!=', $this->id)->update(['is_default' => false]);
+            $this->forceFill(['is_default' => true, 'is_active' => true])->save();
+        });
     }
 
     public function stateLabel(): ?string
