@@ -76,13 +76,33 @@ class Company extends Model implements HasMedia
         return filled($value) ? strtoupper(trim($value)) : null;
     }
 
+    /**
+     * The signature and the stamp are deliberately NOT on the media disk.
+     *
+     * MEDIA_DISK is an s3 bucket with CloudFront in front of it, serving the
+     * public marketing site its imagery anonymously, and medialibrary's
+     * DefaultPathGenerator writes to a guessable {media_id}/{file_name}. A
+     * scanned signature and a company seal put there are anonymously fetchable
+     * by anyone who counts upwards, and cached by the CDN indefinitely.
+     *
+     * ->visibility('private') does not fix it: ACLs are disabled on that bucket
+     * and it is CloudFront, not the object ACL, that decides what is served —
+     * SiteSettingsPage carries the same finding about the branding uploads.
+     * Only a disk the CDN has no origin for does, which is config
+     * `filesystems.billing_disk`.
+     *
+     * The logo stays public on purpose: it prints on every invoice and on the
+     * public site, and is not a signing credential.
+     */
     public function registerMediaCollections(): void
     {
+        $privateDisk = (string) config('filesystems.billing_disk');
+
         // All three print on the PDF and all three are one-per-company: a second
         // signature file would render whichever medialibrary returned first.
         $this->addMediaCollection('logo')->singleFile();
-        $this->addMediaCollection('signature')->singleFile();
-        $this->addMediaCollection('stamp')->singleFile();
+        $this->addMediaCollection('signature')->singleFile()->useDisk($privateDisk);
+        $this->addMediaCollection('stamp')->singleFile()->useDisk($privateDisk);
     }
 
     /** @param  Builder<Company>  $q */

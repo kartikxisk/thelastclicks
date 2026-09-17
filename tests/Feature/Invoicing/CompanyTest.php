@@ -85,3 +85,25 @@ it('leaves an absent GSTIN, PAN and IFSC null rather than storing an empty strin
         ->and($company->fresh()->pan)->toBeNull()
         ->and($company->fresh()->bank_ifsc)->toBeNull();
 });
+
+it('keeps the signature and the stamp off the publicly-served media disk', function () {
+    // MEDIA_DISK is s3 in production with CloudFront in front of it, serving the
+    // bucket anonymously — it is the same bucket the public marketing site loads
+    // its imagery from — and medialibrary's DefaultPathGenerator writes to a
+    // guessable {media_id}/{file_name}. A scanned signature and a company seal
+    // sitting there are public documents, and ->visibility('private') does not
+    // change that: it sets an object ACL, and CloudFront is what serves the
+    // object. See SiteSettingsPage for the same finding recorded on branding.
+    $company = Company::factory()->create();
+
+    $disks = collect($company->getRegisteredMediaCollections())
+        ->mapWithKeys(fn ($collection): array => [$collection->name => $collection->diskName]);
+
+    $publicDisk = config('media-library.disk_name');
+
+    expect($disks['signature'])->not->toBe('')->not->toBe($publicDisk)
+        ->and($disks['stamp'])->not->toBe('')->not->toBe($publicDisk)
+        // The logo is deliberately public — it prints on every invoice, and a
+        // blank collection disk means "the default media disk".
+        ->and($disks['logo'] === '' ? $publicDisk : $disks['logo'])->toBe($publicDisk);
+});
