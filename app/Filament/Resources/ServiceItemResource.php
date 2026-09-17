@@ -80,22 +80,41 @@ class ServiceItemResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Progressive disclosure, and the widest of the three billing
+            // tables at nine columns — see CompanyResource for the measurement.
+            //
+            // Name and Rate stay at every width: a rate card row is a thing and
+            // its price, and either alone is useless. Position, Company, Unit
+            // and Active come back at md.
+            //
+            // SAC, GST and Expense are toggleable instead, because they carry
+            // almost no information for telling rows apart — the seeded card is
+            // 998383 on four rows of five, 18% on all five, and not an expense
+            // on four. They are read while editing one line, not while scanning
+            // the list, and a toggled-off column is still searched.
             ->columns([
-                TextColumn::make('sort')->sortable()->label('#'),
+                TextColumn::make('sort')->sortable()->label('#')
+                    ->visibleFrom('md'),
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('company.name')->label('Company')->placeholder('Shared'),
+                TextColumn::make('company.name')->label('Company')->placeholder('Shared')
+                    ->visibleFrom('md'),
                 // Through the model rather than calling Money::format() again
                 // here: formattedRate() is the tested one, and two spellings of
                 // the same formatting eventually disagree.
                 TextColumn::make('rate_paise')->label('Rate')
                     ->formatStateUsing(fn (ServiceItem $record): string => $record->formattedRate())
                     ->sortable(),
-                TextColumn::make('unit'),
-                TextColumn::make('sac_code')->label('SAC'),
+                TextColumn::make('unit')
+                    ->visibleFrom('md'),
+                TextColumn::make('sac_code')->label('SAC')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('tax_rate_bps')->label('GST')
-                    ->formatStateUsing(fn (int $state): string => ($state / 100).'%'),
-                IconColumn::make('is_expense')->boolean()->label('Expense'),
-                IconColumn::make('is_active')->boolean()->label('Active'),
+                    ->formatStateUsing(fn (int $state): string => ($state / 100).'%')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_expense')->boolean()->label('Expense')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                IconColumn::make('is_active')->boolean()->label('Active')
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')

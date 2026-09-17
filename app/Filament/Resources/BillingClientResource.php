@@ -117,15 +117,23 @@ class BillingClientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Progressive disclosure — see CompanyResource for the measurement.
+            // Name and the GST badge stay at every width: the name says which
+            // client, and registered-or-not decides what Rule 46 requires on
+            // their invoice and is the one thing about them you cannot infer
+            // from the name. State, email and Active come back at md.
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('gstin')->label('GST')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => filled($state) ? 'Registered' : 'Unregistered')
                     ->color(fn (?string $state): string => filled($state) ? 'success' : 'gray'),
-                TextColumn::make('billing_address_state')->label('State')->sortable(),
-                TextColumn::make('email')->searchable(),
-                IconColumn::make('is_active')->boolean()->label('Active'),
+                TextColumn::make('billing_address_state')->label('State')->sortable()
+                    ->visibleFrom('md'),
+                TextColumn::make('email')->searchable()
+                    ->visibleFrom('md'),
+                IconColumn::make('is_active')->boolean()->label('Active')
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('name')
             ->actions([

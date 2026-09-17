@@ -161,13 +161,24 @@ class CompanyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            // Progressive disclosure: at 390px the body of this table scrolled
+            // 806px, so a phone showed about two columns of five and the rest
+            // were reachable only by dragging sideways. Name and Default are
+            // the two that identify a row — the name says which entity, and
+            // Default says which one a new invoice will prefill from, which is
+            // the single thing this screen exists to manage. The rest come back
+            // at md. visibleFrom() is a render-time breakpoint only, so
+            // searching, sorting and the GSTIN placeholder are unchanged.
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('gstin')->label('GSTIN')->searchable()
-                    ->placeholder('Unregistered'),
-                TextColumn::make('address_state')->label('State')->sortable(),
+                    ->placeholder('Unregistered')
+                    ->visibleFrom('md'),
+                TextColumn::make('address_state')->label('State')->sortable()
+                    ->visibleFrom('md'),
                 IconColumn::make('is_default')->boolean()->label('Default'),
-                IconColumn::make('is_active')->boolean()->label('Active'),
+                IconColumn::make('is_active')->boolean()->label('Active')
+                    ->visibleFrom('md'),
             ])
             ->defaultSort('name')
             ->actions([
