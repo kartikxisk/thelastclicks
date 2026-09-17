@@ -94,7 +94,7 @@ JS load order matters: **`chrome.js` must load before `core.js`.** `chrome.js` i
 
 ### Admin
 
-Filament panel in `AdminPanelProvider` — resources/pages/widgets auto-discovered, nav groups ordered Leads → Content → Site → Access. Authorization is filament-shield + Laravel policies (`app/Policies/`), so a new resource needs a matching policy and a shield/`PermissionsSeeder` run before anyone can see it. `SiteSetting` is a `key`/`value_json` store with typed static accessors (`workTileRatio()`, `ctaVideoUrl()`, `brandLogoUrl()`); values that reach CSS are allowlisted (`WORK_TILE_RATIOS`) rather than trusted.
+Filament panel in `AdminPanelProvider` — resources/pages/widgets auto-discovered, nav groups ordered Leads → Billing → Content → Site → Access. Authorization is filament-shield + Laravel policies (`app/Policies/`), so a new resource needs a matching policy and a shield/`PermissionsSeeder` run before anyone can see it. `SiteSetting` is a `key`/`value_json` store with typed static accessors (`workTileRatio()`, `ctaVideoUrl()`, `brandLogoUrl()`); values that reach CSS are allowlisted (`WORK_TILE_RATIOS`) rather than trusted.
 
 ## Testing conventions
 

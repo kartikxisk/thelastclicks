@@ -35,7 +35,7 @@
   - `Money::fromRupees(string|int|float|null $input): int` — human input → paise
   - `Money::toRupees(int $paise): string` — `"1234.55"`, for form fields
   - `Money::format(int $paise, string $currency = 'INR'): string` — `"₹1,23,456.00"`
-  - `Money::applyBps(int $paise, int $bps): int` — half-up percentage, for the phase-2 tax engine
+  - `Money::applyBps(int $paise, int $bps): int` — percentage rounded a half away from zero, for the phase-2 tax engine
   - `Money::roundToRupee(int $paise): int` — §170 rounding
   - `Money::inWords(int $paise): string` — `"Rupees … Only"`
 
@@ -214,7 +214,12 @@ final class Money
     }
 
     /**
-     * Apply a basis-point rate, rounded half-up at the paise.
+     * Apply a basis-point rate, rounding a half AWAY FROM ZERO at the paise.
+     *
+     * Not half-up: applyBps(-123455, 1800) is -22222, where half-up would give
+     * -22221. Symmetric rounding is what credit notes need — a credit note is
+     * this arithmetic with the sign flipped, and only away-from-zero makes
+     * credit(x) === -invoice(x).
      *
      * Basis points, not percentages, so a 2.5% half-rate is the integer 250 and
      * not a float that cannot represent itself.
@@ -228,7 +233,10 @@ final class Money
     }
 
     /**
-     * Round to the nearest rupee, ≥50 paise up — CGST §170.
+     * Round to the nearest rupee, a half going AWAY FROM ZERO — CGST §170.
+     *
+     * roundToRupee(-12350) is -12400, not -12300. Same reason as applyBps():
+     * a credit note must cancel the invoice it reverses exactly.
      *
      * Only ever applied to an invoice grand total. Applying it to a tax
      * component instead is what makes a return disagree with the ledger.
@@ -246,10 +254,13 @@ final class Money
      * The total in words, Indian numbering.
      *
      * Not a Rule 46 requirement, but every accounts-payable department expects
-     * it and a few refuse an invoice without it.
+     * it and a few refuse an invoice without it. The sign must be preserved on
+     * legal documents: a credit note or round-off amount can be negative, and
+     * an unsigned words method would produce an invoice with a wrong total.
      */
     public static function inWords(int $paise): string
     {
+        $negative = $paise < 0;
         $abs = abs($paise);
         $rupees = intdiv($abs, 100);
         $fraction = $abs % 100;
@@ -260,7 +271,7 @@ final class Money
             $words .= ' and '.self::integerInWords($fraction).' Paise';
         }
 
-        return $words.' Only';
+        return ($negative ? 'Minus ' : '').$words.' Only';
     }
 
     /** Last three digits, then pairs — 12345600 paise reads as 1,23,456. */

@@ -706,8 +706,10 @@ Header actions, each gated by policy: **Issue**, **Send** (with a recipient prev
 
 Relation managers: Payments, Sends & events (a merged read-only timeline).
 
-The logo-wall `ClientResource` gets its navigation label changed to **Client logos** under
-Content. No code change beyond the label — the collision is only in the human reading of it.
+The logo-wall `ClientResource` already reads **Client logos**, under **Site** — that label was
+in place before this spec was written, so nothing needs changing. The collision with the
+billing **Clients** screen is only in the human reading of it, and the two labels already
+tell them apart.
 
 Widgets (phase 4): outstanding total, overdue count and value, this-FY revenue.
 
