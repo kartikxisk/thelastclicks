@@ -82,6 +82,11 @@ class CompanyResource extends Resource
                 Select::make('address_state_code')
                     ->label('State')
                     ->options(StateCodes::options())
+                    // The option list is not a validation rule on its own; see
+                    // default_template below. array_keys() re-normalises the
+                    // numeric-string codes back to ints, which is why they are
+                    // cast here — Laravel's `in` compares stringified values.
+                    ->in(array_map(strval(...), array_keys(StateCodes::options())))
                     ->searchable()
                     ->live()
                     // Required once this entity is GST-registered, because this
@@ -131,8 +136,16 @@ class CompanyResource extends Resource
                 TextInput::make('credit_note_prefix')->required()->maxLength(5)->default('CRN')->rule('regex:/^[A-Za-z0-9-]+$/'),
                 TextInput::make('proforma_prefix')->required()->maxLength(5)->default('PRO')->rule('regex:/^[A-Za-z0-9-]+$/'),
                 TextInput::make('receipt_prefix')->required()->maxLength(5)->default('RCT')->rule('regex:/^[A-Za-z0-9-]+$/'),
+                // ->in() as well as ->options(): Filament only adds an `exists`
+                // rule for a ->relationship() select, so a plain options array
+                // validates nothing server-side and the list is a client-side
+                // affordance a crafted Livewire payload ignores. Spec section 8
+                // turns this column into a Blade view name in phase 3
+                // (invoices/templates/{template}), so an unvalidated string here
+                // is a view name an attacker picks.
                 Select::make('default_template')
-                    ->options(['classic' => 'Classic', 'modern' => 'Modern', 'minimal' => 'Minimal'])
+                    ->options(Company::TEMPLATES)
+                    ->in(array_keys(Company::TEMPLATES))
                     ->default('classic')->required(),
                 // The column is unsignedInteger, and ->numeric() alone only
                 // adds the `numeric` rule, which passes -5. MySQL answers that

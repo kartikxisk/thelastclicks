@@ -73,7 +73,12 @@ class BillingClientResource extends Resource
             Section::make('Contact')->columns(2)->schema([
                 TextInput::make('email')->email()->maxLength(255)
                     ->helperText('Where the invoice is sent.'),
+                // A TagsInput validates nothing about what goes in it, while the
+                // `email` field beside it is ->email(). Spec section 11 mails
+                // this list, so one fat-fingered entry fails the whole send at
+                // the transport instead of being caught here.
                 TagsInput::make('cc_emails')->label('CC')
+                    ->nestedRecursiveRules(['email'])
                     ->helperText('Accounts, CA, anyone else who should receive it.'),
                 TextInput::make('phone')->maxLength(50),
             ]),
@@ -82,9 +87,15 @@ class BillingClientResource extends Resource
                 TextInput::make('billing_address_line1')->label('Address line 1')->maxLength(255),
                 TextInput::make('billing_address_line2')->label('Address line 2')->maxLength(255),
                 TextInput::make('billing_address_city')->label('City')->maxLength(255),
+                // ->in() as well as ->options(): a plain options array is a
+                // client-side affordance and adds no server-side rule at all.
+                // The cast is because array_keys() re-normalises the
+                // numeric-string codes back to ints, and Laravel's `in`
+                // compares stringified values.
                 Select::make('billing_address_state_code')
                     ->label('State')
                     ->options(StateCodes::options())
+                    ->in(array_map(strval(...), array_keys(StateCodes::options())))
                     ->searchable()
                     ->live()
                     ->afterStateUpdated(fn (?string $state, callable $set) => $set('billing_address_state', StateCodes::name($state))),
@@ -101,6 +112,7 @@ class BillingClientResource extends Resource
                 Select::make('place_of_supply_state_code')
                     ->label('Place of supply')
                     ->options(StateCodes::options())
+                    ->in(array_map(strval(...), array_keys(StateCodes::options())))
                     ->searchable()
                     ->helperText('Leave blank to use their GSTIN state, then their billing state.'),
                 // unsignedInteger column: ->numeric() alone passes -5, which

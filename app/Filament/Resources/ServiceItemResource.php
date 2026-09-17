@@ -55,14 +55,25 @@ class ServiceItemResource extends Resource
                 // the constraint belongs here, at the call site.
                 RupeeInput::make('rate_paise')->label('Rate')->required()
                     ->rule('regex:/^[0-9][0-9,]*\.?[0-9]{0,2}$/'),
+                // ->in() as well as ->options(): Filament only adds an `exists`
+                // rule for a ->relationship() select. A plain options array
+                // validates nothing server-side, so the list is a client-side
+                // affordance and a crafted Livewire payload writes whatever it
+                // likes into a column the invoice prints verbatim. Both read
+                // ServiceItem::UNITS, so there is one list, not two.
                 Select::make('unit')
                     ->options(array_combine(ServiceItem::UNITS, array_map(ucfirst(...), ServiceItem::UNITS)))
+                    ->in(ServiceItem::UNITS)
                     ->default('project')->required(),
                 TextInput::make('sac_code')->label('SAC')->maxLength(8)->default('998383')
                     ->helperText('998383 is event photography and videography.'),
+                // Same reasoning as `unit` above, and it matters more here: this
+                // is the number the whole tax calculation is driven from, and an
+                // off-slab rate is a return that will not reconcile.
                 Select::make('tax_rate_bps')
                     ->label('GST rate')
-                    ->options([0 => '0%', 500 => '5%', 1200 => '12%', 1800 => '18%', 2800 => '28%'])
+                    ->options(ServiceItem::TAX_RATES_BPS)
+                    ->in(array_keys(ServiceItem::TAX_RATES_BPS))
                     ->default(1800)->required(),
                 Toggle::make('is_expense')
                     ->label('Reimbursable expense')
@@ -70,8 +81,12 @@ class ServiceItemResource extends Resource
                 // unsignedInteger column, so the floor is 0 rather than the 1
                 // the payment-term fields use — 0 is the column default and the
                 // top of the list. ->numeric() alone passes -1, which MySQL
-                // refuses with error 1264 and SQLite stores silently.
-                TextInput::make('sort')->numeric()->minValue(0)->default(0),
+                // refuses with error 1264 and SQLite stores silently; it also
+                // passes "1.5", and the Eloquent cast on this column is
+                // read-side only, so that reaches the column too — MySQL rounds
+                // it, SQLite keeps it, and the two then disagree about the order
+                // the rate card is in. ->integer() is the write-side half.
+                TextInput::make('sort')->numeric()->integer()->minValue(0)->default(0),
                 Toggle::make('is_active')->default(true),
             ]),
         ]);

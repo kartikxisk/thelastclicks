@@ -116,3 +116,18 @@ it('refuses a negative payment term', function () {
         ->call('create')
         ->assertHasFormErrors(['payment_terms_days']);
 });
+
+it('refuses a CC entry that is not an email address', function () {
+    // Spec section 11 mails this list. The sibling `email` field is ->email();
+    // a TagsInput validates nothing at all, so one fat-fingered entry fails the
+    // whole send rather than being caught at the form.
+    Livewire::test(CreateBillingClient::class)
+        ->fillForm([
+            'name' => 'Cc Studio',
+            'email' => 'billing@example.test',
+            'cc_emails' => ['accounts@example.test', 'not-an-email'],
+            'billing_address_state_code' => '07',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['cc_emails.1']);
+});

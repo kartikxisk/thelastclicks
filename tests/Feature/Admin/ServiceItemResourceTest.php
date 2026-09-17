@@ -107,3 +107,46 @@ it('still accepts a sort position of zero', function () {
         ->call('create')
         ->assertHasNoFormErrors();
 });
+
+it('refuses a unit outside the shipped list', function () {
+    // A plain ->options() Select adds no server-side rule, so the option list is
+    // a client-side affordance only and a crafted Livewire payload — or a future
+    // importer reusing this form's rules — writes anything it likes.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Fortnightly retainer',
+            'unit' => 'fortnight',
+            'rate_paise' => '1000',
+            'tax_rate_bps' => 1800,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['unit']);
+});
+
+it('refuses a GST rate that is not a real slab', function () {
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Creative rate',
+            'unit' => 'project',
+            'rate_paise' => '1000',
+            'tax_rate_bps' => 1300,
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['tax_rate_bps']);
+});
+
+it('refuses a fractional sort position', function () {
+    // The Eloquent cast added for this column is read-side only: "1.5" still
+    // reaches an unsignedInteger column, where MySQL rounds it and SQLite keeps
+    // it, and the two disagree about the order the rate card is in.
+    Livewire::test(CreateServiceItem::class)
+        ->fillForm([
+            'name' => 'Half a position',
+            'unit' => 'project',
+            'rate_paise' => '1000',
+            'tax_rate_bps' => 1800,
+            'sort' => '1.5',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['sort']);
+});

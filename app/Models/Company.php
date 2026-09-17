@@ -22,6 +22,24 @@ class Company extends Model implements HasMedia
     /** @use HasFactory<CompanyFactory> */
     use HasFactory, InteractsWithMedia;
 
+    /**
+     * The invoice layouts a company may pick.
+     *
+     * A const rather than a literal on the form, because spec section 8 turns
+     * this column into a Blade view name — resources/views/invoices/templates/
+     * {template}.blade.php — in phase 3. A plain ->options() Select adds no
+     * server-side rule at all, so the form's list is a client-side affordance
+     * and nothing else; anything that writes this column has to validate
+     * against the same list, and there has to be one list to validate against.
+     *
+     * @var array<string, string>
+     */
+    public const TEMPLATES = [
+        'classic' => 'Classic',
+        'modern' => 'Modern',
+        'minimal' => 'Minimal',
+    ];
+
     protected $guarded = [];
 
     protected function casts(): array

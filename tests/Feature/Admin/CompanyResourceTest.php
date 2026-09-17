@@ -269,3 +269,29 @@ it('clears the stored GSTIN when the admin unticks GST registered', function () 
 
     expect($company->fresh()->gstin)->toBeNull();
 });
+
+it('refuses a default template that is not one of the shipped views', function () {
+    // Phase 3 turns this column into a Blade view name
+    // (invoices/templates/{template}). A plain ->options() Select adds no
+    // server-side rule at all, so a crafted Livewire payload writes whatever
+    // it likes into a string that is about to be resolved as a view.
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Template Studio',
+            'is_gst_registered' => false,
+            'default_template' => '../../../../etc/passwd',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['default_template']);
+});
+
+it('refuses a state code that is not a real GST state', function () {
+    Livewire::test(CreateCompany::class)
+        ->fillForm([
+            'name' => 'Nowhere Studio',
+            'is_gst_registered' => false,
+            'address_state_code' => '99',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['address_state_code']);
+});

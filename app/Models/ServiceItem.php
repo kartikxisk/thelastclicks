@@ -17,6 +17,18 @@ class ServiceItem extends Model
     /** @var list<string> */
     public const UNITS = ['project', 'day', 'hour', 'shoot', 'item'];
 
+    /**
+     * The GST slabs a rate-card row may carry, in basis points.
+     *
+     * A const rather than a literal on the form for the same reason as UNITS: a
+     * plain ->options() Select adds no server-side rule, so the form has to
+     * validate against a list, and one list is the only way the form and any
+     * future writer cannot drift apart.
+     *
+     * @var array<int, string>
+     */
+    public const TAX_RATES_BPS = [0 => '0%', 500 => '5%', 1200 => '12%', 1800 => '18%', 2800 => '28%'];
+
     protected $guarded = [];
 
     protected function casts(): array
