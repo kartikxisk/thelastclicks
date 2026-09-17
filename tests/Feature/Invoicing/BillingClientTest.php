@@ -87,3 +87,25 @@ it('stores extra recipients as a list', function () {
 
     expect($client->fresh()->cc_emails)->toBe(['accounts@acme.test', 'cfo@acme.test']);
 });
+
+it('uppercases a GSTIN and PAN assigned straight onto the model', function () {
+    // Same reason as Company: the Gstin rule accepts a lowercase GSTIN and has
+    // no channel to change what is persisted, so only the Filament form
+    // normalised storage. Anything that writes this model without a form —
+    // an import, a command, a seeder — would have stored the lowercase value
+    // that then gets filed.
+    $client = BillingClient::factory()->create([
+        'gstin' => strtolower(CompanyFactory::gstinFor('29')),
+        'pan' => 'aapfu0939f',
+    ]);
+
+    expect($client->fresh()->gstin)->toBe(CompanyFactory::gstinFor('29'))
+        ->and($client->fresh()->pan)->toBe('AAPFU0939F');
+});
+
+it('leaves an absent GSTIN and PAN null rather than storing an empty string', function () {
+    $client = BillingClient::factory()->unregistered()->create(['pan' => '']);
+
+    expect($client->fresh()->gstin)->toBeNull()
+        ->and($client->fresh()->pan)->toBeNull();
+});

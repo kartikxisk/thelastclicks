@@ -2,6 +2,7 @@
 
 use App\Models\Company;
 use App\Rules\Gstin;
+use Database\Factories\CompanyFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -56,4 +57,31 @@ it('can be unregistered, in which case it carries no GSTIN', function () {
 
     expect($company->is_gst_registered)->toBeFalse()
         ->and($company->gstin)->toBeNull();
+});
+
+it('uppercases a GSTIN, PAN and IFSC assigned straight onto the model', function () {
+    // The Filament forms already uppercase on dehydration, and the Gstin rule
+    // uppercases a local copy for its own checks — so a lowercase GSTIN now
+    // passes validation while nothing off the form path guarantees what is
+    // stored. An importer, an artisan command or a hand-written seeder could
+    // persist a lowercase GSTIN, and that is the number filed in GSTR-1.
+    // Normalising at the model boundary makes storage correct on every path
+    // and leaves the form closures as harmless redundancy.
+    $company = Company::factory()->create([
+        'gstin' => strtolower(CompanyFactory::gstinFor('07')),
+        'pan' => 'aapfu0939f',
+        'bank_ifsc' => 'hdfc0001234',
+    ]);
+
+    expect($company->fresh()->gstin)->toBe(CompanyFactory::gstinFor('07'))
+        ->and($company->fresh()->pan)->toBe('AAPFU0939F')
+        ->and($company->fresh()->bank_ifsc)->toBe('HDFC0001234');
+});
+
+it('leaves an absent GSTIN, PAN and IFSC null rather than storing an empty string', function () {
+    $company = Company::factory()->unregistered()->create(['pan' => '', 'bank_ifsc' => null]);
+
+    expect($company->fresh()->gstin)->toBeNull()
+        ->and($company->fresh()->pan)->toBeNull()
+        ->and($company->fresh()->bank_ifsc)->toBeNull();
 });

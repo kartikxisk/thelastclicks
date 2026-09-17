@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Invoicing\StateCodes;
 use Database\Factories\BillingClientFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,32 @@ class BillingClient extends Model
             'is_active' => 'boolean',
             'payment_terms_days' => 'integer',
         ];
+    }
+
+    /**
+     * A GSTIN and a PAN are uppercase by definition — see Company for the whole
+     * reason this lives on the model rather than only on the form: the Gstin
+     * rule accepts a lowercase paste (rejecting it would name the wrong
+     * problem) but a ValidationRule cannot change what is persisted, so
+     * anything writing this model without a Filament form would store the
+     * lowercase value that then gets filed.
+     *
+     * @return Attribute<string|null, string|null>
+     */
+    protected function gstin(): Attribute
+    {
+        return Attribute::make(set: self::upper(...));
+    }
+
+    /** @return Attribute<string|null, string|null> */
+    protected function pan(): Attribute
+    {
+        return Attribute::make(set: self::upper(...));
+    }
+
+    private static function upper(?string $value): ?string
+    {
+        return filled($value) ? strtoupper(trim($value)) : null;
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Invoicing\StateCodes;
 use Database\Factories\CompanyFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -32,6 +33,47 @@ class Company extends Model implements HasMedia
             'lut_valid_till' => 'date',
             'default_payment_terms_days' => 'integer',
         ];
+    }
+
+    /**
+     * A GSTIN is uppercase by definition, and so are a PAN and an IFSC.
+     *
+     * Normalised here rather than only on the form, because nothing else can
+     * guarantee it. The Gstin rule uppercases a local copy for its own checks —
+     * which is what lets a pasted lowercase GSTIN be accepted instead of
+     * failing with "format is invalid", the wrong problem — but a ValidationRule
+     * has no channel to change what is persisted. That left the two
+     * dehydrateStateUsing() closures on the Filament forms as the only thing
+     * normalising storage, so an importer, an artisan command or a
+     * hand-written seeder would pass validation and persist a lowercase GSTIN.
+     * That is the number filed in GSTR-1.
+     *
+     * Blank becomes null rather than '': `filled()` is how the rest of this
+     * model asks whether a registration exists, and an empty string printed
+     * into an invoice header is a stray label with nothing after it.
+     *
+     * @return Attribute<string|null, string|null>
+     */
+    protected function gstin(): Attribute
+    {
+        return Attribute::make(set: self::upper(...));
+    }
+
+    /** @return Attribute<string|null, string|null> */
+    protected function pan(): Attribute
+    {
+        return Attribute::make(set: self::upper(...));
+    }
+
+    /** @return Attribute<string|null, string|null> */
+    protected function bankIfsc(): Attribute
+    {
+        return Attribute::make(set: self::upper(...));
+    }
+
+    private static function upper(?string $value): ?string
+    {
+        return filled($value) ? strtoupper(trim($value)) : null;
     }
 
     public function registerMediaCollections(): void
