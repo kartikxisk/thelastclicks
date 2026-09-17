@@ -2,6 +2,7 @@
 
 use App\Models\BillingClient;
 use App\Models\Client;
+use Database\Factories\CompanyFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -32,6 +33,32 @@ it('prefers an explicit place of supply over the billing state', function () {
     ]);
 
     expect($client->placeOfSupplyStateCode())->toBe('07');
+});
+
+it('falls through an empty-string place of supply override to the billing state', function () {
+    // A Filament Select saves an untouched field as '', not null. `??` only
+    // treats null as absent, so an empty-string override used to be returned
+    // as-is instead of falling through — a blank that silently picked the
+    // wrong tax split.
+    $client = BillingClient::factory()->unregistered()->create([
+        'place_of_supply_state_code' => '',
+        'billing_address_state_code' => '29',
+    ]);
+
+    expect($client->placeOfSupplyStateCode())->toBe('29');
+});
+
+it('prefers the GSTIN state over the billing state when no override is set', function () {
+    // The factory's registered() state always keeps the GSTIN and billing
+    // state in step, so nothing previously exercised a registered client
+    // whose GSTIN was issued in a different state than their billing address.
+    $client = BillingClient::factory()->create([
+        'gstin' => CompanyFactory::gstinFor('27'),
+        'billing_address_state_code' => '29',
+        'place_of_supply_state_code' => null,
+    ]);
+
+    expect($client->placeOfSupplyStateCode())->toBe('27');
 });
 
 it('optionally points at a logo-wall client and survives its deletion', function () {

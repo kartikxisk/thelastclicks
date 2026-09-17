@@ -25,8 +25,11 @@ class BillingClient extends Model
         ];
     }
 
-    /** The logo-wall row, when this client is also public-facing. */
-    /** @return BelongsTo<Client, $this> */
+    /**
+     * The logo-wall row, when this client is also public-facing.
+     *
+     * @return BelongsTo<Client, $this>
+     */
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
@@ -53,12 +56,22 @@ class BillingClient extends Model
      * Where the supply lands, in precedence order: the explicit override, the
      * GSTIN's own state, then the billing address. Null is a valid answer —
      * the invoice form asks for one rather than guessing.
+     *
+     * Falls through on blank as well as null. A Filament Select saves an
+     * untouched field as '', and `??` only treats null as absent, so a plain
+     * `??` chain would return that blank override as-is instead of falling
+     * through to the GSTIN or billing state — a silent blank that picks the
+     * wrong CGST+SGST/IGST split.
      */
     public function placeOfSupplyStateCode(): ?string
     {
-        return $this->place_of_supply_state_code
-            ?? $this->gstinStateCode()
-            ?? $this->billing_address_state_code;
+        foreach ([$this->place_of_supply_state_code, $this->gstinStateCode(), $this->billing_address_state_code] as $candidate) {
+            if (filled($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return null;
     }
 
     public function stateLabel(): ?string
