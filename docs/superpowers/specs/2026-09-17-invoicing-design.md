@@ -300,8 +300,9 @@ is a validation error, not a negative due.
 
 ### 4.7 `invoice_sends` — what left the building
 
-Mirrors `outreach_sends`, for the same reason it exists there: a status can be edited by
-hand, but nothing un-sends an email.
+An append-only log of what actually left the building, separate from status: a status
+can be edited by hand, but nothing un-sends an email. (This mirrored the since-removed
+`outreach_sends` table, which is where the pattern came from.)
 
 ```
 id
@@ -669,7 +670,8 @@ file; the body carries the number, amount, due date and the public link.
 
 `App\Jobs\SendInvoiceDocument` (queued; `QUEUE_CONNECTION=database`):
 
-1. Re-check idempotency immediately before sending, the way the outreach jobs do: for
+1. Re-check idempotency immediately before sending, rather than only when the batch is
+   built — the queue must not be able to outrun a change made while it is in flight: for
    `invoice`, `receipt` and `credit_note`, refuse if a `sent` row of that type already
    exists; for `reminder`, refuse if one was already sent today.
 2. Write the `invoice_sends` row with the pre-generated `message_id`.
