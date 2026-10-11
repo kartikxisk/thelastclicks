@@ -2,6 +2,7 @@
     :title="\App\Support\Brand::title('Brief received')"
     description="Thanks for your brief — we will be in touch with next steps."
     :canonical="url('/thank-you')"
+    robots="noindex, follow"
 >
   <x-slot name="head">
 <style>

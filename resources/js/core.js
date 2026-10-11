@@ -18,6 +18,7 @@ import { initWorkLightbox } from './work-lightbox';
 import { initWorkMarquee } from './work-marquee';
 import { initScenes } from './scene';
 import { initServicesAccordion } from './services-accordion';
+import { validateScope, wireLiveValidation } from './form-validate';
 
 (() => {
   const root = document.documentElement;
@@ -108,6 +109,20 @@ import { initServicesAccordion } from './services-accordion';
     errorSummary.focus();
     errorSummary.scrollIntoView({ block: 'center' });
   }
+
+  /* -------------------- Contact form: client-side validation -------------------- */
+  // The form carries `novalidate` and had no JS behind it, so an empty submit,
+  // "not-an-email" and a phone of "abcdef" all left for the server as a
+  // full-page POST with nothing shown to the person who typed them. The server
+  // rules still run — this only stops the round trip and says what is wrong
+  // next to the field, before the page is thrown away and rebuilt.
+  document.querySelectorAll('form.form[action]').forEach((form) => {
+    wireLiveValidation(form);
+    form.addEventListener('submit', (e) => {
+      if (validateScope(form)) return;
+      e.preventDefault();
+    });
+  });
 
   /* -------------------- Counters -------------------- */
   const cIO = new IntersectionObserver(entries => {

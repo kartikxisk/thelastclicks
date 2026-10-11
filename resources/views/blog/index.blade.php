@@ -67,7 +67,11 @@
 
             {{-- Category chips (dynamic — data-cat key is the category slug, matching x-card-post). --}}
             @php
-                // Counts reflect posts shown on this page (the cards the filter can toggle).
+                // Counts reflect posts shown on this page (the cards the filter can
+                // toggle), counted over EVERY category each post carries — which is
+                // what the card's data-cat-slugs filters on. Count one side on all
+                // categories and filter the other on the first only, and a chip
+                // promises three posts and reveals one.
                 $catCounts = [];
                 foreach ($posts as $p) {
                     foreach ($p->categories as $c) {
@@ -76,12 +80,12 @@
                 }
                 $cats = \App\Models\Category::orderBy('name')->get();
             @endphp
-            <div class="cats" data-anim="rise" data-cats>
-                <button class="cats__chip is-on" data-cat="all">All<span class="count">{{ str_pad((string) $posts->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
+            <div class="cats" data-anim="rise" data-cats role="group" aria-label="Filter posts by category">
+                <button class="cats__chip is-on" data-cat="all" aria-pressed="true">All<span class="count">{{ str_pad((string) $posts->count(), 2, '0', STR_PAD_LEFT) }}</span></button>
                 @foreach ($cats as $cat)
                     @php($count = $catCounts[$cat->slug] ?? 0)
                     @if ($count > 0)
-                        <button class="cats__chip" data-cat="{{ $cat->slug }}">{{ $cat->name }}<span class="count">{{ str_pad((string) $count, 2, '0', STR_PAD_LEFT) }}</span></button>
+                        <button class="cats__chip" data-cat="{{ $cat->slug }}" aria-pressed="false">{{ $cat->name }}<span class="count">{{ str_pad((string) $count, 2, '0', STR_PAD_LEFT) }}</span></button>
                     @endif
                 @endforeach
             </div>
@@ -126,7 +130,10 @@
         </x-container>
     </section>
 
-    {{-- Category filter — ported from design/blog.html. Matches chip data-cat to .post[data-cat] (category slug). --}}
+    {{-- Category filter. A chip's data-cat is matched against the card's
+         data-cat-slugs — every category the post is filed under, not just the
+         one on its badge. Matching the badge alone is what made "Corporate 03"
+         reveal a single post. --}}
     <script>
     (function () {
         const cats = document.querySelector('[data-cats]');
@@ -134,12 +141,18 @@
         cats.addEventListener('click', e => {
             const chip = e.target.closest('.cats__chip');
             if (!chip) return;
-            cats.querySelectorAll('.cats__chip').forEach(c => c.classList.remove('is-on'));
+            cats.querySelectorAll('.cats__chip').forEach(c => {
+                c.classList.remove('is-on');
+                c.setAttribute('aria-pressed', 'false');
+            });
             chip.classList.add('is-on');
+            // The chips are a toggle group and said so to nobody: a screen
+            // reader read seven identical buttons with no selected state.
+            chip.setAttribute('aria-pressed', 'true');
             const cat = chip.dataset.cat;
             document.querySelectorAll('.blog-grid .post').forEach(p => {
-                const pcat = p.dataset.cat || '';
-                const show = cat === 'all' || pcat === cat;
+                const pcats = (p.dataset.catSlugs || p.dataset.cat || '').split(/\s+/);
+                const show = cat === 'all' || pcats.includes(cat);
                 p.style.transition = 'opacity 0.4s, transform 0.4s';
                 if (show) {
                     p.style.display = '';

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Support\AppUrl;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
@@ -19,7 +20,7 @@ class Preflight extends Command
 {
     protected $signature = 'app:preflight {--strict : Treat warnings as failures too}';
 
-    protected $description = 'Verify the environment is safe to serve publicly (APP_URL, debug, media disk, queue)';
+    protected $description = 'Verify the environment is safe to serve publicly (APP_URL, debug, media disk, queue, 404 page)';
 
     /** @var list<array{string, string, string}> */
     protected array $results = [];
@@ -34,6 +35,7 @@ class Preflight extends Command
         $this->checkMediaDisk();
         $this->checkMediaUrl();
         $this->checkQueue($isProduction);
+        $this->checkNotFoundPage();
 
         $this->newLine();
         $this->table(['', 'Check', 'Detail'], $this->results);
@@ -368,6 +370,55 @@ class Preflight extends Command
         }
 
         $this->pass('Media URL', $base);
+    }
+
+    /**
+     * The branded 404 must be what the visitor actually receives.
+     *
+     * resources/views/errors/404.blade.php has shipped for months and
+     * tests/Feature/Public/NotFoundTest.php proves Laravel renders it — yet
+     * production served the bare "404 Not Found / nginx" page for every unknown
+     * URL. The app is not what is wrong in that case: nginx is replacing the
+     * body, either through `fastcgi_intercept_errors on` with an `error_page
+     * 404` defined, or a `location /` whose try_files ends in `=404` instead of
+     * falling through to index.php. No amount of Blade fixes that, and no
+     * in-process test can see it, so the one check that can is an outside-in
+     * request against the live host. See docs/DEPLOYMENT.md → "nginx: the
+     * branded 404 must survive".
+     */
+    protected function checkNotFoundPage(): void
+    {
+        if (AppUrl::isLocal()) {
+            $this->record('WARN', '404 page', 'APP_URL is local — skipped the live request.');
+
+            return;
+        }
+
+        $url = rtrim(AppUrl::current(), '/').'/preflight-404-probe-'.bin2hex(random_bytes(4));
+
+        try {
+            $response = Http::timeout(10)->withoutVerifying()->get($url);
+        } catch (Throwable $e) {
+            $this->record('WARN', '404 page', 'Could not reach '.$url.' — '.$e->getMessage());
+
+            return;
+        }
+
+        if ($response->status() !== 404) {
+            $this->fail_('404 page', "Unknown URL answered {$response->status()}, not 404: {$url}");
+
+            return;
+        }
+
+        // The headline from errors/404.blade.php. Matched on the body rather than
+        // the title, for the reason NotFoundTest spells out.
+        if (! str_contains($response->body(), 'This frame')) {
+            $this->fail_('404 page', 'Returned 404 but not our 404 view — nginx is replacing the body. See docs/DEPLOYMENT.md → nginx.');
+
+            return;
+        }
+
+        $this->pass('404 page', 'Branded 404 served at 404.');
     }
 
     protected function checkQueue(bool $isProduction): void

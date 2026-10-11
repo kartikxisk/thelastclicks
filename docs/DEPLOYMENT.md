@@ -351,6 +351,94 @@ location ^~ /livewire/ {
 Verify with `curl -sS -o /dev/null -w '%{http_code}\n'
 https://thelastclicks.com/livewire/livewire.min.js` — it must be 200.
 
+## nginx: the branded 404 must survive
+
+`resources/views/errors/404.blade.php` is a full branded page and
+`tests/Feature/Public/NotFoundTest.php` proves Laravel renders it. Production
+still answered every unknown URL with the default white **"404 Not Found /
+nginx"** page — no header, no footer, no way back into the site. The app was
+never the problem: nginx was throwing Laravel's body away and substituting its
+own.
+
+The live server is aaPanel/BT, and its generated vhost ships this block:
+
+```nginx
+#ERROR-PAGE-START  Error page configuration, allowed to be commented, deleted or modified
+error_page 404 /404.html;
+error_page 502 /502.html;
+#ERROR-PAGE-END
+```
+
+`/404.html` does not exist in `public/`. Paired with `fastcgi_intercept_errors
+on` — which aaPanel's `enable-php-84.conf` may carry — nginx takes Laravel's 404
+**status**, throws the body away, tries to render `/404.html`, cannot find it,
+and falls back to its own built-in page. The app is never consulted about what
+a 404 should look like.
+
+The other way to get there is `location / { try_files $uri $uri/ =404; }`, where
+the request never reaches PHP at all. This vhost does not have that — its
+`location /` correctly ends in `/index.php?$query_string`.
+
+The fix, in the generated vhost:
+
+```nginx
+#ERROR-PAGE-START
+# 404 deliberately NOT mapped: resources/views/errors/404.blade.php is the 404
+# page, and an error_page here replaces its body with a blank nginx one.
+error_page 502 /502.html;
+#ERROR-PAGE-END
+
+# Belt and braces — if enable-php-84.conf turns interception on, this turns it
+# back off for this server block, so PHP keeps its own error bodies.
+fastcgi_intercept_errors off;
+```
+
+Check which half is biting before editing:
+
+```bash
+grep -rn 'intercept_errors' /www/server/nginx/conf/enable-php-84.conf
+```
+
+aaPanel rewrites the `#ERROR-PAGE-START` block whenever the panel's error-page
+settings are saved, so re-check it after any panel change.
+
+Verify from anywhere:
+
+```bash
+curl -sS https://thelastclicks.com/no-such-page-xyz | grep -c 'This frame'   # must be 1
+```
+
+`php artisan app:preflight` now runs exactly that request and **fails** when the
+status is 404 but the body is not our view, so a server that regresses this —
+including aaPanel rewriting the block back — is caught by the deploy gate rather
+than by a visitor.
+
+## nginx: `/index.php` must not be a second home page
+
+`/index.php` answered 200 with the full home page and a canonical pointing at
+itself. `App\Http\Middleware\RedirectIndexPhp` 301s it to `/` from inside the
+app, so this is already fixed after a deploy with no server access. The nginx
+rule below only saves booting PHP to issue the redirect; it is an optimisation,
+not the fix.
+
+Add it at **server** level, above `location /`:
+
+```nginx
+# /index.php is an address, not a page. $request_uri is the URI the browser
+# asked for and never changes, so the internal rewrite that `location /` makes
+# to /index.php does not match this and cannot loop.
+if ($request_uri ~ "^/index\.php(?:(/[^?]*))?") {
+    return 301 https://$host$1$is_args$args;
+}
+```
+
+Verify both at once:
+
+```bash
+curl -sSI https://thelastclicks.com/index.php | head -2          # 301 → /
+curl -sS https://thelastclicks.com/no-such-page | grep -c 'This frame'   # 1
+```
+
 ## Real-content release (2026-07-16)
 
 This release removes the crew and work-categories features, replaces all

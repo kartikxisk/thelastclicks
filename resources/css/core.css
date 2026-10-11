@@ -600,8 +600,11 @@ img, video { max-width: 100%; display: block; }
 .menu__sub {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 18px;
-  padding: 6px 0 18px;
+  /* No row gap: each link now carries its own 44px of height, and a gap on top
+     of that stretches the drawer past the fold on a phone. The column gap stays
+     — it is what separates two links sharing a row. */
+  gap: 0 18px;
+  padding: 2px 0 12px;
 }
 .menu__list .menu__sub a {
   font-family: var(--f-mono);
@@ -609,7 +612,15 @@ img, video { max-width: 100%; display: block; }
   font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--paper-dim);
-  padding: 2px 0;
+  /* 44px of touch target, up from the 22px these were: ten sub-links at 12.5px
+     with 2px of padding and ~5px between rows is a column of thumbnail-sized
+     targets where a mis-tap opens the wrong vertical. This does make the drawer
+     taller — .menu is overflow-y: auto and scrolls, which is the right trade
+     against a link nobody can reliably hit. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
   border: 0;
   line-height: 1.4;
   transition: color 0.25s var(--ease);

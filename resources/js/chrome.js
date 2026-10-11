@@ -3,6 +3,8 @@
    Each page calls TLC.mount({ active: 'home' }) before /assets/core.js loads.
    We inject the shared HTML, then core.js wires behaviour.
    ============================================================ */
+import { clearFieldError, showFieldError, validateScope, wireLiveValidation } from './form-validate';
+
 window.TLC = (function(){
 
   // Mirrors <meta name="brand-logo"> emitted by the Blade layout (admin-managed, stored on S3).
@@ -96,9 +98,13 @@ window.TLC = (function(){
     </footer>`;
   }
 
+  // The brief textarea is marked `required` here because StoreQuoteRequest
+  // requires `message`. Left optional, an empty brief was rejected by the
+  // server *after* the modal had already shown "Brief received" — see the
+  // 422 handling in submitQuote().
   function quoteHTML() {
     return `
-    <div class="quote" aria-hidden="true">
+    <div class="quote" aria-hidden="true" inert>
       <div class="quote__overlay" data-quote-close></div>
       <div class="quote__panel" role="dialog" aria-modal="true" aria-label="Get a quote">
         <button class="quote__close" data-quote-close aria-label="Close">
@@ -176,7 +182,7 @@ window.TLC = (function(){
               </div>
               <div class="quote__group">
                 <label class="quote__label" for="q-msg">Tell us more</label>
-                <textarea class="quote__input quote__textarea" id="q-msg" name="message" rows="4" placeholder="Vibe, references, deliverables, anything we should know…"></textarea>
+                <textarea class="quote__input quote__textarea" id="q-msg" name="message" rows="4" required placeholder="Vibe, references, deliverables, anything we should know…"></textarea>
               </div>
             </section>
             <!-- STEP 4: success -->
@@ -285,7 +291,7 @@ window.TLC = (function(){
       </div>
     </div>
     <div class="scrollbar"><div class="scrollbar__fill"></div></div>
-    <div class="cookies" role="dialog" aria-label="Cookie consent" aria-hidden="true">
+    <div class="cookies" role="dialog" aria-label="Cookie consent" aria-hidden="true" inert>
       <div class="cookies__inner">
         <div class="cookies__copy">
           <strong>Cookies on TheLastClicks</strong>
@@ -379,9 +385,14 @@ window.TLC = (function(){
           if (msg && !msg.value) msg.value = `Industry: ${pref}\n`;
         }
       }
+      // A reopened modal starts clean: errors from an abandoned attempt would
+      // otherwise greet the next person on a field they have not touched.
+      q.querySelectorAll('[aria-invalid="true"]').forEach(clearFieldError);
       quoteLastFocused = document.activeElement;
       q.classList.add('is-open');
       q.setAttribute('aria-hidden', 'false');
+      // Before the focus() call below — an inert subtree cannot take focus.
+      q.removeAttribute('inert');
       document.body.style.overflow = 'hidden';
       // Move focus into the dialog so keyboard/SR users land inside it.
       (q.querySelector('.quote__close') || quoteFocusables(q)[0])?.focus();
@@ -390,6 +401,12 @@ window.TLC = (function(){
     function closeQuote(q) {
       q.classList.remove('is-open');
       q.setAttribute('aria-hidden', 'true');
+      // `inert`, not just opacity:0. The closed dialog kept ~12 focusable
+      // controls, so the first Tab on every page landed on an invisible Close
+      // button and the skip link was 16 stops away. It also makes the
+      // aria-hidden above honest: aria-hidden over focusable controls is the
+      // contradiction screen readers cannot resolve.
+      q.setAttribute('inert', '');
       document.body.style.overflow = '';
       // Return focus to whatever opened the modal.
       if (quoteLastFocused && typeof quoteLastFocused.focus === 'function') quoteLastFocused.focus();
@@ -478,7 +495,12 @@ window.TLC = (function(){
       function onNext() {
         captureInputs();
         if (step === 3) {
-          if (!data.name || !data.email) { alert('Please add your name and email.'); return; }
+          // Inline, per-field errors rather than the single alert() this used to
+          // raise: that only knew "name or email missing", so a whitespace name,
+          // a malformed address and letters in the phone all sailed through to a
+          // POST the server then rejected.
+          const panel = quote.querySelector('.quote__panel-step[data-panel="3"]');
+          if (panel && !validateScope(panel)) return;
           submitQuote();
           return;
         }
@@ -504,7 +526,16 @@ window.TLC = (function(){
         fetch('/contact', {
           method: 'POST',
           credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            // Without these two, a failed validation came back as a 302 "redirect
+            // back with errors", which under redirect:'manual' is an opaque
+            // response indistinguishable from the success redirect — so the modal
+            // showed "Brief received" for a brief that was never stored. With
+            // them, Laravel answers 422 + JSON and the errors land on the fields.
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
           body: body.toString(),
           redirect: 'manual',
         })
@@ -516,9 +547,30 @@ window.TLC = (function(){
         if (res.ok || res.status === 302 || res.type === 'opaqueredirect') {
           step++;
           render();
-        } else {
-          res.text().then(onErrorText);
+          return;
         }
+        if (res.status === 422) { res.json().then(onValidationErrors).catch(() => onErrorText('')); return; }
+        res.text().then(onErrorText);
+      }
+      // Server-side rejection, painted onto the same fields the client checks.
+      // The server is the authority — it sees duplicates, length limits and any
+      // rule added later that this bundle has not been rebuilt for.
+      function onValidationErrors(json) {
+        const errors = json?.errors || {};
+        const panel = quote.querySelector('.quote__panel-step[data-panel="3"]');
+        let firstInvalid = null;
+        Object.keys(errors).forEach((name) => {
+          const input = quote.querySelector(`[name="${name}"]`);
+          if (!input) return;
+          const message = Array.isArray(errors[name]) ? errors[name][0] : errors[name];
+          showFieldError(input, message);
+          if (!firstInvalid) firstInvalid = input;
+        });
+        // Errors on fields that live on an earlier step (project type, budget)
+        // have nowhere to show, so say it out loud rather than stall silently.
+        if (!firstInvalid) { alert(json?.message || 'Please check the brief and try again.'); return; }
+        if (panel && !panel.classList.contains('is-on')) { step = 3; render(); }
+        firstInvalid.focus();
       }
       function onErrorText(text) {
         let msg = 'Something went wrong. Please try again.';
@@ -537,6 +589,9 @@ window.TLC = (function(){
         alert('Network error — please check your connection and try again.');
       }
       if (backBtn) backBtn.addEventListener('click', () => { if (step > 1) { step--; render(); } });
+      // Fixing a flagged field clears its message as you type, so the form stops
+      // accusing you of something you have already corrected.
+      wireLiveValidation(quote);
       render();
     }
 
@@ -545,7 +600,11 @@ window.TLC = (function(){
     if (cookies) {
       const choice = localStorage.getItem('tlc-cookies');
       if (!choice) {
-        setTimeout(() => { cookies.classList.add('is-open'); cookies.setAttribute('aria-hidden','false'); }, 1200);
+        setTimeout(() => {
+          cookies.classList.add('is-open');
+          cookies.setAttribute('aria-hidden','false');
+          cookies.removeAttribute('inert');
+        }, 1200);
       }
       cookies.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-cookies]');
@@ -570,6 +629,9 @@ window.TLC = (function(){
         }
         cookies.classList.remove('is-open');
         cookies.setAttribute('aria-hidden','true');
+        // aria-hidden alone left both consent buttons focusable, so a keyboard
+        // user tabbed through a banner they had already dismissed.
+        cookies.setAttribute('inert', '');
       });
     }
   }

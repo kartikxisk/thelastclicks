@@ -3,6 +3,7 @@
     'description' => null,
     'ogImage' => null,
     'canonical' => null,
+    'robots' => null,
 ])
 @php
     // Admin-managed per-URL SEO ("Manage SEO") wins over whatever the page passed.
@@ -28,7 +29,10 @@
     // emitting it raw gave every share card a relative path that no crawler or
     // social platform can resolve from its own servers.
     $seoImage = $seo?->ogImage() ?: ($ogImage ?: (\App\Models\SiteSetting::defaultOgImageUrl() ?: $brandLogo));
-    $seoRobots = $seo?->robotsContent();
+    // Page-supplied robots directive, overridable per URL in Manage SEO like
+    // every other field here. /thank-you sets noindex: it is reachable without
+    // submitting anything and has nothing to rank for.
+    $seoRobots = $seo?->robotsContent() ?: $robots;
     $seoOgTitle = $seo?->og_title ?: $seoTitle;
     $seoOgDescription = $seo?->og_description ?: $seoDescription;
 @endphp

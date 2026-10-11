@@ -1,9 +1,28 @@
 <?php
 
 use App\Console\Commands\Preflight;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
+    // The 404 check makes a real request against APP_URL, and APP_URL in these
+    // tests is the live domain. Faked here rather than per test so no test can
+    // reach the internet by forgetting to, and the healthy baseline answers the
+    // way a correctly configured server does: 404 status, our 404 view.
+    //
+    // Resolved through $this->probeResponse at request time, not baked into the
+    // stub: a second Http::fake() APPENDS, and the first matching stub wins, so
+    // a test that re-faked '*' to get a different answer was still served this
+    // one — and a test asserting failure passed for the wrong reason.
+    $this->probeResponse = Http::response('<h1>This frame didn\'t make the final cut.</h1>', 404);
+    Http::preventStrayRequests();
+    Http::fake(['*' => function () {
+        $probe = $this->probeResponse;
+
+        return is_callable($probe) ? $probe() : $probe;
+    }]);
+
     // A reachable media disk WITH a public base URL, so each test isolates the
     // setting it cares about. Faking the disk alone is not a healthy baseline:
     // reachable and displayable are different things, and the url is what turns
@@ -113,6 +132,37 @@ it('only warns about a local APP_URL outside production', function () {
 
     // Local dev is allowed to look like local dev.
     $this->artisan('app:preflight')->assertExitCode(0);
+});
+
+it('fails when an unknown URL answers 404 with a body that is not our 404 view', function () {
+    // The production symptom QA-001 reported: Laravel renders errors/404.blade
+    // perfectly, and the visitor still gets nginx's white default page, because
+    // the server is intercepting the status and substituting its own body. No
+    // in-process test can see that — only a request from outside.
+    asProduction();
+    $this->probeResponse = Http::response('<html><head><title>404 Not Found</title></head><body><center><h1>404 Not Found</h1></center><hr><center>nginx</center></body></html>', 404);
+
+    $this->artisan('app:preflight')->assertExitCode(1);
+});
+
+it('fails when an unknown URL does not answer 404 at all', function () {
+    asProduction();
+    $this->probeResponse = Http::response('<h1>This frame</h1>', 200);
+
+    $this->artisan('app:preflight')->assertExitCode(1);
+});
+
+it('warns rather than fails when the live host cannot be reached', function () {
+    // A deploy behind a firewall, or DNS that has not propagated yet, is not a
+    // reason to block a release that is otherwise correct.
+    asProduction();
+    $this->probeResponse = fn () => throw new ConnectionException('Could not resolve host');
+
+    // The message is asserted, not just the exit code: a probe that silently
+    // did nothing would also exit 0, and this test would have proved nothing.
+    $this->artisan('app:preflight')
+        ->expectsOutputToContain('Could not reach')
+        ->assertExitCode(0);
 });
 
 it('warns but does not fail on a sync queue, unless strict', function () {

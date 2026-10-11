@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RedirectIndexPhp;
 use App\Http\Middleware\RedirectToCanonicalHost;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
@@ -24,6 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // stop serving.
         $middleware->prepend([
             RedirectToCanonicalHost::class,
+            // After the host redirect, so the hop that drops /index.php already
+            // lands on the canonical host instead of needing a third one.
+            RedirectIndexPhp::class,
             SecurityHeaders::class,
         ]);
     })

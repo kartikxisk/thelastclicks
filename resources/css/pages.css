@@ -598,6 +598,13 @@ main > section:has(.clients) {
   max-width: 58ch;
 }
 .disc__copy p:last-child { margin-bottom: 0; }
+/* About's "Our story" column stacks the title straight onto the copy. The two
+   were adjacent siblings with no spacing of any kind, and .section__title runs
+   at line-height 1.02 — so the descenders of "promise of discipline." sat on
+   the first line of body text at 1440, 768 and 390 alike. The homepage pairing
+   needs none of this: there the copy is a grid sibling in .disc__head, not a
+   block underneath the heading. */
+.disc__lead .section__title + .disc__copy { margin-top: clamp(20px, 2vw, 32px); }
 .disc__copy strong { color: var(--paper); font-weight: 600; }
 
 .disc__stats {
@@ -2230,6 +2237,21 @@ main > section.artist-band .artist-band__head {
 .form-errors strong { display: block; margin-bottom: 8px; }
 .form-errors ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
 .form-errors:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+/* Inline per-field error. Written by Blade on a reloaded page and by
+   resources/js/form-validate.js before the request leaves the browser — one
+   class for both, so client and server rejection look the same. It had no rule
+   at all: the server's messages rendered as grey 13px body copy nobody read as
+   an error. */
+.err {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--red);
+}
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"],
+.field select[aria-invalid="true"] { border-bottom-color: var(--red); }
 .field {
   display: grid;
   gap: 8px;
@@ -2713,6 +2735,9 @@ main > section.artist-band .artist-band__head {
 .quote__input::placeholder { color: rgba(244,243,239,0.3); }
 .quote__input:focus { outline: none; border-bottom-color: var(--red); }
 .quote__textarea { padding: 12px 0; resize: vertical; min-height: 80px; }
+/* A flagged field reads as flagged without the message: the red rule under the
+   input is what someone scanning a half-filled form sees first. */
+.quote__input[aria-invalid="true"] { border-bottom-color: var(--red); }
 
 .quote__nav {
   display: grid;
@@ -6393,14 +6418,42 @@ em {
   font-family: inherit !important;
   font-style: normal !important;
   color: inherit !important;
-  -webkit-text-fill-color: transparent;
+  /* The fill is the page surface, painted ON TOP of the stroke — that is what
+     paint-order buys, and it is the only way CSS gets one clean outline per
+     glyph out of this typeface. Jost builds t, f, g, p, d, b and q from
+     separate overlapping contours (verified against the font's own outlines,
+     not guessed from the screen), and -webkit-text-stroke strokes every contour
+     it is given. Stroke-only, you therefore see the crossbar of a "t" and the
+     bowl of a "p" crossing the stem inside the letter. Nothing in CSS unions
+     those contours; covering their interior with the surface colour is the
+     whole fix. */
+  paint-order: stroke fill;
+  -webkit-text-fill-color: var(--ink);
   -webkit-text-stroke: 1.5px currentColor;
   transition: -webkit-text-fill-color 0.4s var(--ease), -webkit-text-stroke-color 0.4s var(--ease);
+}
+/* Over imagery the surface is a photo or a video, not a colour, so filling the
+   glyph with --ink would print a dark blob inside every letter. These stay
+   see-through and keep the contour crossings — the lesser of the two. */
+.hero em,
+.hero__title .stroke,
+.page-header--media em,
+.section--photo em,
+.cta-strip em {
+  -webkit-text-fill-color: transparent;
 }
 /* Hover an outlined accent → it fills with the brand red. */
 em:hover {
   -webkit-text-fill-color: var(--red);
   -webkit-text-stroke-color: var(--red);
+}
+/* Restated at higher specificity than the see-through carve-out above, which
+   would otherwise win on hover and leave those words inert. */
+.hero em:hover,
+.page-header--media em:hover,
+.section--photo em:hover,
+.cta-strip em:hover {
+  -webkit-text-fill-color: var(--red);
 }
 /* Functional numeric / badge accents stay solid — an outlined "+" or logo mark
    reads as broken, not styled. */
