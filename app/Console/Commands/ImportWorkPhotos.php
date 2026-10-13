@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Industry;
 use App\Models\Work;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -43,6 +45,10 @@ class ImportWorkPhotos extends Command
         {slug : Slug of the work to attach the photos to}
         {--dir= : Directory of prepared (watermarked, resized) jpgs}
         {--feature= : Filename in --dir to also append to the work\'s industry reel}
+        {--cover= : Filename in --dir to promote to the work\'s tile cover}
+        {--create : Create the work when the slug does not exist yet}
+        {--title= : Title for a work being created (defaults to the slug, title-cased)}
+        {--industry= : Industry slug to attach a created work to}
         {--dry-run : Report what would happen and write nothing}';
 
     protected $description = 'Attach a folder of prepared stills to a work as ordered image rows';
@@ -59,14 +65,6 @@ class ImportWorkPhotos extends Command
             return self::FAILURE;
         }
 
-        $work = Work::where('slug', $slug)->first();
-
-        if (! $work) {
-            $this->error("No work with slug `{$slug}`. Create it first, or run works:import-drive.");
-
-            return self::FAILURE;
-        }
-
         /** @var list<string> $files */
         $files = collect(File::files($dir))
             ->filter(fn ($f) => in_array(strtolower($f->getExtension()), ['jpg', 'jpeg', 'png', 'webp'], true))
@@ -79,6 +77,57 @@ class ImportWorkPhotos extends Command
             $this->error("No images in {$dir}");
 
             return self::FAILURE;
+        }
+
+        $work = Work::where('slug', $slug)->first();
+
+        if (! $work && ! $this->option('create')) {
+            $this->error("No work with slug `{$slug}`. Pass --create, or run works:import-drive.");
+
+            return self::FAILURE;
+        }
+
+        if (! $work) {
+            $industrySlug = (string) $this->option('industry');
+            $industry = $industrySlug === '' ? null : Industry::firstWhere('slug', $industrySlug);
+
+            if ($industrySlug !== '' && ! $industry) {
+                $this->error("No industry with slug `{$industrySlug}`.");
+
+                return self::FAILURE;
+            }
+
+            $title = (string) ($this->option('title') ?: Str::headline($slug));
+
+            if ($dry) {
+                $this->info("would create work `{$title}` ({$slug})");
+            } else {
+                $work = new Work(['title' => $title]);
+                // Set after construction: slug is not fillable, and HasSlug would
+                // otherwise derive one from the title — which is not necessarily
+                // the slug the caller is importing under.
+                $work->slug = $slug;
+                // A stills project is published on creation because, unlike the
+                // Drive import, the photos are in hand: there is no empty-tile
+                // window to protect against.
+                $work->is_published = true;
+                $work->order = (int) Work::max('order') + 1;
+                $work->save();
+
+                $industry?->works()->attach($work);
+
+                $this->info("created work `{$title}` ({$slug})".($industry ? " under {$industry->slug}" : ''));
+            }
+        }
+
+        if ($dry && ! $work) {
+            // Nothing to attach to yet; the rest of the run is a file-by-file
+            // preview of what the created work would receive.
+            foreach ($files as $path) {
+                $this->info('would add '.$this->fileName($slug, $path));
+            }
+
+            return self::SUCCESS;
         }
 
         $feature = (string) $this->option('feature');
@@ -128,14 +177,23 @@ class ImportWorkPhotos extends Command
             }
         }
 
+        $cover = (string) $this->option('cover');
+
+        if ($cover !== '' && ! File::exists($dir.'/'.$cover)) {
+            $this->error("--cover={$cover} is not in {$dir}");
+
+            return self::FAILURE;
+        }
+
         $featured = $feature === '' ? false : $this->feature($work, $dir.'/'.$feature, $dry);
+        $covered = $cover === '' ? false : $this->cover($work, $dir.'/'.$cover, $dry);
 
         $this->newLine();
         $this->info(sprintf(
             '%s %s: added=%d skipped=%d failed=%d%s',
             $dry ? 'DRY RUN' : 'Imported',
             $work->slug, $added, $skipped, count($failed),
-            $featured ? ' (+1 industry frame)' : ''
+            ($featured ? ' (+1 industry frame)' : '').($covered ? ' (+cover)' : '')
         ));
 
         foreach ($failed as $f) {
@@ -187,6 +245,64 @@ class ImportWorkPhotos extends Command
             ->preservingOriginal()
             ->usingFileName($name)
             ->toMediaCollection('file');
+
+        return true;
+    }
+
+    /**
+     * Promote one photo to the work's tile cover.
+     *
+     * `cover` is a singleFile() collection, so medialibrary drops the previous
+     * row and its object as part of the swap — and that object is shared. Every
+     * database built from works.json resolves the cover through the media id, so
+     * production's tile is pointed at the very same `138/javed-ali.jpg` this
+     * delete would remove, and it would start rendering a broken image the
+     * moment this command ran against a local database. The bytes are therefore
+     * read first and written back to the old key afterwards: the row is gone
+     * here, the object stays for whoever else still references it.
+     *
+     * That leaves an object with no row behind it in this database, which is
+     * exactly what media:prune-orphans looks for — do not point that command at
+     * this bucket while production is still on the old cover.
+     */
+    private function cover(Work $work, string $path, bool $dry): bool
+    {
+        $name = $this->fileName($work->slug, $path);
+        $current = $work->getFirstMedia('cover');
+
+        if ($current && $current->file_name === $name) {
+            $this->line("skip     cover already {$name}");
+
+            return false;
+        }
+
+        $this->info(($dry ? 'would set ' : 'set      ').$name.' as cover');
+
+        if ($dry) {
+            return true;
+        }
+
+        $keep = null;
+
+        if ($current) {
+            $disk = Storage::disk($current->disk);
+            $key = $current->id.'/'.$current->file_name;
+
+            if ($disk->exists($key)) {
+                $keep = [$current->disk, $key, $disk->get($key)];
+            }
+        }
+
+        $work->addMedia($path)
+            ->preservingOriginal()
+            ->usingFileName($name)
+            ->toMediaCollection('cover');
+
+        if ($keep) {
+            [$keepDisk, $keepKey, $bytes] = $keep;
+            Storage::disk($keepDisk)->put($keepKey, $bytes);
+            $this->line("kept     {$keepKey} on the disk for databases still pointing at it");
+        }
 
         return true;
     }

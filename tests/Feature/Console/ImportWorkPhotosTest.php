@@ -102,3 +102,67 @@ it('fails when --feature names a file that is not in the folder', function () {
     expect(importPhotos('javed-ali', $this->photos, ['--feature' => 'missing.jpg']))->toBe(1)
         ->and($this->work->refresh()->mediaItems)->toHaveCount(0);
 });
+
+it('promotes the chosen photo to the tile cover', function () {
+    importPhotos('javed-ali', $this->photos, ['--cover' => 'DSC00261.jpg']);
+
+    expect($this->work->refresh()->coverUrl())->toContain('javed-ali-dsc00261.jpg');
+});
+
+it('leaves the old cover object on the disk, because other databases resolve it', function () {
+    File::put($this->photos.'/old-cover.jpg', 'poster-bytes');
+
+    $old = $this->work->addMedia($this->photos.'/old-cover.jpg')
+        ->preservingOriginal()
+        ->usingFileName('javed-ali.jpg')
+        ->toMediaCollection('cover');
+
+    $key = $old->id.'/javed-ali.jpg';
+    expect(Storage::disk('s3')->exists($key))->toBeTrue();
+
+    importPhotos('javed-ali', $this->photos, ['--cover' => 'DSC00261.jpg']);
+
+    expect($this->work->refresh()->coverUrl())->toContain('javed-ali-dsc00261.jpg')
+        ->and(Storage::disk('s3')->exists($key))->toBeTrue()
+        ->and(Storage::disk('s3')->get($key))->toBe('poster-bytes');
+});
+
+it('does not re-upload a cover that is already first', function () {
+    importPhotos('javed-ali', $this->photos, ['--cover' => 'DSC00261.jpg']);
+    importPhotos('javed-ali', $this->photos, ['--cover' => 'DSC00261.jpg']);
+
+    expect($this->work->refresh()->getMedia('cover'))->toHaveCount(1);
+});
+
+it('creates the work when asked, attaches it to the industry, and publishes it', function () {
+    expect(importPhotos('javed-ali-live', $this->photos, [
+        '--create' => true,
+        '--title' => 'Javed Ali — Live',
+        '--industry' => 'cover-artist',
+    ]))->toBe(0);
+
+    $work = Work::where('slug', 'javed-ali-live')->firstOrFail();
+
+    expect($work->title)->toBe('Javed Ali — Live')
+        ->and($work->is_published)->toBeTrue()
+        ->and($work->mediaItems)->toHaveCount(2)
+        ->and($work->industries->pluck('slug')->all())->toBe(['cover-artist']);
+});
+
+it('creates nothing on a dry run', function () {
+    expect(importPhotos('javed-ali-live', $this->photos, ['--create' => true, '--dry-run' => true]))->toBe(0)
+        ->and(Work::where('slug', 'javed-ali-live')->exists())->toBeFalse();
+});
+
+it('refuses an industry slug that does not exist', function () {
+    expect(importPhotos('javed-ali-live', $this->photos, ['--create' => true, '--industry' => 'nope']))->toBe(1)
+        ->and(Work::where('slug', 'javed-ali-live')->exists())->toBeFalse();
+});
+
+it('adds to the work it already created instead of a second one', function () {
+    importPhotos('javed-ali-live', $this->photos, ['--create' => true, '--industry' => 'cover-artist']);
+    importPhotos('javed-ali-live', $this->photos, ['--create' => true, '--industry' => 'cover-artist']);
+
+    expect(Work::where('slug', 'javed-ali-live')->count())->toBe(1)
+        ->and(Work::where('slug', 'javed-ali-live')->firstOrFail()->mediaItems)->toHaveCount(2);
+});
