@@ -95,31 +95,6 @@
                     "type": "image",
                     "youtube_url": null,
                     "caption": null,
-                    "order": 2
-                },
-                "media": [
-                    {
-                        "id": 208,
-                        "collection_name": "file",
-                        "name": "70734",
-                        "file_name": "70734.jpg",
-                        "mime_type": "image/jpeg",
-                        "disk": "s3",
-                        "conversions_disk": "s3",
-                        "size": 209124,
-                        "manipulations": [],
-                        "custom_properties": [],
-                        "generated_conversions": [],
-                        "responsive_images": [],
-                        "order_column": 1
-                    }
-                ]
-            },
-            {
-                "attributes": {
-                    "type": "image",
-                    "youtube_url": null,
-                    "caption": null,
                     "order": 3
                 },
                 "media": [
@@ -195,18 +170,43 @@
                     "type": "image",
                     "youtube_url": null,
                     "caption": null,
-                    "order": 6
+                    "order": 7
                 },
                 "media": [
                     {
-                        "id": 212,
+                        "id": 352,
                         "collection_name": "file",
-                        "name": "70757",
-                        "file_name": "70757.jpg",
+                        "name": "DSC00261",
+                        "file_name": "javed-ali-dsc00261.jpg",
                         "mime_type": "image/jpeg",
                         "disk": "s3",
                         "conversions_disk": "s3",
-                        "size": 117634,
+                        "size": 379573,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 8
+                },
+                "media": [
+                    {
+                        "id": 358,
+                        "collection_name": "file",
+                        "name": "_MG_6194",
+                        "file_name": "shankar-mahadevan-mg-6194.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 272690,
                         "manipulations": [],
                         "custom_properties": [],
                         "generated_conversions": [],

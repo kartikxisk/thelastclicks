@@ -788,6 +788,406 @@
                         "order_column": 1
                     }
                 ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 2
+                },
+                "media": [
+                    {
+                        "id": 336,
+                        "collection_name": "file",
+                        "name": "DSC00250",
+                        "file_name": "javed-ali-dsc00250.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 349640,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 3
+                },
+                "media": [
+                    {
+                        "id": 337,
+                        "collection_name": "file",
+                        "name": "DSC00257",
+                        "file_name": "javed-ali-dsc00257.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 331197,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 4
+                },
+                "media": [
+                    {
+                        "id": 338,
+                        "collection_name": "file",
+                        "name": "DSC00259",
+                        "file_name": "javed-ali-dsc00259.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 258257,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 5
+                },
+                "media": [
+                    {
+                        "id": 339,
+                        "collection_name": "file",
+                        "name": "DSC00261",
+                        "file_name": "javed-ali-dsc00261.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 379573,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 6
+                },
+                "media": [
+                    {
+                        "id": 340,
+                        "collection_name": "file",
+                        "name": "DSC00270",
+                        "file_name": "javed-ali-dsc00270.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 246024,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 7
+                },
+                "media": [
+                    {
+                        "id": 341,
+                        "collection_name": "file",
+                        "name": "DSC00273",
+                        "file_name": "javed-ali-dsc00273.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 372724,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 8
+                },
+                "media": [
+                    {
+                        "id": 342,
+                        "collection_name": "file",
+                        "name": "DSC00277",
+                        "file_name": "javed-ali-dsc00277.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 296434,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 9
+                },
+                "media": [
+                    {
+                        "id": 343,
+                        "collection_name": "file",
+                        "name": "DSC00282",
+                        "file_name": "javed-ali-dsc00282.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 274173,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 10
+                },
+                "media": [
+                    {
+                        "id": 344,
+                        "collection_name": "file",
+                        "name": "DSC00285",
+                        "file_name": "javed-ali-dsc00285.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 387933,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 11
+                },
+                "media": [
+                    {
+                        "id": 345,
+                        "collection_name": "file",
+                        "name": "DSC00289",
+                        "file_name": "javed-ali-dsc00289.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 553243,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 12
+                },
+                "media": [
+                    {
+                        "id": 346,
+                        "collection_name": "file",
+                        "name": "DSC00379",
+                        "file_name": "javed-ali-dsc00379.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 442991,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 13
+                },
+                "media": [
+                    {
+                        "id": 347,
+                        "collection_name": "file",
+                        "name": "DSC00381",
+                        "file_name": "javed-ali-dsc00381.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 369308,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 14
+                },
+                "media": [
+                    {
+                        "id": 348,
+                        "collection_name": "file",
+                        "name": "DSC00398",
+                        "file_name": "javed-ali-dsc00398.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 141426,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 15
+                },
+                "media": [
+                    {
+                        "id": 349,
+                        "collection_name": "file",
+                        "name": "DSC04687",
+                        "file_name": "javed-ali-dsc04687.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 248512,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 16
+                },
+                "media": [
+                    {
+                        "id": 350,
+                        "collection_name": "file",
+                        "name": "DSC04690",
+                        "file_name": "javed-ali-dsc04690.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 194721,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 17
+                },
+                "media": [
+                    {
+                        "id": 351,
+                        "collection_name": "file",
+                        "name": "DSC04690_(1)",
+                        "file_name": "javed-ali-dsc04690-1.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 261627,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
             }
         ]
     },
@@ -1177,6 +1577,131 @@
                         "disk": "s3",
                         "conversions_disk": "s3",
                         "size": 40787658,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 2
+                },
+                "media": [
+                    {
+                        "id": 353,
+                        "collection_name": "file",
+                        "name": "_MG_6170",
+                        "file_name": "shankar-mahadevan-mg-6170.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 282295,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 3
+                },
+                "media": [
+                    {
+                        "id": 354,
+                        "collection_name": "file",
+                        "name": "_MG_6194",
+                        "file_name": "shankar-mahadevan-mg-6194.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 272690,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 4
+                },
+                "media": [
+                    {
+                        "id": 355,
+                        "collection_name": "file",
+                        "name": "_MG_6195",
+                        "file_name": "shankar-mahadevan-mg-6195.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 284126,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 5
+                },
+                "media": [
+                    {
+                        "id": 356,
+                        "collection_name": "file",
+                        "name": "_MG_6228",
+                        "file_name": "shankar-mahadevan-mg-6228.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 264074,
+                        "manipulations": [],
+                        "custom_properties": [],
+                        "generated_conversions": [],
+                        "responsive_images": [],
+                        "order_column": 1
+                    }
+                ]
+            },
+            {
+                "attributes": {
+                    "type": "image",
+                    "youtube_url": null,
+                    "caption": null,
+                    "order": 6
+                },
+                "media": [
+                    {
+                        "id": 357,
+                        "collection_name": "file",
+                        "name": "_MG_6231",
+                        "file_name": "shankar-mahadevan-mg-6231.jpg",
+                        "mime_type": "image/jpeg",
+                        "disk": "s3",
+                        "conversions_disk": "s3",
+                        "size": 206907,
                         "manipulations": [],
                         "custom_properties": [],
                         "generated_conversions": [],
