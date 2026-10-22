@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuoteResource\Pages;
 use App\Filament\Resources\QuoteResource\RelationManagers;
+use App\Http\Requests\StoreQuoteRequest;
 use App\Models\Quote;
 use App\Models\User;
 use Carbon\CarbonInterval;
@@ -129,12 +130,13 @@ class QuoteResource extends Resource
                             'Post-production only' => 'Post-production only',
                             'Other' => 'Other',
                         ]),
-                        Select::make('budget')->options([
-                            'Under ₹5L' => 'Under ₹5L',
-                            '₹5L – ₹15L' => '₹5L – ₹15L',
-                            '₹15L – ₹50L' => '₹15L – ₹50L',
-                            '₹50L+' => '₹50L+',
-                        ]),
+                        Select::make('budget')->options(
+                            // Legacy bands stay selectable so quotes saved before the scales
+                            // were unified keep their value when an editor opens them.
+                            collect([...StoreQuoteRequest::BUDGET_RANGES, ...StoreQuoteRequest::LEGACY_BUDGET_RANGES])
+                                ->mapWithKeys(fn (string $band) => [$band => $band])
+                                ->all(),
+                        ),
                         Select::make('timeline')->options([
                             'Flexible' => 'Flexible',
                             'Within 2 weeks' => 'Within 2 weeks',

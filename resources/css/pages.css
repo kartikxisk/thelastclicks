@@ -2584,7 +2584,7 @@ main > section.artist-band .artist-band__head {
 .quote__close {
   position: absolute;
   top: 18px; right: 18px;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   border-radius: 0;
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(0,0,0,0.4);
@@ -2757,7 +2757,9 @@ main > section.artist-band .artist-band__head {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 12px 4px;
+  padding: 14px 8px;
+  min-height: 44px;
+  min-width: 44px;
   transition: color 0.3s var(--ease);
 }
 .quote__back:hover { color: var(--paper); }
@@ -2806,9 +2808,10 @@ main > section.artist-band .artist-band__head {
     transform: translateY(20px);
   }
   .quote.is-open .quote__panel { transform: translateY(0); }
+  /* 44px is the minimum touch target; the 12px icon bars are unchanged. */
   .quote__close {
-    top: 14px; right: 14px;
-    width: 36px; height: 36px;
+    top: 10px; right: 10px;
+    width: 44px; height: 44px;
   }
   .quote__close span { width: 12px; }
   .quote__aside {
@@ -2857,7 +2860,7 @@ main > section.artist-band .artist-band__head {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
-  .quote__back { padding: 10px 4px; font-size: 11px; }
+  .quote__back { padding: 14px 8px; min-height: 44px; min-width: 44px; font-size: 11px; }
   .quote__next { padding: 12px 18px; font-size: 11px; gap: 8px; }
   .quote__bar { height: 2px; }
   .quote__success { margin: 16px auto 0; max-width: 100%; }
@@ -5553,7 +5556,8 @@ main > section.artist-band .artist-band__head {
 .cookies__copy a:hover { text-decoration: underline; }
 .cookies__btns { display: flex; gap: 8px; flex-shrink: 0; }
 .cookies__btn {
-  padding: 10px 16px;
+  min-height: 44px;
+  padding: 12px 16px;
   border-radius: 0;
   border: 1px solid var(--line);
   font-family: var(--f-mono);
@@ -5579,6 +5583,25 @@ main > section.artist-band .artist-band__head {
   .cookies__inner { grid-template-columns: 1fr; gap: 14px; }
   .cookies__btns { width: 100%; }
   .cookies__btn { flex: 1; padding: 12px 12px; font-size: 10.5px; }
+}
+
+/* Phone: the stacked card was 179px (22% of an 812px viewport) and sat over the
+   hero H1 and both CTAs. A slim edge-to-edge strip keeps the copy to two short
+   lines and the buttons inline; the heading and long sentence are dropped
+   visually because the cookie-policy link carries the detail. */
+@media (max-width: 600px) {
+  .cookies { inset: auto 0 0 0; max-width: none; padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); box-shadow: none; border-width: 1px 0 0; }
+  .cookies__inner { grid-template-columns: 1fr; gap: 6px; }
+  .cookies__copy strong { display: none; }
+  .cookies__copy p { font-size: 11.5px; line-height: 1.3; }
+  .cookies__btns { gap: 6px; }
+  .cookies__btn { min-height: 44px; padding: 0 8px; font-size: 10px; letter-spacing: 0.08em; }
+  /* Even slim, the strip owns the bottom ~100px of the viewport, which is
+     exactly where the bottom-aligned hero puts its two CTAs — measured at
+     375x812 the strip still clipped them by 29px. Lifting the hero content
+     while the strip is up beats shrinking the copy past legibility; :has() keeps
+     it CSS-only, and the drop back on dismiss follows a tap so it is not CLS. */
+  body:has(.cookies.is-open) .hero { padding-bottom: calc(40px + 104px); }
 }
 
 /* ============================================================

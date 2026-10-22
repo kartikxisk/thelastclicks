@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\RedirectIndexPhp;
 use App\Http\Middleware\RedirectToCanonicalHost;
+use App\Http\Middleware\RedirectTrailingSlash;
 use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -28,6 +29,9 @@ return Application::configure(basePath: dirname(__DIR__))
             // After the host redirect, so the hop that drops /index.php already
             // lands on the canonical host instead of needing a third one.
             RedirectIndexPhp::class,
+            // Global, hence ahead of the route-level cacheResponse: the slash
+            // variant is redirected before the cache can store it.
+            RedirectTrailingSlash::class,
             SecurityHeaders::class,
         ]);
     })

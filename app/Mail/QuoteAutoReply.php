@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Quote;
+use App\Support\Brand;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -17,7 +18,7 @@ class QuoteAutoReply extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'We got your brief — TheLastClicks');
+        return new Envelope(subject: 'We got your brief — '.Brand::NAME);
     }
 
     public function content(): Content

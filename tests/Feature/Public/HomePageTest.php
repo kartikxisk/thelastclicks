@@ -2,6 +2,7 @@
 
 use App\Models\Service;
 use App\Models\Testimonial;
+use App\Support\Brand;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ it('renders the homepage with a hero headline', function () {
     // Asserts the hero is present and populated rather than the exact tagline —
     // the headline is marketing copy that gets rewritten, and pinning the words
     // here just breaks the suite every time someone edits it.
-    $html = $this->get('/')->assertOk()->assertSee('TheLastClicks')->getContent();
+    $html = $this->get('/')->assertOk()->assertSee(Brand::NAME)->getContent();
 
     expect($html)->toContain('class="hero__title"');
 

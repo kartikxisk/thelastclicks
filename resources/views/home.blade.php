@@ -1,13 +1,14 @@
 <x-layouts.app
-    title="Photography, Videography &amp; Editing Agency | The Last Clicks (TLC)"
+    title="Photography, Videography &amp; Editing Agency | TheLastClicks (TLC)"
     description="Photography, videography and post-production agency in Noida, serving brands across Delhi NCR and India — brand films, corporate shoots and in-house editing."
     :canonical="url('/')"
 >
     <x-slot name="head">
         @php
-            // sameAs is the strongest entity signal Google reads for a brand — feed it every
-            // social profile the admin has configured. array_filter drops anything unset.
-            $orgSameAs = array_values(array_filter((array) (\App\Models\SiteSetting::get('socials') ?? [])));
+            // sameAs is the strongest entity signal Google reads for a brand. Nap::sameAs()
+            // is shared with the contact page's local business node so the two cannot list
+            // different profiles for what is, to a parser, one brand.
+            $orgSameAs = \App\Support\Nap::sameAs();
             $orgEmail = \App\Models\SiteSetting::get('contact_email');
             $orgPhone = \App\Models\SiteSetting::get('contact_phone');
 
@@ -63,7 +64,8 @@
             'description'  => 'Cinematic photography, brand films and post-production for premium teams across India.',
             'email'        => $orgEmail,
             'telephone'    => $orgPhone,
-            'areaServed'   => ['@type' => 'Country', 'name' => 'India'],
+            // Named cities from Site Settings; a bare country matches nothing a local searcher types.
+            'areaServed'   => \App\Support\Nap::areaServed(),
             'sameAs'       => $orgSameAs,
             'contactPoint' => [array_filter([
                 '@type'             => 'ContactPoint',

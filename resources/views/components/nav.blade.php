@@ -4,11 +4,11 @@
 @endphp
 <header class="nav">
   <div class="nav__inner container">
-  <a class="nav__brand" href="{{ url('/') }}" data-cursor="HOME" aria-label="The Last Clicks — home">
+  <a class="nav__brand" href="{{ url('/') }}" data-cursor="HOME" aria-label="TheLastClicks — home">
     {{-- No width/height: an admin-uploaded logo has its own ratio. CSS pins the height, so there is no vertical CLS.
          Nothing uploaded → nothing rendered (the link keeps its aria-label). --}}
     @if ($navBrandLogo = \App\Models\SiteSetting::brandLogoUrl())
-      <img class="nav__brand-img" src="{{ $navBrandLogo }}" alt="The Last Clicks">
+      <img class="nav__brand-img" src="{{ $navBrandLogo }}" alt="TheLastClicks">
     @endif
   </a>
   <nav>

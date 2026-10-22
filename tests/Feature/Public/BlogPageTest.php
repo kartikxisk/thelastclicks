@@ -22,7 +22,7 @@ it('blog detail 404 on draft slug', function () {
     $this->get('/blog/'.$p->slug)->assertNotFound();
 });
 
-it('blog detail emits Article JSON-LD', function () {
+it('blog detail emits BlogPosting JSON-LD', function () {
     $p = Post::published()->first();
-    $this->get('/blog/'.$p->slug)->assertSee('"@type":"Article"', false);
+    $this->get('/blog/'.$p->slug)->assertSee('"@type":"BlogPosting"', false);
 });

@@ -119,7 +119,7 @@
     <div class="foot__copy">
       {{-- Range, not a single year: 2021 is when the studio started, and the end
            is computed so it never needs touching again. --}}
-      <span>© 2021–{{ date('Y') }} TheLastClicks — All rights reserved</span>
+      <span>© 2021–{{ date('Y') }} TheLastClicks (TLC) — All rights reserved</span>
       <span class="foot__legal">
         <a href="{{ url('/privacy-policy') }}">Privacy</a>
         <a href="{{ url('/cookie-policy') }}">Cookies</a>

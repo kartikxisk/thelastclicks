@@ -2,6 +2,7 @@
 
 use App\Models\Industry;
 use App\Models\Service;
+use App\Support\Brand;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -48,7 +49,7 @@ it('generates an llms.txt describing the studio from live data', function () {
     $txt = File::get($path);
 
     // Name, what it is, and the pages an assistant should read next.
-    expect($txt)->toContain('TheLastClicks')
+    expect($txt)->toContain(Brand::NAME)
         ->and($txt)->toContain('/services/post-production')
         ->and($txt)->toContain('/industries/')
         ->and($txt)->toContain('Noida');

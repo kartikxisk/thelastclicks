@@ -48,11 +48,14 @@ it('types the contact page as a photography studio, not a generic business', fun
     // rather than on the thing it is meant to guard.
     preg_match_all('~<script[^>]*application/ld\+json[^>]*>(.*?)</script>~s', $html, $matches);
     $nodes = array_map(fn (string $json): array => json_decode($json, true), $matches[1]);
-    $business = collect($nodes)->firstWhere('@type', 'PhotographStudio');
+    $business = collect($nodes)->first(fn ($n) => in_array('PhotographStudio', (array) ($n['@type'] ?? []), true));
 
     // schema.org ships an exact subtype for this business; the more specific type
     // is the one a parser can act on.
     expect($business)->not->toBeNull();
+    expect($business['@type'])->toBe(['ProfessionalService', 'PhotographStudio']);
+    // Pricing is never published, so no band may leak into the node.
+    expect($business)->not->toHaveKey('priceRange');
     // Linked to the canonical brand node — without it the two are, to a parser,
     // unrelated businesses that happen to share a name.
     expect($business['@id'])->toBe(url('/').'#localbusiness');

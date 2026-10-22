@@ -13,7 +13,32 @@ window.TLC = (function(){
   function brandImg(cls) {
     if (!BRAND_LOGO) return '';
     const classAttr = cls ? ` class="${cls}"` : '';
-    return `<img${classAttr} src="${BRAND_LOGO}" alt="The Last Clicks">`;
+    return `<img${classAttr} src="${BRAND_LOGO}" alt="TheLastClicks">`;
+  }
+
+  // Mirrors <meta name="contact-phone"> (SiteSetting contact_phone, same source as
+  // the Blade footer). The number was hardcoded in three places here and drifted
+  // from the admin value. Meta absent = render no phone link, never a fallback.
+  const CONTACT_PHONE = document.querySelector('meta[name="contact-phone"]')?.content?.trim() || '';
+  const CONTACT_TEL = CONTACT_PHONE ? '+' + CONTACT_PHONE.replace(/\D/g, '') : '';
+  // Budget bands come from StoreQuoteRequest::BUDGET_RANGES via the layout, so the
+  // popup and the /contact form store leads on one scale. Bad or absent meta = no chips.
+  const QUOTE_BUDGETS = (() => {
+    try {
+      const list = JSON.parse(document.querySelector('meta[name="quote-budgets"]')?.content || '[]');
+      return Array.isArray(list) ? list.filter(b => typeof b === 'string') : [];
+    } catch (e) { return []; }
+  })();
+
+  // The preloader covered every page view for ~3s, which is a tax on every
+  // return navigation. It plays once per browser session; storage being
+  // unavailable (private mode, blocked) falls back to showing it.
+  function shouldShowPreloader() {
+    try {
+      if (sessionStorage.getItem('tlc-preloader-seen')) return false;
+    } catch (e) { return true; }
+    try { sessionStorage.setItem('tlc-preloader-seen', '1'); } catch (e) { /* show anyway */ }
+    return true;
   }
 
   const NAV_LINKS = [
@@ -27,7 +52,7 @@ window.TLC = (function(){
   function navHTML() {
     return `
     <header class="nav">
-      <a class="nav__brand" href="/" data-cursor="HOME" aria-label="The Last Clicks — home">
+      <a class="nav__brand" href="/" data-cursor="HOME" aria-label="TheLastClicks — home">
         ${brandImg('nav__brand-img')}
       </a>
       <nav>
@@ -47,7 +72,7 @@ window.TLC = (function(){
         <li><a href="#quote" data-quote-trigger><span>Get a Quote →</span></a></li>
       </ul>
       <div class="menu__foot">
-        <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">+91 87701 55842 · info@thelastclicks.com</p>
+        <p style="font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">${CONTACT_PHONE ? CONTACT_PHONE + ' · ' : ''}info@thelastclicks.com</p>
       </div>
     </div>`;
   }
@@ -56,7 +81,7 @@ window.TLC = (function(){
     return `
     <footer class="foot">
       <div class="container">
-        <a href="/" class="foot__big" data-parallax="0.04" data-cursor="HOME" aria-label="The Last Clicks — home">The Last <em>Clicks</em></a>
+        <a href="/" class="foot__big" data-parallax="0.04" data-cursor="HOME" aria-label="TheLastClicks — home">The Last <em>Clicks</em></a>
         <div class="foot__grid">
           <div class="foot__col foot__intro">
             <p>Cinematic photography, videography &amp; production for brands, events and weddings — built to scale with your story.</p>
@@ -76,7 +101,7 @@ window.TLC = (function(){
           </div>
           <div class="foot__col">
             <h5>Contact</h5>
-            <a href="tel:+918770155842">+91 87701 55842</a>
+            ${CONTACT_PHONE ? `<a href="tel:${CONTACT_TEL}">${CONTACT_PHONE}</a>` : ''}
             <a href="https://wa.me/918770155842" target="_blank" rel="noopener" data-noswap>WhatsApp</a>
             <a href="/login">Sign In</a>
             <a href="/signup">Create your page</a>
@@ -86,7 +111,7 @@ window.TLC = (function(){
           <!-- Computed, not written: the year was hardcoded here and would have
                read 2026 for the whole of 2027. The Blade footer is the one that
                normally renders; this only appears on a page without it. -->
-          <span>© 2021–${new Date().getFullYear()} TheLastClicks — All rights reserved</span>
+          <span>© 2021–${new Date().getFullYear()} TheLastClicks (TLC) — All rights reserved</span>
           <span class="foot__legal">
             <a href="/privacy-policy">Privacy</a>
             <a href="/cookie-policy">Cookies</a>
@@ -125,7 +150,7 @@ window.TLC = (function(){
           </div>
           <div class="quote__foot">
             <span class="quote__pill">info@thelastclicks.com</span>
-            <span class="quote__pill">+91 87701 55842</span>
+            ${CONTACT_PHONE ? `<span class="quote__pill">${CONTACT_PHONE}</span>` : ''}
           </div>
         </aside>
         <div class="quote__body">
@@ -151,7 +176,7 @@ window.TLC = (function(){
               <div class="quote__group">
                 <label class="quote__label">Budget range</label>
                 <div class="quote__chips quote__chips--row" data-name="budget">
-                  ${['< ₹1L','₹1L – ₹3L','₹3L – ₹7L','₹7L – ₹15L','₹15L+'].map(t => `<button type="button" class="quote__chip" data-value="${t}"><span>${t}</span></button>`).join('')}
+                  ${QUOTE_BUDGETS.map(t => `<button type="button" class="quote__chip" data-value="${t}"><span>${t}</span></button>`).join('')}
                 </div>
               </div>
               <div class="quote__group">
@@ -272,7 +297,7 @@ window.TLC = (function(){
     return `
     <div class="pboot">
       ${stage}
-      <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks">THELASTCLICKS</div>
+      <div class="pboot__mark" data-pboot-mark aria-label="TheLastClicks (TLC)">THELASTCLICKS</div>
     </div>`;
   }
 
@@ -285,17 +310,17 @@ window.TLC = (function(){
     </div>
     <!-- role=status so the overlay announces itself; the churning counter is
          aria-hidden inside so it does not spam a screen reader. -->
-    <div class="preloader" role="status" aria-label="Loading">
+    ${shouldShowPreloader() ? `<div class="preloader" role="status" aria-label="Loading">
       <div class="preloader__inner">
         ${bootReadoutHTML()}
       </div>
-    </div>
+    </div>` : ''}
     <div class="scrollbar"><div class="scrollbar__fill"></div></div>
     <div class="cookies" role="dialog" aria-label="Cookie consent" aria-hidden="true" inert>
       <div class="cookies__inner">
         <div class="cookies__copy">
           <strong>Cookies on TheLastClicks</strong>
-          <p>We use a few small cookies to make this site work and to understand which essays land. Read the <a href="/cookie-policy">cookie policy</a> or pick below.</p>
+          <p>A few small cookies keep the site working and show which pages land. <a href="/cookie-policy">Cookie policy</a></p>
         </div>
         <div class="cookies__btns">
           <button class="cookies__btn cookies__btn--ghost" data-cookies="declined">Only essential</button>

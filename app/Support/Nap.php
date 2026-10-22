@@ -143,10 +143,12 @@ class Nap
     }
 
     /**
-     * areaServed as named City nodes.
+     * areaServed as named City nodes, falling back to a Country node.
      *
      * Named cities rather than a Country node: "India" matches nothing a local
-     * searcher types, and areaServed is read at the granularity of the query.
+     * searcher types, and areaServed is read at the granularity of the query. The
+     * Country node is only the fallback for an unset list, so the property never
+     * vanishes from the Organization when an admin clears the field.
      *
      * @return list<array<string, string>>
      */
@@ -155,10 +157,35 @@ class Nap
         $areas = SiteSetting::get('service_areas', []);
         $areas = is_array($areas) ? $areas : [];
 
-        return array_values(array_map(
+        $cities = array_values(array_map(
             fn (string $city): array => ['@type' => 'City', 'name' => $city],
             array_filter(array_map('trim', array_map('strval', $areas)), fn (string $c): bool => $c !== '')
         ));
+
+        return $cities !== [] ? $cities : [['@type' => 'Country', 'name' => 'India']];
+    }
+
+    /**
+     * The one sameAs list, for both the homepage Organization and the contact
+     * page's local business node.
+     *
+     * Two lists had drifted: the homepage took every configured social, the
+     * contact page took the Maps URL plus only Instagram and YouTube. A parser
+     * that sees two sameAs sets on nodes linked by parentOrganization cannot tell
+     * which profiles are the brand's. The Maps URL leads because the Business
+     * Profile is the profile that ties the site to the listing.
+     *
+     * @return list<string>
+     */
+    public static function sameAs(): array
+    {
+        $socials = SiteSetting::get('socials');
+        $socials = is_array($socials) ? $socials : [];
+
+        return array_values(array_unique(array_filter(
+            array_map(fn ($v): string => is_scalar($v) ? trim((string) $v) : '', [self::mapUrl(), ...array_values($socials)]),
+            fn (string $v): bool => $v !== ''
+        )));
     }
 
     public static function mapUrl(): ?string

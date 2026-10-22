@@ -55,6 +55,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- chrome.js reads this to render the preloader / quote-modal marks. Absent = render no logo. --}}
     @if ($brandLogo) <meta name="brand-logo" content="{{ $brandLogo }}"> @endif
+    {{-- chrome.js renders the mobile-menu / footer / quote phone from this, so it can't drift from the Blade footer. Absent = no phone link. --}}
+    @if ($contactPhoneMeta = \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842')) <meta name="contact-phone" content="{{ $contactPhoneMeta }}"> @endif
+    {{-- The popup's budget chips, from the same list the /contact form validates against. The popup hardcoded its own bands and drifted onto a different scale. Absent = no budget step chips. --}}
+    <meta name="quote-budgets" content="{{ json_encode(\App\Http\Requests\StoreQuoteRequest::BUDGET_RANGES, JSON_UNESCAPED_UNICODE) }}">
     {{-- Background clip for the closing CTA. Admin-managed; core.js reads this
          and falls back to the bundled file when nothing is uploaded. --}}
     <meta name="cta-video" content="{{ \App\Models\SiteSetting::ctaVideoUrl() }}">

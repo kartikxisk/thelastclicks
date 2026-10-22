@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Film & Photography Journal')"
-    description="Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month."
+    description="Studio dispatches on film craft, behind-the-scenes process and editorial notes from TheLastClicks production team."
     :canonical="url('/blog')"
 >
     <x-slot name="head">
@@ -10,9 +10,10 @@
         ]]" />
         <x-json-ld :data="[
             '@type' => 'Blog',
-            'name' => 'The TheLastClicks Journal',
+            'name' => 'TheLastClicks Journal',
             'url' => url('/blog'),
-            'publisher' => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'url' => url('/')],
+            // Reference, not a second anonymous Organization: an inline copy is a separate entity to a parser.
+            'publisher' => ['@id' => url('/').'#organization'],
             'blogPost' => $posts->take(10)->values()->map(fn ($post) => array_filter([
                 '@type' => 'BlogPosting',
                 'headline' => $post->title,

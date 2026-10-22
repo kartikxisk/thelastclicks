@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Quote;
 use App\Models\SiteSetting;
+use App\Support\Brand;
 use Illuminate\Database\Seeder;
 
 class SiteSettingsSeeder extends Seeder
@@ -41,7 +42,7 @@ class SiteSettingsSeeder extends Seeder
             'behance' => 'https://www.behance.net/thelastclicks',
             'pinterest' => 'https://www.pinterest.com/thelastclicks/',
         ]);
-        SiteSetting::set('seo_default_title', 'TheLastClicks — Cinematic photography & film production');
+        SiteSetting::set('seo_default_title', Brand::title('Cinematic Photography & Film Production'));
         SiteSetting::set('seo_default_description', 'Cinematic photography, brand films and post-production for premium teams.');
         $this->setIfMissing('seo_default_og_image', 'headers/gear-camera-dark.jpg');
         SiteSetting::set('lead_sla_hours', Quote::DEFAULT_SLA_HOURS);

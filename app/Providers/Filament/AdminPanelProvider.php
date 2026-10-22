@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
 use App\Models\SiteSetting;
+use App\Support\Brand;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
@@ -36,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->darkMode(true)
             ->defaultThemeMode(ThemeMode::Dark)
-            ->brandName('TheLastClicks')
+            ->brandName(Brand::NAME)
             // The panel can be either theme, so it gets both marks: the dark-ink
             // one for light mode, the light one for dark. Passing the light mark to
             // both (which is what a single ->brandLogo() call did) left it invisible

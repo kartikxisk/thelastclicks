@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Disclaimer')"
-    description="General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on the TheLastClicks website."
+    description="General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on TheLastClicks website."
     :canonical="url('/disclaimer')"
 >
   <section class="page-header" data-screen-label="01 Header" style="min-height:40vh">

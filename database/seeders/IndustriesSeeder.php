@@ -144,7 +144,7 @@ class IndustriesSeeder extends Seeder
                 <p>We work off your run-of-show, not a shot list we invented. Cameras are positioned to cover the stage, the audience reaction and a clean cutaway, so the edit is never short of an option. Audio comes off the desk feed with an independent backup — the single most common way corporate footage is lost. Crews dress and behave to match the room; on a client-facing event nobody should notice us.</p>
                 <h3>What you get</h3>
                 <ul>
-                    <li>A short highlight film within days, while the event still matters internally</li>
+                    <li>A short highlight film for internal and social channels</li>
                     <li>Full-session recordings, chaptered for the intranet</li>
                     <li>Subtitled and vertical cuts for social and internal channels</li>
                     <li>A stills library cleared for reuse across decks and comms</li>

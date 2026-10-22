@@ -7,10 +7,12 @@
     <x-slot name="head">
         <x-json-ld :data="[
             '@type'       => 'Service',
+            '@id'         => url('/services/'.$service->slug).'#service',
+            'serviceType' => $service->title,
             'name'        => $service->title,
             'description' => $service->hero_copy,
-            'provider'    => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'url' => url('/')],
-            'areaServed'  => 'IN',
+            'provider'    => ['@id' => url('/').'#organization'],
+            'areaServed'  => ['@type' => 'Country', 'name' => 'India'],
             'url'         => url('/services/'.$service->slug),
         ]" />
         <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [

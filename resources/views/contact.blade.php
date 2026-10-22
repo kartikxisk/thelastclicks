@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Contact Our Photography & Video Team')"
-    description="Bring us a brief for photography, videography or post-production and we will reply with next steps and a number. Crews and studios covering 20+ cities across India."
+    description="Bring us a brief for photography, videography or post-production and we will reply with next steps and a tailored proposal. Crews and studios covering 20+ cities across India."
     :canonical="url('/contact')"
 >
   <x-slot name="head">
@@ -13,7 +13,11 @@
          their own copy of the studio's address — and the homepage's copy, being
          admin-fed and unpopulated, was empty. One source now feeds both. --}}
     <x-json-ld :data="array_filter([
-      '@type'       => 'PhotographStudio',
+      // Both types, not PhotographStudio alone: ProfessionalService is what makes
+      // the node a service-area business Google can match to areaServed, and
+      // PhotographStudio is the exact subtype. No priceRange on purpose — pricing
+      // is never published, and a guessed band would contradict that.
+      '@type'       => ['ProfessionalService', 'PhotographStudio'],
       // Anchors this node as an entity the rest of the graph can point at, and
       // ties it to the canonical brand node on the homepage. Without the link the
       // two nodes are, to a parser, two unrelated businesses that share a name.
@@ -25,7 +29,6 @@
       'alternateName' => \App\Support\Brand::ALTERNATE_NAMES,
       'url'         => url('/'),
       'image'       => \App\Models\SiteSetting::brandLogoUrl(),
-      'priceRange'  => '₹₹₹',
       'telephone'   => \App\Models\SiteSetting::get('contact_phone', '+91 87701 55842'),
       'email'       => \App\Models\SiteSetting::get('contact_email', 'info@thelastclicks.com'),
       'address'     => \App\Support\Nap::address(),
@@ -37,12 +40,9 @@
       // midweek, which the string could only express by being rewritten.
       'openingHoursSpecification' => \App\Support\Nap::hours(),
       // Linking the Business Profile here is what actually ties this page to the
-      // listing — a stronger signal than matching the name string exactly.
-      'sameAs' => array_values(array_filter([
-        \App\Support\Nap::mapUrl(),
-        \App\Models\SiteSetting::get('socials')['instagram'] ?? null,
-        \App\Models\SiteSetting::get('socials')['youtube'] ?? null,
-      ])),
+      // listing — a stronger signal than matching the name string exactly. The same
+      // list the homepage Organization emits, so the two nodes cannot disagree.
+      'sameAs' => \App\Support\Nap::sameAs(),
     ], fn ($v) => $v !== null && $v !== [])" />
     <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
       ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
@@ -78,8 +78,8 @@
         </div>
         <div class="contact-card">
           <h3>Studio</h3>
-          {{-- Kept identical to the schema address and the Business Profile listing. --}}
-          <p>TheLastClicks<br>B-7, D-Block, Sector 26<br>Noida · Uttar Pradesh<br>India · 201301</p>
+          {{-- Rendered from the same Nap lines as the schema address, so the page and the Business Profile listing cannot differ. --}}
+          <p>{{ \App\Support\Brand::NAME }}@foreach (\App\Support\Nap::addressLines() as $line)<br>{{ $line }}@endforeach</p>
           <a href="https://share.google/QlMQkefJfn2iRnma3" target="_blank" rel="noopener" data-noswap>Open in Google Maps ↗</a>
         </div>
       </aside>
@@ -94,7 +94,7 @@
       <div class="contact-map" data-anim="blur-focus">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.6312724114205!2d77.3328251!3d28.580833099999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce56b4a8e1c41%3A0x2f95fac3ad6f578a!2sThe%20Last%20Clicks%20(TLC)!5e0!3m2!1sen!2sin!4v1784897931408!5m2!1sen!2sin"
-          title="TheLastClicks studio location — B-7, D-Block, Sector 26, Noida"
+          title="{{ \App\Support\Brand::NAME }} studio location — B-7, D-Block, Sector 26, Noida"
           loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen></iframe>

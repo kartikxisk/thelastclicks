@@ -57,14 +57,14 @@ class PageSeoSeeder extends Seeder
                 'page_url' => '/blog',
                 'label' => 'Journal',
                 'title' => Brand::title('Film & Photography Journal'),
-                'meta_description' => 'Studio dispatches on film craft, behind-the-scenes process and editorial notes from the TheLastClicks production team. One new craft note every month.',
+                'meta_description' => 'Studio dispatches on film craft, behind-the-scenes process and editorial notes from TheLastClicks production team. One new craft note every month.',
                 'og_image_path' => 'headers/journal-studio.jpg',
             ],
             [
                 'page_url' => '/contact',
                 'label' => 'Contact',
                 'title' => Brand::title('Contact Our Photography & Video Team'),
-                'meta_description' => 'Bring us a brief for photography, videography or post-production and we will reply with next steps and a number. Crews and studios covering 20+ cities across India.',
+                'meta_description' => 'Bring us a brief for photography, videography or post-production and we will reply with next steps and a tailored proposal. Crews and studios covering 20+ cities across India.',
                 'og_image_path' => 'headers/contact-crew.jpg',
             ],
             [
@@ -92,7 +92,7 @@ class PageSeoSeeder extends Seeder
                 'page_url' => '/disclaimer',
                 'label' => 'Disclaimer',
                 'title' => Brand::title('Disclaimer'),
-                'meta_description' => 'General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on the TheLastClicks website.',
+                'meta_description' => 'General disclaimer covering the accuracy of information, portfolio imagery and third-party links published on TheLastClicks website.',
                 'og_image_path' => 'headers/gear-lens-red.jpg',
             ],
             [

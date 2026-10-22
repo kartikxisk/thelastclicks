@@ -11,40 +11,39 @@ namespace App\Support;
  * as Google is concerned, and weakens both. It was hardcoded in six templates.
  *
  * ALTERNATE_NAMES is the supported way to tell a search engine that a brand is
- * known by more than one string, and it is the whole of the job: repeating the
- * variants through the visible copy is keyword stuffing, which Google's spam
- * policies name explicitly and demote for. One declaration that a search engine
- * reads beats fifty mentions it penalises.
+ * known by more than one string. Repeating the variants through the visible copy
+ * is keyword stuffing, which Google's spam policies name explicitly and demote
+ * for, so the variants live here and in schema, not in running prose.
  */
 final class Brand
 {
-    /** The canonical spelling. Everything else defers to this. */
-    public const NAME = 'TheLastClicks';
+    /**
+     * The canonical spelling: "TheLastClicks (TLC)", closed up.
+     *
+     * The owner's brand name (2026-10-22). A spaced "The Last Clicks (TLC)" was
+     * briefly canonical and is now only an alternate. The name has to be
+     * byte-identical wherever it is an entity — schema, og:site_name, titles,
+     * and directory and Business Profile listings — or Google splits one brand
+     * into several. Running prose says plain "TheLastClicks"; this constant is for
+     * labels and entity names.
+     */
+    public const NAME = 'TheLastClicks (TLC)';
 
     /**
-     * The spellings people actually search and type. The closed-up NAME is the
-     * odd one out in normal English, so these are not edge cases — "The Last
-     * Clicks" is how anyone hearing the name aloud would write it, and TLC is
-     * what clients shorten it to.
-     *
-     * Two entries, not three: "The Last Clicks (TLC)" was declared on the contact
-     * page and is a way of WRITING the name, not a name anyone types into a search
-     * box. As an entity string it is noise — both of its halves are already here.
+     * The other spellings people search and type. "The Last Clicks" is how anyone
+     * hearing the name aloud writes it, and TLC is what clients shorten it to.
      *
      * @var list<string>
      */
-    public const ALTERNATE_NAMES = ['The Last Clicks', 'TLC'];
+    public const ALTERNATE_NAMES = ['TheLastClicks', 'The Last Clicks', 'TLC'];
 
     /**
      * How the brand signs off a <title>.
      *
-     * Spaced and parenthesised rather than the closed-up NAME: a title is read by
-     * a person scanning a results page, and it is the one place worth spelling the
-     * name the way they would say it. Carrying (TLC) here also means a search for
-     * the abbreviation has something literal to match in the strongest on-page
-     * field, which alternateName in the schema alone does not give.
+     * Equal to NAME so the title and the schema name carry the same string; it also gives a search for "TLC" something literal
+     * to match in the strongest on-page field, which alternateName alone does not.
      */
-    public const TITLE_SUFFIX = 'The Last Clicks (TLC)';
+    public const TITLE_SUFFIX = self::NAME;
 
     /**
      * Build a page title: a keyword-led phrase, then the brand.

@@ -8,15 +8,16 @@
 >
     <x-slot name="head">
         <x-json-ld :data="[
-            '@type'            => 'Article',
+            '@type'            => 'BlogPosting',
             'headline'         => $post->title,
             'description'      => $post->excerpt,
             'image'            => $post->getFirstMediaUrl('cover') ?: null,
             'datePublished'    => optional($post->published_at)->toIso8601String(),
             'dateModified'     => optional($post->updated_at)->toIso8601String(),
-            'author'           => ['@type' => 'Person', 'name' => $post->author?->name ?? 'TheLastClicks'],
-            'publisher'        => ['@type' => 'Organization', 'name' => \App\Support\Brand::NAME, 'logo' => ['@type' => 'ImageObject', 'url' => \App\Models\SiteSetting::brandLogoUrl() ?: asset('apple-touch-icon.png')]],
-            'mainEntityOfPage' => url('/blog/'.$post->slug),
+            // An unsigned post belongs to the studio itself, so point at the Organization node rather than invent a Person.
+            'author'           => $post->author ? ['@type' => 'Person', 'name' => $post->author->name] : ['@id' => url('/').'#organization'],
+            'publisher'        => ['@id' => url('/').'#organization'],
+            'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url('/blog/'.$post->slug)],
         ]" />
         <x-json-ld :data="['@type' => 'BreadcrumbList', 'itemListElement' => [
             ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],

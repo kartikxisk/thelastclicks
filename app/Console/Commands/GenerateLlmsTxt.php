@@ -79,7 +79,7 @@ class GenerateLlmsTxt extends Command
         // and the studio does not publish rates. The conversion path an agent
         // should hand a buyer is the quote form. No reply window is stated: the
         // site promises no times, for delivery or for replies.
-        $lines[] = sprintf('- [Get a quote](%s): Custom quote per project — a reply with next steps and a number.', url('/contact'));
+        $lines[] = sprintf('- [Get a quote](%s): Custom quote per project — a reply with next steps and a tailored proposal.', url('/contact'));
 
         File::put(public_path('llms.txt'), implode("\n", $lines)."\n");
 

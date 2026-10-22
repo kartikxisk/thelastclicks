@@ -77,7 +77,7 @@ class SeoPagesSeeder extends Seeder
                 'page_url' => '/industries',
                 'label' => 'Industries',
                 'title' => Brand::title('Corporate, Alcobev & Wedding Film, Delhi NCR'),
-                'meta_description' => 'Corporate shoots, alcobev brand films, wedding cinematography, real estate walkthroughs, podcast production and live music — the six verticals TheLastClicks shoots across Delhi NCR.',
+                'meta_description' => 'Corporate shoots, alcobev brand films, wedding cinematography, real estate walkthroughs, podcast production and live music — the verticals TheLastClicks shoots across Delhi NCR.',
                 'og_image_path' => 'headers/industries-conference.jpg',
             ],
 
@@ -112,7 +112,7 @@ class SeoPagesSeeder extends Seeder
                 'page_url' => '/industries/corporate-shoots',
                 'label' => 'Corporate Shoots industry',
                 'title' => Brand::title('Corporate Video & Event Coverage, Noida'),
-                'meta_description' => 'Summits, leadership films, town halls and product launches across Delhi NCR. Multi-camera coverage run to your run-of-show, with a highlight cut in days.',
+                'meta_description' => 'Summits, leadership films, town halls and product launches across Delhi NCR. Multi-camera coverage run to your run-of-show, with a highlight edit for internal and social channels.',
                 'og_image_path' => 'industries/corporate-enterprise.jpg',
             ],
             [

@@ -1,6 +1,6 @@
 <x-layouts.app
     :title="\App\Support\Brand::title('Brand, Auto & Wedding Film')"
-    description="Fashion, hospitality, beauty, weddings, automotive, corporate and nightlife — the sectors TheLastClicks produces photography and film for across India."
+    description="Alcobev, cover artists, corporate shoots, real estate, podcasts, weddings and pre-weddings, and product and creative shoots — the sectors TheLastClicks produces photography and film for across India."
     :canonical="url('/industries')"
 >
     <x-slot name="head">
@@ -19,6 +19,7 @@
                         '@type' => 'ListItem',
                         'position' => $i + 1,
                         'name' => $industry->title,
+                        'url' => url('/industries/'.$industry->slug),
                     ])->all(),
                 ],
             ]" />
