@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             TestimonialsSeeder::class,
             PostsSeeder::class,
             SiteSettingsSeeder::class,
-            BillingSeeder::class,
             SeoPagesSeeder::class,
         ]);
 

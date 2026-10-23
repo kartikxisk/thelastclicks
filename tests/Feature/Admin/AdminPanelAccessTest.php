@@ -32,9 +32,8 @@ it('lets every role RolesSeeder creates reach /admin', function () {
     // literal here, because canAccessPanel() is a hardcoded allow-list that
     // gates entry before any policy runs — a role added to RolesSeeder and
     // forgotten in that allow-list holds every permission it was granted and
-    // is still bounced at the door. This is what caught Accounts the first
-    // time and is what keeps the next role from slipping through the same
-    // gap unnoticed.
+    // is still bounced at the door. This keeps the next role from slipping
+    // through that gap unnoticed.
     $this->seed(RolesSeeder::class);
 
     foreach (Role::pluck('name') as $roleName) {

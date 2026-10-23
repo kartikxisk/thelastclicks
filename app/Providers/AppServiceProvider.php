@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Client;
-use App\Models\Company;
 use App\Models\HeroSlide;
 use App\Models\Industry;
 use App\Models\MediaItem;
@@ -16,7 +15,6 @@ use App\Models\SiteSetting;
 use App\Models\Testimonial;
 use App\Models\Work;
 use App\Observers\ClearsResponseCacheObserver;
-use App\Observers\CompanyObserver;
 use App\Observers\IndustryObserver;
 use App\Observers\MediaItemObserver;
 use App\Observers\PostObserver;
@@ -53,7 +51,6 @@ class AppServiceProvider extends ServiceProvider
         Work::observe(WorkObserver::class);
         MediaItem::observe(MediaItemObserver::class);
         Quote::observe(QuoteObserver::class);
-        Company::observe(CompanyObserver::class);
 
         // Client edits (name/order/active) and EVERY Spatie media upload — hero,
         // cover, logo, gallery — must bust the cached HTML. A media-only change
