@@ -7,6 +7,7 @@ use App\Http\Controllers\Public\IndustryController;
 use App\Http\Controllers\Public\NewsletterController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\ServiceController;
+use App\Http\Controllers\Public\ServiceLocationController;
 use App\Http\Controllers\Public\WorkController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,11 @@ Route::middleware('cacheResponse')->group(function () {
     Route::redirect('/services/social-content', '/services/post-production', 301);
     Route::redirect('/services/creative-direction', '/services/post-production', 301);
     Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('service.show');
+    // City landing pages. Two segments, so it cannot shadow the single-segment
+    // route above or the one-segment retired-service redirects; the [a-z-]+
+    // constraint keeps junk paths out of the controller's lookup.
+    Route::get('/services/{slug}/{city}', [ServiceLocationController::class, 'show'])
+        ->where('city', '[a-z-]+')->name('service.location');
     Route::get('/industries', [IndustryController::class, 'index'])->name('industries');
     // Industry detail pages are live again — each vertical now carries its own
     // copy and the work actually filed under it, which the deck alone could not.

@@ -1033,8 +1033,10 @@ main > section:has(.clients) {
 
 /* The stop control is visually gone but not removed: WCAG 2.2.2 wants a way to
    stop scrolling content and auto-playing video, and hover does nothing for a
-   keyboard. Same off-screen-until-focused pattern as .skip-link in core.css. */
-.wmq__toggle {
+   keyboard. Same off-screen-until-focused pattern as .skip-link in core.css.
+   Shared with the client-stories marquee, which owes the same control. */
+.wmq__toggle,
+.tsm__toggle {
   position: absolute;
   left: 50%;
   bottom: 8px;
@@ -1059,7 +1061,8 @@ main > section:has(.clients) {
    until it surfaces, so focus can only arrive from the keyboard anyway, and
    :focus-visible does not fire for programmatic focus — which would leave the
    only stop control invisible to anything that focuses it in script. */
-.wmq__toggle:focus {
+.wmq__toggle:focus,
+.tsm__toggle:focus {
   transform: translate(-50%, 0);
   opacity: 1;
   pointer-events: auto;
@@ -1073,8 +1076,9 @@ main > section:has(.clients) {
 .work-head__cta { justify-self: end; align-self: end; }
 
 /* ---------- Full-bleed image sections: one rhythm ----------
-   Four homepage sections are edge-to-edge footage — the work strip, the
-   industries bento, the artist reel, the service bands. Each one ends at
+   Five homepage sections are edge-to-edge bands — the work strip, the
+   industries bento, the artist reel, the service bands, the client-stories
+   marquee. Each one ends at
    its own images, so the scene padding that frames a boxed section put a
    band of dead black between one photograph and the next: the bento's
    120px floor and the artist band's 76px opener stacked into 205px of
@@ -1095,6 +1099,14 @@ main > section[data-svc-index] .services__head,
 main > section.artist-band .artist-band__head {
   margin-bottom: clamp(40px, 5vh, 64px);
 }
+
+/* The stories marquee is full-bleed too, but its panels are type on dark, not
+   footage — so it keeps the tight head gap and drops the flush bottom. Flush,
+   the service bands ran straight into its eyebrow and its panels sat on the
+   CTA's video: three sections reading as one. A deeper opener and a real floor
+   make it its own scene. */
+main > section#stories { padding-block: clamp(96px, 12vh, 144px) clamp(80px, 10vh, 120px); }
+main > section#stories .services__head { margin-bottom: clamp(40px, 5vh, 64px); }
 
 @media (hover: none) and (pointer: coarse) {
   /* Tap leaves a sticky :hover, which would strand a tile zoomed and the whole
@@ -1273,182 +1285,141 @@ main > section.artist-band .artist-band__head {
   .indb__tile:hover img { transform: scale(1.04); }
 }
 
-/* ---------- Client stories ----------
-   Heading on the left, quotes drifting upward on the right. The rails use the
-   same mechanism as .marquee in core.css — the set rendered twice, the track
-   translated -50% — turned through 90 degrees, so the seam is invisible and
-   nothing measures anything at runtime.
+/* ---------- Client stories: endless marquee ----------
+   The head on top like every other homepage scene, then a full-bleed strip of
+   quote panels drifting left on a loop — the work strip's mechanism (.wmq),
+   so the homepage's two moving bands behave as one system: the set rendered
+   twice, the track translated -50%, items carrying a right margin rather than
+   the track a `gap`, so each half is exactly n × (panel + 3px) and the seam
+   lands without a jump.
 
-   Earlier passes here were a stacked-card carousel, then a static bento wall,
-   then a horizontal strip. This one keeps the site's card treatment and its
-   marquee mechanism, but reads as a section rather than a band. */
-.tmq {
-  display: grid;
-  grid-template-columns: minmax(260px, 380px) 1fr;
-  gap: clamp(32px, 5vw, 88px);
-  align-items: start;
-  margin-top: 8px;
+   The duration scales with the panel count (--tsm-n, set in the markup), so
+   the drift keeps one reading speed — about 50px a second — however many
+   quotes are published. Slower than the work strip: these are read, not
+   glanced at. */
+.tsm {
+  position: relative;
+  --tsm-w: clamp(290px, 28vw, 440px);
 }
-/* Holds while the quotes travel past it. `top` clears the fixed nav. */
-.tmq__aside {
-  position: sticky;
-  top: clamp(96px, 14vh, 160px);
-  display: grid;
-  gap: 20px;
-}
-/* The grid gap stacks on the eyebrow's own margin here, which put this head
-   two steps out of the rhythm every other section keeps. */
-.tmq__aside .section__eyebrow { margin-bottom: 0; }
-.tmq__lead {
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.6;
-  color: var(--paper-dim);
-  max-width: 34ch;
-}
-
-.tmq__rails {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  /* The window the rails scroll inside. Everything past it is clipped, and the
-     mask feathers the two ends so cards arrive and leave instead of popping at a
-     hard edge. */
-  height: clamp(460px, 66vh, 760px);
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
-          mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
-}
-.tmq__rail {
-  display: grid;
-  gap: 24px;
-  align-content: start;
+.tsm__viewport { overflow: hidden; }
+.tsm__track {
+  display: flex;
+  width: max-content;
   list-style: none;
-  animation: tmq-scroll 48s linear infinite;
-  /* No will-change: the track is taller than the viewport, promoting it costs
-     real memory, and an actively animating transform already gets its own
-     layer. Same reasoning .marquee__track carries. */
+  margin: 0;
+  padding: 0;
+  animation: tsm-scroll calc(var(--tsm-n, 6) * 9s) linear infinite;
 }
-/* The second rail runs the other way, so the pair reads as movement rather than
-   as one block sliding. `reverse` on the same keyframes means one definition. */
-.tmq__rail--down { animation-direction: reverse; }
-
-@keyframes tmq-scroll {
-  to { transform: translateY(-50%); }
+@keyframes tsm-scroll {
+  to { transform: translateX(-50%); }
 }
+/* :has(:focus-visible), not :focus-within — the reasoning .wmq records: a
+   mouse click handing focus back must not freeze the strip for good. */
+.tsm:hover .tsm__track,
+.tsm:has(:focus-visible) .tsm__track,
+.tsm.is-paused .tsm__track { animation-play-state: paused; }
 
-/* Hover stops both rails so a quote can be read; :focus-within is the keyboard
-   equivalent — a card travelling away from a focused element is a trap. */
-.tmq:hover .tmq__rail,
-.tmq:focus-within .tmq__rail { animation-play-state: paused; }
+.tsm__item { flex: 0 0 auto; margin-right: 3px; }
 
-.tmq__card {
+/* A dark panel, no photograph: the quote is the picture. The hairline edge
+   is the whole of its chrome at rest. */
+.tsm__card {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  justify-content: flex-end;
+  gap: 24px;
+  width: var(--tsm-w);
+  height: clamp(260px, 34vh, 330px);
   margin: 0;
-  /* A rule, not a box: the homepage dropped its card chrome section by
-     section, and a bordered, filled panel here was the last one standing. */
-  padding: 8px 0 8px 26px;
-  border-left: 1px solid var(--line);
-  position: relative;
+  padding: clamp(28px, 2.6vw, 42px);
   overflow: hidden;
+  background: var(--ink-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+  white-space: normal;
+  transition: box-shadow 0.5s var(--ease);
 }
-/* The red rule that wipes in along the bottom edge — the tell that marks every
-   card on this site as one of ours. */
-.tmq__card::before {
+/* The key light. A soft pool that follows the pointer across the hovered
+   panel — --mx/--my come from stories-marquee.js. Off at rest, so a strip of
+   identical panels does not glow; it answers the pointer and nothing else. */
+.tsm__card::before {
   content: '';
   position: absolute;
-  inset: 0 auto 0 -1px;
-  width: 1px;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at var(--mx, 70%) var(--my, 20%),
+    rgba(255,255,255,0.09), rgba(255,255,255,0) 55%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+/* The red rule that wipes in along the bottom edge — the tell that marks a
+   card on this site as one of ours. */
+.tsm__card::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
   background: var(--red);
-  transform: scaleY(0);
-  transform-origin: top;
+  transform: scaleX(0);
+  transform-origin: left;
   transition: transform 0.6s var(--ease);
 }
-.tmq__card:hover::before { transform: scaleY(1); }
-.tmq__card::after {
-  content: '\201C';
-  position: absolute;
-  top: 0;
-  right: 14px;
-  font-family: var(--f-display);
-  font-size: 68px;
-  line-height: 1;
-  color: var(--paper);
-  opacity: 0.07;
-  pointer-events: none;
-}
-.tmq__quote {
+
+.tsm__quote {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(19px, 1.5vw, 24px);
+  line-height: 1.32;
+  letter-spacing: -0.02em;
   color: var(--paper-dim);
   text-wrap: pretty;
+  transition: color 0.5s var(--ease), transform 0.6s var(--ease);
 }
-.tmq__who {
-  margin-top: auto;
+.tsm__who {
   display: grid;
-  gap: 2px;
-  padding-top: 16px;
+  gap: 4px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
 }
-.tmq__name {
+.tsm__name {
   font-family: var(--f-display);
   font-weight: 500;
-  font-size: 16px;
-  letter-spacing: -0.02em;
+  font-size: 17px;
+  letter-spacing: -0.01em;
   color: var(--paper);
 }
-.tmq__role {
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--red);
-}
+.tsm__role { font-size: 14px; line-height: 1.45; color: var(--muted); transition: color 0.5s var(--ease); }
 
-/* Tablet: the aside stops being a column and becomes a heading above the rails.
-   Sticky is dropped with it — a sticky element in a single-column flow pins to
-   the top of the viewport and sits over the content it is meant to introduce. */
-@media (max-width: 980px) {
-  .tmq { grid-template-columns: 1fr; gap: 32px; }
-  .tmq__aside { position: static; top: auto; }
-  .tmq__lead { max-width: 52ch; }
-  .tmq__rails { height: clamp(420px, 58vh, 620px); }
-}
+.tsm__card:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.22); }
+.tsm__card:hover::before { opacity: 1; }
+.tsm__card:hover::after { transform: scaleX(1); }
+.tsm__card:hover .tsm__quote { color: #fff; transform: translateY(-6px); }
+.tsm__card:hover .tsm__role { color: var(--paper-dim); }
 
-/* Phones: one rail only. Two columns of quote cards on a 375px screen leaves
-   roughly 150px per card, which is narrower than the text needs — the second
-   rail is a duplicate anyway, so dropping it loses nothing but the mirrored
-   movement. Height comes down so the section does not eat the whole screen. */
 @media (max-width: 600px) {
-  .tmq__rails {
-    grid-template-columns: 1fr;
-    height: clamp(340px, 62vh, 460px);
-    gap: 14px;
-  }
-  .tmq__rail--down { display: none; }
-  .tmq__rail { gap: 14px; }
-  .tmq__card { padding: 20px; }
-  .tmq__card::after { font-size: 54px; }
+  .tsm { --tsm-w: 78vw; }
+  .tsm__card { height: 300px; }
 }
-
-/* The drift IS the objection here, so this opts out rather than softening — the
-   same call .marquee and .wmq make. The rails become a scrollable column with
-   the clipping window removed, so every quote stays reachable, and the duplicate
-   rail is hidden so the list is not silently doubled. */
+@media (hover: none) and (pointer: coarse) {
+  /* Tap leaves a sticky :hover, which would strand the strip stopped. */
+  .tsm:hover .tsm__track { animation-play-state: running; }
+  /* No hover to reveal anything, so touch gets the readable state at rest. */
+  .tsm__quote { color: var(--paper); }
+}
+/* The drift IS the objection, so it stops outright — the same call .wmq and
+   .marquee make. The strip becomes a plain sideways-scrollable row of each
+   quote once: the repeats exist only to fill the loop, and with no loop they
+   would scroll past as duplicates. Hover keeps its colour changes, which
+   answer the pointer; the lifts go. */
 @media (prefers-reduced-motion: reduce) {
-  .tmq__rail { animation: none; }
-  .tmq__rail--down { display: none; }
-  .tmq__rails {
-    grid-template-columns: 1fr;
-    height: auto;
-    max-height: 70vh;
-    overflow-y: auto;
-    -webkit-mask-image: none;
-            mask-image: none;
-  }
-  .tmq__card:hover { transform: none; }
+  .tsm__track { animation: none; }
+  .tsm__viewport { overflow-x: auto; }
+  .tsm__item[aria-hidden="true"] { display: none; }
+  .tsm__toggle { display: none; }
+  .tsm__card:hover .tsm__quote { transform: none; }
+  .tsm__card::after { transition-duration: 0.2s; }
 }
 
 /* ---------- FAQ accordion ---------- */
@@ -1931,10 +1902,10 @@ main > section.artist-band .artist-band__head {
    page_image_*. .section is already position:relative, so inset:0 reaches the
    viewport edges while the container inside keeps the content on the grid.
 
-   Deliberately NOT overflow:hidden, and the image is not scaled: .tmq__aside is
-   position:sticky, and any overflow other than visible on an ancestor silently
-   kills sticky. That is also why there is no transform on the layer — a scaled
-   backdrop would need clipping to hide its edges.
+   Deliberately NOT overflow:hidden, and the image is not scaled: overflow
+   other than visible on an ancestor silently kills any position:sticky inside
+   the section, and a scaled backdrop would need exactly that clipping to hide
+   its edges.
 
    background-attachment stays scroll. A fixed backdrop re-rasters the whole
    viewport on every scroll frame, which is the exact cost the scenebg parking
@@ -1949,11 +1920,10 @@ main > section.artist-band .artist-band__head {
   background-position: center;
 }
 /* Floors the contrast rather than assuming a dark upload — same reasoning as
-   .page-header--media::after. It used to be thin because .tmq__card was an
-   opaque --ink-2 panel and only the sticky aside sat on bare photo; the cards
-   are rules on nothing now, so every quote reads directly off the image and
-   the wash has to carry the whole section. Deep in the middle, not just at
-   the edges, because that is where the quotes are. */
+   .page-header--media::after. It used to be thin because the quotes sat on
+   opaque --ink-2 panels; they are bare type on the image now, so the wash has
+   to carry the whole section. Deep in the middle, not just at the edges,
+   because that is where the quotes are. */
 .section--photo::after {
   content: '';
   position: absolute;
@@ -5674,6 +5644,7 @@ main > section.art-hero,
 /* The image strips: the footage is the scene, and the 46rem floor was taller
    than head + strip, so the slack pooled as dead black around the images. */
 main > section#work,
+main > section#stories,
 main > section.artist-band,
 main > section.cta-strip {
   min-height: 0;
@@ -5981,6 +5952,7 @@ main > section.strip {
   line-height: 1.6;
   color: var(--paper);
 }
+.ind-case__copy h2,
 .ind-case__copy h3 {
   /* Asymmetric on purpose: far more space above a heading than below it. Even
      margins are what let these group with the list they follow instead of the
@@ -6031,6 +6003,119 @@ main > section.strip {
      over the copy the reader is scrolling. */
   .ind-case__railInner { position: static; }
   .ind-case__copy { max-width: none; }
+}
+
+/* ---------- City landing pages: copy + sticky sidebar ----------
+   The copy is capped at ~68ch for line length, which left the right half of a
+   desktop page empty. The facts card, CTA and cross-links now sit in a sticky
+   column there. One DOM, no duplicated links: below the breakpoint the grid
+   collapses to a flex column and `order` puts the facts card straight after the
+   intro and the CTA/links after the content. The side wrapper is
+   display:contents on mobile so its children can be ordered individually.
+   Static layout only — no motion beyond the shared link hover. */
+.loc-body { display: flex; flex-direction: column; gap: 32px; }
+.loc-body__intro { order: 1; }
+.loc-body__side { display: contents; }
+.loc-glance { order: 2; }
+.loc-body__sections { order: 3; }
+.loc-body__faqs { order: 4; }
+.loc-rail { order: 5; }
+.loc-body__intro,
+.loc-body__sections,
+.loc-body__faqs { max-width: 68ch; }
+
+.loc-side__label {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.loc-glance {
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+}
+.loc-glance__list {
+  list-style: none;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--paper-dim);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.loc-glance__list li { position: relative; padding-left: 22px; }
+.loc-glance__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 10px;
+  height: 1px;
+  background: var(--red);
+}
+.loc-rail { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.loc-rail__cta { align-self: flex-start; }
+.loc-rail__alt {
+  align-self: flex-start;
+  color: var(--paper-dim);
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line);
+  transition: text-decoration-color 0.3s var(--ease);
+}
+.loc-rail__alt:hover,
+.loc-rail__alt:focus-visible { text-decoration-color: var(--red); }
+.loc-links { margin-top: 18px; }
+
+/* Questions read as questions, not as the red mono section labels the shared
+   .ind-case__copy h3 rule gives them. */
+.loc-faq h3 {
+  font-family: var(--f-display);
+  font-size: clamp(17px, 1.3vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--paper);
+  margin-top: 1.8em;
+  margin-bottom: 0.5em;
+}
+
+@media (min-width: 981px) {
+  .loc-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-areas: 'intro side' 'sections side' 'faqs side';
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(40px, 6vw, 96px);
+    row-gap: 0;
+    align-items: start;
+  }
+  .loc-body__intro,
+  .loc-body__sections,
+  .loc-body__faqs { order: 0; }
+  .loc-body__intro { grid-area: intro; }
+  .loc-body__sections { grid-area: sections; margin-top: 1.1em; }
+  .loc-body__faqs { grid-area: faqs; }
+  .loc-body__side {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    grid-area: side;
+    grid-row: 1 / -1;
+    position: sticky;
+    /* Clears the fixed nav plus a breath, as the industry rail does. */
+    top: 120px;
+    /* A long city list must scroll inside the column, not run off-screen. */
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .loc-glance,
+  .loc-rail { order: 0; }
 }
 
 /* ---------- "Other industries" signpost ----------

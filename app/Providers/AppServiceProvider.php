@@ -11,6 +11,7 @@ use App\Models\Post;
 use App\Models\Quote;
 use App\Models\SeoPage;
 use App\Models\Service;
+use App\Models\ServiceLocation;
 use App\Models\SiteSetting;
 use App\Models\Testimonial;
 use App\Models\Work;
@@ -64,5 +65,7 @@ class AppServiceProvider extends ServiceProvider
         // toggling a slide off, reordering, or deleting a row never touches a
         // media record, so the homepage would keep serving the cached hero.
         HeroSlide::observe(ClearsResponseCacheObserver::class);
+        // City pages are public HTML and their service page links to them.
+        ServiceLocation::observe(ClearsResponseCacheObserver::class);
     }
 }

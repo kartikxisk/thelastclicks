@@ -51,6 +51,7 @@
         // tests/Pest.php exists to catch.
         $serviceWorks = $service->publishedWorks()->with('media')->get();
         $serviceIndustries = $service->industries;
+        $serviceLocations = $service->locations()->published()->get(['id', 'service_id', 'city_slug', 'city_name']);
     @endphp
 
 
@@ -259,6 +260,19 @@
                     @foreach ($serviceIndustries as $ind)
                         <a class="ind-cross__link" href="{{ url('/industries/'.$ind->slug) }}">
                             {{ $ind->title }} <span class="arr"></span>
+                        </a>
+                    @endforeach
+                </nav>
+            </x-container>
+        </section>
+    @endif
+    @if ($serviceLocations->isNotEmpty())
+        <section class="section ind-more" data-screen-label="Cities" data-service-locations>
+            <x-container>
+                <nav class="ind-cross" aria-label="{{ $service->title }} by city">
+                    @foreach ($serviceLocations as $loc)
+                        <a class="ind-cross__link" href="{{ url('/services/'.$service->slug.'/'.$loc->city_slug) }}">
+                            {{ $service->title }} in {{ $loc->city_name }} <span class="arr"></span>
                         </a>
                     @endforeach
                 </nav>

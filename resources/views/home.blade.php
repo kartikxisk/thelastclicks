@@ -232,67 +232,69 @@
 
     <!-- TESTIMONIALS -->
     @if ($testimonials->isNotEmpty())
-    {{-- Heading left, quotes drifting vertically on the right. The two rails run
-         in opposite directions so the pair reads as movement rather than as one
-         block sliding; the second is a straight repeat of the same quotes, which
-         is why it is aria-hidden in full — it exists to fill the right-hand
-         column, not to add content. --}}
     @php $storiesBg = \App\Models\SiteSetting::pageImage('testimonials'); @endphp
     <section class="section @if ($storiesBg) section--photo @endif"
-             data-screen-label="06 Testimonials"
+             id="stories" data-screen-label="06 Testimonials"
              @if ($storiesBg) style="--section-bg:url('{{ $storiesBg }}')" @endif>
-        {{-- Scene 06 · Testimonials — words, not craft, so the backdrop drops to
-             the quiet aperture.
+        {{-- Scene 06 · Testimonials — head on top, then an endless strip of
+             quote panels drifting left: the work strip's marquee, so the
+             homepage's two moving bands behave as one system. Hover or
+             keyboard focus stops it; the hidden Pause button stops it for good.
 
-             The photo replaces the animated backdrop rather than layering over
-             it: two backdrops in one section read as noise, and a still costs
-             one static surface where .scenebg costs a masked animated one.
-             Nothing uploaded means nothing changes here — the aperture stays. --}}
+             Words, not craft, so the backdrop drops to the quiet aperture. The
+             photo replaces the animated backdrop rather than layering over it:
+             two backdrops in one section read as noise, and a still costs one
+             static surface where .scenebg costs a masked animated one. Nothing
+             uploaded means nothing changes here — the aperture stays. --}}
         @unless ($storiesBg)
             <x-scene-bg type="photo" />
         @endunless
         <x-container>
-            <div class="tmq" data-anim="rise">
-                {{-- Sticky, so the heading holds while the quotes travel past it. --}}
-                <div class="tmq__aside">
+            <div class="services__head">
+                <div>
                     <span class="section__eyebrow" data-scramble>Client stories</span>
                     <h2 class="section__title" data-split>What <em>people say</em></h2>
-                    <p class="tmq__lead">Work we were trusted with, described by the people who trusted us with it.</p>
-                </div>
-
-                <div class="tmq__rails">
-                    @foreach ([false, true] as $isSecondRail)
-                        {{-- Each rail renders the set twice and travels -50%, so the
-                             seam lands exactly where it started — the same trick
-                             .marquee uses, turned on its side. Rendering the FULL set
-                             per rail rather than splitting it between them guarantees
-                             the track is always taller than the viewport it scrolls
-                             in, whatever number of testimonials the admin publishes. --}}
-                        <ul class="tmq__rail @if ($isSecondRail) tmq__rail--down @endif"
-                            aria-hidden="{{ $isSecondRail ? 'true' : 'false' }}">
-                            @foreach ([false, true] as $isDuplicate)
-                                @foreach ($testimonials as $t)
-                                    {{-- Attribute always emitted: the @if form that only
-                                         added it on the duplicate pass silently rendered
-                                         nothing, announcing every quote twice. --}}
-                                    <li class="tmq__item" aria-hidden="{{ $isDuplicate ? 'true' : 'false' }}">
-                                        <figure class="tmq__card">
-                                            <blockquote class="tmq__quote">{{ $t->quote }}</blockquote>
-                                            <figcaption class="tmq__who">
-                                                <span class="tmq__name">{{ $t->client_name }}</span>
-                                                @if ($t->role_company)
-                                                    <span class="tmq__role">{{ $t->role_company }}</span>
-                                                @endif
-                                            </figcaption>
-                                        </figure>
-                                    </li>
-                                @endforeach
-                            @endforeach
-                        </ul>
-                    @endforeach
                 </div>
             </div>
         </x-container>
+        @php
+            // Each half of the loop must be wider than the widest screen, or the
+            // seam shows as an empty gap; two quotes alone are under 900px. Six
+            // panels clear 2560px, so a short list repeats until it has six.
+            $reps = (int) ceil(6 / $testimonials->count());
+        @endphp
+        <div class="tsm" data-stories-marquee style="--tsm-n: {{ $testimonials->count() * $reps }}">
+            <div class="tsm__viewport">
+                <ul class="tsm__track">
+                    {{-- The set rendered 2 × $reps times, translated -50%. Only the
+                         very first pass is real content; every repeat is
+                         aria-hidden so each quote is announced once. Not inert:
+                         inert also kills hit-testing, and the repeats are most
+                         of what is on screen at any moment — hover would have
+                         answered on one panel in four. Nothing in a panel is
+                         focusable, so inert bought nothing aria-hidden does not. --}}
+                    @for ($pass = 0; $pass < 2 * $reps; $pass++)
+                        @foreach ($testimonials as $t)
+                            <li class="tsm__item" @if ($pass > 0) aria-hidden="true" @endif>
+                                <figure class="tsm__card">
+                                    <blockquote class="tsm__quote">{{ $t->quote }}</blockquote>
+                                    <figcaption class="tsm__who">
+                                        <span class="tsm__name">{{ $t->client_name }}</span>
+                                        @if ($t->role_company)
+                                            <span class="tsm__role">{{ $t->role_company }}</span>
+                                        @endif
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        @endforeach
+                    @endfor
+                </ul>
+            </div>
+            {{-- Off-screen until it receives keyboard focus, like .skip-link and
+                 the work strip's control: hover stops the strip for a mouse,
+                 but WCAG 2.2.2 wants a real way to stop it. --}}
+            <button type="button" class="tsm__toggle" data-tsm-toggle aria-pressed="false">Pause</button>
+        </div>
     </section>
     @endif
 

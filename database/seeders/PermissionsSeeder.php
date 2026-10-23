@@ -113,7 +113,7 @@ class PermissionsSeeder extends Seeder
         // Hero resource exists but is invisible to every role except Super-admin,
         // which reads as "the upload screen isn't there" rather than as a
         // permission problem.
-        $editorResources = 'post|service|industry|category|tag|testimonial|work|client|hero::slide';
+        $editorResources = 'post|service|service::location|industry|category|tag|testimonial|work|client|hero::slide';
         $editor->syncPermissions(array_filter($all, fn ($p) => preg_match('/_('.$editorResources.')$/', $p) === 1
             || preg_match('/_any_('.$editorResources.')$/', $p) === 1
         ));

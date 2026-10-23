@@ -6,6 +6,7 @@ use App\Models\Industry;
 use App\Models\Post;
 use App\Models\SeoPage;
 use App\Models\Service;
+use App\Models\ServiceLocation;
 use App\Models\Work;
 use App\Support\AppUrl;
 use App\Support\MediaUrl;
@@ -114,6 +115,11 @@ class GenerateSitemap extends Command
 
         foreach (Service::with('media')->get() as $svc) {
             $add('/services/'.$svc->slug, $newest($svc->updated_at, $serviceWorks[$svc->id] ?? null), $svc->heroUrl());
+        }
+        // City pages render the service's works too, so lastmod follows the
+        // newer of the location row and the service's works aggregate above.
+        foreach (ServiceLocation::published()->with('service:id,slug')->orderBy('id')->get() as $loc) {
+            $add('/services/'.$loc->service->slug.'/'.$loc->city_slug, $newest($loc->updated_at, $serviceWorks[$loc->service_id] ?? null));
         }
         foreach (Industry::with(['media', 'mediaItems.media'])->get() as $industry) {
             $add('/industries/'.$industry->slug, $newest($industry->updated_at, $industryWorks[$industry->id] ?? null), $industry->coverUrl());

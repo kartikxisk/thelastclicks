@@ -18,6 +18,7 @@ import { initWorkLightbox } from './work-lightbox';
 import { initWorkMarquee } from './work-marquee';
 import { initScenes } from './scene';
 import { initServicesAccordion } from './services-accordion';
+import { initStoriesMarquee } from './stories-marquee';
 import { validateScope, wireLiveValidation } from './form-validate';
 
 (() => {
@@ -218,6 +219,9 @@ import { validateScope, wireLiveValidation } from './form-validate';
 
   /* -------------------- Services hover accordion -------------------- */
   initServicesAccordion();
+
+  /* -------------------- Client stories marquee -------------------- */
+  initStoriesMarquee();
 
   /* -------------------- Scene engine -------------------- */
   initScenes();

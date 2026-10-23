@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             AdminUserSeeder::class,
             ServicesSeeder::class,
+            ServiceLocationsSeeder::class,
             IndustriesSeeder::class,
             ClientsSeeder::class,
             TestimonialsSeeder::class,

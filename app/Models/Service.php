@@ -7,6 +7,7 @@ use Database\Factories\ServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -84,6 +85,17 @@ class Service extends Model implements HasMedia
             ->where('is_published', true)
             ->orderBy('works.order')
             ->orderBy('works.id');
+    }
+
+    /**
+     * City landing pages for this service, in editor order. Unfiltered; callers
+     * that render publicly chain ->published().
+     *
+     * @return HasMany<ServiceLocation, $this>
+     */
+    public function locations(): HasMany
+    {
+        return $this->hasMany(ServiceLocation::class)->orderBy('order')->orderBy('id');
     }
 
     public function getSlugOptions(): SlugOptions
